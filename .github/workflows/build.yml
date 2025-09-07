@@ -10,7 +10,7 @@ on:
 jobs:
   validate_main_pr:
     name: "🚨 Validação de PR develop → main"
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     if: github.base_ref == 'main'  # só executa para PRs com destino main
     steps:
       - name: Verificando branch de origem
