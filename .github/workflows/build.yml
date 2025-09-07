@@ -1,4 +1,4 @@
-name: Build and Deploy Workflow
+name: Build
 
 on:
   # Gatilho para todas as atividades relevantes de pull request em main e develop
@@ -7,6 +7,11 @@ on:
       - main
       - develop
     types: [opened, synchronize, reopened, closed]
+
+# Define o shell padrão para todos os jobs neste workflow.
+defaults:
+  run:
+    shell: bash
 
 jobs:
   # --------------------------------------------------------------------
@@ -17,6 +22,7 @@ jobs:
     runs-on: self-hosted
     steps:
       - name: "Imprime o contexto 'github' completo em formato JSON"
+        # Este comando agora será executado com bash, evitando erros de PowerShell.
         run: echo "${{ toJSON(github) }}"
 
   # --------------------------------------------------------------------
@@ -31,6 +37,7 @@ jobs:
       github.event.pull_request.base.ref == 'main'
     steps:
       - name: "Verifica se a origem do PR é 'develop'"
+        # A sintaxe 'if' abaixo agora funcionará corretamente com bash.
         run: |
           echo "Base (destino) do PR: ${{ github.event.pull_request.base.ref }}"
           echo "Head (origem) do PR: ${{ github.event.pull_request.head.ref }}"
