@@ -1,0 +1,28 @@
+name: Build
+
+on:
+  pull_request:
+    branches:
+      - develop
+      - main
+
+jobs:
+  approve-to-develop:
+    if: github.base_ref == 'develop'
+    runs-on: ubuntu-latest
+    environment: develop-approval   # 👈 precisa aprovar no GitHub antes de rodar
+    steps:
+      - uses: actions/checkout@v3
+        
+      - name: Build Homologação  
+        run: echo "Merge para develop aprovado"
+
+  approve-to-main:
+    if: github.base_ref == 'main'
+    runs-on: ubuntu-latest
+    environment: main-approval      # 👈 precisa aprovar no GitHub antes de rodar
+    steps:
+      - uses: actions/checkout@v3
+        
+      - name: Build Produção  
+        run: echo "Merge para main aprovado"
