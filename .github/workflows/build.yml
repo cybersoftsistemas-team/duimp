@@ -10,7 +10,7 @@ on:
 jobs:
   validate-main-pr:
     name: "🚨 Validação de pull request para main"
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     steps:
       - name: Verificando branch de origem
         id: check
