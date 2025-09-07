@@ -9,36 +9,39 @@ on:
 
 jobs:
   validate-main-pr:
-    name: "🚨 Validação de pull request para Main"
-    runs-on: self-hosted
-    steps:
-      - name: Verificando branch de origem
-        id: check
-        run: |
-          if [ "${GITHUB_HEAD_REF}" != "develop" ]; then
-            echo "valid=false" >> $GITHUB_OUTPUT
-            exit 1
-          else
-            echo "valid=true" >> $GITHUB_OUTPUT
+  name: "🚨 Validação de PR develop → main"
+  runs-on: self-hosted
+  if: ${{ github.base_ref == 'main' }}  # executa apenas PRs para main
+  steps:
+    - name: Verificando branch de origem
+      id: check
+      run: |
+        if [ "${GITHUB_HEAD_REF}" != "develop" ]; then
+          echo "::error file=PR branch::❌ PR inválido! Somente 'develop' → 'main' é permitido."
+          echo "valid=false" >> $GITHUB_OUTPUT
+          exit 1
+        else
+          echo "::notice file=PR branch::✅ PR válido. Fluxo correto."
+          echo "valid=true" >> $GITHUB_OUTPUT
 
-      - name: Comentar badge + checklist no PR
-        uses: peter-evans/create-or-update-comment@v4
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          issue-number: ${{ github.event.pull_request.number }}
-          body: |
-            ${{ steps.check.outputs.valid == 'true' && '
-            <p align="center">
-              <span style="font-size:18px; color:green;">✅ <b>FLUXO OK</b>: PR está correto.</span>
-            </p>' || '
-            <p align="center">
-              <span style="font-size:18px; color:red;">❌ <b>PR INVÁLIDO</b>: Somente PR de <code>develop</code> para <code>main</code> é permitido.</span>
-            </p>
-            <p>Por favor, siga os passos abaixo para corrigir:</p>
-            - [ ] Faça merge da sua branch para <code>develop</code> primeiro
-            - [ ] Atualize seu PR se necessário
-            - [ ] Aguarde aprovação para merge em <code>main</code>
-            🚀 Seguindo este fluxo garantimos builds seguros para produção.'}}
+    - name: Comentar badge + checklist no PR
+      uses: peter-evans/create-or-update-comment@v4
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        issue-number: ${{ github.event.pull_request.number }}
+        body: |
+          ${{ steps.check.outputs.valid == 'true' && '
+          <p align="center">
+            <span style="font-size:18px; color:green;">✅ <b>FLUXO OK</b>: PR está correto.</span>
+          </p>' || '
+          <p align="center">
+            <span style="font-size:18px; color:red;">❌ <b>PR INVÁLIDO</b>: Somente PR de <code>develop</code> para <code>main</code> é permitido.</span>
+          </p>
+          <p>Por favor, siga os passos abaixo para corrigir:</p>
+          - [ ] Faça merge da sua branch para <code>develop</code> primeiro
+          - [ ] Atualize seu PR se necessário
+          - [ ] Aguarde aprovação para merge em <code>main</code>
+          🚀 Seguindo este fluxo garantimos builds seguros para produção.'}}
 
   build-homologation:
     name: "🛠️ Build Homologação"
