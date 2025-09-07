@@ -5,23 +5,52 @@ on:
     branches:
       - develop
       - main
-    types: [closed]   # só dispara quando o PR é fechado (merge ou não)
+    types: [opened, synchronize, reopened, closed]
 
 jobs:
+  validate-main-pr:
+    name: "🚨 Validação de pull request para main"
+    runs-on: self-hosted
+    steps:
+      - name: Verificando branch de origem
+        id: check
+        run: |
+          if [ "${GITHUB_BASE_REF}" = "main" ] && [ "${GITHUB_HEAD_REF}" != "develop" ]; then
+            echo "❌ Pull request inválido! Somente 'develop' → 'main' é permitido." 
+            echo "::error file=PR branch::🚫 Pull request inválido! Faça merge para 'develop' primeiro."
+            exit 1
+          else
+            echo "✅ Pull request válido. Fluxo correto."
+            echo "::notice file=PR branch::✅ Pull request válido. Pode prosseguir."
+
+      - name: Comentar no pull request se inválido
+        if: failure()
+        uses: peter-evans/create-or-update-comment@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          issue-number: ${{ github.event.pull_request.number }}
+          body: |
+            ❌ **Pull request inválido!**
+            Somente pull request de `develop` para `main` é permitido.
+            Por favor, faça merge da sua branch para `develop` primeiro antes de tentar para `main`.
+            🚀 Seguindo este fluxo garantimos builds seguros para produção.
+
   build-homologation:
+    name: "🛠️ Build Homologação"
+    runs-on: self-hosted
+    needs: validate-main-pr
     if: ${{ github.base_ref == 'develop' && github.event.pull_request.merged == true }}
-    runs-on: self-hosted
     steps:
       - uses: actions/checkout@v4
-      
-      - name: compile-project 
+      - name: Compilando projeto
         run: echo "Publicando build em ambiente de homologação"
-  
+
   build-production:
-    if: ${{ github.base_ref == 'main' && github.event.pull_request.merged == true }}
+    name: "🚀 Build Produção"
     runs-on: self-hosted
+    needs: validate-main-pr
+    if: ${{ github.base_ref == 'main' && github.head_ref == 'develop' && github.event.pull_request.merged == true }}
     steps:
       - uses: actions/checkout@v4
-      
-      - name: compile-project 
+      - name: Compilando projeto
         run: echo "Publicando build em ambiente de produção"
