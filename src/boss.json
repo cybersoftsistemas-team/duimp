@@ -1,0 +1,12 @@
+{
+	"name": "Hagen",
+	"description": "",
+	"version": "1",
+	"homepage": "www.dsoltec.com.br",
+	"mainsrc": "./src",
+	"projects": [],
+	"dependencies": {
+		"github.com/dliocode/datavalidator": "^2.0.2",
+		"github.com/hashload/horse": "^3.1.6"
+	}
+}

@@ -1,0 +1,22 @@
+{
+	"hash": "d41d8cd98f00b204e9800998ecf8427e",
+	"updated": "2024-09-29T14:09:22.8094709-03:00",
+	"installedModules": {
+		"github.com/dliocode/datavalidator": {
+			"name": "datavalidator",
+			"version": "2.0.2",
+			"hash": "3f8f5440026fd412098dea63c0871fd7",
+			"artifacts": {},
+			"failed": false,
+			"changed": false
+		},
+		"github.com/hashload/horse": {
+			"name": "horse",
+			"version": "3.1.6",
+			"hash": "67677309e7f4929e8dd1376e66d03d9d",
+			"artifacts": {},
+			"failed": false,
+			"changed": false
+		}
+	}
+}

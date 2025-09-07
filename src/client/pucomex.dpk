@@ -1,0 +1,172 @@
+package pucomex;
+
+{$R *.res}
+{$IFDEF IMPLICITBUILDING This IFDEF should not be used by users}
+{$ALIGN 8}
+{$ASSERTIONS ON}
+{$BOOLEVAL OFF}
+{$DEBUGINFO OFF}
+{$EXTENDEDSYNTAX ON}
+{$IMPORTEDDATA ON}
+{$IOCHECKS ON}
+{$LOCALSYMBOLS ON}
+{$LONGSTRINGS ON}
+{$OPENSTRINGS ON}
+{$OPTIMIZATION OFF}
+{$OVERFLOWCHECKS OFF}
+{$RANGECHECKS OFF}
+{$REFERENCEINFO ON}
+{$SAFEDIVIDE OFF}
+{$STACKFRAMES ON}
+{$TYPEDADDRESS OFF}
+{$VARSTRINGCHECKS ON}
+{$WRITEABLECONST OFF}
+{$MINENUMSIZE 1}
+{$IMAGEBASE $400000}
+{$DEFINE DEBUG}
+{$ENDIF IMPLICITBUILDING}
+{$RUNONLY}
+{$IMPLICITBUILD ON}
+
+requires
+  rtl,
+  cbsCore,
+  IndySystem,
+  IndyProtocols,
+  IndyCore,
+  RESTComponents,
+  FireDACCommon;
+
+contains
+  pucomex.dom.Attributes in 'dom\Attributes\pucomex.dom.Attributes.pas',
+  pucomex.dom.Attributes.Ncm in 'dom\Attributes\NCM\pucomex.dom.Attributes.Ncm.pas',
+  pucomex.dom.Contracts.Attributes in 'dom\Contracts\Attributes\pucomex.dom.Contracts.Attributes.pas',
+  pucomex.dom.Contracts.Attributes.Ncm in 'dom\Contracts\Attributes\NCM\pucomex.dom.Contracts.Attributes.Ncm.pas',
+  pucomex.dom.Attributes.Ncm.Model.Objetivo in 'dom\Attributes\NCM\Model\pucomex.dom.Attributes.Ncm.Model.Objetivo.pas',
+  pucomex.dom.Attributes.Ncm.Model.Orgao in 'dom\Attributes\NCM\Model\pucomex.dom.Attributes.Ncm.Model.Orgao.pas',
+  pucomex.dom.Attributes.Ncm.Model.Dominio in 'dom\Attributes\NCM\Model\pucomex.dom.Attributes.Ncm.Model.Dominio.pas',
+  pucomex.dom.Attributes.Ncm.Model.Atributos in 'dom\Attributes\NCM\Model\pucomex.dom.Attributes.Ncm.Model.Atributos.pas',
+  pucomex.dom.Attributes.Ncm.Model.Ncm in 'dom\Attributes\NCM\Model\pucomex.dom.Attributes.Ncm.Model.Ncm.pas',
+  pucomex.dom.Attributes.Ncm.Model.AtributoDetalhes in 'dom\Attributes\NCM\Model\pucomex.dom.Attributes.Ncm.Model.AtributoDetalhes.pas',
+  pucomex.dom.Attributes.Ncm.Model.NcmAtributos in 'dom\Attributes\NCM\Model\pucomex.dom.Attributes.Ncm.Model.NcmAtributos.pas',
+  pucomex.dom.Attributes.NcmAttributesResponse in 'dom\Attributes\NCM\pucomex.dom.Attributes.NcmAttributesResponse.pas',
+  pucomex.dom.Contracts.Http.Response in 'dom\Contracts\Http\pucomex.dom.Contracts.Http.Response.pas',
+  pucomex.dom.Http.Response in 'dom\Http\pucomex.dom.Http.Response.pas',
+  pucomex.dom.Products in 'dom\Products\pucomex.dom.Products.pas',
+  pucomex.dom.Contracts.Authentication in 'dom\Contracts\Authentication\pucomex.dom.Contracts.Authentication.pas',
+  pucomex.dom.Contracts.Authenticator in 'dom\Contracts\Authenticator\pucomex.dom.Contracts.Authenticator.pas',
+  pucomex.dom.Contracts.Http in 'dom\Contracts\Http\pucomex.dom.Contracts.Http.pas',
+  pucomex.dom.Authenticator in 'dom\Authenticator\pucomex.dom.Authenticator.pas',
+  pucomex.dom.Http in 'dom\Http\pucomex.dom.Http.pas',
+  pucomex.dom.Contracts.Products in 'dom\Contracts\Products\pucomex.dom.Contracts.Products.pas',
+  pucomex.dom.Contracts.Http.Response.LoteValidacaoVersao in 'dom\Contracts\Http\pucomex.dom.Contracts.Http.Response.LoteValidacaoVersao.pas',
+  pucomex.dom.Http.Model.Response.LoteValidacaoDTO in 'dom\Http\Model\Response\pucomex.dom.Http.Model.Response.LoteValidacaoDTO.pas',
+  pucomex.dom.Http.Model.Response.LoteValidacaoVersaoDTO in 'dom\Http\Model\Response\pucomex.dom.Http.Model.Response.LoteValidacaoVersaoDTO.pas',
+  pucomex.dom.Http.Response.LoteValidacaoVersao in 'dom\Http\pucomex.dom.Http.Response.LoteValidacaoVersao.pas',
+  pucomex.dom.Support.Authenticator in 'dom\Support\pucomex.dom.Support.Authenticator.pas',
+  pucomex.dom.Support.PUComex in 'dom\Support\pucomex.dom.Support.PUComex.pas',
+  pucomex.dom.Contracts.Support.PUComex in 'dom\Contracts\Support\pucomex.dom.Contracts.Support.PUComex.pas',
+  pucomex.dom.PUComex in 'dom\pucomex.dom.PUComex.pas',
+  pucomex.dom.Duimp in 'dom\Duimps\pucomex.dom.Duimp.pas',
+  pucomex.dom.Contracts.Duimp in 'dom\Contracts\Duimps\pucomex.dom.Contracts.Duimp.pas',
+  pucomex.dom.Contracts.Products.ForeignOperators in 'dom\Contracts\Products\ForeignOperators\pucomex.dom.Contracts.Products.ForeignOperators.pas',
+  pucomex.dom.Products.ForeignOperators in 'dom\Products\ForeignOperators\pucomex.dom.Products.ForeignOperators.pas',
+  pucomex.dom.Contracts.Http.Response.OperadorEstrangeiroIntegracao in 'dom\Contracts\Http\pucomex.dom.Contracts.Http.Response.OperadorEstrangeiroIntegracao.pas',
+  pucomex.dom.Http.Response.OperadorEstrangeiroIntegracao in 'dom\Http\pucomex.dom.Http.Response.OperadorEstrangeiroIntegracao.pas',
+  pucomex.dom.Contracts.ManufacturerProducer in 'dom\Contracts\Products\pucomex.dom.Contracts.ManufacturerProducer.pas',
+  pucomex.dom.Contracts.Http.Response.LoteValidacao in 'dom\Contracts\Http\pucomex.dom.Contracts.Http.Response.LoteValidacao.pas',
+  pucomex.dom.ManufacturerProducer in 'dom\Products\pucomex.dom.ManufacturerProducer.pas',
+  pucomex.dom.Http.Response.LoteValidacao in 'dom\Http\pucomex.dom.Http.Response.LoteValidacao.pas',
+  pucomex.dom.Duimps.Model.DuimpConsultaCover in 'dom\Duimps\Model\pucomex.dom.Duimps.Model.DuimpConsultaCover.pas',
+  pucomex.dom.Duimps.Model.IdentificacaoDuimpConsultaCover in 'dom\Duimps\Model\pucomex.dom.Duimps.Model.IdentificacaoDuimpConsultaCover.pas',
+  pucomex.dom.Duimps.Model.ImportadorCover in 'dom\Duimps\Model\pucomex.dom.Duimps.Model.ImportadorCover.pas',
+  pucomex.dom.Duimps.Model.SituacaoDuimpConsultaCover in 'dom\Duimps\Model\pucomex.dom.Duimps.Model.SituacaoDuimpConsultaCover.pas',
+  pucomex.dom.Duimps.Model.SituacaoConferenciaAduaneiraCover in 'dom\Duimps\Model\pucomex.dom.Duimps.Model.SituacaoConferenciaAduaneiraCover.pas',
+  pucomex.dom.Duimps.Model.SituacaoConferenciaAnuenteCover in 'dom\Duimps\Model\pucomex.dom.Duimps.Model.SituacaoConferenciaAnuenteCover.pas',
+  pucomex.dom.Duimps.Model.EquipeTrabalhoDuimpConsultaCover in 'dom\Duimps\Model\pucomex.dom.Duimps.Model.EquipeTrabalhoDuimpConsultaCover.pas',
+  pucomex.dom.Duimps.Model.ResultadoAnaliseRiscoDuimpCover in 'dom\Duimps\Model\pucomex.dom.Duimps.Model.ResultadoAnaliseRiscoDuimpCover.pas',
+  pucomex.dom.Duimps.Model.ResultadoAnaliseRiscoRfbCover in 'dom\Duimps\Model\pucomex.dom.Duimps.Model.ResultadoAnaliseRiscoRfbCover.pas',
+  pucomex.dom.Duimps.Model.ResultadoAnaliseRiscoAnuenteCover in 'dom\Duimps\Model\pucomex.dom.Duimps.Model.ResultadoAnaliseRiscoAnuenteCover.pas',
+  pucomex.dom.Duimps.Model.CargaDuimpConsultaCover in 'dom\Duimps\Model\pucomex.dom.Duimps.Model.CargaDuimpConsultaCover.pas',
+  pucomex.dom.Duimps.Model.UnidadeDeclaradaCover in 'dom\Duimps\Model\pucomex.dom.Duimps.Model.UnidadeDeclaradaCover.pas',
+  pucomex.dom.Duimps.Model.CargaDuimpConsultaItemCover in 'dom\Duimps\Model\pucomex.dom.Duimps.Model.CargaDuimpConsultaItemCover.pas',
+  pucomex.dom.Duimps.Model.CargaDuimpPaisProcedenciaCover in 'dom\Duimps\Model\pucomex.dom.Duimps.Model.CargaDuimpPaisProcedenciaCover.pas',
+  pucomex.dom.Duimps.Model.CargaDuimpMotivoSituacaoEspecialCover in 'dom\Duimps\Model\pucomex.dom.Duimps.Model.CargaDuimpMotivoSituacaoEspecialCover.pas',
+  pucomex.dom.Duimps.Model.DocumentosDuimpConsultaCover in 'dom\Duimps\Model\pucomex.dom.Duimps.Model.DocumentosDuimpConsultaCover.pas',
+  pucomex.dom.Duimps.Model.DocumentoInstrucaoCover in 'dom\Duimps\Model\pucomex.dom.Duimps.Model.DocumentoInstrucaoCover.pas',
+  pucomex.dom.Duimps.Model.TipoDocumentoInstrucaoCover in 'dom\Duimps\Model\pucomex.dom.Duimps.Model.TipoDocumentoInstrucaoCover.pas',
+  pucomex.dom.Duimps.Model.PalavraChaveDocumentoInstrucaoCover in 'dom\Duimps\Model\pucomex.dom.Duimps.Model.PalavraChaveDocumentoInstrucaoCover.pas',
+  pucomex.dom.Duimps.Model.ProcessoDocumentoInstrucaoCover in 'dom\Duimps\Model\pucomex.dom.Duimps.Model.ProcessoDocumentoInstrucaoCover.pas',
+  pucomex.dom.Duimps.Model.DeclaracaoExportacaoEstrangeiraCover in 'dom\Duimps\Model\pucomex.dom.Duimps.Model.DeclaracaoExportacaoEstrangeiraCover.pas',
+  pucomex.dom.Duimps.Model.DossieCover in 'dom\Duimps\Model\pucomex.dom.Duimps.Model.DossieCover.pas',
+  pucomex.dom.Duimps.Model.AdicaoValoresCalculadosDuimpCover in 'dom\Duimps\Model\pucomex.dom.Duimps.Model.AdicaoValoresCalculadosDuimpCover.pas',
+  pucomex.dom.Duimps.Model.TributoConsultaDuimpCover in 'dom\Duimps\Model\pucomex.dom.Duimps.Model.TributoConsultaDuimpCover.pas',
+  pucomex.dom.Duimps.Model.MercadoriaDuimpConsultaCover in 'dom\Duimps\Model\pucomex.dom.Duimps.Model.MercadoriaDuimpConsultaCover.pas',
+  pucomex.dom.Duimps.Model.TributoCalculadoDuimpConsultaCover in 'dom\Duimps\Model\pucomex.dom.Duimps.Model.TributoCalculadoDuimpConsultaCover.pas',
+  pucomex.dom.Duimps.Model.ValoresTributoDuimpConsultaCover in 'dom\Duimps\Model\pucomex.dom.Duimps.Model.ValoresTributoDuimpConsultaCover.pas',
+  pucomex.dom.Duimps.Model.PagamentoDuimpConsultaCover in 'dom\Duimps\Model\pucomex.dom.Duimps.Model.PagamentoDuimpConsultaCover.pas',
+  pucomex.dom.Duimps.Model.DadosPagamentoCover in 'dom\Duimps\Model\pucomex.dom.Duimps.Model.DadosPagamentoCover.pas',
+  pucomex.dom.Duimps.Model.TributoDuimpConsultaCover in 'dom\Duimps\Model\pucomex.dom.Duimps.Model.TributoDuimpConsultaCover.pas',
+  pucomex.dom.Duimps.Model.JurosPagamentoCover in 'dom\Duimps\Model\pucomex.dom.Duimps.Model.JurosPagamentoCover.pas',
+  pucomex.dom.Duimps.Model.TratamentoAdministrativoCover in 'dom\Duimps\Model\pucomex.dom.Duimps.Model.TratamentoAdministrativoCover.pas',
+  pucomex.dom.Duimps.Model.ItemTratamentoAdministrativoCover in 'dom\Duimps\Model\pucomex.dom.Duimps.Model.ItemTratamentoAdministrativoCover.pas',
+  pucomex.dom.Duimps.Model.ResultadoProcessamentoTACover in 'dom\Duimps\Model\pucomex.dom.Duimps.Model.ResultadoProcessamentoTACover.pas',
+  pucomex.dom.Duimps.Model.ItemConsultaDuimpCover in 'dom\Duimps\Model\pucomex.dom.Duimps.Model.ItemConsultaDuimpCover.pas',
+  pucomex.dom.Duimps.Model.ItemDuimpCover in 'dom\Duimps\Model\pucomex.dom.Duimps.Model.ItemDuimpCover.pas',
+  pucomex.dom.Duimps.Model.IdentificadorItemDuimpCover in 'dom\Duimps\Model\pucomex.dom.Duimps.Model.IdentificadorItemDuimpCover.pas',
+  pucomex.dom.Duimps.Model.ProdutoConsultaItemCover in 'dom\Duimps\Model\pucomex.dom.Duimps.Model.ProdutoConsultaItemCover.pas',
+  pucomex.dom.Duimps.Model.ProdutoIntegracaoDTO in 'dom\Duimps\Model\pucomex.dom.Duimps.Model.ProdutoIntegracaoDTO.pas',
+  pucomex.dom.Duimps.Model.ProdutoCampoSimplesIntegracaoDTO in 'dom\Duimps\Model\pucomex.dom.Duimps.Model.ProdutoCampoSimplesIntegracaoDTO.pas',
+  pucomex.dom.Duimps.Model.ProdutoCampoMultivaloradoIntegracaoDTO in 'dom\Duimps\Model\pucomex.dom.Duimps.Model.ProdutoCampoMultivaloradoIntegracaoDTO.pas',
+  pucomex.dom.Duimps.Model.ProdutoCampoCompostoIntegracaoDTO in 'dom\Duimps\Model\pucomex.dom.Duimps.Model.ProdutoCampoCompostoIntegracaoDTO.pas',
+  pucomex.dom.Duimps.Model.ProdutoCampoCompostoMultivaloradoIntegracaoDTO in 'dom\Duimps\Model\pucomex.dom.Duimps.Model.ProdutoCampoCompostoMultivaloradoIntegracaoDTO.pas',
+  pucomex.dom.Duimps.Model.CaracterizacaoImportacaoConsultaItemCover in 'dom\Duimps\Model\pucomex.dom.Duimps.Model.CaracterizacaoImportacaoConsultaItemCover.pas',
+  pucomex.dom.Duimps.Model.IndicadorExportadorFabricanteCover in 'dom\Duimps\Model\pucomex.dom.Duimps.Model.IndicadorExportadorFabricanteCover.pas',
+  pucomex.dom.Duimps.Model.OperadorEstrangeiroCover in 'dom\Duimps\Model\pucomex.dom.Duimps.Model.OperadorEstrangeiroCover.pas',
+  pucomex.dom.Duimps.Model.PaisCover in 'dom\Duimps\Model\pucomex.dom.Duimps.Model.PaisCover.pas',
+  pucomex.dom.Duimps.Model.OperadorEstrangeiroIntegracaoDTO in 'dom\Duimps\Model\pucomex.dom.Duimps.Model.OperadorEstrangeiroIntegracaoDTO.pas',
+  pucomex.dom.Duimps.Model.IdentificacaoAdicionalIntegracaoDTO in 'dom\Duimps\Model\pucomex.dom.Duimps.Model.IdentificacaoAdicionalIntegracaoDTO.pas',
+  pucomex.dom.Duimps.Model.IndicadorCompradorVendedorCover in 'dom\Duimps\Model\pucomex.dom.Duimps.Model.IndicadorCompradorVendedorCover.pas',
+  pucomex.dom.Duimps.Model.MercadoriaCover in 'dom\Duimps\Model\pucomex.dom.Duimps.Model.MercadoriaCover.pas',
+  pucomex.dom.Duimps.Model.TipoAplicacaoCover in 'dom\Duimps\Model\pucomex.dom.Duimps.Model.TipoAplicacaoCover.pas',
+  pucomex.dom.Duimps.Model.MoedaNegociadaCover in 'dom\Duimps\Model\pucomex.dom.Duimps.Model.MoedaNegociadaCover.pas',
+  pucomex.dom.Duimps.Model.CondicaoVendaConsultaItemCover in 'dom\Duimps\Model\pucomex.dom.Duimps.Model.CondicaoVendaConsultaItemCover.pas',
+  pucomex.dom.Duimps.Model.MetodoValoracaoCover in 'dom\Duimps\Model\pucomex.dom.Duimps.Model.MetodoValoracaoCover.pas',
+  pucomex.dom.Duimps.Model.IncotermCover in 'dom\Duimps\Model\pucomex.dom.Duimps.Model.IncotermCover.pas',
+  pucomex.dom.Duimps.Model.ValorBRLConsultaItemCover in 'dom\Duimps\Model\pucomex.dom.Duimps.Model.ValorBRLConsultaItemCover.pas',
+  pucomex.dom.Duimps.Model.AcrescimoDeducaoConsultaItemCover in 'dom\Duimps\Model\pucomex.dom.Duimps.Model.AcrescimoDeducaoConsultaItemCover.pas',
+  pucomex.dom.Duimps.Model.DenominacaoAcrescimoDeducaoCover in 'dom\Duimps\Model\pucomex.dom.Duimps.Model.DenominacaoAcrescimoDeducaoCover.pas',
+  pucomex.dom.Duimps.Model.MoedaAcrescimoDeducaoCover in 'dom\Duimps\Model\pucomex.dom.Duimps.Model.MoedaAcrescimoDeducaoCover.pas',
+  pucomex.dom.Duimps.Model.LpcoCover in 'dom\Duimps\Model\pucomex.dom.Duimps.Model.LpcoCover.pas',
+  pucomex.dom.Duimps.Model.CertificadoMercosulCover in 'dom\Duimps\Model\pucomex.dom.Duimps.Model.CertificadoMercosulCover.pas',
+  pucomex.dom.Duimps.Model.DeclaracaoVinculadaCoverConsulta in 'dom\Duimps\Model\pucomex.dom.Duimps.Model.DeclaracaoVinculadaCoverConsulta.pas',
+  pucomex.dom.Duimps.Model.ItemDeclaracaoVinculadaCover in 'dom\Duimps\Model\pucomex.dom.Duimps.Model.ItemDeclaracaoVinculadaCover.pas',
+  pucomex.dom.Duimps.Model.DadosCambiaisCover in 'dom\Duimps\Model\pucomex.dom.Duimps.Model.DadosCambiaisCover.pas',
+  pucomex.dom.Duimps.Model.CoberturaCambialCover in 'dom\Duimps\Model\pucomex.dom.Duimps.Model.CoberturaCambialCover.pas',
+  pucomex.dom.Duimps.Model.InstituicaoFinanciadoraCover in 'dom\Duimps\Model\pucomex.dom.Duimps.Model.InstituicaoFinanciadoraCover.pas',
+  pucomex.dom.Duimps.Model.MotivoSemCoberturaCambialCover in 'dom\Duimps\Model\pucomex.dom.Duimps.Model.MotivoSemCoberturaCambialCover.pas',
+  pucomex.dom.Duimps.Model.AtributoItemCover in 'dom\Duimps\Model\pucomex.dom.Duimps.Model.AtributoItemCover.pas',
+  pucomex.dom.Duimps.Model.AtributoFundamentoLegalCover in 'dom\Duimps\Model\pucomex.dom.Duimps.Model.AtributoFundamentoLegalCover.pas',
+  pucomex.dom.Duimps.Model.TributosConsultaItemCover in 'dom\Duimps\Model\pucomex.dom.Duimps.Model.TributosConsultaItemCover.pas',
+  pucomex.dom.Duimps.Model.MercadoriaValoresCalculadosItemCover in 'dom\Duimps\Model\pucomex.dom.Duimps.Model.MercadoriaValoresCalculadosItemCover.pas',
+  pucomex.dom.Duimps.Model.TributoItemCover in 'dom\Duimps\Model\pucomex.dom.Duimps.Model.TributoItemCover.pas',
+  pucomex.dom.Duimps.Model.TributoCover in 'dom\Duimps\Model\pucomex.dom.Duimps.Model.TributoCover.pas',
+  pucomex.dom.Duimps.Model.RegimeCover in 'dom\Duimps\Model\pucomex.dom.Duimps.Model.RegimeCover.pas',
+  pucomex.dom.Duimps.Model.FundamentoCover in 'dom\Duimps\Model\pucomex.dom.Duimps.Model.FundamentoCover.pas',
+  pucomex.dom.Duimps.Model.AtributoTributoCover in 'dom\Duimps\Model\pucomex.dom.Duimps.Model.AtributoTributoCover.pas',
+  pucomex.dom.Duimps.Model.TributoCalculadoItemCover in 'dom\Duimps\Model\pucomex.dom.Duimps.Model.TributoCalculadoItemCover.pas',
+  pucomex.dom.Duimps.Model.ValoresTributoItemCover in 'dom\Duimps\Model\pucomex.dom.Duimps.Model.ValoresTributoItemCover.pas',
+  pucomex.dom.Duimps.Model.MemoriaCalculoItemCover in 'dom\Duimps\Model\pucomex.dom.Duimps.Model.MemoriaCalculoItemCover.pas',
+  pucomex.dom.Http.Response.ApiErro in 'dom\Http\pucomex.dom.Http.Response.ApiErro.pas',
+  pucomex.dom.Http.Model.Response.RespostaApiErro in 'dom\Http\Model\Response\RespostaApiErro\pucomex.dom.Http.Model.Response.RespostaApiErro.pas',
+  pucomex.dom.Http.Model.Response.RespostaApiErro.IdentificacaoDuimpRespostaApi in 'dom\Http\Model\Response\RespostaApiErro\pucomex.dom.Http.Model.Response.RespostaApiErro.IdentificacaoDuimpRespostaApi.pas',
+  pucomex.dom.Http.Model.Response.RespostaApiErro.DuimpApiMessageCover in 'dom\Http\Model\Response\RespostaApiErro\pucomex.dom.Http.Model.Response.RespostaApiErro.DuimpApiMessageCover.pas',
+  pucomex.dom.Duimp.DuimpResponse in 'dom\Duimps\pucomex.dom.Duimp.DuimpResponse.pas',
+  pucomex.dom.Products.ProductResponse in 'dom\Products\pucomex.dom.Products.ProductResponse.pas',
+  pucomex.dom.Duimps.Model.InformacoesVersaoVigenteCover in 'dom\Duimps\Model\pucomex.dom.Duimps.Model.InformacoesVersaoVigenteCover.pas',
+  pucomex.dom.Duimp.DuimpVersaoResponse in 'dom\Duimps\pucomex.dom.Duimp.DuimpVersaoResponse.pas';
+
+end.
+
+
+

@@ -1,0 +1,97 @@
+program duimp;
+
+uses
+  Vcl.Forms,
+  cbsCore.System,
+  System.SysUtils,
+  duimp.dom.DataModules.System.damMain in 'dom\DataModules\System\duimp.dom.DataModules.System.damMain.pas' {damMain: TDataModule},
+  duimp.dom.System.Utils in 'dom\System\duimp.dom.System.Utils.pas',
+  duimp.dom.System.DataModules.Utils in 'dom\System\duimp.dom.System.DataModules.Utils.pas',
+  duimp.dom.DataModules.damConnection in 'dom\DataModules\duimp.dom.DataModules.damConnection.pas' {damConnection: TDataModule},
+  duimp.dom.DataModules.damDuimp in 'dom\DataModules\duimp.dom.DataModules.damDuimp.pas' {damDuimp: TDataModule},
+  duimp.dom.DataModules.damAttrs in 'dom\DataModules\duimp.dom.DataModules.damAttrs.pas' {damAttrs: TDataModule},
+  duimp.dom.Products.Attributes.FillingForm in 'dom\Products\Attributes\duimp.dom.Products.Attributes.FillingForm.pas',
+  duimp.dom.System.DataModules.Extensions in 'dom\System\duimp.dom.System.DataModules.Extensions.pas',
+  duimp.dom.System.ImportaUtils in 'dom\System\duimp.dom.System.ImportaUtils.pas',
+  duimp.pre.view.MainForm in 'pre\view\duimp.pre.view.MainForm.pas' {frmMain: TdxFluentDesignForm},
+  duimp.pre.view.System.DefForm in 'pre\view\System\duimp.pre.view.System.DefForm.pas' {frmDef: TdxFluentDesignForm},
+  duimp.pre.view.System.Loading in 'pre\view\System\duimp.pre.view.System.Loading.pas',
+  duimp.pre.view.System.PageDefFram in 'pre\view\System\duimp.pre.view.System.PageDefFram.pas' {fraPageDef: TFrame},
+  duimp.pre.view.System.LoadingForm in 'pre\view\System\duimp.pre.view.System.LoadingForm.pas' {frmLoading: TdxFluentDesignForm},
+  duimp.pre.view.System.UserAuthForm in 'pre\view\System\duimp.pre.view.System.UserAuthForm.pas' {frmUserAuth: TdxFluentDesignForm},
+  duimp.pre.view.LogonForm in 'pre\view\duimp.pre.view.LogonForm.pas' {frmLogon: TdxFluentDesignForm},
+  duimp.pre.view.CertificatesForm in 'pre\view\duimp.pre.view.CertificatesForm.pas' {frmCertificates: TdxFluentDesignForm},
+  duimp.dom.DataModules.damUserAuth in 'dom\DataModules\duimp.dom.DataModules.damUserAuth.pas' {damUserAuth: TDataModule},
+  duimp.pre.view.CertificateForm in 'pre\view\duimp.pre.view.CertificateForm.pas' {frmCertificate: TdxFluentDesignForm},
+  duimp.pre.view.ConnectionEditorForm in 'pre\view\duimp.pre.view.ConnectionEditorForm.pas' {ConnectionEditor: TdxFluentDesignForm},
+  duimp.pre.view.Logon.CompaniesForm in 'pre\view\duimp.pre.view.Logon.CompaniesForm.pas' {frmCompanies: TdxFluentDesignForm},
+  duimp.pre.view.System.DialogDefForm in 'pre\view\System\duimp.pre.view.System.DialogDefForm.pas' {frmDialogDef: TdxFluentDesignForm},
+  _2025_05_25_00000001_create_duimp_schema in 'Inf\Database\Migrations\_2025_05_25_00000001_create_duimp_schema.pas',
+  _2025_05_26_00000001_create_duimp_duimps_table in 'Inf\Database\Migrations\_2025_05_26_00000001_create_duimp_duimps_table.pas',
+  _2025_05_28_00000001_create_duimp_versoes_table in 'Inf\Database\Migrations\_2025_05_28_00000001_create_duimp_versoes_table.pas',
+  _2025_05_28_00000002_create_duimp_pagamentos_table in 'Inf\Database\Migrations\_2025_05_28_00000002_create_duimp_pagamentos_table.pas',
+  _2025_05_28_00000003_create_duimp_pagamentos_juros_table in 'Inf\Database\Migrations\_2025_05_28_00000003_create_duimp_pagamentos_juros_table.pas',
+  _2025_05_28_00000004_create_duimp_cargas_tipos_table in 'Inf\Database\Migrations\_2025_05_28_00000004_create_duimp_cargas_tipos_table.pas',
+  _2025_05_28_00000005_create_duimp_cargas_table in 'Inf\Database\Migrations\_2025_05_28_00000005_create_duimp_cargas_table.pas',
+  _2025_05_28_00000006_create_duimp_fob_tipos_table in 'Inf\Database\Migrations\_2025_05_28_00000006_create_duimp_fob_tipos_table.pas',
+  _2025_05_28_00000007_create_duimp_valores_totais_fob_adicoes_table in 'Inf\Database\Migrations\_2025_05_28_00000007_create_duimp_valores_totais_fob_adicoes_table.pas',
+  _2025_05_28_00000008_create_duimp_valores_totais_fob_table in 'Inf\Database\Migrations\_2025_05_28_00000008_create_duimp_valores_totais_fob_table.pas',
+  _2025_05_28_00000009_create_duimp_tributos_calculados_table in 'Inf\Database\Migrations\_2025_05_28_00000009_create_duimp_tributos_calculados_table.pas',
+  _2025_05_28_00000010_create_duimp_canais_consolidados_table in 'Inf\Database\Migrations\_2025_05_28_00000010_create_duimp_canais_consolidados_table.pas',
+  _2025_05_28_00000011_create_duimp_resultados_analises_riscos_table in 'Inf\Database\Migrations\_2025_05_28_00000011_create_duimp_resultados_analises_riscos_table.pas',
+  _2025_05_28_00000012_create_duimp_tipos_aplicacoes_table in 'Inf\Database\Migrations\_2025_05_28_00000012_create_duimp_tipos_aplicacoes_table.pas',
+  _2025_05_28_00000013_create_duimp_modalidades_table in 'Inf\Database\Migrations\_2025_05_28_00000013_create_duimp_modalidades_table.pas',
+  _2025_05_28_00000014_create_duimp_resultados_rfb_table in 'Inf\Database\Migrations\_2025_05_28_00000014_create_duimp_resultados_rfb_table.pas',
+  _2025_05_28_00000015_create_duimp_resultados_anuentes_table in 'Inf\Database\Migrations\_2025_05_28_00000015_create_duimp_resultados_anuentes_table.pas',
+  _2025_05_28_00000016_create_duimp_tributos_calculados_valores_brl_table in 'Inf\Database\Migrations\_2025_05_28_00000016_create_duimp_tributos_calculados_valores_brl_table.pas',
+  _2025_05_28_00000017_create_duimp_capas_table in 'Inf\Database\Migrations\_2025_05_28_00000017_create_duimp_capas_table.pas',
+  _2025_05_28_00000018_create_duimp_capas_itens_table in 'Inf\Database\Migrations\_2025_05_28_00000018_create_duimp_capas_itens_table.pas',
+  _2025_05_28_00000019_create_duimp_acrescimos_deducoes_table in 'Inf\Database\Migrations\_2025_05_28_00000019_create_duimp_acrescimos_deducoes_table.pas',
+  _2025_05_28_00000020_create_duimp_Itens_fabricantes_table in 'Inf\Database\Migrations\_2025_05_28_00000020_create_duimp_Itens_fabricantes_table.pas',
+  _2025_05_28_00000021_create_duimp_Itens_notas_fiscais_table in 'Inf\Database\Migrations\_2025_05_28_00000021_create_duimp_Itens_notas_fiscais_table.pas',
+  _2025_05_28_00000022_create_duimp_Itens_exportadores_table in 'Inf\Database\Migrations\_2025_05_28_00000022_create_duimp_Itens_exportadores_table.pas',
+  _2025_05_28_00000023_create_duimp_Itens_tributos_table in 'Inf\Database\Migrations\_2025_05_28_00000023_create_duimp_Itens_tributos_table.pas',
+  _2025_05_28_00000024_create_duimp_Itens_tributos_calculados_table in 'Inf\Database\Migrations\_2025_05_28_00000024_create_duimp_Itens_tributos_calculados_table.pas',
+  _2025_05_28_00000025_create_duimp_Itens_tributos_aplicados_table in 'Inf\Database\Migrations\_2025_05_28_00000025_create_duimp_Itens_tributos_aplicados_table.pas',
+  _2025_05_28_00000026_create_duimp_Itens_tributos_calculados_valores_brl_table in 'Inf\Database\Migrations\_2025_05_28_00000026_create_duimp_Itens_tributos_calculados_valores_brl_table.pas',
+  _2025_05_28_00000027_create_duimp_Itens_tributos_calculados_memorias_calculos_table in 'Inf\Database\Migrations\_2025_05_28_00000027_create_duimp_Itens_tributos_calculados_memorias_calculos_table.pas',
+  _2025_05_28_00000028_create_duimp_Itens_tributos_aplicados_atributos_table in 'Inf\Database\Migrations\_2025_05_28_00000028_create_duimp_Itens_tributos_aplicados_atributos_table.pas',
+  duimp.inf.Database.MigrationContext in 'Inf\Database\duimp.inf.Database.MigrationContext.pas',
+  duimp.dom.System.Application in 'dom\System\duimp.dom.System.Application.pas',
+  duimp.pre.view.System.PagePdfDefFram in 'pre\view\System\duimp.pre.view.System.PagePdfDefFram.pas' {fraPagePdfDef: TFrame},
+  duimp.pre.view.DuimpPdFFram in 'pre\view\duimp.pre.view.DuimpPdFFram.pas' {fraDuimpPageDef: TFrame},
+  duimp.pre.view.DuimpLoadForm in 'pre\view\duimp.pre.view.DuimpLoadForm.pas' {frmDuimpLoad: TdxFluentDesignForm},
+  duimp.pre.view.ProductPropertyDialogForm in 'pre\view\duimp.pre.view.ProductPropertyDialogForm.pas' {frmProductPropertyDialog: TdxFluentDesignForm},
+  duimp.pre.view.ProcessDialogForm in 'pre\view\duimp.pre.view.ProcessDialogForm.pas' {frmProcessDialog: TdxFluentDesignForm},
+  _2025_05_24_00000001_alter_table_dominios_att_alter_descricao_column in 'inf\Database\Migrations\_2025_05_24_00000001_alter_table_dominios_att_alter_descricao_column.pas',
+  _2025_05_24_00000002_create_acrescimo_valoracao_aduaneira_table in 'inf\Database\Migrations\_2025_05_24_00000002_create_acrescimo_valoracao_aduaneira_table.pas',
+  _2025_05_24_00000003_alter_table_atributos_ncm_rename_tipo_subdetalhe_column in 'inf\Database\Migrations\_2025_05_24_00000003_alter_table_atributos_ncm_rename_tipo_subdetalhe_column.pas',
+  _2025_07_14_00000001_create_produtos_add_codigo_duimp_index in 'inf\Database\Migrations\_2025_07_14_00000001_create_produtos_add_codigo_duimp_index.pas',
+  _2025_07_18_00000001_alter_processos_documentos_table_add_uf_importacao_column in 'inf\Database\Migrations\_2025_07_18_00000001_alter_processos_documentos_table_add_uf_importacao_column.pas',
+  _2025_07_31_00000001_create_duimp_capas_itens_add_versaoid_caracterizacao_importacaoIndicador_index in 'inf\Database\Migrations\_2025_07_31_00000001_create_duimp_capas_itens_add_versaoid_caracterizacao_importacaoIndicador_index.pas',
+  _2025_07_31_00000002_create_duimp_modalidades_add_id_tipoprocessocodigo_index in 'inf\Database\Migrations\_2025_07_31_00000002_create_duimp_modalidades_add_id_tipoprocessocodigo_index.pas',
+  _2025_07_31_00000003_create_tiposprocesso_add_codigo_index in 'inf\Database\Migrations\_2025_07_31_00000003_create_tiposprocesso_add_codigo_index.pas',
+  _2025_05_28_00000008_create_duimp_valores_totais_val_aduaneiras_table in 'inf\Database\Migrations\_2025_05_28_00000008_create_duimp_valores_totais_val_aduaneiras_table.pas',
+  _2025_08_02_00000001_create_produtos_atributos_table in 'inf\Database\Migrations\_2025_08_02_00000001_create_produtos_atributos_table.pas',
+  duimp.pre.view.DuimpLoadProductForm in 'pre\view\duimp.pre.view.DuimpLoadProductForm.pas' {frmDuimpLoadProduct},
+  _2025_08_13_00000001_alter_table_atributos_ncm_add_obrigatorio_column in 'inf\Database\Migrations\_2025_08_13_00000001_alter_table_atributos_ncm_add_obrigatorio_column.pas',
+  _2025_08_14_00000001_create_duimp_valor_cotacao_function in 'inf\Database\Migrations\_2025_08_14_00000001_create_duimp_valor_cotacao_function.pas',
+  _2025_08_14_00000002_create_duimp_cotacao_valor_function in 'inf\Database\Migrations\_2025_08_14_00000002_create_duimp_cotacao_valor_function.pas',
+  duimp.dom.System.AppInfo in 'dom\System\duimp.dom.System.AppInfo.pas',
+  duimp.pre.view.CertificateSelectForm in 'pre\view\duimp.pre.view.CertificateSelectForm.pas' {frmCertificateSelect: TdxFluentDesignForm},
+  duimp.pre.view.System.LoadFormDef in 'pre\view\System\duimp.pre.view.System.LoadFormDef.pas' {frmLoadDef},
+  _2025_09_02_00000001_alter_table_regime_tributacao_alter_descricao_column in 'inf\Database\Migrations\_2025_09_02_00000001_alter_table_regime_tributacao_alter_descricao_column.pas';
+
+{$R *.res}
+
+begin
+  if GetParamValue('-status').Contains('updated_system') then
+  begin
+    cbsApplication.Start(TfrmLogon);
+  end
+  else
+  begin
+    cbsApplication.CheckForUpdates;
+  end;
+end.
+

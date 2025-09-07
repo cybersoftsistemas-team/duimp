@@ -1,0 +1,108 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{977BBB2B-E8A9-4F25-81DA-932175C67991}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="..\foundation\cbsCore.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="..\foundation\cbsMigrations.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="..\foundation\cbsMigrationsFireDac.dproj">
+            <Dependencies>..\foundation\cbsMigrations.dproj</Dependencies>
+        </Projects>
+        <Projects Include="pucomex.dproj">
+            <Dependencies>..\foundation\cbsCore.dproj</Dependencies>
+        </Projects>
+        <Projects Include="duimp.dproj">
+            <Dependencies>..\foundation\cbsMigrationsFireDac.dproj;..\foundation\cbsCore.dproj;..\foundation\cbsMigrations.dproj;pucomex.dproj</Dependencies>
+        </Projects>
+        <Projects Include="..\foundation\updater.dproj">
+            <Dependencies>..\foundation\cbsCore.dproj</Dependencies>
+        </Projects>
+        <Projects Include="dsc.dproj">
+            <Dependencies>..\foundation\cbsCore.dproj</Dependencies>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="cbsCore">
+        <MSBuild Projects="..\foundation\cbsCore.dproj"/>
+    </Target>
+    <Target Name="cbsCore:Clean">
+        <MSBuild Projects="..\foundation\cbsCore.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="cbsCore:Make">
+        <MSBuild Projects="..\foundation\cbsCore.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="cbsMigrations">
+        <MSBuild Projects="..\foundation\cbsMigrations.dproj"/>
+    </Target>
+    <Target Name="cbsMigrations:Clean">
+        <MSBuild Projects="..\foundation\cbsMigrations.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="cbsMigrations:Make">
+        <MSBuild Projects="..\foundation\cbsMigrations.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="cbsMigrationsFireDac" DependsOnTargets="cbsMigrations">
+        <MSBuild Projects="..\foundation\cbsMigrationsFireDac.dproj"/>
+    </Target>
+    <Target Name="cbsMigrationsFireDac:Clean" DependsOnTargets="cbsMigrations:Clean">
+        <MSBuild Projects="..\foundation\cbsMigrationsFireDac.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="cbsMigrationsFireDac:Make" DependsOnTargets="cbsMigrations:Make">
+        <MSBuild Projects="..\foundation\cbsMigrationsFireDac.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="pucomex" DependsOnTargets="cbsCore">
+        <MSBuild Projects="pucomex.dproj"/>
+    </Target>
+    <Target Name="pucomex:Clean" DependsOnTargets="cbsCore:Clean">
+        <MSBuild Projects="pucomex.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="pucomex:Make" DependsOnTargets="cbsCore:Make">
+        <MSBuild Projects="pucomex.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="duimp" DependsOnTargets="cbsMigrationsFireDac;cbsCore;cbsMigrations;pucomex">
+        <MSBuild Projects="duimp.dproj"/>
+    </Target>
+    <Target Name="duimp:Clean" DependsOnTargets="cbsMigrationsFireDac:Clean;cbsCore:Clean;cbsMigrations:Clean;pucomex:Clean">
+        <MSBuild Projects="duimp.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="duimp:Make" DependsOnTargets="cbsMigrationsFireDac:Make;cbsCore:Make;cbsMigrations:Make;pucomex:Make">
+        <MSBuild Projects="duimp.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="updater" DependsOnTargets="cbsCore">
+        <MSBuild Projects="..\foundation\updater.dproj"/>
+    </Target>
+    <Target Name="updater:Clean" DependsOnTargets="cbsCore:Clean">
+        <MSBuild Projects="..\foundation\updater.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="updater:Make" DependsOnTargets="cbsCore:Make">
+        <MSBuild Projects="..\foundation\updater.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="dsc" DependsOnTargets="cbsCore">
+        <MSBuild Projects="dsc.dproj"/>
+    </Target>
+    <Target Name="dsc:Clean" DependsOnTargets="cbsCore:Clean">
+        <MSBuild Projects="dsc.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="dsc:Make" DependsOnTargets="cbsCore:Make">
+        <MSBuild Projects="dsc.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="cbsCore;cbsMigrations;cbsMigrationsFireDac;pucomex;duimp;updater;dsc"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="cbsCore:Clean;cbsMigrations:Clean;cbsMigrationsFireDac:Clean;pucomex:Clean;duimp:Clean;updater:Clean;dsc:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="cbsCore:Make;cbsMigrations:Make;cbsMigrationsFireDac:Make;pucomex:Make;duimp:Make;updater:Make;dsc:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>
