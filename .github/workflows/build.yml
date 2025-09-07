@@ -1,10 +1,10 @@
 name: Build Workflow
 
 on:
-  pull_request:
+  pull_request_target:
     branches:
-      - develop
       - main
+      - develop
     types: [opened, synchronize, reopened, closed]
 
 jobs:
@@ -19,17 +19,17 @@ jobs:
           echo "Base branch: ${{ github.event.pull_request.base.ref }}"
           echo "Head branch: ${{ github.event.pull_request.head.ref }}"
           if [ "${GITHUB_HEAD_REF}" != "develop" ]; then
-            echo "::error file=PR branch::❌ PR inválido! Somente 'develop' → 'main' é permitido."
             echo "valid=false" >> $GITHUB_OUTPUT
+            echo "::error ::PR inválido! Somente develop → main permitido."
             exit 1
           else
-            echo "✅ PR válido"
             echo "valid=true" >> $GITHUB_OUTPUT
+            echo "✅ PR válido"
 
       - name: Comentar badge + checklist no PR
         uses: peter-evans/create-or-update-comment@v4
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.COMMENT_PAT }}
           issue-number: ${{ github.event.pull_request.number }}
           body: |
             ${{ steps.check.outputs.valid == 'true' && '
@@ -50,13 +50,14 @@ jobs:
     runs-on: self-hosted
     steps:
       - name: Rodar build de homologação
-        if: ${{ github.event.pull_request.base.ref == 'develop' && github.event.pull_request.merged == true && github.event.action == 'closed' }}
+        if: ${{ github.event.pull_request.base.ref == 'develop' && github.event.action == 'closed' && github.event.pull_request.merged == true }}
         run: echo "Publicando build em ambiente de homologação"
 
   build_production:
     name: "🚀 Build Produção"
     runs-on: self-hosted
+    needs: validate-main-pr
     steps:
       - name: Rodar build de produção
-        if: ${{ github.event.pull_request.base.ref == 'main' && github.event.pull_request.head.ref == 'develop' && github.event.pull_request.merged == true && github.event.action == 'closed' }}
+        if: ${{ github.event.pull_request.base.ref == 'main' && github.event.pull_request.head.ref == 'develop' && github.event.action == 'closed' && github.event.pull_request.merged == true }}
         run: echo "Publicando build em ambiente de produção"
