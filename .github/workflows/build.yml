@@ -1,27 +1,38 @@
 name: Build
 
 on:
+  push:
+    branches:
+      - develop
+      - main
   pull_request:
     branches:
       - develop
       - main
-    types: [closed]   # só dispara quando o PR é fechado (merge ou não)
 
 jobs:
   build-homologation:
-    if: ${{ github.base_ref == 'develop' && github.event.pull_request.merged == true }}
+    if: github.ref == 'refs/heads/develop'
     runs-on: self-hosted
     steps:
-      - uses: actions/checkout@v4
-      
-      - name: compile-project 
+      - name: Checkout código
+        uses: actions/checkout@v4
+
+      - name: Build Homologação
+        run: echo "Compilando e testando versão de homologação..."
+
+      - name: Deploy Homologação
         run: echo "Publicando build em ambiente de homologação"
-  
+
   build-production:
-    if: ${{ github.base_ref == 'main' && github.event.pull_request.merged == true }}
+    if: github.ref == 'refs/heads/main'
     runs-on: self-hosted
     steps:
-      - uses: actions/checkout@v4
-      
-      - name: compile-project 
+      - name: Checkout código
+        uses: actions/checkout@v4
+
+      - name: Build Produção
+        run: echo "Compilando versão de produção..."
+
+      - name: Deploy Produção
         run: echo "Publicando build em ambiente de produção"
