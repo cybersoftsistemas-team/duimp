@@ -1036,7 +1036,7 @@ uses
   cbsCore.SysUtils,
   duimp.dom.DataModules.damAttrs,
   duimp.dom.DataModules.damConnection,
-  duimp.dom.DataModules.damUserAuth,
+
   duimp.dom.Products.Attributes.FillingForm,
   duimp.dom.System.Application,
   duimp.dom.System.ImportaUtils,
