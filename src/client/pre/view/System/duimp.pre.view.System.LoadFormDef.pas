@@ -3,10 +3,9 @@ unit duimp.pre.view.System.LoadFormDef;
 interface
 
 uses
-{PROJECT}
-  duimp.pre.view.System.DefForm,
 {IDE}
-  Vcl.Forms, System.Classes, cxClasses, dxTaskbarProgress, Vcl.Controls, Vcl.ExtCtrls;
+  Vcl.Forms, System.Classes, dxTaskbarProgress, Vcl.Controls, Vcl.ExtCtrls,
+  cxClasses;
 
 type
   TfrmLoadDef = class(TForm)
