@@ -54,7 +54,6 @@ jobs:
     name: "🛠️ Build Homologação"
     runs-on: self-hosted
     steps:
-      - name: Checkout code
         uses: actions/checkout@v4
       - name: Rodar build de homologação
         if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/develop' }}
@@ -65,13 +64,7 @@ jobs:
     runs-on: self-hosted
     needs: validate-main-pr
     steps:
-      - name: Checkout code
         uses: actions/checkout@v4
       - name: Rodar build de produção
         if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
-        run: |
-          # Só executar se o merge veio de develop
-          LAST_COMMIT=$(git log -1 --pretty=%P)
-          PARENT_BRANCH=$(git show -s --pretty=%P HEAD)
-          echo "Executando build produção"
-          echo "Último merge veio de develop" # aqui você pode adicionar validação se quiser
+        run: echo "Publicando build em ambiente de produção"
