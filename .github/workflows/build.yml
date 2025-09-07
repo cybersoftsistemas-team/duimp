@@ -20,7 +20,7 @@ jobs:
 
       - name: Build Homologação
         shell: powershell
-        run: .\build.bat
+        run: .\build.bat develop
 
       - name: Deploy Homologação
         run: echo "Publicando build em ambiente de homologação"
@@ -34,7 +34,7 @@ jobs:
 
       - name: Build Produção
         shell: powershell
-        run: .\build.bat
+        run: .\build.bat main
 
       - name: Deploy Produção
         run: echo "Publicando build em ambiente de produção"
