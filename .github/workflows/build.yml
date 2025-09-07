@@ -55,8 +55,7 @@ jobs:
     runs-on: self-hosted
     steps:
       - uses: actions/checkout@v4
-      - name: Rodar build de homologação
-        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/develop' }}
+      - name: Build de homologação
         run: echo "Publicando build em ambiente de homologação"
 
   build-production:
@@ -65,6 +64,6 @@ jobs:
     needs: validate-main-pr
     steps:
       - uses: actions/checkout@v4
-      - name: Rodar build de produção
+      - name: Build de produção
         if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
         run: echo "Publicando build em ambiente de produção"
