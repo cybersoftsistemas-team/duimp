@@ -5,10 +5,11 @@ on:
     branches:
       - develop
       - main
+    types: [closed]   # só dispara quando o PR é fechado (merge ou não)
 
 jobs:
   build-homologation:
-    if: github.base_ref == 'develop'
+    if: ${{ github.base_ref == 'develop' && github.event.pull_request.merged == true }}
     runs-on: self-hosted
     steps:
       - uses: actions/checkout@v4
@@ -17,7 +18,7 @@ jobs:
         run: echo "Publicando build em ambiente de homologação"
   
   build-production:
-    if: github.base_ref == 'main'
+    if: ${{ github.base_ref == 'main' && github.event.pull_request.merged == true }}
     runs-on: self-hosted
     steps:
       - uses: actions/checkout@v4
