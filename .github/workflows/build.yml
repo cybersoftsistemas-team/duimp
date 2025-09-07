@@ -1,59 +1,69 @@
 name: Build
 
 on:
-  # Validação durante abertura/atualização do PR
+  # Gatilho para todas as atividades relevantes de pull request em main e develop
   pull_request:
     branches:
       - main
       - develop
-    types: [opened, synchronize, reopened]
-
-  # Builds só quando o PR é fechado (merge ou não)
-  pull_request_target:
-    branches:
-      - main
-      - develop
-    types: [closed]
+    types: [opened, synchronize, reopened, closed]
 
 jobs:
-  # ---------------------------------------------------------
-  # 1) Validação de PR (somente quando destino é main)
-  # ---------------------------------------------------------
+  # --------------------------------------------------------------------
+  # 1) Validação de PR (enquanto o PR de 'develop' para 'main' está aberto)
+  # --------------------------------------------------------------------
   validate-main-pr:
-    name: "🚨 Validação de PR develop → main"
+    name: "🚨 Validação de PR (develop → main)"
     runs-on: self-hosted
-    if: ${{ github.event.pull_request.base.ref == 'main' }}
+    # Este job só executa em PRs ABERTOS que têm 'main' como destino.
+    if: >
+      github.event.action != 'closed' &&
+      github.event.pull_request.base.ref == 'main'
     steps:
-      - name: Checando origem do PR
+      - name: "Verifica se a origem do PR é 'develop'"
         run: |
-          echo "Base: ${{ github.event.pull_request.base.ref }}"
-          echo "Head: ${{ github.event.pull_request.head.ref }}"
-          if [ "${GITHUB_HEAD_REF}" != "develop" ]; then
-            echo "::error ::PR inválido! Somente 'develop' → 'main' é permitido."
+          echo "Base (destino) do PR: ${{ github.event.pull_request.base.ref }}"
+          echo "Head (origem) do PR: ${{ github.event.pull_request.head.ref }}"
+          if [ "${{ github.event.pull_request.head.ref }}" != "develop" ]; then
+            echo "::error ::PR inválido! Pull requests para 'main' devem vir exclusivamente da branch 'develop'."
             exit 1
+          else
+            echo "✅ Validação de PR bem-sucedida."
           fi
 
-  # ---------------------------------------------------------
-  # 2) Build Homologação (merge concluído em develop)
-  # ---------------------------------------------------------
+  # ---------------------------------------------------------------
+  # 2) Build Homologação (executa após merge para 'develop')
+  # ---------------------------------------------------------------
   build-homologation:
     name: "🛠️ Build Homologação"
     runs-on: self-hosted
-    if: ${{ github.event.pull_request.merged == true && github.event.pull_request.base.ref == 'develop' }}
+    # Este job só executa quando um PR é MERGADO na branch 'develop'.
+    if: >
+      github.event.action == 'closed' &&
+      github.event.pull_request.merged == true &&
+      github.event.pull_request.base.ref == 'develop'
     steps:
-      - uses: actions/checkout@v4
-      - name: Publicando build de homologação
-        run: echo "🚀 Build Homologação rodando após merge em develop"
+      - name: "Checkout da branch 'develop'"
+        uses: actions/checkout@v4
+        # O checkout padrão irá pegar o código da branch base (develop) após o merge.
+      - name: "Publicando build de homologação"
+        run: echo "🚀 Build de Homologação rodando após merge para 'develop'."
 
-  # ---------------------------------------------------------
-  # 3) Build Produção (merge concluído de develop → main)
-  # ---------------------------------------------------------
+  # --------------------------------------------------------------------
+  # 3) Build Produção (executa após merge de 'develop' para 'main')
+  # --------------------------------------------------------------------
   build-production:
     name: "🚀 Build Produção"
     runs-on: self-hosted
-    needs: validate-main-pr
-    if: ${{ github.event.pull_request.merged == true && github.event.pull_request.base.ref == 'main' && github.event.pull_request.head.ref == 'develop' }}
+    # Este job só executa quando um PR de 'develop' é MERGADO na branch 'main'.
+    if: >
+      github.event.action == 'closed' &&
+      github.event.pull_request.merged == true &&
+      github.event.pull_request.base.ref == 'main' &&
+      github.event.pull_request.head.ref == 'develop'
     steps:
-      - uses: actions/checkout@v4
-      - name: Publicando build de produção
-        run: echo "🚀 Build Produção rodando após merge de develop → main"
+      - name: "Checkout da branch 'main'"
+        uses: actions/checkout@v4
+        # O checkout padrão irá pegar o código da branch base (main) após o merge.
+      - name: "Publicando build de produção"
+        run: echo "🚀 Build de Produção rodando após merge de 'develop' para 'main'."
