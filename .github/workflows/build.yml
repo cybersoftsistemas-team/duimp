@@ -7,19 +7,14 @@ on:
       - develop
     types: [opened, synchronize, reopened, closed]
 
-  push:
-    branches:
-      - develop
-      - main
-
 jobs:
   # ---------------------------------------------------------
-  # 1) Validação de PRs para main
+  # 1) Validação de PR (somente quando destino é main)
   # ---------------------------------------------------------
   validate-main-pr:
     name: "🚨 Validação de PR develop → main"
     runs-on: self-hosted
-    if: ${{ github.event_name == 'pull_request' && github.event.pull_request.base.ref == 'main' }}
+    if: ${{ github.event.pull_request.base.ref == 'main' && github.event.action != 'closed' }}
     steps:
       - name: Checando origem do PR
         run: |
@@ -31,25 +26,25 @@ jobs:
           fi
 
   # ---------------------------------------------------------
-  # 2) Build de Homologação (merge em develop)
+  # 2) Build de Homologação (merge concluído em develop)
   # ---------------------------------------------------------
   build-homologation:
     name: "🛠️ Build Homologação"
     runs-on: self-hosted
-    if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/develop' }}
+    if: ${{ github.base_ref == 'develop' && github.event.pull_request.merged == true }}
     steps:
       - uses: actions/checkout@v4
       - name: Publicando build de homologação
         run: echo "🚀 Build Homologação rodando após merge em develop"
 
   # ---------------------------------------------------------
-  # 3) Build de Produção (merge de develop → main)
+  # 3) Build de Produção (merge concluído de develop → main)
   # ---------------------------------------------------------
   build-production:
     name: "🚀 Build Produção"
     runs-on: self-hosted
     needs: validate-main-pr
-    if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
+    if: ${{ github.base_ref == 'main' && github.head_ref == 'develop' && github.event.pull_request.merged == true }}
     steps:
       - uses: actions/checkout@v4
       - name: Publicando build de produção
