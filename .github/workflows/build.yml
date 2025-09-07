@@ -44,7 +44,6 @@ jobs:
   build_homologation:
     name: "🛠️ Build Homologação"
     runs-on: self-hosted
-    needs: validate_main_pr
     if: github.base_ref == 'develop' && github.event.pull_request.merged == true
     steps:
       - uses: actions/checkout@v4
