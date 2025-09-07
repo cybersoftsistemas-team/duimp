@@ -611,7 +611,6 @@ uses
   System.SysUtils,
   System.Threading,
   System.Variants,
-  Vcl.Graphics,
   Vcl.Forms,
   Winapi.Windows,
 {PROJECT}
