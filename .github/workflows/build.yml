@@ -1,99 +1,38 @@
-name: Build and Deploy Workflow
+name: Build
 
 on:
-  # Gatilho para todas as atividades relevantes de pull request em main e develop
+  push:
+    branches:
+      - develop
+      - main
   pull_request:
     branches:
-      - main
       - develop
-    types: [opened, synchronize, reopened, closed]
-
-# Define o shell padrão para todos os jobs neste workflow.
-defaults:
-  run:
-    shell: bash
+      - main
 
 jobs:
-  # --------------------------------------------------------------------
-  # JOB DE DEBUG: Executa sempre para mostrar o contexto do evento.
-  # --------------------------------------------------------------------
-  debug-context:
-    name: "🔍 Debug do Contexto do Evento"
-    runs-on: self-hosted
-    steps:
-      - name: "Imprime o contexto 'github' completo em formato JSON"
-        # Este comando agora será executado com bash, evitando erros de PowerShell.
-        run: echo "${{ toJSON(github) }}"
-
-  # --------------------------------------------------------------------
-  # 1) Validação de PR (enquanto o PR de 'develop' para 'main' está aberto)
-  # --------------------------------------------------------------------
-  validate-main-pr:
-    name: "🚨 Validação de PR (develop → main)"
-    runs-on: self-hosted
-    # Este job só executa em PRs ABERTOS que têm 'main' como destino.
-    if: >
-      github.event.action != 'closed' &&
-      github.event.pull_request.base.ref == 'main'
-    steps:
-      - name: "Verifica se a origem do PR é 'develop'"
-        # A sintaxe 'if' abaixo agora funcionará corretamente com bash.
-        run: |
-          echo "--- INICIANDO VALIDAÇÃO DO PULL REQUEST ---"
-          echo "Base (destino) do PR: ${{ github.event.pull_request.base.ref }}"
-          echo "Head (origem) do PR: ${{ github.event.pull_request.head.ref }}"
-          if [ "${{ github.event.pull_request.head.ref }}" != "develop" ]; then
-            echo "::error ::PR inválido! Pull requests para 'main' devem vir exclusivamente da branch 'develop'."
-            exit 1
-          else
-            echo "✅ Validação de PR BEM-SUCEDIDA."
-          fi
-
-  # ---------------------------------------------------------------
-  # 2) Build Homologação (executa após merge para 'develop')
-  # ---------------------------------------------------------------
   build-homologation:
-    name: "🛠️ Build Homologação"
+    if: github.ref == 'refs/heads/develop'
     runs-on: self-hosted
-    # Este job só executa quando um PR é MERGADO na branch 'develop'.
-    if: >
-      github.event.action == 'closed' &&
-      github.event.pull_request.merged == true &&
-      github.event.pull_request.base.ref == 'develop'
     steps:
-      - name: "Checkout da branch 'develop'"
+      - name: Checkout código
         uses: actions/checkout@v4
-      - name: "Publicando build de homologação"
-        run: |
-          echo "--- INICIANDO BUILD DE HOMOLOGAÇÃO ---"
-          echo "Simulando execução do script de build (.bat)..."
-          # Futuramente, substitua os echos abaixo pela chamada ao seu script .bat
-          echo "Passo 1: Compilando o projeto..."
-          echo "Passo 2: Empacotando artefatos..."
-          echo "✅ Build de Homologação CONCLUÍDO COM SUCESSO."
 
-  # --------------------------------------------------------------------
-  # 3) Build Produção (executa após merge de 'develop' para 'main')
-  # --------------------------------------------------------------------
+      - name: Build Homologação
+        run: echo "Compilando e testando versão de homologação..."
+
+      - name: Deploy Homologação
+        run: echo "Publicando build em ambiente de homologação"
+
   build-production:
-    name: "🚀 Build Produção"
+    if: github.ref == 'refs/heads/main'
     runs-on: self-hosted
-    needs: validate-main-pr # Garante que a validação seja considerada
-    # Este job só executa quando um PR de 'develop' é MERGADO na branch 'main'.
-    if: >
-      github.event.action == 'closed' &&
-      github.event.pull_request.merged == true &&
-      github.event.pull_request.base.ref == 'main' &&
-      github.event.pull_request.head.ref == 'develop'
     steps:
-      - name: "Checkout da branch 'main'"
+      - name: Checkout código
         uses: actions/checkout@v4
-      - name: "Publicando build de produção"
-        run: |
-          echo "--- INICIANDO BUILD DE PRODUÇÃO ---"
-          echo "Simulando execução do script de deploy (.bat)..."
-          # Futuramente, substitua os echos abaixo pela chamada ao seu script .bat
-          echo "Passo 1: Baixando artefatos..."
-          echo "Passo 2: Publicando no ambiente de produção..."
-          echo "✅ Build de Produção CONCLUÍDO COM SUCESSO."
 
+      - name: Build Produção
+        run: echo "Compilando versão de produção..."
+
+      - name: Deploy Produção
+        run: echo "Publicando build em ambiente de produção"
