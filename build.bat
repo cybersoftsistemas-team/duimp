@@ -1,16 +1,6 @@
 @echo off
 setlocal
 
-REM ============================
-REM Recebe o parâmetro (develop ou main)
-REM ============================
-set TARGET=%1
-
-if "%TARGET%"=="" (
-    echo ERRO: Informe o ambiente (develop ou main).
-    exit /b 1
-)
-
 echo ====================================
 echo Compilando Delphi para ambiente: %TARGET%
 echo ====================================
