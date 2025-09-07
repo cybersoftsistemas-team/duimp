@@ -3,14 +3,13 @@ name: Build
 on:
   pull_request:
     branches:
-      - develop
       - main
 
 jobs:
-  build-develop:
+  build:
     runs-on: self-hosted
     steps:
       - uses: actions/checkout@v3
       
-      - name: Build Homologação
-        run: echo "Publicando build em ambiente de homologação"
+      - name: compile-project 
+        run: echo "Publicando build em ambiente de produção"
