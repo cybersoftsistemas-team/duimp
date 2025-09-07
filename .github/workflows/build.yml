@@ -1,4 +1,4 @@
-name: Build
+name: Build and Deploy Workflow
 
 on:
   # Gatilho para todas as atividades relevantes de pull request em main e develop
@@ -9,6 +9,16 @@ on:
     types: [opened, synchronize, reopened, closed]
 
 jobs:
+  # --------------------------------------------------------------------
+  # JOB DE DEBUG: Executa sempre para mostrar o contexto do evento.
+  # --------------------------------------------------------------------
+  debug-context:
+    name: "🔍 Debug do Contexto do Evento"
+    runs-on: self-hosted
+    steps:
+      - name: "Imprime o contexto 'github' completo em formato JSON"
+        run: echo "${{ toJSON(github) }}"
+
   # --------------------------------------------------------------------
   # 1) Validação de PR (enquanto o PR de 'develop' para 'main' está aberto)
   # --------------------------------------------------------------------
@@ -45,7 +55,6 @@ jobs:
     steps:
       - name: "Checkout da branch 'develop'"
         uses: actions/checkout@v4
-        # O checkout padrão irá pegar o código da branch base (develop) após o merge.
       - name: "Publicando build de homologação"
         run: echo "🚀 Build de Homologação rodando após merge para 'develop'."
 
@@ -55,6 +64,7 @@ jobs:
   build-production:
     name: "🚀 Build Produção"
     runs-on: self-hosted
+    needs: validate-main-pr # Garante que a validação seja considerada
     # Este job só executa quando um PR de 'develop' é MERGADO na branch 'main'.
     if: >
       github.event.action == 'closed' &&
@@ -64,6 +74,5 @@ jobs:
     steps:
       - name: "Checkout da branch 'main'"
         uses: actions/checkout@v4
-        # O checkout padrão irá pegar o código da branch base (main) após o merge.
       - name: "Publicando build de produção"
         run: echo "🚀 Build de Produção rodando após merge de 'develop' para 'main'."
