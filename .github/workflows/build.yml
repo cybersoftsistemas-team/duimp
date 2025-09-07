@@ -1,11 +1,19 @@
 name: Build
 
 on:
+  # Validação durante abertura/atualização do PR
   pull_request:
     branches:
       - main
       - develop
-    types: [opened, synchronize, reopened, closed]
+    types: [opened, synchronize, reopened]
+
+  # Builds só quando o PR é fechado (merge ou não)
+  pull_request_target:
+    branches:
+      - main
+      - develop
+    types: [closed]
 
 jobs:
   # ---------------------------------------------------------
@@ -14,37 +22,37 @@ jobs:
   validate-main-pr:
     name: "🚨 Validação de PR develop → main"
     runs-on: self-hosted
-    if: ${{ github.event.pull_request.base.ref == 'main' && github.event.action != 'closed' }}
+    if: ${{ github.event.pull_request.base.ref == 'main' }}
     steps:
       - name: Checando origem do PR
         run: |
-          echo "Base branch: ${{ github.event.pull_request.base.ref }}"
-          echo "Head branch: ${{ github.event.pull_request.head.ref }}"
+          echo "Base: ${{ github.event.pull_request.base.ref }}"
+          echo "Head: ${{ github.event.pull_request.head.ref }}"
           if [ "${GITHUB_HEAD_REF}" != "develop" ]; then
             echo "::error ::PR inválido! Somente 'develop' → 'main' é permitido."
             exit 1
           fi
 
   # ---------------------------------------------------------
-  # 2) Build de Homologação (merge concluído em develop)
+  # 2) Build Homologação (merge concluído em develop)
   # ---------------------------------------------------------
   build-homologation:
     name: "🛠️ Build Homologação"
     runs-on: self-hosted
-    if: ${{ github.base_ref == 'develop' && github.event.pull_request.merged == true }}
+    if: ${{ github.event.pull_request.merged == true && github.event.pull_request.base.ref == 'develop' }}
     steps:
       - uses: actions/checkout@v4
       - name: Publicando build de homologação
         run: echo "🚀 Build Homologação rodando após merge em develop"
 
   # ---------------------------------------------------------
-  # 3) Build de Produção (merge concluído de develop → main)
+  # 3) Build Produção (merge concluído de develop → main)
   # ---------------------------------------------------------
   build-production:
     name: "🚀 Build Produção"
     runs-on: self-hosted
     needs: validate-main-pr
-    if: ${{ github.base_ref == 'main' && github.head_ref == 'develop' && github.event.pull_request.merged == true }}
+    if: ${{ github.event.pull_request.merged == true && github.event.pull_request.base.ref == 'main' && github.event.pull_request.head.ref == 'develop' }}
     steps:
       - uses: actions/checkout@v4
       - name: Publicando build de produção
