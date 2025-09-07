@@ -7,22 +7,10 @@ on:
       - main
 
 jobs:
-  approve-to-develop:
-    if: github.base_ref == 'develop'
+  build-develop:
     runs-on: self-hosted
-    environment: develop-approval   # 👈 precisa aprovar no GitHub antes de rodar
     steps:
       - uses: actions/checkout@v3
       
       - name: Build Homologação
-        run: echo "Merge para develop aprovado"
-
-  approve-to-main:
-    if: github.base_ref == 'main'
-    runs-on: self-hosted
-    environment: main-approval      # 👈 precisa aprovar no GitHub antes de rodar
-    steps:
-      - uses: actions/checkout@v3
-      
-      - name: Build Produção
-        run: echo "Merge para main aprovado"
+        run: echo "Publicando build em ambiente de homologação"
