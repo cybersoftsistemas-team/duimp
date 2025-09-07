@@ -1,6 +1,16 @@
 @echo off
 setlocal
 
+REM ============================
+REM Recebe o parâmetro (develop ou main)
+REM ============================
+set TARGET=%1
+
+if "%TARGET%"=="" (
+    echo ERRO: Informe o ambiente (develop ou main).
+    exit /b 1
+)
+
 echo ====================================
 echo Compilando Delphi para ambiente: %TARGET%
 echo ====================================
@@ -8,7 +18,7 @@ echo ====================================
 REM ============================
 REM Caminhos (ajuste conforme sua máquina runner)
 REM ============================
-set DELPHI_PATH="C:\Program Files (x86)\Embarcadero\Studio\23.0\bin"
+set DELPHI_PATH=C:\Program Files (x86)\Embarcadero\Studio\23.0\bin
 set PROJECT_PATH=C:\actions-runner\_work\duimp\duimp\src\client\Siscomex.groupproj
 
 REM ============================
