@@ -18,7 +18,7 @@ set PROJECT_PATH=C:\actions-runner\_work\duimp\duimp\src\client\Siscomex.grouppr
 REM ============================
 REM Compilar Delphi
 REM ============================
-msbuild.exe "%PROJECT_PATH%" /t:Build /p:Config=Release /p:Platform=Win32
+msbuild.exe "%PROJECT_PATH%" /t:Build /p:Config=VCL /p:Platform=Win32
 if errorlevel 1 (
     echo ERRO NA COMPILACAO DO DELPHI
     exit /b 1
