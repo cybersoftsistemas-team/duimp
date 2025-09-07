@@ -25,7 +25,7 @@ jobs:
         run: echo "Publicando build em ambiente de homologação"
 
   build-production:
-    if:  github.ref == 'refs/heads/main'
+    if: github.ref == 'refs/heads/main'
     runs-on: self-hosted
     steps:
       - name: Checkout código
