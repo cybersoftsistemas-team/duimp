@@ -1,63 +1,38 @@
-name: Build Workflow
+name: Build
 
 on:
-  pull_request_target:
+  pull_request:
     branches:
-      - main
       - develop
+      - main
     types: [opened, synchronize, reopened, closed]
 
 jobs:
-  validate_main_pr:
+  validate-main-pr:
     name: "🚨 Validação de PR develop → main"
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checando se PR é para main
-        if: ${{ github.event.pull_request.base.ref == 'main' }}
-        id: check
-        run: |
-          echo "Base branch: ${{ github.event.pull_request.base.ref }}"
-          echo "Head branch: ${{ github.event.pull_request.head.ref }}"
-          if [ "${GITHUB_HEAD_REF}" != "develop" ]; then
-            echo "valid=false" >> $GITHUB_OUTPUT
-            echo "::error ::PR inválido! Somente develop → main permitido."
-            exit 1
-          else
-            echo "valid=true" >> $GITHUB_OUTPUT
-            echo "✅ PR válido"
-
-      - name: Comentar badge + checklist no PR
-        uses: peter-evans/create-or-update-comment@v4
-        with:
-          token: ${{ secrets.COMMENT_PAT }}
-          issue-number: ${{ github.event.pull_request.number }}
-          body: |
-            ${{ steps.check.outputs.valid == 'true' && '
-            <p align="center">
-              <span style="font-size:18px; color:green;">✅ <b>FLUXO OK</b>: PR está correto.</span>
-            </p>' || '
-            <p align="center">
-              <span style="font-size:18px; color:red;">❌ <b>PR INVÁLIDO</b>: Somente PR de <code>develop</code> para <code>main</code> é permitido.</span>
-            </p>
-            <p>Por favor, siga os passos abaixo para corrigir:</p>
-            - [ ] Faça merge da sua branch para <code>develop</code> primeiro
-            - [ ] Atualize seu PR se necessário
-            - [ ] Aguarde aprovação para merge em <code>main</code>
-            🚀 Seguindo este fluxo garantimos builds seguros para produção.'}}
-
-  build_homologation:
-    name: "🛠️ Build Homologação"
     runs-on: self-hosted
     steps:
-      - name: Rodar build de homologação
-        if: ${{ github.event.pull_request.base.ref == 'develop' && github.event.action == 'closed' && github.event.pull_request.merged == true }}
+      - name: Check pull request source branch
+        if: ${{ github.base_ref == 'main' && github.head_ref != 'develop' }}
+        run: |
+          echo "❌ Pull request inválido: somente pull request de 'develop' para 'main' é permitido!"
+          exit 1
+
+  build-homologation:
+    name: Build Homologação
+    if: ${{ github.base_ref == 'develop' && github.event.pull_request.merged == true }}
+    runs-on: self-hosted
+    steps:
+      - uses: actions/checkout@v4
+      - name: Compile project
         run: echo "Publicando build em ambiente de homologação"
 
-  build_production:
-    name: "🚀 Build Produção"
+  build-production:
+    name: Build Produção
+    if: ${{ github.base_ref == 'main' && github.head_ref == 'develop' && github.event.pull_request.merged == true }}
     runs-on: self-hosted
     needs: validate-main-pr
     steps:
-      - name: Rodar build de produção
-        if: ${{ github.event.pull_request.base.ref == 'main' && github.event.pull_request.head.ref == 'develop' && github.event.action == 'closed' && github.event.pull_request.merged == true }}
+      - uses: actions/checkout@v4
+      - name: Compile project
         run: echo "Publicando build em ambiente de produção"
