@@ -1,4 +1,4 @@
-name: Build
+name: Build and Deploy Workflow
 
 on:
   # Gatilho para todas as atividades relevantes de pull request em main e develop
@@ -39,13 +39,14 @@ jobs:
       - name: "Verifica se a origem do PR é 'develop'"
         # A sintaxe 'if' abaixo agora funcionará corretamente com bash.
         run: |
+          echo "--- INICIANDO VALIDAÇÃO DO PULL REQUEST ---"
           echo "Base (destino) do PR: ${{ github.event.pull_request.base.ref }}"
           echo "Head (origem) do PR: ${{ github.event.pull_request.head.ref }}"
           if [ "${{ github.event.pull_request.head.ref }}" != "develop" ]; then
             echo "::error ::PR inválido! Pull requests para 'main' devem vir exclusivamente da branch 'develop'."
             exit 1
           else
-            echo "✅ Validação de PR bem-sucedida."
+            echo "✅ Validação de PR BEM-SUCEDIDA."
           fi
 
   # ---------------------------------------------------------------
@@ -63,7 +64,13 @@ jobs:
       - name: "Checkout da branch 'develop'"
         uses: actions/checkout@v4
       - name: "Publicando build de homologação"
-        run: echo "🚀 Build de Homologação rodando após merge para 'develop'."
+        run: |
+          echo "--- INICIANDO BUILD DE HOMOLOGAÇÃO ---"
+          echo "Simulando execução do script de build (.bat)..."
+          # Futuramente, substitua os echos abaixo pela chamada ao seu script .bat
+          echo "Passo 1: Compilando o projeto..."
+          echo "Passo 2: Empacotando artefatos..."
+          echo "✅ Build de Homologação CONCLUÍDO COM SUCESSO."
 
   # --------------------------------------------------------------------
   # 3) Build Produção (executa após merge de 'develop' para 'main')
@@ -82,4 +89,11 @@ jobs:
       - name: "Checkout da branch 'main'"
         uses: actions/checkout@v4
       - name: "Publicando build de produção"
-        run: echo "🚀 Build de Produção rodando após merge de 'develop' para 'main'."
+        run: |
+          echo "--- INICIANDO BUILD DE PRODUÇÃO ---"
+          echo "Simulando execução do script de deploy (.bat)..."
+          # Futuramente, substitua os echos abaixo pela chamada ao seu script .bat
+          echo "Passo 1: Baixando artefatos..."
+          echo "Passo 2: Publicando no ambiente de produção..."
+          echo "✅ Build de Produção CONCLUÍDO COM SUCESSO."
+
