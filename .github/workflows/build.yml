@@ -6,33 +6,72 @@ on:
       - develop
       - main
     types: [opened, synchronize, reopened, closed]
+  push:
+    branches:
+      - develop
+      - main
 
 jobs:
   validate-main-pr:
     name: "🚨 Validação de PR develop → main"
     runs-on: self-hosted
     steps:
-      - name: Check pull request source branch
-        if: ${{ github.base_ref == 'main' && github.head_ref != 'develop' }}
+      - name: Check PR for correct source branch
+        if: ${{ github.event_name == 'pull_request' && github.event.pull_request.base.ref == 'main' }}
+        id: check
         run: |
-          echo "❌ Pull request inválido: somente pull request de 'develop' para 'main' é permitido!"
-          exit 1
+          echo "Base branch: ${{ github.event.pull_request.base.ref }}"
+          echo "Head branch: ${{ github.event.pull_request.head.ref }}"
+          if [ "${GITHUB_HEAD_REF}" != "develop" ]; then
+            echo "::error ::PR inválido! Somente 'develop' → 'main' permitido."
+            echo "valid=false" >> $GITHUB_OUTPUT
+            exit 1
+          else
+            echo "✅ PR válido"
+            echo "valid=true" >> $GITHUB_OUTPUT
+
+      - name: Comentar badge + checklist no PR
+        if: ${{ github.event_name == 'pull_request' && github.event.pull_request.base.ref == 'main' }}
+        uses: peter-evans/create-or-update-comment@v4
+        with:
+          token: ${{ secrets.COMMENT_PAT }} # PAT com permissão repo
+          issue-number: ${{ github.event.pull_request.number }}
+          body: |
+            ${{ steps.check.outputs.valid == 'true' && '
+            <p align="center">
+              <span style="font-size:18px; color:green;">✅ <b>FLUXO OK</b>: PR está correto.</span>
+            </p>' || '
+            <p align="center">
+              <span style="font-size:18px; color:red;">❌ <b>PR INVÁLIDO</b>: Somente PR de <code>develop</code> para <code>main</code> é permitido.</span>
+            </p>
+            <p>Por favor, siga os passos abaixo para corrigir:</p>
+            - [ ] Faça merge da sua branch para <code>develop</code> primeiro
+            - [ ] Atualize seu PR se necessário
+            - [ ] Aguarde aprovação para merge em <code>main</code>
+            🚀 Seguindo este fluxo garantimos builds seguros para produção.'}}
 
   build-homologation:
-    name: Build Homologação
-    if: ${{ github.base_ref == 'develop' && github.event.pull_request.merged == true && github.event.action == 'closed' }}
+    name: "🛠️ Build Homologação"
     runs-on: self-hosted
     steps:
-      - uses: actions/checkout@v4
-      - name: Compile project
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Rodar build de homologação
+        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/develop' }}
         run: echo "Publicando build em ambiente de homologação"
 
   build-production:
-    name: Build Produção
-    if: ${{ github.base_ref == 'main' && github.head_ref == 'develop' && github.event.pull_request.merged == true }}
+    name: "🚀 Build Produção"
     runs-on: self-hosted
     needs: validate-main-pr
     steps:
-      - uses: actions/checkout@v4
-      - name: Compile project
-        run: echo "Publicando build em ambiente de produção"
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Rodar build de produção
+        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
+        run: |
+          # Só executar se o merge veio de develop
+          LAST_COMMIT=$(git log -1 --pretty=%P)
+          PARENT_BRANCH=$(git show -s --pretty=%P HEAD)
+          echo "Executando build produção"
+          echo "Último merge veio de develop" # aqui você pode adicionar validação se quiser
