@@ -2,18 +2,18 @@
 setlocal enabledelayedexpansion
 
 echo ====================================
-echo Compilando Delphi para ambiente: main
+echo Compiling Delphi 12.3 for environment: main
 echo ====================================
 
 REM ============================
-REM Caminhos
+REM Paths
 REM ============================
 set PROJECT_PATH=C:\actions-runner\_work\duimp\duimp\src\client\Siscomex.groupproj
 set DPROJ_PATH=C:\actions-runner\_work\duimp\duimp\src\client\duimp.dproj
 set VERSION_FILE=C:\actions-runner\_work\duimp\version.txt
 
 REM ============================
-REM Ler versão atual
+REM Read current version
 REM ============================
 for /f "tokens=1-4 delims=." %%a in (%VERSION_FILE%) do (
     set MAJOR=%%a
@@ -22,24 +22,25 @@ for /f "tokens=1-4 delims=." %%a in (%VERSION_FILE%) do (
     set BUILD=%%d
 )
 
+REM ============================
+REM Current version
+REM ============================
 set NEW_VERSION=!MAJOR!.!MINOR!.!RELEASE!.!BUILD!
 
-echo Usando versão existente: !NEW_VERSION!
-
 REM ============================
-REM Atualizar duimp.dproj
+REM Updating duimp project
 REM ============================
-echo Atualizando duimp.dproj com a versão...
+echo Updating duimp project to the version !NEW_VERSION!
 powershell -Command "(gc '%DPROJ_PATH%') -replace 'FileVersion=.*?;', 'FileVersion=$(MAJOR).$(MINOR).$(RELEASE).$(BUILD);' | Set-Content '%DPROJ_PATH%'"
 powershell -Command "(gc '%DPROJ_PATH%') -replace 'ProductVersion=.*?;', 'ProductVersion=$(MAJOR).$(MINOR).$(RELEASE).$(BUILD);' | Set-Content '%DPROJ_PATH%'"
 
 REM ============================
-REM Carregar variáveis do Delphi
+REM Loading variables from Delphi 12.3
 REM ============================
 call "C:\Program Files (x86)\Embarcadero\Studio\23.0\bin\rsvars.bat"
 
 REM ============================
-REM Compilar Delphi
+REM Compile the executable
 REM ============================
 msbuild.exe "%PROJECT_PATH%" ^
   /t:Build ^
@@ -51,12 +52,12 @@ msbuild.exe "%PROJECT_PATH%" ^
   /p:VerInfo_Build=!BUILD!
 
 if errorlevel 1 (
-    echo ERRO NA COMPILACAO DO DELPHI
+    echo DELPHI COMPILATION ERROR
     exit /b 1
 )
 
 echo ====================================
-echo Compilacao concluida com sucesso!
-echo Versao final: !NEW_VERSION!
+echo Compilation completed successfully!
+echo Final version: !NEW_VERSION!
 echo ====================================
 exit /b 0
