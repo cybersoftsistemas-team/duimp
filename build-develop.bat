@@ -57,6 +57,11 @@ if errorlevel 1 (
     exit /b 1
 )
 
+REM ============================
+REM Increment build
+REM ============================
+echo !NEW_VERSION! > %VERSION_FILE%
+
 echo ====================================
 echo Compilation completed successfully!
 echo Release version: !NEW_VERSION!
