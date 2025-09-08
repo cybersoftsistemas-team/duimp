@@ -11,8 +11,12 @@ on:
       - main
 
 jobs:
-  build-homologation:
-    if: github.ref == 'refs/heads/develop'
+  # --------------------------------------------------------------------------------
+  # Deploy Homologação: gerar instalador + deploy
+  # --------------------------------------------------------------------------------
+  deploy-homologation:
+    if: (github.event_name == 'push') && 
+        (github.base_ref == 'develop' || github.ref_name == 'develop')
     runs-on: self-hosted
     steps:
       - name: Checkout Code
@@ -21,13 +25,34 @@ jobs:
       - name: Build Homologation
         shell: powershell
         run: .\build-develop.bat
-
+      
       - name: Deploy Homologation
         run: echo "Publicando build em ambiente de homologação"
-
+  
+  # --------------------------------------------------------------------------------
+  # Build Produção
+  # --------------------------------------------------------------------------------
+  validate-pr-to-main:
+    if: github.event_name == 'pull_request' && github.base_ref == 'main'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Validate pull request origin
+        run: |
+          echo "Head branch (origin):  ${{ github.head_ref }}"
+          echo "Base branch (target): ${{ github.base_ref }}"
+          if [ "${{ github.head_ref }}" != "develop" ]; then
+            echo "❌ Only pull request from 'develop' branch to 'main' is allowed."
+            exit 1
+          fi
+          echo "✅ Valid pull request: develop → main"
+  
+  # --------------------------------------------------------------------------------
+  # Build apenas os executáveis para produção
+  # --------------------------------------------------------------------------------
   build-production:
-    if: github.ref == 'refs/heads/main'
+    if: github.base_ref == 'main' || github.ref_name == 'main'
     runs-on: self-hosted
+    needs: validate-pr-to-main
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
@@ -35,6 +60,15 @@ jobs:
       - name: Build Production
         shell: powershell
         run: .\build-main.bat
-
+  
+  # --------------------------------------------------------------------------------
+  # Deploy Produção: gerar instalador + deploy
+  # --------------------------------------------------------------------------------
+  deploy-production:
+    if: (github.event_name == 'push') && 
+        (github.base_ref == 'main' || github.ref_name == 'main')
+    runs-on: self-hosted
+    needs: build-production
+    steps:
       - name: Deploy Production
         run: echo "Publicando build em ambiente de produção"
