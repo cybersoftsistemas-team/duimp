@@ -1,0 +1,47 @@
+name: Production Build
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:  
+  # --------------------------------------------------------------------------------
+  # Verifcica se o pull request está vindo da branch develop.
+  # --------------------------------------------------------------------------------
+  Validate-Pull-Request-to-Main:
+    if: github.event_name == 'pull_request' && github.base_ref == 'main'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Validate pull request origin
+        run: |
+          echo "Head branch (origin):  ${{ github.head_ref }}"
+          echo "Base branch (target): ${{ github.base_ref }}"
+          if [ "${{ github.head_ref }}" != "develop" ]; then
+            echo "❌ Only pull request from 'develop' branch to 'main' is allowed."
+            exit 1
+          fi
+          echo "✅ Valid pull request: develop → main"
+  
+  # --------------------------------------------------------------------------------
+  # Faz o Checkout dos fontes, gera o os executáveis, gera o instalador e faz deploy
+  # para o ambiente de produção.
+  # --------------------------------------------------------------------------------
+  Build-Deploy-to-Production:
+    if: (github.event_name == 'push') &&
+        (github.base_ref == 'main' || github.ref_name == 'main')
+    runs-on: self-hosted
+    needs: Validate-Pull-Request-to-Main
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Build Project
+        shell: powershell
+        run: .\build-main.bat
+      
+      - name: Deploy to Production
+        run: echo "Publicando build em ambiente de produção"
