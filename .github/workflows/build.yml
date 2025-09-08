@@ -11,8 +11,22 @@ on:
       - main
 
 jobs:
+  validate-pr-to-main:
+    if: github.event_name == 'pull_request' && github.base_ref == 'main'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Validate pull request origin
+        run: |
+          echo "Base branch (target): ${{ github.base_ref }}"
+          echo "Head branch (origin):  ${{ github.head_ref }}"
+          if [ "${{ github.head_ref }}" != "develop" ]; then
+            echo "❌ Only PR from 'develop' branch to 'main' is allowed."
+            exit 1
+          fi
+          echo "✅ Valid pull request: develop → main"
+
   build-homologation:
-    if: github.ref == 'refs/heads/develop'
+    if: github.base_ref == 'develop' || github.ref_name == 'develop'
     runs-on: self-hosted
     steps:
       - name: Checkout Code
@@ -26,8 +40,9 @@ jobs:
         run: echo "Publicando build em ambiente de homologação"
 
   build-production:
-    if: github.ref == 'refs/heads/main'
+    if: github.base_ref == 'main' || github.ref_name == 'main'
     runs-on: self-hosted
+    needs: validate-pr-to-main  # garante que a validação rode antes
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
