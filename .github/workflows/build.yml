@@ -20,7 +20,7 @@ jobs:
           echo "Base branch (target): ${{ github.base_ref }}"
           echo "Head branch (origin):  ${{ github.head_ref }}"
           if [ "${{ github.head_ref }}" != "develop" ]; then
-            echo "❌ Only PR from 'develop' branch to 'main' is allowed."
+            echo "❌ Only pull request from 'develop' branch to 'main' is allowed."
             exit 1
           fi
           echo "✅ Valid pull request: develop → main"
@@ -35,14 +35,19 @@ jobs:
       - name: Build Homologation
         shell: powershell
         run: .\build-develop.bat
-
+  
+  deploy-homologation:
+    if: github.event_name == 'push'
+    runs-on: self-hosted
+    needs: build-homologation
+    steps:
       - name: Deploy Homologation
         run: echo "Publicando build em ambiente de homologação"
 
   build-production:
     if: github.base_ref == 'main' || github.ref_name == 'main'
     runs-on: self-hosted
-    needs: validate-pr-to-main  # garante que a validação rode antes
+    needs: validate-pr-to-main
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
@@ -50,6 +55,11 @@ jobs:
       - name: Build Production
         shell: powershell
         run: .\build-main.bat
-
+  
+  deploy-production:
+    if: github.event_name == 'push'
+    runs-on: self-hosted
+    needs: build-production
+    steps:
       - name: Deploy Production
         run: echo "Publicando build em ambiente de produção"
