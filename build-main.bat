@@ -2,7 +2,7 @@
 setlocal enabledelayedexpansion
 
 echo ====================================
-echo Compiling Delphi for environment: main
+echo Compiling Delphi 12.3 for environment: main
 echo ====================================
 
 REM ============================
@@ -27,6 +27,13 @@ REM Current version
 REM ============================
 set NEW_VERSION=!MAJOR!.!MINOR!.!RELEASE!.!BUILD!
 echo Version: !NEW_VERSION!
+
+REM ============================
+REM Updating duimp.dproj
+REM ============================
+echo Updating duimp.dproj to the new version...
+powershell -Command "(gc '%DPROJ_PATH%') -replace 'FileVersion=.*?;', 'FileVersion=$(MAJOR).$(MINOR).$(RELEASE).$(BUILD);' | Set-Content '%DPROJ_PATH%'"
+powershell -Command "(gc '%DPROJ_PATH%') -replace 'ProductVersion=.*?;', 'ProductVersion=$(MAJOR).$(MINOR).$(RELEASE).$(BUILD);' | Set-Content '%DPROJ_PATH%'"
 
 REM ============================
 REM Loading variables from Delphi 12.3
