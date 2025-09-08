@@ -17,8 +17,8 @@ jobs:
     steps:
       - name: Validate pull request origin
         run: |
-          echo "Base branch (target): ${{ github.base_ref }}"
           echo "Head branch (origin):  ${{ github.head_ref }}"
+          echo "Base branch (target): ${{ github.base_ref }}"
           if [ "${{ github.head_ref }}" != "develop" ]; then
             echo "❌ Only pull request from 'develop' branch to 'main' is allowed."
             exit 1
