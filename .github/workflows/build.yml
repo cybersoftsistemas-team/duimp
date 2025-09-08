@@ -15,7 +15,7 @@ jobs:
   # Faz o Checkout dos fontes, gera o os executáveis, gera o instalador e faz deploy
   # para o ambiente de homologação.
   # --------------------------------------------------------------------------------
-  Build and Deploy to Homologation:
+  Build-Deploy-Homologation:
     if: (github.event_name == 'push') && 
         (github.base_ref == 'develop' || github.ref_name == 'develop')
     runs-on: self-hosted
@@ -33,7 +33,7 @@ jobs:
   # --------------------------------------------------------------------------------
   # Verifcica se o pull request está vindo da branch develop.
   # --------------------------------------------------------------------------------
-  Validate Pull Request to Main:
+  Validate-Pull-Request-Main:
     if: github.event_name == 'pull_request' && github.base_ref == 'main'
     runs-on: ubuntu-latest
     steps:
@@ -51,11 +51,11 @@ jobs:
   # Faz o Checkout dos fontes, gera o os executáveis, gera o instalador e faz deploy
   # para o ambiente de produção.
   # --------------------------------------------------------------------------------
-  Build and Deploy to Production:
+  Build-Deploy-Production:
     if: (github.event_name == 'push') &&
         (github.base_ref == 'main' || github.ref_name == 'main')
     runs-on: self-hosted
-    needs: Validate Pull Request to Main
+    needs: Validate-Pull-Request-Main
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
