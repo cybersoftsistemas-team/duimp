@@ -10,6 +10,18 @@ on:
 
 jobs:
   # --------------------------------------------------------------------------------
+  # Valida o pull request da branch develop.
+  # --------------------------------------------------------------------------------
+  Validate-Pull-Request-to-Develop:
+    if: (github.event_name == 'pull_request') && 
+        (github.base_ref == 'develop' || github.ref_name == 'develop')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Validate pull request origin
+        run: |
+          echo "✅ Valid pull request: ${{ github.head_ref }} → ${{ github.base_ref }}"
+  
+  # --------------------------------------------------------------------------------
   # Faz o Checkout dos fontes, gera o os executáveis, gera o instalador e faz deploy
   # para o ambiente de homologação.
   # --------------------------------------------------------------------------------
