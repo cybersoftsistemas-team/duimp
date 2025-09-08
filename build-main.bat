@@ -22,19 +22,14 @@ for /f "tokens=1-4 delims=." %%a in (%VERSION_FILE%) do (
     set BUILD=%%d
 )
 
-REM ============================
-REM Incrementar build
-REM ============================
-set /a BUILD=BUILD+1
 set NEW_VERSION=!MAJOR!.!MINOR!.!RELEASE!.!BUILD!
 
-echo Atualizando version.txt para !NEW_VERSION!
-echo !NEW_VERSION! > %VERSION_FILE%
+echo Usando versão existente: !NEW_VERSION!
 
 REM ============================
 REM Atualizar duimp.dproj
 REM ============================
-echo Atualizando duimp.dproj com a nova versão...
+echo Atualizando duimp.dproj com a versão...
 powershell -Command "(gc '%DPROJ_PATH%') -replace 'FileVersion=.*?;', 'FileVersion=$(MAJOR).$(MINOR).$(RELEASE).$(BUILD);' | Set-Content '%DPROJ_PATH%'"
 powershell -Command "(gc '%DPROJ_PATH%') -replace 'ProductVersion=.*?;', 'ProductVersion=$(MAJOR).$(MINOR).$(RELEASE).$(BUILD);' | Set-Content '%DPROJ_PATH%'"
 
