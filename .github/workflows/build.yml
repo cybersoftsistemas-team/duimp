@@ -12,9 +12,10 @@ on:
 
 jobs:
   # --------------------------------------------------------------------------------
-  # Deploy Homologação: gerar instalador + deploy
+  # Faz o Checkout dos fontes, gera o os executáveis, gera o instalador e faz deploy
+  # para o ambiente de homologação.
   # --------------------------------------------------------------------------------
-  deploy-homologation:
+  Build-Deploy-Homologation:
     if: (github.event_name == 'push') && 
         (github.base_ref == 'develop' || github.ref_name == 'develop')
     runs-on: self-hosted
@@ -22,17 +23,17 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Build Homologation
+      - name: Build Project
         shell: powershell
         run: .\build-develop.bat
       
-      - name: Deploy Homologation
+      - name: Deploy to Homologation
         run: echo "Publicando build em ambiente de homologação"
   
   # --------------------------------------------------------------------------------
-  # Build Produção
+  # Verifcica se o pull request está vindo da branch develop.
   # --------------------------------------------------------------------------------
-  validate-pr-to-main:
+  Validate-Pull-Request-Main:
     if: github.event_name == 'pull_request' && github.base_ref == 'main'
     runs-on: ubuntu-latest
     steps:
@@ -47,28 +48,21 @@ jobs:
           echo "✅ Valid pull request: develop → main"
   
   # --------------------------------------------------------------------------------
-  # Build apenas os executáveis para produção
+  # Faz o Checkout dos fontes, gera o os executáveis, gera o instalador e faz deploy
+  # para o ambiente de produção.
   # --------------------------------------------------------------------------------
-  build-production:
-    if: github.base_ref == 'main' || github.ref_name == 'main'
+  Build-Deploy-Production:
+    if: (github.event_name == 'push') &&
+        (github.base_ref == 'main' || github.ref_name == 'main')
     runs-on: self-hosted
-    needs: validate-pr-to-main
+    needs: Validate-Pull-Request-Main
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Build Production
+      - name: Build Project
         shell: powershell
         run: .\build-main.bat
-  
-  # --------------------------------------------------------------------------------
-  # Deploy Produção: gerar instalador + deploy
-  # --------------------------------------------------------------------------------
-  deploy-production:
-    if: (github.event_name == 'push') && 
-        (github.base_ref == 'main' || github.ref_name == 'main')
-    runs-on: self-hosted
-    needs: build-production
-    steps:
-      - name: Deploy Production
+      
+      - name: Deploy to Production
         run: echo "Publicando build em ambiente de produção"
