@@ -1,0 +1,29 @@
+name: Homologation Build
+
+on:
+  push:
+    branches:
+      - develop
+  pull_request:
+    branches:
+      - develop
+
+jobs:
+  # --------------------------------------------------------------------------------
+  # Faz o Checkout dos fontes, gera o os executáveis, gera o instalador e faz deploy
+  # para o ambiente de homologação.
+  # --------------------------------------------------------------------------------
+  Build-Deploy-to-Homologation:
+    if: (github.event_name == 'push') && 
+        (github.base_ref == 'develop' || github.ref_name == 'develop')
+    runs-on: self-hosted
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Build Project
+        shell: powershell
+        run: .\build-develop.bat
+      
+      - name: Deploy to Homologation
+        run: echo "Publicando build em ambiente de homologação"
