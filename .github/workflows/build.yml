@@ -15,26 +15,26 @@ jobs:
     if: github.ref == 'refs/heads/develop'
     runs-on: self-hosted
     steps:
-      - name: Checkout código
+      - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Build Homologação
+      - name: Build Homologation
         shell: powershell
         run: .\build-develop.bat
 
-      - name: Deploy Homologação
+      - name: Deploy Homologation
         run: echo "Publicando build em ambiente de homologação"
 
   build-production:
     if: github.ref == 'refs/heads/main'
     runs-on: self-hosted
     steps:
-      - name: Checkout código
+      - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Build Produção
+      - name: Build Production
         shell: powershell
         run: .\build-main.bat
 
-      - name: Deploy Produção
+      - name: Deploy Production
         run: echo "Publicando build em ambiente de produção"
