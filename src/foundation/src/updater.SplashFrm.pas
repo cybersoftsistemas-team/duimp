@@ -54,9 +54,8 @@ uses
   Vcl.Forms,
   Winapi.Messages,
   Winapi.ShellAPI,
-  Winapi.ShlObj,
   Winapi.Windows,
-  Vcl.Dialogs,
+
 {PROJECT}
   cbsCore.System;
 
