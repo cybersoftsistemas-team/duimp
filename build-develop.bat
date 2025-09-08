@@ -14,65 +14,51 @@ REM ============================
 REM Caminhos
 REM ============================
 set PROJECT_PATH=C:\actions-runner\_work\duimp\duimp\src\client\Siscomex.groupproj
-set DPROJ_PATH=C:\actions-runner\_work\duimp\duimp\src\client\duimp.dproj
 set VERSION_TRACK=C:\actions-runner\_work\duimp\version.txt
 
 REM ============================
-REM Ler FileVersion atual
+REM Ler versão atual
 REM ============================
-for /f "tokens=2 delims==;" %%a in ('findstr /i "FileVersion=" "%DPROJ_PATH%"') do (
-    set FILEVERSION=%%a
+if exist "%VERSION_TRACK%" (
+    set /p VERSION=<"%VERSION_TRACK%"
+) else (
+    set VERSION=1.0.0.0
 )
 
-echo FileVersion atual: %FILEVERSION%
-
 REM ============================
-REM Separar Major.Minor.Release.Build
+REM Separar componentes da versão
 REM ============================
-for /f "tokens=1-4 delims=." %%a in ("%FILEVERSION%") do (
+for /f "tokens=1-4 delims=." %%a in ("%VERSION%") do (
     set MAJOR=%%a
     set MINOR=%%b
     set RELEASE=%%c
     set BUILD=%%d
 )
 
-echo Major=%MAJOR% Minor=%MINOR% Release=%RELEASE% Build=%BUILD%
+REM ============================
+REM Incrementar Build
+REM ============================
+set /a BUILD=BUILD+1
+
+echo Versao: %MAJOR%.%MINOR%.%RELEASE%.%BUILD%
 
 REM ============================
-REM Verificar release anterior
+REM Salvar nova versão
 REM ============================
-if exist "%VERSION_TRACK%" (
-    set /p LAST_RELEASE=<"%VERSION_TRACK%"
-) else (
-    set LAST_RELEASE=%RELEASE%
-)
-
-REM ============================
-REM Incrementar ou resetar build
-REM ============================
-if "%LAST_RELEASE%"=="%RELEASE%" (
-    set /a NEW_BUILD=%BUILD%+1
-) else (
-    set NEW_BUILD=1
-)
-
-echo Novo Build: %NEW_BUILD%
-
-REM ============================
-REM Atualizar FileVersion no .dproj
-REM ============================
-set NEW_FILEVERSION=%MAJOR%.%MINOR%.%RELEASE%.%NEW_BUILD%
-powershell -Command "(Get-Content '%DPROJ_PATH%') -replace 'FileVersion=%FILEVERSION%', 'FileVersion=%NEW_FILEVERSION%' | Set-Content '%DPROJ_PATH%'"
-
-REM ============================
-REM Salvar release atual
-REM ============================
-echo %RELEASE% > "%VERSION_TRACK%"
+echo %MAJOR%.%MINOR%.%RELEASE%.%BUILD% > "%VERSION_TRACK%"
 
 REM ============================
 REM Compilar Delphi
 REM ============================
-msbuild.exe "%PROJECT_PATH%" /t:Build /p:Config=VCL /p:Platform=Win32
+msbuild.exe "%PROJECT_PATH%" ^
+  /t:Build ^
+  /p:Config=VCL ^
+  /p:Platform=Win32 ^
+  /p:VerInfo_MajorVer=%MAJOR% ^
+  /p:VerInfo_MinorVer=%MINOR% ^
+  /p:VerInfo_Release=%RELEASE% ^
+  /p:VerInfo_Build=%BUILD%
+
 if errorlevel 1 (
     echo ERRO NA COMPILACAO DO DELPHI
     exit /b 1
