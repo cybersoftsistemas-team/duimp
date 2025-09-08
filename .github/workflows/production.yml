@@ -13,7 +13,7 @@ jobs:
   # Verifcica se o pull request está vindo da branch develop.
   # --------------------------------------------------------------------------------
   Validate-Pull-Request-to-Main:
-    if: (github.event_name == 'push') &&
+    if: (github.event_name == 'pull_request') && 
         (github.base_ref == 'main' || github.ref_name == 'main')
     runs-on: ubuntu-latest
     steps:
@@ -35,7 +35,6 @@ jobs:
     if: (github.event_name == 'push') &&
         (github.base_ref == 'main' || github.ref_name == 'main')
     runs-on: self-hosted
-    needs: Validate-Pull-Request-to-Main
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
