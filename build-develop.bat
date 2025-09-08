@@ -32,9 +32,9 @@ echo Updating version.txt to !NEW_VERSION!
 echo !NEW_VERSION! > %VERSION_FILE%
 
 REM ============================
-REM Updating duimp.dproj
+REM Updating duimp
 REM ============================
-echo Updating duimp.dproj to the new version...
+echo Updating duimp to the new version...
 powershell -Command "(gc '%DPROJ_PATH%') -replace 'FileVersion=.*?;', 'FileVersion=$(MAJOR).$(MINOR).$(RELEASE).$(BUILD);' | Set-Content '%DPROJ_PATH%'"
 powershell -Command "(gc '%DPROJ_PATH%') -replace 'ProductVersion=.*?;', 'ProductVersion=$(MAJOR).$(MINOR).$(RELEASE).$(BUILD);' | Set-Content '%DPROJ_PATH%'"
 
