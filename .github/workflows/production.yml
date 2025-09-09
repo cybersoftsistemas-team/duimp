@@ -52,7 +52,7 @@ jobs:
         run: |
           & "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" "src\foundation\InnoSetup\duimp.iss"
       
-      - name: Get the Installer Name
+      - name: Identifying the Installer in the Directory
         id: get_installer
         shell: powershell
         run: |
