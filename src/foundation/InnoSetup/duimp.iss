@@ -5,7 +5,7 @@
 #define MyAppPublisher "Cybersoft Sistemas"
 #define MyAppURL "https://www.cybersoftsistemas.com.br/"
 #define MyAppExeName "duimp.exe"
-#define MyAppVersion GetFileVersion("C:\Projects\Cybersoft\build\Win32\VCL\" + MyAppExeName)
+#define MyAppVersion GetFileVersion("..\..\..\build\Win32\VCL\" + MyAppExeName)
 #define MyAppAssocName MyAppName + " File"
 #define MyAppAssocExt ".myp"
 #define MyAppAssocKey StringChange(MyAppAssocName, " ", "") + MyAppAssocExt
@@ -28,9 +28,9 @@ DisableProgramGroupPage=yes
 ; Uncomment the following line to run in non administrative install mode (install for current user only).
 ;PrivilegesRequired=lowest
 PrivilegesRequiredOverridesAllowed=dialog
-OutputDir=C:\Projects\Instaladores
+OutputDir=..\..\..\installers
 OutputBaseFilename={#MyAppName}-{#MyAppVersion}
-SetupIconFile=C:\Projects\Cybersoft\src\client\duimp_Icon.ico
+SetupIconFile=..\..\..\src\client\duimp_Icon.ico
 SolidCompression=yes
 WizardStyle=modern
 SignedUninstaller=yes
@@ -44,12 +44,12 @@ Name: "brazilianportuguese"; MessagesFile: "compiler:Languages\BrazilianPortugue
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
-Source: "C:\Projects\Cybersoft\build\Win32\VCL\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion sign
-Source: "C:\Projects\Cybersoft\build\Win32\VCL\updater.exe"; DestDir: "{app}"; Flags: ignoreversion sign
-Source: "C:\Projects\Cybersoft\extensions\dlls\*"; DestDir: "{app}"; Flags: ignoreversion sign recursesubdirs createallsubdirs
-Source: "C:\Projects\Cybersoft\certificates\CybersoftSistemas.pfx"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\..\..\build\Win32\VCL\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion sign
+Source: "..\..\..\build\Win32\VCL\updater.exe"; DestDir: "{app}"; Flags: ignoreversion sign
+Source: "..\..\..\extensions\dlls\*"; DestDir: "{app}"; Flags: ignoreversion sign recursesubdirs createallsubdirs
+Source: "..\..\..\certificates\CybersoftSistemas.pfx"; DestDir: "{app}"; Flags: ignoreversion
 ; Inclui o instalador do SQL Native Client na pasta temporária do setup
-Source: "C:\Projects\Cybersoft\extensions\drivers\sqlncli.msi"; DestDir: "{tmp}"; Flags: deleteafterinstall
+Source: "..\..\..\extensions\drivers\sqlncli.msi"; DestDir: "{tmp}"; Flags: deleteafterinstall
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Registry]
