@@ -95,10 +95,12 @@ jobs:
       - name: Upload Installer to FTP (versions)
         shell: powershell
         run: |
-          $ftpUrl = "ftp://${{ secrets.FTP_HOST }}:${{ secrets.FTP_PORT }}/duimp/updates/versions/${{ steps.get_info.outputs.installer_name }}"
+          $ftpUrl = "ftp://${{ secrets.FTP_HOST }}:${{ secrets.FTP_PORT }}/duimp/updates/versions/${{ steps.get_installer.outputs.installer_name }}"
+          $filePath = "${{ steps.get_installer.outputs.installer_path }}"
           $wc = New-Object System.Net.WebClient
           $wc.Credentials = New-Object System.Net.NetworkCredential("${{ secrets.FTP_USER }}","${{ secrets.FTP_PASS }}")
-          $wc.UploadFile($ftpUrl, "${{ steps.get_info.outputs.installer_file }}")
+          Write-Host "Uploading $filePath to $ftpUrl"
+          $wc.UploadFile($ftpUrl, "STOR", $filePath)
       
       - name: Upload Manifest to FTP
         shell: powershell
