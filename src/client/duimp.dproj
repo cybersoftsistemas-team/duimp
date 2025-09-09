@@ -5,7 +5,7 @@
         <FrameworkType>VCL</FrameworkType>
         <MainSource>duimp.dpr</MainSource>
         <Base>True</Base>
-        <Config Condition="'$(Config)'==''">VCL</Config>
+        <Config Condition="'$(Config)'==''">deVCL</Config>
         <Platform Condition="'$(Platform)'==''">Win32</Platform>
         <TargetedPlatforms>3</TargetedPlatforms>
         <AppType>Application</AppType>

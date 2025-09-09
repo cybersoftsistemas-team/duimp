@@ -936,6 +936,7 @@ type
     qryDCIUnidadeComercialCodigo: TStringField;
     qryITRUnidadeComercialCodigo: TStringField;
     qryDPRUnidadeComercialCodigo: TStringField;
+    qryDUVNumero: TStringField;
     procedure DataModuleCreate(Sender: TObject);
     procedure MoedaNegociadaValorGetText(Sender: TField; var Text: string; DisplayText: Boolean);
     procedure qryDUINewRecord(DataSet: TDataSet);
@@ -1204,10 +1205,10 @@ begin
   qryProc.Close;
   qryProc.Open;
   qryProc.Edit;
+  qryProcNumero_Declaracao.AsString := qryDUVNumero.AsString;
   qryProcTipo.AsString := 'IMPORTAÇÃO';
   qryProcUF_Desembaraco.AsString := qryDCRUFDesembaraco.AsString;
   qryProcUF_Importacao.AsString := qryDCRUFImportacao.AsString;
-  qryProcProcesso.AsString := qryDUVProcessoNumero.AsString;
   qryProcProcesso_Mestre.AsString := qryDUIProcessoNumeroVinculado.AsString;
   qryProcFob.AsFloat := qryDCRFobValorTotalBRL.AsFloat;
   qryProcFob_ME.AsFloat := qryDCRFobValorTotal.AsFloat;
