@@ -72,3 +72,50 @@ jobs:
             ${{ steps.get_installer.outputs.installer_path }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Download Manifest from FTP
+        uses: sebastianpopp/ftp-action@v2
+        with:
+          host: ${{ vars.FTP_HOST }}
+          port: ${{ vars.FTP_PORT }}
+          user: ${{ vars.FTP_USER }}
+          password: ${{ secrets.FTP_PASS }}
+          localDir: installers
+          remoteDir: duimp/updates
+          include: manifest.json
+          action: download
+      
+      - name: Update local Manifest to new version
+        shell: powershell
+        run: |
+          $manifestPath = "installers\manifest.json"
+          $json = Get-Content $manifestPath | ConvertFrom-Json
+          # Atualiza somente a versão
+          $json.latestVersion = "${{ steps.get_info.outputs.installer_version }}"
+          # Se quiser também atualizar o caminho para o instalador específico:
+          # $json.installer = "versions/${{ steps.get_info.outputs.installer_name }}"
+          $json | ConvertTo-Json -Depth 2 | Set-Content -Path $manifestPath -Encoding UTF8
+          echo "Updated manifest.json:"
+          Get-Content $manifestPath
+      
+      - name: Upload Installer to FTP (versions)
+        uses: sebastianpopp/ftp-action@v2
+        with:
+          host: ${{ secrets.FTP_HOST }}
+          port: ${{ secrets.FTP_PORT }}
+          user: ${{ secrets.FTP_USER }}
+          password: ${{ secrets.FTP_PASS }}
+          localDir: installers
+          remoteDir: duimp/updates/versions
+          include: ${{ steps.get_info.outputs.installer_name }}
+      
+      - name: Upload Manifest to FTP
+        uses: sebastianpopp/ftp-action@v2
+        with:
+          host: ${{ secrets.FTP_HOST }}
+          port: ${{ secrets.FTP_PORT }}
+          user: ${{ secrets.FTP_USER }}
+          password: ${{ secrets.FTP_PASS }}
+          localDir: installers
+          remoteDir: duimp/updates
+          include: manifest.json

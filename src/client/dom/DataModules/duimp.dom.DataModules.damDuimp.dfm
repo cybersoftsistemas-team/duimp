@@ -7161,18 +7161,9 @@ inherited damDuimp: TdamDuimp
   object qryProc: TFDQuery
     BeforePost = DataSetBeforePost
     CachedUpdates = True
-    Indexes = <
-      item
-        Active = True
-        Selected = True
-        Name = 'IX_Numero_Declaracao'
-        Fields = 'Numero_Declaracao'
-        Options = [soUnique, soPrimary]
-      end>
-    IndexName = 'IX_Numero_Declaracao'
-    MasterSource = dsoDUI
-    MasterFields = 'Numero'
-    DetailFields = 'Numero_Declaracao'
+    MasterSource = dsoDUV
+    MasterFields = 'ProcessoNumero'
+    DetailFields = 'Processo'
     Connection = damConnection.DBCliente
     SQL.Strings = (
       'SELECT PDO.Processo'
@@ -7233,12 +7224,12 @@ inherited damDuimp: TdamDuimp
       ',PDO.Banco'
       ',PDO.Incoterms'
       'FROM ProcessosDocumentos AS PDO'
-      'WHERE PDO.Numero_Declaracao = :Numero;')
+      'WHERE PDO.Processo = :ProcessoNumero;')
     Left = 496
     Top = 463
     ParamData = <
       item
-        Name = 'NUMERO'
+        Name = 'PROCESSONUMERO'
         DataType = ftString
         ParamType = ptInput
         Value = Null
@@ -7627,14 +7618,16 @@ inherited damDuimp: TdamDuimp
       ''
       'WITH DuimpMax AS ('
       #9'SELECT DuimpId = DUI.Id'
+      #9',DUI.Numero'
       #9',Versao = MAX(DUV.Versao)'
       #9'FROM duimp.duimps AS DUI'
       #9'JOIN duimp.versoes AS DUV'
       #9#9' ON DUI.Id = DUV.DuimpId'
       #9'WHERE DUI.Id = @DuimpId'
-      #9'GROUP BY DUI.Id'
+      #9'GROUP BY DUI.Id, DUI.Numero'
       ')'
       'SELECT DUV.Id'
+      ',DUI.Numero'
       ',DUV.ProcessoNumero'
       ',DUV.Versao'
       ',DUV.DuimpId'
@@ -7657,6 +7650,11 @@ inherited damDuimp: TdamDuimp
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
       Required = True
       Size = 38
+    end
+    object qryDUVNumero: TStringField
+      FieldName = 'Numero'
+      Origin = 'Numero'
+      Size = 15
     end
     object qryDUVProcessoNumero: TStringField
       FieldName = 'ProcessoNumero'
