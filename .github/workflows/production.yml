@@ -74,48 +74,36 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       
       - name: Download Manifest from FTP
-        uses: sebastianpopp/ftp-action@v2.0.0
-        with:
-          host: ${{ vars.FTP_HOST }}
-          port: ${{ vars.FTP_PORT }}
-          user: ${{ vars.FTP_USER }}
-          password: ${{ secrets.FTP_PASS }}
-          localDir: installers
-          remoteDir: duimp/updates
-          include: manifest.json
-          action: download
+        shell: powershell
+        run: |
+          $ftpUrl = "ftp://${{ secrets.FTP_HOST }}:{{ secrets.FTP_PORT }}/duimp/updates/manifest.json"
+          $localManifest = "installers\manifest.json"
+          $wc = New-Object System.Net.WebClient
+          $wc.Credentials = New-Object System.Net.NetworkCredential("${{ secrets.FTP_USER }}","${{ secrets.FTP_PASS }}")
+          $wc.DownloadFile($ftpUrl, $localManifest)
       
       - name: Update local Manifest to new version
         shell: powershell
         run: |
           $manifestPath = "installers\manifest.json"
           $json = Get-Content $manifestPath | ConvertFrom-Json
-          # Atualiza somente a versão
           $json.latestVersion = "${{ steps.get_info.outputs.installer_version }}"
-          # Se quiser também atualizar o caminho para o instalador específico:
-          # $json.installer = "versions/${{ steps.get_info.outputs.installer_name }}"
           $json | ConvertTo-Json -Depth 2 | Set-Content -Path $manifestPath -Encoding UTF8
-          echo "Updated manifest.json:"
+          Write-Host "Updated manifest.json:"
           Get-Content $manifestPath
       
       - name: Upload Installer to FTP (versions)
-        uses: sebastianpopp/ftp-action@v2.0.0
-        with:
-          host: ${{ secrets.FTP_HOST }}
-          port: ${{ secrets.FTP_PORT }}
-          user: ${{ secrets.FTP_USER }}
-          password: ${{ secrets.FTP_PASS }}
-          localDir: installers
-          remoteDir: duimp/updates/versions
-          include: ${{ steps.get_info.outputs.installer_name }}
+        shell: powershell
+        run: |
+          $ftpUrl = "ftp://${{ secrets.FTP_HOST }}:${{ secrets.FTP_PORT }}/duimp/updates/versions/${{ steps.get_info.outputs.installer_name }}"
+          $wc = New-Object System.Net.WebClient
+          $wc.Credentials = New-Object System.Net.NetworkCredential("${{ secrets.FTP_USER }}","${{ secrets.FTP_PASS }}")
+          $wc.UploadFile($ftpUrl, "${{ steps.get_info.outputs.installer_file }}")
       
       - name: Upload Manifest to FTP
-        uses: sebastianpopp/ftp-action@v2.0.0
-        with:
-          host: ${{ secrets.FTP_HOST }}
-          port: ${{ secrets.FTP_PORT }}
-          user: ${{ secrets.FTP_USER }}
-          password: ${{ secrets.FTP_PASS }}
-          localDir: installers
-          remoteDir: duimp/updates
-          include: manifest.json
+        shell: powershell
+        run: |
+          $ftpUrl = "ftp://${{ secrets.FTP_HOST }}:${{ secrets.FTP_PORT }}/duimp/updates/manifest.json"
+          $wc = New-Object System.Net.WebClient
+          $wc.Credentials = New-Object System.Net.NetworkCredential("${{ secrets.FTP_USER }}","${{ secrets.FTP_PASS }}")
+          $wc.UploadFile($ftpUrl, "installers\manifest.json")
