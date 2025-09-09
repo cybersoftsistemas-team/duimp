@@ -28,9 +28,9 @@ REM ============================
 set NEW_VERSION=!MAJOR!.!MINOR!.!RELEASE!.!BUILD!
 
 REM ============================
-REM Updating duimp project
+REM Duimp project version
 REM ============================
-echo Updating duimp project to the version !NEW_VERSION!
+echo Current version of the Duimp project: !NEW_VERSION!
 powershell -Command "(gc '%DPROJ_PATH%') -replace 'FileVersion=.*?;', 'FileVersion=$(MAJOR).$(MINOR).$(RELEASE).$(BUILD);' | Set-Content '%DPROJ_PATH%'"
 powershell -Command "(gc '%DPROJ_PATH%') -replace 'ProductVersion=.*?;', 'ProductVersion=$(MAJOR).$(MINOR).$(RELEASE).$(BUILD);' | Set-Content '%DPROJ_PATH%'"
 

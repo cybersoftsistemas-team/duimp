@@ -139,3 +139,4 @@ __recovery/
 # Binary files folder
 
 /build
+/installers
