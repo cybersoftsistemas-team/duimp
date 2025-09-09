@@ -30,8 +30,7 @@ jobs:
   # para o ambiente de homologação.
   # --------------------------------------------------------------------------------
   Build-Deploy-to-Homologation:
-    if: (github.event_name == 'push') && 
-        (github.base_ref == 'develop' || github.ref_name == 'develop')
+    if: github.event_name == 'push' && github.ref_name == 'develop'
     runs-on: self-hosted
     steps:
       - name: Checkout Code
@@ -50,17 +49,19 @@ jobs:
         id: get_installer
         shell: powershell
         run: |
-          $file = Get-ChildItem -Path installers\duimp-*.exe | Sort-Object LastWriteTime -Descending | Select-Object -First 1
+          $file = Get-ChildItem -Path "installers\duimp-*.exe" | Sort-Object LastWriteTime -Descending | Select-Object -First 1
           echo "installer_name=$($file.Name)" >> $env:GITHUB_OUTPUT
           echo "installer_path=$($file.FullName)" >> $env:GITHUB_OUTPUT
+          $tag = [System.IO.Path]::GetFileNameWithoutExtension($file.Name)
+          echo "installer_tag=$tag" >> $env:GITHUB_OUTPUT
       
       - name: Deploy to Homologation
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: ${{ steps.get_installer.outputs.installer_name }}
+          tag_name: ${{ steps.get_installer.outputs.installer_tag }}
           name: "Release Homologation - ${{ steps.get_installer.outputs.installer_name }}"
           draft: false
-          prerelease: true
+          prerelease: false
           files: |
             ${{ steps.get_installer.outputs.installer_path }}
         env:
