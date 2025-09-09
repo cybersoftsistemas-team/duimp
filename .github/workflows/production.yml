@@ -74,7 +74,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       
       - name: Download Manifest from FTP
-        uses: sebastianpopp/ftp-action@v2
+        uses: sebastianpopp/ftp-action@v3.0.0
         with:
           host: ${{ vars.FTP_HOST }}
           port: ${{ vars.FTP_PORT }}
@@ -99,7 +99,7 @@ jobs:
           Get-Content $manifestPath
       
       - name: Upload Installer to FTP (versions)
-        uses: sebastianpopp/ftp-action@v2
+        uses: sebastianpopp/ftp-action@v3.0.0
         with:
           host: ${{ secrets.FTP_HOST }}
           port: ${{ secrets.FTP_PORT }}
@@ -110,7 +110,7 @@ jobs:
           include: ${{ steps.get_info.outputs.installer_name }}
       
       - name: Upload Manifest to FTP
-        uses: sebastianpopp/ftp-action@v2
+        uses: sebastianpopp/ftp-action@v3.0.0
         with:
           host: ${{ secrets.FTP_HOST }}
           port: ${{ secrets.FTP_PORT }}
