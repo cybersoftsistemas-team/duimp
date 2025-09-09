@@ -49,5 +49,22 @@ jobs:
         run: |
           & "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" "src\foundation\InnoSetup\duimp.iss"
       
+      - name: Get the Installer Name
+        id: get_installer
+        shell: powershell
+        run: |
+          $file = Get-ChildItem -Path installers\duimp-*.exe | Sort-Object LastWriteTime -Descending | Select-Object -First 1
+          echo "installer_name=$($file.Name)" >> $env:GITHUB_OUTPUT
+          echo "installer_path=$($file.FullName)" >> $env:GITHUB_OUTPUT
+      
       - name: Deploy to Production
-        run: echo "Publicando build em ambiente de produção"
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.get_installer.outputs.installer_name }}
+          name: "Release Production - ${{ steps.get_installer.outputs.installer_name }}"
+          draft: false
+          prerelease: false
+          files: |
+            ${{ steps.get_installer.outputs.installer_path }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
