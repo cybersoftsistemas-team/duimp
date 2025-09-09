@@ -608,7 +608,7 @@ inherited damDuimp: TdamDuimp
       'LEFT JOIN Produtos AS PRO'
       #9' ON DCI.ProdutoCodigo = PRO.Codigo_DUIMP'
       'LEFT JOIN Unidades AS UNI'
-      #9' ON SOUNDEX(UNI.Descricao) = SOUNDEX(DCI.UnidadeComercial)'
+      #9' ON UNI.Descricao = DCI.UnidadeComercial'
       'WHERE DCI.VersaoId = @VersaoId;')
     Left = 24
     Top = 207
