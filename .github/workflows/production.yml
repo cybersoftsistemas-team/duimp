@@ -86,10 +86,17 @@ jobs:
         shell: powershell
         run: |
           $manifestPath = "installers\manifest.json"
+          $installerName = "${{ steps.get_installer.outputs.installer_name }}"
+          if ($installerName -match 'duimp-(\d+\.\d+\.\d+\.\d+)\.exe') {
+            $version = $matches[1]
+          } else {
+            Write-Error "❌ Não foi possível extrair a versão de $installerName"
+            exit 1
+          }
           $json = Get-Content $manifestPath | ConvertFrom-Json
-          $json.latestVersion = "${{ steps.get_info.outputs.installer_version }}"
+          $json.latestVersion = $version
           $json | ConvertTo-Json -Depth 2 | Set-Content -Path $manifestPath -Encoding UTF8
-          Write-Host "Updated manifest.json:"
+          Write-Host "✅ Updated manifest.json:"
           Get-Content $manifestPath
       
       - name: Upload Installer to FTP (versions)
