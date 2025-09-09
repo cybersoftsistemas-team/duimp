@@ -76,7 +76,7 @@ jobs:
       - name: Download Manifest from FTP
         shell: powershell
         run: |
-          $ftpUrl = "ftp://${{ secrets.FTP_HOST }}:{{ secrets.FTP_PORT }}/duimp/updates/manifest.json"
+          $ftpUrl = "ftp://${{ secrets.FTP_HOST }}:${{ secrets.FTP_PORT }}/duimp/updates/manifest.json"
           $localManifest = "installers\manifest.json"
           $wc = New-Object System.Net.WebClient
           $wc.Credentials = New-Object System.Net.NetworkCredential("${{ secrets.FTP_USER }}","${{ secrets.FTP_PASS }}")
