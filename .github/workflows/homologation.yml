@@ -37,5 +37,10 @@ jobs:
         shell: powershell
         run: .\build-develop.bat
       
+      - name: Build Homologation Installer
+        shell: powershell
+        run: |
+          "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" src\foundation\InnoSetup\duimp.iss
+      
       - name: Deploy to Homologation
         run: echo "Publicando build em ambiente de homologação"
