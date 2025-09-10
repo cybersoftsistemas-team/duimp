@@ -16,7 +16,7 @@
             <Dependencies>..\foundation\cbsCore.dproj</Dependencies>
         </Projects>
         <Projects Include="duimp.dproj">
-            <Dependencies>..\foundation\cbsMigrationsFireDac.dproj;..\foundation\cbsCore.dproj;..\foundation\cbsMigrations.dproj;pucomex.dproj</Dependencies>
+            <Dependencies>..\foundation\cbsCore.dproj;..\foundation\cbsMigrations.dproj;..\foundation\cbsMigrationsFireDac.dproj;pucomex.dproj;..\foundation\updater.dproj</Dependencies>
         </Projects>
         <Projects Include="..\foundation\updater.dproj">
             <Dependencies>..\foundation\cbsCore.dproj</Dependencies>
@@ -65,13 +65,13 @@
     <Target Name="pucomex:Make" DependsOnTargets="cbsCore:Make">
         <MSBuild Projects="pucomex.dproj" Targets="Make"/>
     </Target>
-    <Target Name="duimp" DependsOnTargets="cbsMigrationsFireDac;cbsCore;cbsMigrations;pucomex">
+    <Target Name="duimp" DependsOnTargets="cbsCore;cbsMigrations;cbsMigrationsFireDac;pucomex;updater">
         <MSBuild Projects="duimp.dproj"/>
     </Target>
-    <Target Name="duimp:Clean" DependsOnTargets="cbsMigrationsFireDac:Clean;cbsCore:Clean;cbsMigrations:Clean;pucomex:Clean">
+    <Target Name="duimp:Clean" DependsOnTargets="cbsCore:Clean;cbsMigrations:Clean;cbsMigrationsFireDac:Clean;pucomex:Clean;updater:Clean">
         <MSBuild Projects="duimp.dproj" Targets="Clean"/>
     </Target>
-    <Target Name="duimp:Make" DependsOnTargets="cbsMigrationsFireDac:Make;cbsCore:Make;cbsMigrations:Make;pucomex:Make">
+    <Target Name="duimp:Make" DependsOnTargets="cbsCore:Make;cbsMigrations:Make;cbsMigrationsFireDac:Make;pucomex:Make;updater:Make">
         <MSBuild Projects="duimp.dproj" Targets="Make"/>
     </Target>
     <Target Name="updater" DependsOnTargets="cbsCore">

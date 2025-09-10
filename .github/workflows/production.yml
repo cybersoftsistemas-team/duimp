@@ -1,42 +1,14 @@
-name: Production Build
+name: Build and Publish to Production
 
 on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
-    types: [opened, synchronize, reopened, closed]
- 
+  release:
+    types: [published]
+
 permissions:
   contents: write
 
 jobs:
-  # --------------------------------------------------------------------------------
-  # Verifcica se o pull request está vindo da branch develop.
-  # --------------------------------------------------------------------------------
-  Validate-Pull-Request-to-Main:
-    if: (github.event_name == 'pull_request') && 
-        (github.base_ref == 'main' || github.ref_name == 'main')
-    runs-on: ubuntu-latest
-    steps:
-      - name: Validate pull request origin
-        run: |
-          echo "Head branch (origin):  ${{ github.head_ref }}"
-          echo "Base branch (target): ${{ github.base_ref }}"
-          if [ "${{ github.head_ref }}" != "develop" ]; then
-            echo "❌ Only pull request from 'develop' branch to 'main' is allowed."
-            exit 1
-          fi
-          echo "✅ Valid pull request: develop → main"
-  
-  # --------------------------------------------------------------------------------
-  # Faz o Checkout dos fontes, gera o os executáveis, gera o instalador e faz deploy
-  # para o ambiente de produção.
-  # --------------------------------------------------------------------------------
   Build-Deploy-to-Production:
-    if: github.event_name == 'push' && github.ref_name == 'main'
     runs-on: self-hosted
     steps:
       - name: Checkout Code
@@ -46,11 +18,11 @@ jobs:
         shell: powershell
         run: .\build-main.bat
       
-      - name: Build Production Installer
+      - name: Build Installer
         shell: powershell
         run: |
           & "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" "src\foundation\InnoSetup\duimp.iss"
-      
+
       - name: Identifying the Installer in the Directory
         id: get_installer
         shell: powershell
@@ -60,19 +32,34 @@ jobs:
           echo "installer_path=$($file.FullName)" >> $env:GITHUB_OUTPUT
           $tag = [System.IO.Path]::GetFileNameWithoutExtension($file.Name)
           echo "installer_tag=$tag" >> $env:GITHUB_OUTPUT
-      
-      - name: Deploy to Production
-        uses: softprops/action-gh-release@v2
-        with:
-          tag_name: ${{ steps.get_installer.outputs.installer_tag }}
-          name: "Release Production - ${{ steps.get_installer.outputs.installer_name }}"
-          draft: false
-          prerelease: false
-          files: |
-            ${{ steps.get_installer.outputs.installer_path }}
+
+      - name: Create or Update Release via REST API
+        shell: bash
+        run: |
+          REPO="${GITHUB_REPOSITORY}"
+          TAG="${{ steps.get_installer.outputs.installer_tag }}"
+          RELEASE_ID=$(curl -s -H "Authorization: token $GITHUB_TOKEN" \
+            -H "Accept: application/vnd.github+json" \
+            https://api.github.com/repos/$REPO/releases/tags/$TAG | jq -r '.id')
+          if [ "$RELEASE_ID" != "null" ]; then
+            echo "Release para tag $TAG já existe. Atualizando..."
+            curl -s -X PATCH \
+              -H "Authorization: token $GITHUB_TOKEN" \
+              -H "Accept: application/vnd.github+json" \
+              https://api.github.com/repos/$REPO/releases/$RELEASE_ID \
+              -d "{\"name\":\"Release Production - $TAG\",\"body\":\"Atualização do instalador\",\"draft\":false,\"prerelease\":false}"
+          else
+            echo "Criando release e tag $TAG..."
+            curl -s -X POST \
+              -H "Authorization: token $GITHUB_TOKEN" \
+              -H "Accept: application/vnd.github+json" \
+              https://api.github.com/repos/$REPO/releases \
+              -d "{\"tag_name\":\"$TAG\",\"name\":\"Release Production - $TAG\",\"body\":\"Primeira versão do instalador\",\"draft\":false,\"prerelease\":false}"
+          fi
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      
+
+      # Download e upload do FTP continuam iguais
       - name: Download Manifest from FTP
         shell: powershell
         run: |
@@ -81,7 +68,7 @@ jobs:
           $wc = New-Object System.Net.WebClient
           $wc.Credentials = New-Object System.Net.NetworkCredential("${{ secrets.FTP_USER }}","${{ secrets.FTP_PASS }}")
           $wc.DownloadFile($ftpUrl, $localManifest)
-      
+
       - name: Update local Manifest to new version
         shell: powershell
         run: |
@@ -98,7 +85,7 @@ jobs:
           $json | ConvertTo-Json -Depth 2 | Set-Content -Path $manifestPath -Encoding UTF8
           Write-Host "✅ Updated manifest.json:"
           Get-Content $manifestPath
-      
+
       - name: Upload Installer to FTP (versions)
         shell: powershell
         run: |
@@ -108,7 +95,7 @@ jobs:
           $wc.Credentials = New-Object System.Net.NetworkCredential("${{ secrets.FTP_USER }}","${{ secrets.FTP_PASS }}")
           Write-Host "Uploading $filePath to $ftpUrl"
           $wc.UploadFile($ftpUrl, "STOR", $filePath)
-      
+
       - name: Upload Manifest to FTP
         shell: powershell
         run: |
