@@ -45,7 +45,7 @@ jobs:
       - name: Build Project
         shell: powershell
         run: .\build-main.bat
-      
+
       - name: Build Production Installer
         shell: powershell
         run: |
@@ -60,7 +60,7 @@ jobs:
           echo "installer_path=$($file.FullName)" >> $env:GITHUB_OUTPUT
           $tag = [System.IO.Path]::GetFileNameWithoutExtension($file.Name)
           echo "installer_tag=$tag" >> $env:GITHUB_OUTPUT
-      
+
       - name: Deploy to Production
         uses: softprops/action-gh-release@v2
         with:
