@@ -1,4 +1,4 @@
-name: Build and Publish to Production
+name: Production Build
 
 on:
   release:
@@ -17,8 +17,8 @@ jobs:
       - name: Build Project
         shell: powershell
         run: .\build-main.bat
-      
-      - name: Build Installer
+
+      - name: Build Production Installer
         shell: powershell
         run: |
           & "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" "src\foundation\InnoSetup\duimp.iss"
@@ -38,12 +38,14 @@ jobs:
         run: |
           $REPO = "${env:GITHUB_REPOSITORY}"
           $TAG = "${{ steps.get_installer.outputs.installer_tag }}"
+
           $url = "https://api.github.com/repos/$REPO/releases/tags/$TAG"
           try {
             $release = Invoke-RestMethod -Uri $url -Headers @{ Authorization = "token $env:GITHUB_TOKEN"; Accept = "application/vnd.github+json" }
           } catch {
             $release = $null
           }
+
           if ($release) {
             Write-Host "Release para tag $TAG já existe. Atualizando..."
             $patchUrl = "https://api.github.com/repos/$REPO/releases/$($release.id)"
@@ -68,7 +70,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      # Download e upload do FTP continuam iguais
       - name: Download Manifest from FTP
         shell: powershell
         run: |
