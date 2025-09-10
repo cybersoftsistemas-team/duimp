@@ -8,4 +8,4 @@ Para acessar os serviços do Siscomex, utilize as seguintes propriedades de cone
   `https://portalunico.siscomex.gov.br`
 
 - **Caminho de autenticação:**  
-  `/portal/api/autenticar`
+  `portal/api/autenticar`
