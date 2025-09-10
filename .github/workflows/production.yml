@@ -34,30 +34,36 @@ jobs:
           echo "installer_tag=$tag" >> $env:GITHUB_OUTPUT
 
       - name: Create or Update Release via REST API
-        shell: bash
+        shell: powershell
         run: |
-          REPO="${GITHUB_REPOSITORY}"
-          TAG="${{ steps.get_installer.outputs.installer_tag }}"
-          RELEASE_ID=$(curl -s -H "Authorization: token $GITHUB_TOKEN" \
-            -H "Accept: application/vnd.github+json" \
-            https://api.github.com/repos/$REPO/releases/tags/$TAG | jq -r '.id')
-          if [ "$RELEASE_ID" != "null" ]; then
-            echo "Release para tag $TAG já existe. Atualizando..."
-            curl -s -X PATCH \
-              -H "Authorization: token $GITHUB_TOKEN" \
-              -H "Accept: application/vnd.github+json" \
-              https://api.github.com/repos/$REPO/releases/$RELEASE_ID \
-              -d "{\"name\":\"Release Production - $TAG\",\"body\":\"Atualização do instalador\",\"draft\":false,\"prerelease\":false}"
-          else
-            echo "Criando release e tag $TAG..."
-            curl -s -X POST \
-              -H "Authorization: token $GITHUB_TOKEN" \
-              -H "Accept: application/vnd.github+json" \
-              https://api.github.com/repos/$REPO/releases \
-              -d "{\"tag_name\":\"$TAG\",\"name\":\"Release Production - $TAG\",\"body\":\"Primeira versão do instalador\",\"draft\":false,\"prerelease\":false}"
-          fi
+          $REPO = "${env:GITHUB_REPOSITORY}"
+          $TAG = "Duimp-1.0.0.88"
+          $url = "https://api.github.com/repos/$REPO/releases/tags/$TAG"
+          $release = Invoke-RestMethod -Uri $url -Headers @{ Authorization = "token $env:GITHUB_TOKEN"; Accept = "application/vnd.github+json" } -ErrorAction SilentlyContinue
+          if ($release) {
+              Write-Host "Release para tag $TAG já existe. Atualizando..."
+              $patchUrl = "https://api.github.com/repos/$REPO/releases/$($release.id)"
+              $body = @{
+                  name = "Release Production - $TAG"
+                  body = "Atualização do instalador"
+                  draft = $false
+                  prerelease = $false
+              } | ConvertTo-Json
+              Invoke-RestMethod -Uri $patchUrl -Method Patch -Headers @{ Authorization = "token $env:GITHUB_TOKEN"; Accept = "application/vnd.github+json" } -Body $body
+          } else {
+              Write-Host "Criando release e tag $TAG..."
+              $body = @{
+                  tag_name = $TAG
+                  name = "Release Production - $TAG"
+                  body = "Primeira versão do instalador"
+                  draft = $false
+                  prerelease = $false
+              } | ConvertTo-Json
+              Invoke-RestMethod -Uri "https://api.github.com/repos/$REPO/releases" -Method Post -Headers @{ Authorization = "token $env:GITHUB_TOKEN"; Accept = "application/vnd.github+json" } -Body $body
+          }
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
 
       # Download e upload do FTP continuam iguais
       - name: Download Manifest from FTP
