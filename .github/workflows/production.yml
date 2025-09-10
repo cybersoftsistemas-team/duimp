@@ -37,7 +37,7 @@ jobs:
         shell: powershell
         run: |
           $REPO = "${env:GITHUB_REPOSITORY}"
-          $TAG = "Duimp-1.0.0.88"
+          $TAG = ${{ steps.get_installer.outputs.installer_tag }}
           $url = "https://api.github.com/repos/$REPO/releases/tags/$TAG"
           $release = Invoke-RestMethod -Uri $url -Headers @{ Authorization = "token $env:GITHUB_TOKEN"; Accept = "application/vnd.github+json" } -ErrorAction SilentlyContinue
           if ($release) {
@@ -63,7 +63,6 @@ jobs:
           }
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
 
       # Download e upload do FTP continuam iguais
       - name: Download Manifest from FTP
