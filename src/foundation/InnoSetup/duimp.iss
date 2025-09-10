@@ -11,6 +11,7 @@
 AppId={{8D08FB49-C320-4D73-B08B-2D1003244E84}
 AppName={#MyAppName}
 AppVersion={#MyAppVersion}
+AppVerName={#MyAppName} {#MyAppVersion}
 AppPublisher={#MyAppPublisher}
 AppPublisherURL={#MyAppURL}
 AppSupportURL={#MyAppURL}
@@ -34,8 +35,8 @@ Name: "english"; MessagesFile: "compiler:Default.isl"
 Name: "brazilianportuguese"; MessagesFile: "compiler:Languages\BrazilianPortuguese.isl"
 
 [Tasks]
-Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
-Name: "sqlncli_install"; Description: "Instalar SQL Server Native Client 2012"; Flags: unchecked
+Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}";
+Name: "sqlncli_install"; Description: "Instalar SQL Server Native Client 2012";
 
 [Files]
 Source: "..\..\..\build\Win32\VCL\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion sign
@@ -70,7 +71,9 @@ begin
   if RegQueryStringValue(HKLM,
        'SOFTWARE\Microsoft\Microsoft SQL Server\SQLNCLI11\CurrentVersion',
        '', InstalledVersion) then
+  begin
     Result := InstalledVersion <> '';
+  end;
 end;
 
 procedure InitializeWizard;
@@ -82,10 +85,7 @@ begin
   begin
     if WizardForm.TasksList.Items[i] = 'Instalar SQL Server Native Client 2012' then
     begin
-      if IsSQLNCLI2012Installed() then
-        WizardForm.TasksList.Checked[i] := False
-      else
-        WizardForm.TasksList.Checked[i] := True;
+      WizardForm.TasksList.Checked[i] := IsSQLNCLI2012Installed();
       Break;
     end;
   end;
