@@ -4,8 +4,19 @@ Para acessar os serviços do Siscomex, utilize as seguintes propriedades de cone
 
 ## Propriedades da Conexão
 
-- **URL Base do serviço:**  
-  https://```yaml portalunico.siscomex.gov.br
+| Propriedade            | Descrição |
+|-------------------------|-----------|
+| **URL Base do serviço** | Endereço raiz do serviço Siscomex |
+| **Caminho de autenticação** | Endpoint para autenticação |
 
-- **Caminho de autenticação:**  
-  ```yaml portal/api/autenticar
+### Valores copiáveis
+
+**URL Base do serviço:**
+```text
+portalunico.siscomex.gov.br
+```
+
+**Caminho de autenticação:**
+```text
+portal/api/autenticar
+```
