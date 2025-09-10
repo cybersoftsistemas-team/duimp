@@ -1,0 +1,68 @@
+name: Homologation Build
+
+on:
+  push:
+    branches:
+      - develop
+  pull_request:
+    branches:
+      - develop
+    types: [opened, synchronize, reopened, closed]
+ 
+permissions:
+  contents: write
+
+jobs:
+  # --------------------------------------------------------------------------------
+  # Valida o pull request da branch develop.
+  # --------------------------------------------------------------------------------
+  Validate-Pull-Request-to-Develop:
+    if: (github.event_name == 'pull_request') && 
+        (github.base_ref == 'develop' || github.ref_name == 'develop')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Validate pull request origin
+        run: |
+          echo "✅ Valid pull request: ${{ github.head_ref }} → ${{ github.base_ref }}"
+  
+  # --------------------------------------------------------------------------------
+  # Faz o Checkout dos fontes, gera o os executáveis, gera o instalador e faz deploy
+  # para o ambiente de homologação.
+  # --------------------------------------------------------------------------------
+  Build-Deploy-to-Homologation:
+    if: github.event_name == 'push' && github.ref_name == 'develop'
+    runs-on: self-hosted
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Build Project
+        shell: powershell
+        run: .\build-develop.bat
+      
+      - name: Build Homologation Installer
+        shell: powershell
+        run: |
+          & "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" "src\foundation\InnoSetup\duimp.iss"
+      
+      - name: Identifying the Installer in the Directory
+        id: get_installer
+        shell: powershell
+        run: |
+          $file = Get-ChildItem -Path "installers\duimp-*.exe" | Sort-Object LastWriteTime -Descending | Select-Object -First 1
+          echo "installer_name=$($file.Name)" >> $env:GITHUB_OUTPUT
+          echo "installer_path=$($file.FullName)" >> $env:GITHUB_OUTPUT
+          $tag = [System.IO.Path]::GetFileNameWithoutExtension($file.Name)
+          echo "installer_tag=$tag" >> $env:GITHUB_OUTPUT
+      
+      - name: Deploy to Homologation
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.get_installer.outputs.installer_tag }}
+          name: "Release Homologation - ${{ steps.get_installer.outputs.installer_name }}"
+          draft: false
+          prerelease: false
+          files: |
+            ${{ steps.get_installer.outputs.installer_path }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
