@@ -37,29 +37,33 @@ jobs:
         shell: powershell
         run: |
           $REPO = "${env:GITHUB_REPOSITORY}"
-          $TAG = ${{ steps.get_installer.outputs.installer_tag }}
+          $TAG = "${{ steps.get_installer.outputs.installer_tag }}"
           $url = "https://api.github.com/repos/$REPO/releases/tags/$TAG"
-          $release = Invoke-RestMethod -Uri $url -Headers @{ Authorization = "token $env:GITHUB_TOKEN"; Accept = "application/vnd.github+json" } -ErrorAction SilentlyContinue
+          try {
+            $release = Invoke-RestMethod -Uri $url -Headers @{ Authorization = "token $env:GITHUB_TOKEN"; Accept = "application/vnd.github+json" }
+          } catch {
+            $release = $null
+          }
           if ($release) {
-              Write-Host "Release para tag $TAG já existe. Atualizando..."
-              $patchUrl = "https://api.github.com/repos/$REPO/releases/$($release.id)"
-              $body = @{
-                  name = "Release Production - $TAG"
-                  body = "Atualização do instalador"
-                  draft = $false
-                  prerelease = $false
-              } | ConvertTo-Json
-              Invoke-RestMethod -Uri $patchUrl -Method Patch -Headers @{ Authorization = "token $env:GITHUB_TOKEN"; Accept = "application/vnd.github+json" } -Body $body
+            Write-Host "Release para tag $TAG já existe. Atualizando..."
+            $patchUrl = "https://api.github.com/repos/$REPO/releases/$($release.id)"
+            $body = @{
+              name       = "Release Production - $TAG"
+              body       = "Atualização do instalador"
+              draft      = $false
+              prerelease = $false
+            } | ConvertTo-Json -Depth 3
+            Invoke-RestMethod -Uri $patchUrl -Method Patch -Headers @{ Authorization = "token $env:GITHUB_TOKEN"; Accept = "application/vnd.github+json" } -Body $body
           } else {
-              Write-Host "Criando release e tag $TAG..."
-              $body = @{
-                  tag_name = $TAG
-                  name = "Release Production - $TAG"
-                  body = "Primeira versão do instalador"
-                  draft = $false
-                  prerelease = $false
-              } | ConvertTo-Json
-              Invoke-RestMethod -Uri "https://api.github.com/repos/$REPO/releases" -Method Post -Headers @{ Authorization = "token $env:GITHUB_TOKEN"; Accept = "application/vnd.github+json" } -Body $body
+            Write-Host "Criando release e tag $TAG..."
+            $body = @{
+              tag_name   = $TAG
+              name       = "Release Production - $TAG"
+              body       = "Primeira versão do instalador"
+              draft      = $false
+              prerelease = $false
+            } | ConvertTo-Json -Depth 3
+            Invoke-RestMethod -Uri "https://api.github.com/repos/$REPO/releases" -Method Post -Headers @{ Authorization = "token $env:GITHUB_TOKEN"; Accept = "application/vnd.github+json" } -Body $body
           }
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
