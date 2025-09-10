@@ -206,6 +206,10 @@
         <Icon_MainIcon>duimp_Icon.ico</Icon_MainIcon>
         <VerInfo_MajorVer>0</VerInfo_MajorVer>
         <VerInfo_AutoIncVersion>false</VerInfo_AutoIncVersion>
+        <PostBuildEvent><![CDATA[xcopy /Y /S "..\..\certificates\*" "..\..\build\$(Platform)\$(Config)"
+xcopy /Y /S "..\..\extensions\dlls\*" "..\..\build\$(Platform)\$(Config)"
+xcopy /Y /S "..\..\extensions\drivers\*" "..\..\build\$(Platform)\$(Config)"
+$(PostBuildEvent)]]></PostBuildEvent>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_4_Win64)'!=''">
         <Icon_MainIcon>duimp_Icon.ico</Icon_MainIcon>
@@ -1377,4 +1381,12 @@
     <Import Project="$(BDS)\Bin\CodeGear.Delphi.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Delphi.Targets')"/>
     <Import Project="$(APPDATA)\Embarcadero\$(BDSAPPDATABASEDIR)\$(PRODUCTVERSION)\UserTools.proj" Condition="Exists('$(APPDATA)\Embarcadero\$(BDSAPPDATABASEDIR)\$(PRODUCTVERSION)\UserTools.proj')"/>
     <Import Project="$(MSBuildProjectName).deployproj" Condition="Exists('$(MSBuildProjectName).deployproj')"/>
+    <PropertyGroup Condition="'$(Config)'=='VCL' And '$(Platform)'=='Win32'">
+        <PreBuildEvent/>
+        <PreBuildEventIgnoreExitCode>False</PreBuildEventIgnoreExitCode>
+        <PreLinkEvent/>
+        <PreLinkEventIgnoreExitCode>False</PreLinkEventIgnoreExitCode>
+        <PostBuildEvent>xcopy /Y /S &quot;..\..\certificates\*&quot; &quot;..\..\build\$(Platform)\$(Config)&quot;&amp;&amp;xcopy /Y /S &quot;..\..\extensions\dlls\*&quot; &quot;..\..\build\$(Platform)\$(Config)&quot;&amp;&amp;xcopy /Y /S &quot;..\..\extensions\drivers\*&quot; &quot;..\..\build\$(Platform)\$(Config)&quot;</PostBuildEvent>
+        <PostBuildEventIgnoreExitCode>False</PostBuildEventIgnoreExitCode>
+    </PropertyGroup>
 </Project>
