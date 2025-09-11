@@ -21,6 +21,9 @@
         <Projects Include="..\foundation\updater.dproj">
             <Dependencies>..\foundation\cbsCore.dproj</Dependencies>
         </Projects>
+        <Projects Include="..\foundation\signer.dproj">
+            <Dependencies/>
+        </Projects>
     </ItemGroup>
     <ProjectExtensions>
         <Borland.Personality>Default.Personality.12</Borland.Personality>
@@ -83,14 +86,23 @@
     <Target Name="updater:Make" DependsOnTargets="cbsCore:Make">
         <MSBuild Projects="..\foundation\updater.dproj" Targets="Make"/>
     </Target>
+    <Target Name="signer">
+        <MSBuild Projects="..\foundation\signer.dproj"/>
+    </Target>
+    <Target Name="signer:Clean">
+        <MSBuild Projects="..\foundation\signer.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="signer:Make">
+        <MSBuild Projects="..\foundation\signer.dproj" Targets="Make"/>
+    </Target>
     <Target Name="Build">
-        <CallTarget Targets="cbsCore;cbsMigrations;cbsMigrationsFireDac;pucomex;duimp;updater"/>
+        <CallTarget Targets="cbsCore;cbsMigrations;cbsMigrationsFireDac;pucomex;duimp;updater;signer"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="cbsCore:Clean;cbsMigrations:Clean;cbsMigrationsFireDac:Clean;pucomex:Clean;duimp:Clean;updater:Clean"/>
+        <CallTarget Targets="cbsCore:Clean;cbsMigrations:Clean;cbsMigrationsFireDac:Clean;pucomex:Clean;duimp:Clean;updater:Clean;signer:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="cbsCore:Make;cbsMigrations:Make;cbsMigrationsFireDac:Make;pucomex:Make;duimp:Make;updater:Make"/>
+        <CallTarget Targets="cbsCore:Make;cbsMigrations:Make;cbsMigrationsFireDac:Make;pucomex:Make;duimp:Make;updater:Make;signer:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>
