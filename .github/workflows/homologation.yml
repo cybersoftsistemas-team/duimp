@@ -78,7 +78,7 @@ jobs:
       - name: Deploy to Homologation
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: ${{ steps.tag.outputs.release_tag }}
+          tag_name: H-${{ steps.tag.outputs.release_tag }}
           name: "Release Homologation - ${{ steps.get_installer.outputs.installer_name }}"
           draft: false
           prerelease: true
