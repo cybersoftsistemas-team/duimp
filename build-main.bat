@@ -25,6 +25,7 @@ for /f "tokens=1-4 delims=." %%a in (%VERSION_FILE%) do (
 REM ============================
 REM Current version
 REM ============================
+set /a BUILD=BUILD+1
 set NEW_VERSION=!MAJOR!.!MINOR!.!RELEASE!.!BUILD!
 
 REM ============================
@@ -55,6 +56,11 @@ if errorlevel 1 (
     echo DELPHI COMPILATION ERROR
     exit /b 1
 )
+
+REM ============================
+REM Increment build
+REM ============================
+echo !NEW_VERSION! > %VERSION_FILE%
 
 echo ====================================
 echo Compilation completed successfully!
