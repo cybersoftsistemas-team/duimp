@@ -62,29 +62,26 @@ jobs:
           echo "installer_path=$($file.FullName)" >> $env:GITHUB_OUTPUT
 
       - name: Generate Production Tag
-        id: tag_prod
+        id: tag
         shell: powershell
         run: |
           # extrai a versão do instalador
           $installerName = "${{ steps.get_installer.outputs.installer_name }}"
-          if ($installerName -match 'duimp-(\d+\.\d+\.\d+)\.(\d+)\.exe') {
-              $majorMinor = $matches[1]
-              $build = [int]$matches[2]
-              $newVersion = "$majorMinor.$build"
-          } else {
+          if ($installerName -notmatch 'duimp-(\d+\.\d+\.\d+)\.(\d+)\.exe') {
               Write-Error "Não foi possível extrair a versão do instalador"
               exit 1
           }
+          $installerNameWithoutEx = [System.IO.Path]::GetFileNameWithoutExtension($installerName)
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
-          git tag -a "p$newVersion" -m "Production Release $newVersion"
-          git push origin "p$newVersion"
-          echo "release_tag=p$newVersion" >> $env:GITHUB_OUTPUT
+          git tag -a "$installerNameWithoutEx" -m "Production Release $installerNameWithoutEx"
+          git push origin "$installerNameWithoutEx"
+          echo "release_tag=$installerNameWithoutEx" >> $env:GITHUB_OUTPUT
 
       - name: Deploy to Production
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: ${{ steps.tag_prod.outputs.release_tag }}
+          tag_name: ${{ steps.tag.outputs.release_tag }}
           name: "Release Production - ${{ steps.get_installer.outputs.installer_name }}"
           draft: false
           prerelease: false
