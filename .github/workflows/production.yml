@@ -102,7 +102,7 @@ jobs:
         run: |
           $manifestPath = "installers\manifest.json"
           $installerName = "${{ steps.get_installer.outputs.installer_name }}"
-          if ($installerName -match 'duimp-(\d+\.\d+\.\d+\.\d+)\.exe') {
+          if ($installerName -match 'duimp-(\d+\.\d+\.\d+\.\d+)') {
             $version = $matches[1]
           } else {
             Write-Error "❌ Não foi possível extrair a versão de $installerName"
@@ -117,7 +117,7 @@ jobs:
       - name: Upload Installer to FTP (versions)
         shell: powershell
         run: |
-          $ftpUrl = "ftp://${{ secrets.FTP_HOST }}:${{ secrets.FTP_PORT }}/duimp/updates/versions/${{ steps.get_installer.outputs.installer_name }}"
+          $ftpUrl = "ftp://${{ secrets.FTP_HOST }}:${{ secrets.FTP_PORT }}/duimp/updates/versions/${{ steps.get_installer.outputs.installer_name }}.exe"
           $filePath = "${{ steps.get_installer.outputs.installer_path }}"
           $wc = New-Object System.Net.WebClient
           $wc.Credentials = New-Object System.Net.NetworkCredential("${{ secrets.FTP_USER }}","${{ secrets.FTP_PASS }}")
