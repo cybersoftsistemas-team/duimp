@@ -21,6 +21,7 @@ UninstallDisplayIcon={app}\{#MyAppExeName}
 ChangesAssociations=yes
 DisableProgramGroupPage=yes
 AllowNoIcons=yes
+PrivilegesRequired=admin
 PrivilegesRequiredOverridesAllowed=dialog
 OutputDir=..\..\..\installers
 OutputBaseFilename={#MyAppName}-{#MyAppVersion}
@@ -36,7 +37,7 @@ Name: "brazilianportuguese"; MessagesFile: "compiler:Languages\BrazilianPortugue
 
 [Tasks]
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}";
-Name: "sqlncli_install"; Description: "Instalar SQL Server Native Client 2012";
+Name: "sqlncli_install"; Description: "Instalar SQL Server Native Client 2012"
 
 [Files]
 Source: "..\..\..\build\Win32\VCL\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion sign
@@ -63,30 +64,37 @@ Filename: "cmd.exe"; Parameters: "/c del ""{app}\CybersoftSistemas.pfx"""; Flags
 Filename: "msiexec.exe"; Parameters: "/i ""{tmp}\sqlncli.msi"""; StatusMsg: "Instalando Microsoft SQL Server Native Client 2012..."; Tasks: sqlncli_install
 
 [Code]
+  
 function IsSQLNCLI2012Installed(): Boolean;
 var
   InstalledVersion: String;
+  KeyName: string;
 begin
   Result := False;
-  if RegQueryStringValue(HKLM,
-       'SOFTWARE\Microsoft\Microsoft SQL Server\SQLNCLI11\CurrentVersion',
-       '', InstalledVersion) then
+  KeyName := 'SOFTWARE\Microsoft\Microsoft SQL Server\SQLNCLI11\CurrentVersion';
+  if IsWin64 then
+  begin
+    KeyName := 'SOFTWARE\Wow6432Node\Microsoft\Microsoft SQL Server Native Client 11.0\CurrentVersion';
+  end;
+  if RegQueryStringValue(HKEY_LOCAL_MACHINE, KeyName, 'Version', InstalledVersion) then
   begin
     Result := InstalledVersion <> '';
   end;
 end;
 
-procedure InitializeWizard;
+procedure CurPageChanged(CurPageID: Integer);
 var
-  i: Integer;
+  Index: Integer;
 begin
-  // Configura task SQL Native Client
-  for i := 0 to WizardForm.TasksList.Items.Count - 1 do
+  if CurPageID = wpSelectTasks then
   begin
-    if WizardForm.TasksList.Items[i] = 'Instalar SQL Server Native Client 2012' then
+    Index := WizardForm.TasksList.Items.IndexOf('Instalar SQL Server Native Client 2012');    
+    if Index >= 0 then
     begin
-      WizardForm.TasksList.Checked[i] := IsSQLNCLI2012Installed();
-      Break;
+      if IsSQLNCLI2012Installed() then
+        WizardForm.TasksList.Items.Delete(Index) // remove task da lista
+      else
+        WizardForm.TasksList.Checked[Index] := True; // marca por padrão
     end;
   end;
 end;
