@@ -35,34 +35,52 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # garante histórico completo para criar tag
 
       - name: Build Project
         shell: powershell
         run: .\build-develop.bat
-      
+
       - name: Build Homologation Installer
         shell: powershell
         run: |
           & "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" "src\foundation\InnoSetup\duimp.iss"
-      
-      - name: Identifying the Installer in the Directory
+
+      - name: Identify Installer
         id: get_installer
         shell: powershell
         run: |
           $file = Get-ChildItem -Path "installers\duimp-*.exe" | Sort-Object LastWriteTime -Descending | Select-Object -First 1
           echo "installer_name=$($file.Name)" >> $env:GITHUB_OUTPUT
           echo "installer_path=$($file.FullName)" >> $env:GITHUB_OUTPUT
-          $tag = [System.IO.Path]::GetFileNameWithoutExtension($file.Name)
-          echo "installer_tag=$tag" >> $env:GITHUB_OUTPUT
-      
+
+      - name: Generate Homologation Tag
+        id: tag
+        shell: powershell
+        run: |
+          # extrai a versão do instalador
+          if (${{ steps.get_installer.outputs.installer_name }} -match 'duimp-(\d+\.\d+\.\d+)\.(\d+)\.exe') {
+            $majorMinor = $matches[1]
+            $build = [int]$matches[2] + 1  # incrementa o último número
+            $newVersion = "$majorMinor.$build"
+          } else {
+            Write-Error "Não foi possível extrair a versão do instalador"
+            exit 1
+          }
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git tag -a "v$newVersion" -m "Homologation Release $newVersion"
+          git push origin "v$newVersion"
+          echo "release_tag=v$newVersion" >> $env:GITHUB_OUTPUT
+
       - name: Deploy to Homologation
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: ${{ steps.get_installer.outputs.installer_tag }}
+          tag_name: ${{ steps.tag.outputs.release_tag }}
           name: "Release Homologation - ${{ steps.get_installer.outputs.installer_name }}"
           draft: false
-          prerelease: false
-          files: |
-            ${{ steps.get_installer.outputs.installer_path }}
+          prerelease: true
+          files: ${{ steps.get_installer.outputs.installer_path }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
