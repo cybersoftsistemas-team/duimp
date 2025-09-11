@@ -54,7 +54,7 @@ jobs:
           & "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" "src\foundation\InnoSetup\duimp.iss"
 
       - name: Identify Installer
-        id: get_installer_prod
+        id: get_installer
         shell: powershell
         run: |
           $file = Get-ChildItem -Path "installers\duimp-*.exe" | Sort-Object LastWriteTime -Descending | Select-Object -First 1
@@ -69,7 +69,7 @@ jobs:
           $installerName = "${{ steps.get_installer.outputs.installer_name }}"
           if ($installerName -match 'duimp-(\d+\.\d+\.\d+)\.(\d+)\.exe') {
               $majorMinor = $matches[1]
-              $build = [int]$matches[2] + 1
+              $build = [int]$matches[2]
               $newVersion = "$majorMinor.$build"
           } else {
               Write-Error "Não foi possível extrair a versão do instalador"
@@ -77,18 +77,18 @@ jobs:
           }
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
-          git tag -a "v$newVersion" -m "Production Release $newVersion"
-          git push origin "v$newVersion"
-          echo "release_tag=v$newVersion" >> $env:GITHUB_OUTPUT
+          git tag -a "p$newVersion" -m "Production Release $newVersion"
+          git push origin "p$newVersion"
+          echo "release_tag=p$newVersion" >> $env:GITHUB_OUTPUT
 
       - name: Deploy to Production
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ steps.tag_prod.outputs.release_tag }}
-          name: "Release Production - ${{ steps.get_installer_prod.outputs.installer_name }}"
+          name: "Release Production - ${{ steps.get_installer.outputs.installer_name }}"
           draft: false
           prerelease: false
-          files: ${{ steps.get_installer_prod.outputs.installer_path }}
+          files: ${{ steps.get_installer.outputs.installer_path }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       
