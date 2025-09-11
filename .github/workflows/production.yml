@@ -65,13 +65,15 @@ jobs:
         id: tag_prod
         shell: powershell
         run: |
-          if (${{ steps.get_installer_prod.outputs.installer_name }} -match 'duimp-(\d+\.\d+\.\d+)\.(\d+)\.exe') {
-            $majorMinor = $matches[1]
-            $build = [int]$matches[2] + 1
-            $newVersion = "$majorMinor.$build"
+          # extrai a versão do instalador
+          $installerName = "${{ steps.get_installer.outputs.installer_name }}"
+          if ($installerName -match 'duimp-(\d+\.\d+\.\d+)\.(\d+)\.exe') {
+              $majorMinor = $matches[1]
+              $build = [int]$matches[2] + 1
+              $newVersion = "$majorMinor.$build"
           } else {
-            Write-Error "Não foi possível extrair a versão do instalador"
-            exit 1
+              Write-Error "Não foi possível extrair a versão do instalador"
+              exit 1
           }
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
