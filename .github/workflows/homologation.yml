@@ -56,13 +56,12 @@ jobs:
           echo "installer_path=$($file.FullName)" >> $env:GITHUB_OUTPUT
 
       - name: Generate Homologation Tag
-        id: tag
+        id: tag_prod
         shell: powershell
         run: |
           # extrai a versão do instalador
           $installerName = "${{ steps.get_installer.outputs.installer_name }}"
-          if !($installerName -match 'duimp-(\d+\.\d+\.\d+)\.(\d+)\.exe') {
-          {
+          if ($installerName -notmatch 'duimp-(\d+\.\d+\.\d+)\.(\d+)\.exe') {
               Write-Error "Não foi possível extrair a versão do instalador"
               exit 1
           }
