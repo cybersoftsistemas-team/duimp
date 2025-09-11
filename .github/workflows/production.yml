@@ -54,7 +54,7 @@ jobs:
           & "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" "src\foundation\InnoSetup\duimp.iss"
 
       - name: Identify Installer
-        id: get_installer_prod
+        id: get_installer
         shell: powershell
         run: |
           $file = Get-ChildItem -Path "installers\duimp-*.exe" | Sort-Object LastWriteTime -Descending | Select-Object -First 1
@@ -84,11 +84,11 @@ jobs:
       - name: Deploy to Production
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: ${{ steps.tag_prod.outputs.release_tag }}
-          name: "Release Production - ${{ steps.get_installer_prod.outputs.installer_name }}"
+          tag_name: P-${{ steps.tag_prod.outputs.release_tag }}
+          name: "Release Production - ${{ steps.get_installer.outputs.installer_name }}"
           draft: false
           prerelease: false
-          files: ${{ steps.get_installer_prod.outputs.installer_path }}
+          files: ${{ steps.get_installer.outputs.installer_path }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       
