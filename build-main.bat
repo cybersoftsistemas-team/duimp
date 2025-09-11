@@ -25,6 +25,7 @@ for /f "tokens=1-4 delims=." %%a in (%VERSION_FILE%) do (
 REM ============================
 REM Current version
 REM ============================
+set /a BUILD=BUILD+1
 set NEW_VERSION=!MAJOR!.!MINOR!.!RELEASE!.!BUILD!
 
 REM ============================
