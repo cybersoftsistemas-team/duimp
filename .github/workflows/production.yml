@@ -47,6 +47,18 @@ jobs:
       - name: Build Project
         shell: powershell
         run: .\build-main.bat
+      
+      - name: Sign Project
+        shell: powershell
+        run: |
+          $SignerExe = ".\signer\signer.exe"
+          if (-Not (Test-Path $SignerExe)) {
+              Write-Error "signer.exe not found at $SignerExe"
+              exit 1
+          }
+          # Assina todos os arquivos de acordo com o signer.ini configurado
+          # -silent = não mostrar console
+          & $SignerExe -silent
 
       - name: Build Production Installer
         shell: powershell
@@ -60,6 +72,18 @@ jobs:
           $file = Get-ChildItem -Path "installers\duimp-*.exe" | Sort-Object LastWriteTime -Descending | Select-Object -First 1
           echo "installer_name=$([System.IO.Path]::GetFileNameWithoutExtension($file.Name))" >> $env:GITHUB_OUTPUT
           echo "installer_path=$($file.FullName)" >> $env:GITHUB_OUTPUT
+      
+      - name: Sign Installer
+        shell: powershell
+        run: |
+          $SignerExe = ".\signer\signer.exe"
+          if (-Not (Test-Path $SignerExe)) {
+              Write-Error "signer.exe not found at $SignerExe"
+              exit 1
+          }
+          # Assina todos os arquivos de acordo com o signer.ini configurado
+          # -silent = não mostrar console
+          & $SignerExe -silent
 
       - name: Generate Production Tag
         id: tag
