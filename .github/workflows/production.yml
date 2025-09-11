@@ -62,7 +62,7 @@ jobs:
           echo "installer_path=$($file.FullName)" >> $env:GITHUB_OUTPUT
 
       - name: Generate Production Tag
-        id: tag_prod
+        id: tag
         shell: powershell
         run: |
           # extrai a versão do instalador
@@ -81,7 +81,7 @@ jobs:
       - name: Deploy to Production
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: ${{ steps.tag_prod.outputs.release_tag }}
+          tag_name: ${{ steps.tag.outputs.release_tag }}
           name: "Release Production - ${{ steps.get_installer.outputs.installer_name }}"
           draft: false
           prerelease: false

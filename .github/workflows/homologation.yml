@@ -56,7 +56,7 @@ jobs:
           echo "installer_path=$($file.FullName)" >> $env:GITHUB_OUTPUT
 
       - name: Generate Homologation Tag
-        id: tag_prod
+        id: tag
         shell: powershell
         run: |
           # extrai a versão do instalador
