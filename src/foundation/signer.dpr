@@ -142,7 +142,7 @@ begin
     else if LArg.StartsWith('-log=', True) then
     begin
       AEnableLog := True;
-      ALogFile := Copy(LArg, 6, MaxInt).Trim(['"', '''']);
+      ALogFile := LArg.Substring(5).Trim(['"', '''']);
       if not TPath.IsPathRooted(ALogFile) then
         ALogFile := TPath.Combine(ABasePath, ALogFile);
     end
@@ -151,7 +151,7 @@ begin
     else if SameText(LArg, '-allsubdirs') then
       ARecursive := True
     else if LArg.StartsWith('-directories=', True) then
-      ADirsOverride := Copy(LArg, 13, MaxInt).Trim(['"', '''']);
+      ADirsOverride := LArg.Substring(12).Trim(['"', '''']);
   end;
 end;
 
