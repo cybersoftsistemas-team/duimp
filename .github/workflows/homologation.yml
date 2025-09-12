@@ -41,7 +41,7 @@ jobs:
       - name: Normalize all Delphi files to UTF-8 without BOM
         shell: powershell
         run: |
-          Write-Host "Normalizing all Delphi files (.dproj, .dpr, .inc, .pas) to UTF-8 without BOM..."
+          Write-Host "Normalizing all Delphi files (.dproj) to UTF-8 without BOM..."
           $extensions = "*.dproj","*.dpr","*.inc","*.pas"
           foreach ($ext in $extensions) {
               Get-ChildItem -Path src -Recurse -Filter $ext | ForEach-Object {
