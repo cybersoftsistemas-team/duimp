@@ -106,7 +106,7 @@
         <SanitizedProjectName>updater</SanitizedProjectName>
         <DCC_DcpOutput>..\..\build\$(Platform)\$(Config)\.dcp</DCC_DcpOutput>
         <VerInfo_Locale>1046</VerInfo_Locale>
-        <VerInfo_Keys>CompanyName=Cybersoft Sistemas;FileDescription=Verifica e baixa atualizações do Sistema Duimp;FileVersion=0.0.0.0;InternalName=updater;LegalCopyright=© 2025 Cybersoft Sistemas;LegalTrademarks=;OriginalFilename=updater.exe;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=Cybersoft Updater Duimp;ProductVersion=0.0.0.0;Comments=Aplicação cliente para integração com o Sistema Duimp</VerInfo_Keys>
+        <VerInfo_Keys>CompanyName=Cybersoft Sistemas;FileDescription=Sistema de Integracao Declaracao Unica de Importacao (Duimp);FileVersion=0.0.0.0;InternalName=duimp;LegalCopyright=2025 Cybersoft Sistemas; LegalTrademarks=;OriginalFilename=duimp.exe;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=Cybersoft Duimp;ProductVersion=0.0.0.0;Comments=Aplicacao cliente para integracao com o Siscomex</VerInfo_Keys>
         <DCC_UnitSearchPath>..\..\build;..\..\build\$(Platform)\$(Config);..\..\build\$(Platform)\$(Config)\.dcp;..\..\build\$(Platform)\$(Config)\.bpl;..\..\build\$(Platform)\$(Config)\.dcu;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <VerInfo_MajorVer>0</VerInfo_MajorVer>
