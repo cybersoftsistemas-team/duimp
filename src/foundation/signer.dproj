@@ -93,7 +93,7 @@
         <SanitizedProjectName>signer</SanitizedProjectName>
         <DCC_DcpOutput>..\..\build\$(Platform)\$(Config)\.dcp</DCC_DcpOutput>
         <VerInfo_Locale>1046</VerInfo_Locale>
-        <VerInfo_Keys>CompanyName=Cybersoft Sistemas;FileDescription=Ferramenta de linha de comando para assinatura digital automática;FileVersion=0.0.0.0;InternalName=signer;LegalCopyright=2025 Cybersoft Sistemas;LegalTrademarks=;OriginalFilename=signer.exe;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=Signer;ProductVersion=0.0.0.0;Comments=Faz assinatura digital automática de arquivos através de linhas de comandos</VerInfo_Keys>
+        <VerInfo_Keys>CompanyName=Cybersoft Sistemas;FileDescription=Ferramenta de linha de comando para assinatura digital automática;FileVersion=0.0.0.0;InternalName=signer;LegalCopyright=© 2025 Cybersoft Sistemas;LegalTrademarks=;OriginalFilename=signer.exe;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=Signer;ProductVersion=0.0.0.0;Comments=Faz assinatura digital automática de arquivos através de linhas de comandos</VerInfo_Keys>
         <DCC_UnitSearchPath>.\;..\..\build;..\..\build\$(Platform)\$(Config);..\..\build\$(Platform)\$(Config)\.dcp;..\..\build\$(Platform)\$(Config)\.bpl;..\..\build\$(Platform)\$(Config)\.dcu;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <VerInfo_MajorVer>0</VerInfo_MajorVer>
