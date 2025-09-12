@@ -45,7 +45,7 @@ jobs:
       - name: Sign Project
         shell: powershell
         run: |
-          $SignerExe = ".\signer\signer.exe"
+          $SignerExe = ".\signer.exe"
           if (-Not (Test-Path $SignerExe)) {
               Write-Error "signer.exe not found at $SignerExe"
               exit 1
@@ -70,7 +70,7 @@ jobs:
       - name: Sign Installer
         shell: powershell
         run: |
-          $SignerExe = ".\signer\signer.exe"
+          $SignerExe = ".\signer.exe"
           if (-Not (Test-Path $SignerExe)) {
               Write-Error "signer.exe not found at $SignerExe"
               exit 1
