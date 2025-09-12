@@ -151,7 +151,7 @@ begin
     else if SameText(LArg, '-allsubdirs') then
       ARecursive := True
     else if LArg.StartsWith('-directories=', True) then
-      ADirsOverride := LArg.Substring(12).Trim(['"', '''']);
+      ADirsOverride := LArg.Substring(13).Trim(['"', '''']);
   end;
 end;
 
