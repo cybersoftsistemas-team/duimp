@@ -42,7 +42,7 @@ jobs:
         shell: powershell
         run: .\build-develop.bat
       
-      - name: Sign Project
+      - name: Sign Project Artifacts
         shell: powershell
         run: |
           $SignerExe = ".\signer.exe"
@@ -51,7 +51,7 @@ jobs:
               exit 1
           }
           # Assina todos os arquivos de acordo com o signer.ini configurado
-          & $SignerExe
+          & $SignerExe -directories="build\Win32\VCL"
 
       - name: Build Homologation Installer
         shell: powershell
@@ -75,7 +75,7 @@ jobs:
               exit 1
           }
           # Assina todos os arquivos de acordo com o signer.ini configurado
-          & $SignerExe
+          & $SignerExe -directories="installers"
 
       - name: Generate Homologation Tag
         id: tag
