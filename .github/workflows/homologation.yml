@@ -36,7 +36,7 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # garante histórico completo para criar tag
+          fetch-depth: 0
 
       - name: Build Project
         shell: powershell
