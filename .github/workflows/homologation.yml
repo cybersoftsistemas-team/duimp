@@ -76,8 +76,7 @@ jobs:
               exit 1
           }
           # Assina todos os arquivos de acordo com o signer.ini configurado
-          # -silent = não mostrar console
-          & $SignerExe -silent
+          & $SignerExe
 
       - name: Generate Homologation Tag
         id: tag
