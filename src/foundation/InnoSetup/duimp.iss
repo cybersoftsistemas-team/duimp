@@ -28,8 +28,6 @@ OutputBaseFilename={#MyAppName}-{#MyAppVersion}
 SetupIconFile=..\..\..\src\client\duimp_Icon.ico
 SolidCompression=yes
 WizardStyle=modern
-SignedUninstaller=yes
-SignTool=signtool
 
 [Languages]
 Name: "english"; MessagesFile: "compiler:Default.isl"
@@ -40,11 +38,11 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 Name: "sqlncli_install"; Description: "Instalar SQL Server Native Client 2012"
 
 [Files]
-Source: "..\..\..\build\Win32\VCL\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion sign
-Source: "..\..\..\build\Win32\VCL\libeay32.dll"; DestDir: "{app}"; Flags: ignoreversion sign
-Source: "..\..\..\build\Win32\VCL\ssleay32.dll"; DestDir: "{app}"; Flags: ignoreversion sign
+Source: "..\..\..\build\Win32\VCL\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\..\..\build\Win32\VCL\libeay32.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\..\..\build\Win32\VCL\ssleay32.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\..\..\build\Win32\VCL\sqlncli.msi"; DestDir: "{tmp}"; Flags: deleteafterinstall
-Source: "..\..\..\build\Win32\VCL\updater.exe"; DestDir: "{app}"; Flags: ignoreversion sign
+Source: "..\..\..\build\Win32\VCL\updater.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\..\..\build\Win32\VCL\CybersoftSistemas.pfx"; DestDir: "{app}"; Flags: ignoreversion
 
 [Registry]
