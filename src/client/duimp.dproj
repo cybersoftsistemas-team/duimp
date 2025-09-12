@@ -143,9 +143,11 @@
 xcopy /Y /S "..\..\extensions\dlls\*" "..\..\build\$(Platform)\$(Config)"
 xcopy /Y /S "..\..\extensions\drivers\*" "..\..\build\$(Platform)\$(Config)"
 $(PostBuildEvent)]]></PostBuildEvent>
+        <BT_BuildType>Debug</BT_BuildType>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_4_Win64)'!=''">
         <Icon_MainIcon>duimp_Icon.ico</Icon_MainIcon>
+        <BT_BuildType>Debug</BT_BuildType>
     </PropertyGroup>
     <ItemGroup>
         <DelphiCompile Include="$(MainSource)">
