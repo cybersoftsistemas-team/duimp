@@ -3,7 +3,7 @@ unit Winapi.WinCrypt;
 interface
 
 uses
-  Windows, Winapi.BCrypt, Winapi.NCrypt;
+  Winapi.Windows, Winapi.BCrypt, Winapi.NCrypt;
 
 {$IF not DECLARED(size_t)}
 type

@@ -49,37 +49,14 @@
         <CfgParent>Base</CfgParent>
         <Base>true</Base>
     </PropertyGroup>
-    <PropertyGroup Condition="('$(Platform)'=='Win32' and '$(Base)'=='true') or '$(Base_Win32)'!=''">
-        <Base_Win32>true</Base_Win32>
-        <CfgParent>Base</CfgParent>
-        <Base>true</Base>
-    </PropertyGroup>
-    <PropertyGroup Condition="('$(Platform)'=='Win64' and '$(Base)'=='true') or '$(Base_Win64)'!=''">
-        <Base_Win64>true</Base_Win64>
-        <CfgParent>Base</CfgParent>
-        <Base>true</Base>
-    </PropertyGroup>
     <PropertyGroup Condition="'$(Config)'=='Debug' or '$(Cfg_1)'!=''">
         <Cfg_1>true</Cfg_1>
         <CfgParent>Base</CfgParent>
         <Base>true</Base>
     </PropertyGroup>
-    <PropertyGroup Condition="('$(Platform)'=='Win32' and '$(Cfg_1)'=='true') or '$(Cfg_1_Win32)'!=''">
-        <Cfg_1_Win32>true</Cfg_1_Win32>
-        <CfgParent>Cfg_1</CfgParent>
-        <Cfg_1>true</Cfg_1>
-        <Base>true</Base>
-    </PropertyGroup>
     <PropertyGroup Condition="'$(Config)'=='deVCL' or '$(Cfg_3)'!=''">
         <Cfg_3>true</Cfg_3>
         <CfgParent>Cfg_1</CfgParent>
-        <Cfg_1>true</Cfg_1>
-        <Base>true</Base>
-    </PropertyGroup>
-    <PropertyGroup Condition="('$(Platform)'=='Win32' and '$(Cfg_3)'=='true') or '$(Cfg_3_Win32)'!=''">
-        <Cfg_3_Win32>true</Cfg_3_Win32>
-        <CfgParent>Cfg_3</CfgParent>
-        <Cfg_3>true</Cfg_3>
         <Cfg_1>true</Cfg_1>
         <Base>true</Base>
     </PropertyGroup>
@@ -91,6 +68,20 @@
     <PropertyGroup Condition="'$(Config)'=='VCL' or '$(Cfg_4)'!=''">
         <Cfg_4>true</Cfg_4>
         <CfgParent>Cfg_2</CfgParent>
+        <Cfg_2>true</Cfg_2>
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="('$(Platform)'=='Win32' and '$(Cfg_4)'=='true') or '$(Cfg_4_Win32)'!=''">
+        <Cfg_4_Win32>true</Cfg_4_Win32>
+        <CfgParent>Cfg_4</CfgParent>
+        <Cfg_4>true</Cfg_4>
+        <Cfg_2>true</Cfg_2>
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="('$(Platform)'=='Win64' and '$(Cfg_4)'=='true') or '$(Cfg_4_Win64)'!=''">
+        <Cfg_4_Win64>true</Cfg_4_Win64>
+        <CfgParent>Cfg_4</CfgParent>
+        <Cfg_4>true</Cfg_4>
         <Cfg_2>true</Cfg_2>
         <Base>true</Base>
     </PropertyGroup>
@@ -106,8 +97,10 @@
         <SanitizedProjectName>signer</SanitizedProjectName>
         <DCC_DcpOutput>..\..\build\$(Platform)\$(Config)\.dcp</DCC_DcpOutput>
         <VerInfo_Locale>1046</VerInfo_Locale>
-        <VerInfo_Keys>CompanyName=;FileDescription=$(MSBuildProjectName);FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
+        <VerInfo_Keys>CompanyName=Cybersoft Sistemas;FileDescription=Ferramenta de linha de comando para assinatura digital automática;FileVersion=0.0.0.0;InternalName=signer;LegalCopyright=© 2025 Cybersoft Sistemas;LegalTrademarks=;OriginalFilename=signer.exe;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=Signer;ProductVersion=0.0.0.0;Comments=Faz assinatura digital automática de arquivos através de linhas de comandos</VerInfo_Keys>
         <DCC_UnitSearchPath>.\;..\..\build;..\..\build\$(Platform)\$(Config);..\..\build\$(Platform)\$(Config)\.dcp;..\..\build\$(Platform)\$(Config)\.bpl;..\..\build\$(Platform)\$(Config)\.dcu;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
+        <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
+        <VerInfo_MajorVer>0</VerInfo_MajorVer>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Android)'!=''">
         <DCC_UsePackage>fmx;DbxCommonDriver;bindengine;IndyIPCommon;emsclient;IndyProtocols;dbxcds;FmxTeeUI;FireDACSqliteDriver;DbxClientDriver;soapmidas;dbexpress;inet;FireDACDBXDriver;CustomIPTransport;IndySystem;ibxbindings;FireDACCommon;emsserverresource;bindcompdbx;rtl;DBXSqliteDriver;DataSnapFireDAC;FireDAC;xmlrtl;ibxpress;dsnap;DataSnapNativeClient;emshosting;FireDACCommonDriver;IndyIPClient;emsedge;bindcompfmx;ibmonitor;fmxFireDAC;DataSnapCommon;fmxase;dbrtl;DBXInterBaseDriver;bindcomp;inetstn;IndyCore;RESTBackendComponents;RESTComponents;IndyIPServer;dsnapxml;DataSnapClient;DataSnapProviderClient;emsclientfiredac;FireDACDSDriver;tethering;CloudService;FMXTee;soaprtl;soapserver;FireDACIBDriver;$(DCC_UsePackage)</DCC_UsePackage>
@@ -188,48 +181,13 @@
         <DCC_UsePackage>DataSnapServer;fmx;DbxCommonDriver;bindengine;IndyIPCommon;FireDACCommonODBC;emsclient;IndyProtocols;dbxcds;FmxTeeUI;DBXFirebirdDriver;FireDACSqliteDriver;DbxClientDriver;soapmidas;dbexpress;inet;FireDACDBXDriver;fmxdae;CustomIPTransport;FireDACMSSQLDriver;IndySystem;ibxbindings;FireDACCommon;DataSnapServerMidas;FireDACODBCDriver;emsserverresource;bindcompdbx;rtl;FireDACMySQLDriver;DBXSqliteDriver;DataSnapFireDAC;inetdbxpress;FireDAC;xmlrtl;ibxpress;dsnap;DBXOracleDriver;DBXInformixDriver;fmxobj;DataSnapNativeClient;emshosting;FireDACCommonDriver;IndyIPClient;emsedge;bindcompfmx;inetdb;ibmonitor;FireDACASADriver;fmxFireDAC;DBXMySQLDriver;DataSnapCommon;fmxase;dbrtl;FireDACOracleDriver;DataSnapIndy10ServerTransport;DBXInterBaseDriver;FireDACMongoDBDriver;FireDACTDataDriver;bindcomp;inetstn;IndyCore;RESTBackendComponents;RESTComponents;IndyIPServer;dsnapxml;DataSnapClient;DataSnapProviderClient;emsclientfiredac;FireDACPgDriver;FireDACDSDriver;tethering;CloudService;DBXSybaseASADriver;FMXTee;soaprtl;soapserver;FireDACIBDriver;$(DCC_UsePackage)</DCC_UsePackage>
         <DCC_ConsoleTarget>true</DCC_ConsoleTarget>
     </PropertyGroup>
-    <PropertyGroup Condition="'$(Base_Win32)'!=''">
-        <DCC_UsePackage>dxPScxCommonRS29;dxRibbonRS29;vclwinx;DataSnapServer;dxPScxExtCommonRS29;dxRichEditControlCoreRS29;fmx;dxSpreadSheetReportDesignerRS29;vclie;DbxCommonDriver;bindengine;IndyIPCommon;VCLRESTComponents;DBXMSSQLDriver;FireDACCommonODBC;emsclient;dxComnRS29;dxFlowChartDesignerRS29;appanalytics;IndyProtocols;vclx;Skia.Package.RTL;dxBarExtDBItemsRS29;dbxcds;vcledge;cxVerticalGridRS29;FmxTeeUI;cxFireDACAdaptersRS29;dxPSDBTeeChartRS29;cxSchedulerWebServiceStorageRS29;DBXFirebirdDriver;dxRichEditControlRS29;dxPsPrVwAdvRS29;FireDACSqliteDriver;DbxClientDriver;dxPSdxGaugeControlLnkRS29;soapmidas;dxRibbonCustomizationFormRS29;TeeUI;dbexpress;dxEMFRS29;dxDockingRS29;inet;vcltouch;dxPSdxFCLnkRS29;dxorgcRS29;FireDACDBXDriver;dxSpreadSheetCoreConditionalFormattingDialogsRS29;fmxdae;dxPSRichEditControlLnkRS29;dxPSdxSpreadSheetLnkRS29;CustomIPTransport;FireDACMSSQLDriver;cxADOAdaptersRS29;dxPSPrVwRibbonRS29;IndySystem;dxPScxTLLnkRS29;dxPSdxDBOCLnkRS29;dxGDIPlusRS29;ibxbindings;vclFireDAC;dxPSCoreRS29;dxSpreadSheetRS29;FireDACCommon;DataSnapServerMidas;FireDACODBCDriver;emsserverresource;cxGridEMFRS29;dxPSdxMapControlLnkRS29;dxGanttControlRS29;dxPScxVGridLnkRS29;dxPScxPivotGridLnkRS29;dxADOServerModeRS29;dxWizardControlRS29;bindcompdbx;rtl;FireDACMySQLDriver;dxCloudServiceLibraryRS29;cxIBXAdaptersRS29;dxServerModeRS29;DBXSqliteDriver;dxBarDBNavRS29;DBXSybaseASEDriver;dxSpreadSheetCoreRS29;dxNavBarRS29;vclimg;DataSnapFireDAC;inetdbxpress;FireDAC;xmlrtl;ibxpress;dxFireDACEMFRS29;dsnap;FireDACDb2Driver;dxPSdxLCLnkRS29;DBXOracleDriver;DBXInformixDriver;vclib;fmxobj;bindcompvclsmp;DataSnapNativeClient;DatasnapConnectorsFreePascal;dxPSLnksRS29;dxmdsRS29;dxPSdxOCLnkRS29;cxSchedulerGridRS29;dxPScxSchedulerLnkRS29;emshosting;dxADOEMFRS29;dxChartControlRS29;dxPSdxDBTVLnkRS29;FireDACCommonDriver;dxGaugeControlRS29;IndyIPClient;dxPDFViewerRS29;bindcompvclwinx;dxOrgChartAdvancedCustomizeFormRS29;emsedge;bindcompfmx;dxBarExtItemsRS29;dxFlowChartLayoutsRS29;inetdb;dxdborRS29;ibmonitor;FireDACASADriver;Tee;dxPScxGridLnkRS29;cxPivotGridChartRS29;vclactnband;fmxFireDAC;FireDACInfxDriver;dxRichEditCoreRS29;cxTreeListdxBarPopupMenuRS29;DBXMySQLDriver;dxFlowChartAdvancedCustomizeFormRS29;VclSmp;cxSchedulerRibbonStyleEventEditorRS29;DataSnapCommon;dxPSTeeChartRS29;fmxase;dxtrmdRS29;dxFlowChartRS29;DBXOdbcDriver;dbrtl;dxPScxPCProdRS29;FireDACOracleDriver;Skia.Package.FMX;TeeDB;FireDACMSAccDriver;cxGridRS29;dxSpellCheckerRS29;DataSnapIndy10ServerTransport;dxRichEditDocumentModelRS29;dxMapControlRS29;DataSnapConnectors;vcldsnap;DBXInterBaseDriver;FireDACMongoDBDriver;FireDACTDataDriver;cxLibraryRS29;Skia.Package.VCL;vcldb;dxPSdxPDFViewerLnkRS29;cxSchedulerTreeBrowserRS29;bindcomp;dxTabbedMDIRS29;cxExportRS29;inetstn;IndyCore;RESTBackendComponents;dxHttpIndyRequestRS29;dxTileControlRS29;dxFireDACServerModeRS29;cxPivotGridOLAPRS29;FireDACADSDriver;RESTComponents;IndyIPServer;vcl;dsnapxml;adortl;dsnapcon;DataSnapClient;DataSnapProviderClient;dxCoreRS29;cxPivotGridRS29;dxdbtrRS29;DBXDb2Driver;dxSkinsCoreRS29;emsclientfiredac;FireDACPgDriver;FireDACDSDriver;dxBarRS29;tethering;bindcompvcl;CloudService;DBXSybaseASADriver;dxSpreadSheetConditionalFormattingDialogsRS29;cxTreeListRS29;FMXTee;soaprtl;dxDBXServerModeRS29;cxSchedulerRS29;soapserver;FireDACIBDriver;$(DCC_UsePackage)</DCC_UsePackage>
-        <DCC_Namespace>Winapi;System.Win;Data.Win;Datasnap.Win;Web.Win;Soap.Win;Xml.Win;Bde;$(DCC_Namespace)</DCC_Namespace>
-        <BT_BuildType>Debug</BT_BuildType>
-        <VerInfo_Keys>CompanyName=;FileDescription=$(MSBuildProjectName);FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
-        <VerInfo_Locale>1033</VerInfo_Locale>
-        <DCC_ConsoleTarget>true</DCC_ConsoleTarget>
-        <UWP_DelphiLogo44>$(BDS)\bin\Artwork\Windows\UWP\delphi_UwpDefault_44.png</UWP_DelphiLogo44>
-        <UWP_DelphiLogo150>$(BDS)\bin\Artwork\Windows\UWP\delphi_UwpDefault_150.png</UWP_DelphiLogo150>
-    </PropertyGroup>
-    <PropertyGroup Condition="'$(Base_Win64)'!=''">
-        <DCC_UsePackage>dxPScxCommonRS29;dxRibbonRS29;vclwinx;DataSnapServer;dxPScxExtCommonRS29;dxRichEditControlCoreRS29;fmx;dxSpreadSheetReportDesignerRS29;vclie;DbxCommonDriver;bindengine;IndyIPCommon;VCLRESTComponents;DBXMSSQLDriver;FireDACCommonODBC;emsclient;dxComnRS29;dxFlowChartDesignerRS29;appanalytics;IndyProtocols;vclx;dxBarExtDBItemsRS29;dbxcds;vcledge;cxVerticalGridRS29;FmxTeeUI;cxFireDACAdaptersRS29;dxPSDBTeeChartRS29;cxSchedulerWebServiceStorageRS29;DBXFirebirdDriver;dxRichEditControlRS29;dxPsPrVwAdvRS29;FireDACSqliteDriver;DbxClientDriver;dxPSdxGaugeControlLnkRS29;soapmidas;dxRibbonCustomizationFormRS29;TeeUI;dbexpress;dxEMFRS29;dxDockingRS29;inet;vcltouch;dxPSdxFCLnkRS29;dxorgcRS29;FireDACDBXDriver;dxSpreadSheetCoreConditionalFormattingDialogsRS29;fmxdae;dxPSRichEditControlLnkRS29;dxPSdxSpreadSheetLnkRS29;CustomIPTransport;FireDACMSSQLDriver;cxADOAdaptersRS29;dxPSPrVwRibbonRS29;IndySystem;dxPScxTLLnkRS29;dxPSdxDBOCLnkRS29;dxGDIPlusRS29;ibxbindings;vclFireDAC;dxPSCoreRS29;dxSpreadSheetRS29;FireDACCommon;DataSnapServerMidas;FireDACODBCDriver;emsserverresource;cxGridEMFRS29;dxPSdxMapControlLnkRS29;dxGanttControlRS29;dxPScxVGridLnkRS29;dxPScxPivotGridLnkRS29;dxADOServerModeRS29;dxWizardControlRS29;bindcompdbx;rtl;FireDACMySQLDriver;dxCloudServiceLibraryRS29;cxIBXAdaptersRS29;dxServerModeRS29;DBXSqliteDriver;dxBarDBNavRS29;DBXSybaseASEDriver;dxSpreadSheetCoreRS29;dxNavBarRS29;vclimg;DataSnapFireDAC;inetdbxpress;FireDAC;xmlrtl;ibxpress;dxFireDACEMFRS29;dsnap;FireDACDb2Driver;dxPSdxLCLnkRS29;DBXOracleDriver;DBXInformixDriver;vclib;fmxobj;bindcompvclsmp;DataSnapNativeClient;DatasnapConnectorsFreePascal;dxPSLnksRS29;dxmdsRS29;dxPSdxOCLnkRS29;cxSchedulerGridRS29;dxPScxSchedulerLnkRS29;emshosting;dxADOEMFRS29;dxChartControlRS29;dxPSdxDBTVLnkRS29;FireDACCommonDriver;dxGaugeControlRS29;IndyIPClient;dxPDFViewerRS29;bindcompvclwinx;dxOrgChartAdvancedCustomizeFormRS29;emsedge;bindcompfmx;dxBarExtItemsRS29;dxFlowChartLayoutsRS29;inetdb;dxdborRS29;ibmonitor;FireDACASADriver;Tee;dxPScxGridLnkRS29;cxPivotGridChartRS29;vclactnband;fmxFireDAC;FireDACInfxDriver;dxRichEditCoreRS29;cxTreeListdxBarPopupMenuRS29;DBXMySQLDriver;dxFlowChartAdvancedCustomizeFormRS29;VclSmp;cxSchedulerRibbonStyleEventEditorRS29;DataSnapCommon;dxPSTeeChartRS29;fmxase;dxtrmdRS29;dxFlowChartRS29;DBXOdbcDriver;dbrtl;dxPScxPCProdRS29;FireDACOracleDriver;TeeDB;FireDACMSAccDriver;cxGridRS29;dxSpellCheckerRS29;DataSnapIndy10ServerTransport;dxRichEditDocumentModelRS29;dxMapControlRS29;DataSnapConnectors;vcldsnap;DBXInterBaseDriver;FireDACMongoDBDriver;FireDACTDataDriver;cxLibraryRS29;Skia.Package.VCL;vcldb;dxPSdxPDFViewerLnkRS29;cxSchedulerTreeBrowserRS29;bindcomp;dxTabbedMDIRS29;cxExportRS29;inetstn;IndyCore;RESTBackendComponents;dxHttpIndyRequestRS29;dxTileControlRS29;dxFireDACServerModeRS29;cxPivotGridOLAPRS29;FireDACADSDriver;RESTComponents;IndyIPServer;vcl;dsnapxml;adortl;dsnapcon;DataSnapClient;DataSnapProviderClient;dxCoreRS29;cxPivotGridRS29;dxdbtrRS29;DBXDb2Driver;dxSkinsCoreRS29;emsclientfiredac;FireDACPgDriver;FireDACDSDriver;dxBarRS29;tethering;bindcompvcl;CloudService;DBXSybaseASADriver;dxSpreadSheetConditionalFormattingDialogsRS29;cxTreeListRS29;FMXTee;soaprtl;dxDBXServerModeRS29;cxSchedulerRS29;soapserver;FireDACIBDriver;$(DCC_UsePackage)</DCC_UsePackage>
-        <DCC_ConsoleTarget>true</DCC_ConsoleTarget>
-        <UWP_DelphiLogo44>$(BDS)\bin\Artwork\Windows\UWP\delphi_UwpDefault_44.png</UWP_DelphiLogo44>
-        <UWP_DelphiLogo150>$(BDS)\bin\Artwork\Windows\UWP\delphi_UwpDefault_150.png</UWP_DelphiLogo150>
-        <DCC_Namespace>Winapi;System.Win;Data.Win;Datasnap.Win;Web.Win;Soap.Win;Xml.Win;$(DCC_Namespace)</DCC_Namespace>
-        <BT_BuildType>Debug</BT_BuildType>
-        <VerInfo_Locale>1033</VerInfo_Locale>
-    </PropertyGroup>
-    <PropertyGroup Condition="'$(Cfg_1)'!=''">
-        <DCC_Define>DEBUG;$(DCC_Define)</DCC_Define>
-        <DCC_DebugDCUs>true</DCC_DebugDCUs>
-        <DCC_Optimize>false</DCC_Optimize>
-        <DCC_GenerateStackFrames>true</DCC_GenerateStackFrames>
-        <DCC_DebugInfoInExe>true</DCC_DebugInfoInExe>
-        <DCC_RemoteDebug>true</DCC_RemoteDebug>
-        <DCC_IntegerOverflowCheck>true</DCC_IntegerOverflowCheck>
-        <DCC_RangeChecking>true</DCC_RangeChecking>
-    </PropertyGroup>
-    <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
-        <DCC_RemoteDebug>false</DCC_RemoteDebug>
-    </PropertyGroup>
-    <PropertyGroup Condition="'$(Cfg_3_Win32)'!=''">
-        <VerInfo_Locale>1033</VerInfo_Locale>
+    <PropertyGroup Condition="'$(Cfg_4_Win32)'!=''">
         <Manifest_File>(None)</Manifest_File>
         <AppDPIAwarenessMode>none</AppDPIAwarenessMode>
     </PropertyGroup>
-    <PropertyGroup Condition="'$(Cfg_2)'!=''">
-        <DCC_LocalDebugSymbols>false</DCC_LocalDebugSymbols>
-        <DCC_Define>RELEASE;$(DCC_Define)</DCC_Define>
-        <DCC_SymbolReferenceInfo>0</DCC_SymbolReferenceInfo>
-        <DCC_DebugInformation>0</DCC_DebugInformation>
+    <PropertyGroup Condition="'$(Cfg_4_Win64)'!=''">
+        <Manifest_File>(None)</Manifest_File>
+        <AppDPIAwarenessMode>none</AppDPIAwarenessMode>
     </PropertyGroup>
     <ItemGroup>
         <DelphiCompile Include="$(MainSource)">
