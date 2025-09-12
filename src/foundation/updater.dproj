@@ -60,6 +60,20 @@
         <Cfg_2>true</Cfg_2>
         <Base>true</Base>
     </PropertyGroup>
+    <PropertyGroup Condition="('$(Platform)'=='Win32' and '$(Cfg_4)'=='true') or '$(Cfg_4_Win32)'!=''">
+        <Cfg_4_Win32>true</Cfg_4_Win32>
+        <CfgParent>Cfg_4</CfgParent>
+        <Cfg_4>true</Cfg_4>
+        <Cfg_2>true</Cfg_2>
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="('$(Platform)'=='Win64' and '$(Cfg_4)'=='true') or '$(Cfg_4_Win64)'!=''">
+        <Cfg_4_Win64>true</Cfg_4_Win64>
+        <CfgParent>Cfg_4</CfgParent>
+        <Cfg_4>true</Cfg_4>
+        <Cfg_2>true</Cfg_2>
+        <Base>true</Base>
+    </PropertyGroup>
     <PropertyGroup Condition="'$(Base)'!=''">
         <DCC_DcuOutput>..\..\build\$(Platform)\$(Config)\.dcu</DCC_DcuOutput>
         <DCC_ExeOutput>..\..\build\$(Platform)\$(Config)</DCC_ExeOutput>
@@ -75,7 +89,7 @@
         <SanitizedProjectName>updater</SanitizedProjectName>
         <DCC_DcpOutput>..\..\build\$(Platform)\$(Config)\.dcp</DCC_DcpOutput>
         <VerInfo_Locale>1046</VerInfo_Locale>
-        <VerInfo_Keys>CompanyName=Cybersoft Sistemas;FileDescription=Sistema de Integracao Declaracao Unica de Importacao (Duimp);FileVersion=1.0.0.0;InternalName=duimp;LegalCopyright=2025 Cybersoft Sistemas; LegalTrademarks=;OriginalFilename=duimp.exe;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=Cybersoft Duimp;ProductVersion=1.0.0.0;Comments=Aplicacao cliente para integracao com o Siscomex</VerInfo_Keys>
+        <VerInfo_Keys>CompanyName=Cybersoft Sistemas;FileDescription=Verifica e baixa atualizacoes do Sistema Duimp;FileVersion=1.0.0.0;InternalName=updater;LegalCopyright=2025 Cybersoft Sistemas; LegalTrademarks=;OriginalFilename=updater.exe;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=Cybersoft Updater;ProductVersion=1.0.0.0;Comments=Aplicacao cliente de integracao com o Sistema Duimp</VerInfo_Keys>
         <DCC_UnitSearchPath>..\..\build;..\..\build\$(Platform)\$(Config);..\..\build\$(Platform)\$(Config)\.dcp;..\..\build\$(Platform)\$(Config)\.bpl;..\..\build\$(Platform)\$(Config)\.dcu;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
     </PropertyGroup>
@@ -94,6 +108,14 @@
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_3_Win64)'!=''">
         <BT_BuildType>Debug</BT_BuildType>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Cfg_4_Win32)'!=''">
+        <BT_BuildType>Debug</BT_BuildType>
+        <Icon_MainIcon>..\client\duimp_Icon.ico</Icon_MainIcon>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Cfg_4_Win64)'!=''">
+        <BT_BuildType>Debug</BT_BuildType>
+        <Icon_MainIcon>..\client\duimp_Icon.ico</Icon_MainIcon>
     </PropertyGroup>
     <ItemGroup>
         <DelphiCompile Include="$(MainSource)">
