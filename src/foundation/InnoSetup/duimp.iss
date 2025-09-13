@@ -2,7 +2,7 @@
 #define MyAppPublisher "Cybersoft Sistemas"
 #define MyAppURL "https://www.cybersoftsistemas.com.br/"
 #define MyAppExeName "duimp.exe"
-#define MyAppVersion GetFileVersion("..\..\..\build\Win32\VCL\" + MyAppExeName)
+#define MyAppVersion GetVersionNumbersString("..\..\..\build\Win32\VCL\" + MyAppExeName)
 #define MyAppAssocName MyAppName + " File"
 #define MyAppAssocExt ".myp"
 #define MyAppAssocKey StringChange(MyAppAssocName, " ", "") + MyAppAssocExt
