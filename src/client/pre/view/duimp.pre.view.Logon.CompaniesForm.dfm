@@ -1,4 +1,5 @@
 inherited frmCompanies: TfrmCompanies
+  ActiveControl = trvCompany
   BorderIcons = [biSystemMenu]
   Caption = 'Empresas'
   ClientHeight = 296
