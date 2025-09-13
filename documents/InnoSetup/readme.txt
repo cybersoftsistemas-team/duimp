@@ -1,1 +1,0 @@
-"C:\Program Files (x86)\Windows Kits\10\App Certification Kit\signtool.exe" sign /f "C:\actions-runner\_work\duimp\duimp\certificates\CybersoftSistemas.pfx" /p 123 /tr http://timestamp.sectigo.com /td sha256 /fd sha256 $f
