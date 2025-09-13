@@ -14,7 +14,7 @@ permissions:
 
 jobs:
   # --------------------------------------------------------------------------------
-  # Verifcica se o pull request está vindo da branch develop.
+  # Verifcica se o pull request está vindo da branch stable.
   # --------------------------------------------------------------------------------
   Validate-Pull-Request-to-Main:
     if: (github.event_name == 'pull_request') && 
@@ -25,11 +25,11 @@ jobs:
         run: |
           echo "Head branch (origin):  ${{ github.head_ref }}"
           echo "Base branch (target): ${{ github.base_ref }}"
-          if [ "${{ github.head_ref }}" != "develop" ]; then
-            echo "❌ Only pull request from 'develop' branch to 'main' is allowed."
+          if [ "${{ github.head_ref }}" != "stable" ]; then
+            echo "❌ Only pull request from 'stable' branch to 'main' is allowed."
             exit 1
           fi
-          echo "✅ Valid pull request: develop → main"
+          echo "✅ Valid pull request: stable → main"
   
   # --------------------------------------------------------------------------------
   # Faz o Checkout dos fontes, gera o os executáveis, gera o instalador e faz deploy
@@ -41,35 +41,72 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Build Project
         shell: powershell
         run: .\build-main.bat
       
+      - name: Sign Project Artifacts
+        shell: powershell
+        run: |
+          $SignerExe = ".\signer.exe"
+          if (-Not (Test-Path $SignerExe)) {
+              Write-Error "signer.exe not found at $SignerExe"
+              exit 1
+          }
+          # Assina todos os arquivos de acordo com o signer.ini configurado
+          & $SignerExe -directories=build\Win32\VCL
+
       - name: Build Production Installer
         shell: powershell
         run: |
           & "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" "src\foundation\InnoSetup\duimp.iss"
-      
-      - name: Identifying the Installer in the Directory
+
+      - name: Identify Installer
         id: get_installer
         shell: powershell
         run: |
           $file = Get-ChildItem -Path "installers\duimp-*.exe" | Sort-Object LastWriteTime -Descending | Select-Object -First 1
-          echo "installer_name=$($file.Name)" >> $env:GITHUB_OUTPUT
+          echo "installer_name=$([System.IO.Path]::GetFileNameWithoutExtension($file.Name))" >> $env:GITHUB_OUTPUT
           echo "installer_path=$($file.FullName)" >> $env:GITHUB_OUTPUT
-          $tag = [System.IO.Path]::GetFileNameWithoutExtension($file.Name)
-          echo "installer_tag=$tag" >> $env:GITHUB_OUTPUT
       
+      - name: Sign Installer
+        shell: powershell
+        run: |
+          $SignerExe = ".\signer.exe"
+          if (-Not (Test-Path $SignerExe)) {
+              Write-Error "signer.exe not found at $SignerExe"
+              exit 1
+          }
+          # Assina todos os arquivos de acordo com o signer.ini configurado
+          & $SignerExe -directories=installers
+
+      - name: Generate Production Tag
+        id: tag
+        shell: powershell
+        run: |
+          # extrai a versão do instalador
+          $installerName = "${{ steps.get_installer.outputs.installer_name }}"
+          if ($installerName -notmatch 'duimp-(\d+\.\d+\.\d+)\.(\d+)') {
+              Write-Error "Não foi possível extrair a versão do instalador"
+              exit 1
+          }
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git tag -a "$installerName" -m "Production Release $installerName"
+          git push origin "$installerName"
+          echo "release_tag=$installerName" >> $env:GITHUB_OUTPUT
+
       - name: Deploy to Production
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: ${{ steps.get_installer.outputs.installer_tag }}
+          tag_name: ${{ steps.tag.outputs.release_tag }}
           name: "Release Production - ${{ steps.get_installer.outputs.installer_name }}"
           draft: false
           prerelease: false
-          files: |
-            ${{ steps.get_installer.outputs.installer_path }}
+          files: ${{ steps.get_installer.outputs.installer_path }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       
@@ -87,7 +124,7 @@ jobs:
         run: |
           $manifestPath = "installers\manifest.json"
           $installerName = "${{ steps.get_installer.outputs.installer_name }}"
-          if ($installerName -match 'duimp-(\d+\.\d+\.\d+\.\d+)\.exe') {
+          if ($installerName -match 'duimp-(\d+\.\d+\.\d+\.\d+)') {
             $version = $matches[1]
           } else {
             Write-Error "❌ Não foi possível extrair a versão de $installerName"
@@ -102,7 +139,7 @@ jobs:
       - name: Upload Installer to FTP (versions)
         shell: powershell
         run: |
-          $ftpUrl = "ftp://${{ secrets.FTP_HOST }}:${{ secrets.FTP_PORT }}/duimp/updates/versions/${{ steps.get_installer.outputs.installer_name }}"
+          $ftpUrl = "ftp://${{ secrets.FTP_HOST }}:${{ secrets.FTP_PORT }}/duimp/updates/versions/${{ steps.get_installer.outputs.installer_name }}.exe"
           $filePath = "${{ steps.get_installer.outputs.installer_path }}"
           $wc = New-Object System.Net.WebClient
           $wc.Credentials = New-Object System.Net.NetworkCredential("${{ secrets.FTP_USER }}","${{ secrets.FTP_PASS }}")
