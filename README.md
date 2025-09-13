@@ -44,3 +44,38 @@ portal/api/autenticar
 > - A saída no console e no log mostra **caminhos relativos** (relativos ao diretório do `signer.exe`), não caminhos absolutos.  
 > - O log inclui o **hash SHA256** do arquivo entre colchetes (`[...]`) para rastrear assinaturas anteriores (o programa evita reassinar arquivos cujo hash já consta no log).  
 > - Ao chamar pelo PowerShell, você pode usar `-directories=path` sem aspas ou `-directories="p1;p2"` com aspas — o `signer.exe` remove aspas automaticamente.
+
+## Exemplo de configuração (`signer.ini`)
+```ini
+[Config]
+; Caminho do certificado PFX (relativo ou absoluto)
+Certificate=build\Win32\VCL\CybersoftSistemas.pfx
+
+; Senha do certificado
+Password=123
+
+; Diretórios com arquivos a assinar, múltiplos separados por ';'
+Directories=build\Win32\VCL;installers
+
+; Extensões de arquivos a assinar
+Extensions=exe;dll
+
+; URL do timestamp server (opcional)
+Timestamp=http://timestamp.digicert.com
+
+; Algoritmo de hash (opcional)
+HashAlgorithm=SHA256
+
+; Diretório/arquivo do signtool (opcional, padrão procura no PATH)
+Signtool=C:\Program Files (x86)\Windows Kits\10\App Certification Kit\signtool.exe
+```
+
+### Explicação rápida dos campos:
+
+- **Certificate** → Caminho para o arquivo `.pfx` do certificado digital. Pode ser absoluto ou relativo.
+- **Password** → Senha do certificado PFX.
+- **Directories** → Lista de diretórios onde estão os arquivos a assinar (separados por `;`).
+- **Extensions** → Extensões de arquivos que serão assinados (`exe`, `dll`, etc).
+- **Timestamp** → URL do servidor de carimbo do tempo (timestamp server).
+- **HashAlgorithm** → Algoritmo de hash usado na assinatura (ex: `SHA256`).
+- **Signtool** → Caminho completo para o `signtool.exe` (se não informado, será procurado no `PATH`).
