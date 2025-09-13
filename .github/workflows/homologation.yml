@@ -112,7 +112,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Notify Pre-release in Issue
-        shell: pwsh
+        shell: powershell
         run: |
           $headers = @{
             "Authorization" = "token ${{ secrets.GITHUB_TOKEN }}"
