@@ -14,7 +14,7 @@ permissions:
 
 jobs:
   # --------------------------------------------------------------------------------
-  # Verifcica se o pull request está vindo da branch develop.
+  # Verifcica se o pull request está vindo da branch stable.
   # --------------------------------------------------------------------------------
   Validate-Pull-Request-to-Main:
     if: (github.event_name == 'pull_request') && 
@@ -25,11 +25,11 @@ jobs:
         run: |
           echo "Head branch (origin):  ${{ github.head_ref }}"
           echo "Base branch (target): ${{ github.base_ref }}"
-          if [ "${{ github.head_ref }}" != "develop" ]; then
-            echo "❌ Only pull request from 'develop' branch to 'main' is allowed."
+          if [ "${{ github.head_ref }}" != "stable" ]; then
+            echo "❌ Only pull request from 'stable' branch to 'main' is allowed."
             exit 1
           fi
-          echo "✅ Valid pull request: develop → main"
+          echo "✅ Valid pull request: stable → main"
   
   # --------------------------------------------------------------------------------
   # Faz o Checkout dos fontes, gera o os executáveis, gera o instalador e faz deploy
