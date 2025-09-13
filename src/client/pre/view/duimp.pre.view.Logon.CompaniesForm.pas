@@ -5,7 +5,6 @@ interface
 uses
 {PROJECT}
   duimp.dom.DataModules.damUserAuth,
-
   duimp.pre.view.System.DialogDefForm,
 {IDE}
   Data.DB, System.Classes, cxGraphics, cxControls, cxLookAndFeels, cxLookAndFeelPainters, dxSkinsCore, dxSkinOffice2019Colorful, Vcl.Menus, dxLayoutControlAdapters,
@@ -72,6 +71,7 @@ begin
   DataModule.qryCMP.Close;
   DataModule.qryCMP.Open;
   trvCompany.Selected := trvCompany.Items[0];
+  trvCompany.Selected.Expand(False);
 end;
 
 end.
