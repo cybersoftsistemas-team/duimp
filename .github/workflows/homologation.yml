@@ -111,8 +111,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Notify Pre-Pelease in Issue
-        shell: powershell
+      - name: Notify Pre-release in Issue
+        shell: pwsh
         run: |
           $headers = @{
             "Authorization" = "token ${{ secrets.GITHUB_TOKEN }}"
@@ -125,20 +125,19 @@ jobs:
           $issue_number = if ($issues.Count -gt 0) { $issues[0].number } else { $null }
           if (-not $issue_number) {
             Write-Host "Nenhuma issue encontrada, criando..."
-            $body = @{
+            $jsonBody = @{
               title  = "Notificacoes de Releases"
               labels = @("release-notify")
               body   = "Esta issue centraliza todas as notificacoes de releases e pre-releases."
             } | ConvertTo-Json -Depth 3 -Compress
             $url = "https://api.github.com/repos/${{ github.repository }}/issues"
-            $response = Invoke-RestMethod -Uri $url -Headers $headers -Method Post -Body $body
+            $response = Invoke-RestMethod -Uri $url -Headers $headers -Method Post -Body ([System.Text.Encoding]::UTF8.GetBytes($jsonBody))
             $issue_number = $response.number
           }
           # --- Montar comentário ---
           $kind = "Pre-Release"
           $comment_body = "$kind publicado: ${{ github.event.release.tag_name }} → ${{ github.event.release.html_url }} `n`n@elismarpartelli"
-          # --- Criar novo comentário ---
           Write-Host "Criando novo comentario..."
-          $body = @{ body = $comment_body } | ConvertTo-Json -Depth 3 -Compress
+          $jsonBody = @{ body = $comment_body } | ConvertTo-Json -Depth 3 -Compress
           $url = "https://api.github.com/repos/${{ github.repository }}/issues/$issue_number/comments"
-          Invoke-RestMethod -Uri $url -Headers $headers -Method Post -Body $body
+          Invoke-RestMethod -Uri $url -Headers $headers -Method Post -Body ([System.Text.Encoding]::UTF8.GetBytes($jsonBody))
