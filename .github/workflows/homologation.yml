@@ -120,36 +120,36 @@ jobs:
           # --- Buscar ou criar a issue ---
           $url = "https://api.github.com/repos/${{ github.repository }}/issues?state=open&labels=release-notify"
           $issues = Invoke-RestMethod -Uri $url -Headers $headers -Method Get
-          $issue_number = $issues[0].number
+          $issue_number = if ($issues.Count -gt 0) { $issues[0].number } else { $null }
           if (-not $issue_number) {
             Write-Host "Nenhuma issue encontrada, criando..."
             $body = @{
-              title = "📢 Notificações de Releases"
+              title  = "Notificacoes de Releases"
               labels = @("release-notify")
-              body = "Esta issue centraliza todas as notificações de releases e pre-releases."
+              body   = "Esta issue centraliza todas as notificacoes de releases e pre-releases."
             } | ConvertTo-Json -Depth 3 -Compress
             $url = "https://api.github.com/repos/${{ github.repository }}/issues"
             $response = Invoke-RestMethod -Uri $url -Headers $headers -Method Post -Body $body
             $issue_number = $response.number
           }
           # --- Montar comentário ---
-          $kind = "🔎 Pré-release"
-          $comment_body = "$kind publicado: ${{ github.event.release.tag_name }} → ${{ github.event.release.html_url }}`n`n${{ vars.NOTIFY_USERS }}"
+          $kind = "Pre-release"
+          $comment_body = "$kind publicado: ${{ github.event.release.tag_name }} → ${{ github.event.release.html_url }} `n`n${{ vars.NOTIFY_USERS }}"
           # --- Postar ou atualizar comentário ---
           if ("${{ vars.UPDATE_LAST_COMMENT }}" -eq "true") {
             # Pega último comentário
             $url = "https://api.github.com/repos/${{ github.repository }}/issues/$issue_number/comments"
             $comments = Invoke-RestMethod -Uri $url -Headers $headers -Method Get
-            $last_comment_id = $comments[-1].id
+            $last_comment_id = if ($comments.Count -gt 0) { $comments[-1].id } else { $null }
             if ($last_comment_id) {
-              Write-Host "Atualizando comentário existente..."
+              Write-Host "Atualizando comentario existente..."
               $body = @{ body = $comment_body } | ConvertTo-Json -Depth 3 -Compress
               $url = "https://api.github.com/repos/${{ github.repository }}/issues/comments/$last_comment_id"
               Invoke-RestMethod -Uri $url -Headers $headers -Method Patch -Body $body
             }
           }
           else {
-            Write-Host "Criando novo comentário..."
+            Write-Host "Criando novo comentario..."
             $body = @{ body = $comment_body } | ConvertTo-Json -Depth 3 -Compress
             $url = "https://api.github.com/repos/${{ github.repository }}/issues/$issue_number/comments"
             Invoke-RestMethod -Uri $url -Headers $headers -Method Post -Body $body
