@@ -1,0 +1,59 @@
+name: Notify Release & Pre-release
+
+on:
+  release:
+    types: [published, prereleased]
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Find or create notification issue
+        id: find_issue
+        run: |
+          # Procura por issue com label release-notify
+          issue_number=$(curl -s \
+            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Accept: application/vnd.github+json" \
+            "https://api.github.com/repos/${{ github.repository }}/issues?state=open&labels=release-notify" \
+            | jq -r '.[0].number // empty')
+          if [ -z "$issue_number" ]; then
+            echo "Nenhuma issue encontrada, criando..."
+            issue_number=$(curl -s -X POST \
+              -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+              -H "Accept: application/vnd.github+json" \
+              https://api.github.com/repos/${{ github.repository }}/issues \
+              -d '{"title":"${{ vars.NOTIFY_ISSUE_TITLE }}","labels":["release-notify"],"body":"Esta issue centraliza todas as notificações de releases e pre-releases."}' \
+              | jq -r '.number')
+          fi
+          echo "issue_number=$issue_number" >> $GITHUB_OUTPUT
+
+      - name: Post or update comment
+        run: |
+          # Define tipo de release
+          if [ "${{ github.event.release.prerelease }}" = "true" ]; then
+            kind="🔎 Pré-release"
+          else
+            kind="🚀 Release"
+          fi
+          comment_body="$kind publicado: ${{ github.event.release.tag_name }} → ${{ github.event.release.html_url }}\n\n${{ vars.NOTIFY_USERS }}"
+          if [ "${{ vars.UPDATE_LAST_COMMENT }}" = "true" ]; then
+            # Pega último comentário da issue
+            last_comment_id=$(curl -s \
+              -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+              -H "Accept: application/vnd.github+json" \
+              "https://api.github.com/repos/${{ github.repository }}/issues/${{ steps.find_issue.outputs.issue_number }}/comments" \
+              | jq -r '.[-1].id')
+            # Atualiza comentário
+            curl -X PATCH \
+              -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+              -H "Accept: application/vnd.github+json" \
+              https://api.github.com/repos/${{ github.repository }}/issues/comments/$last_comment_id \
+              -d '{"body":"'"$comment_body"'"}'
+          else
+            # Cria novo comentário
+            curl -X POST \
+              -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+              -H "Accept: application/vnd.github+json" \
+              https://api.github.com/repos/${{ github.repository }}/issues/${{ steps.find_issue.outputs.issue_number }}/comments \
+              -d '{"body":"'"$comment_body"'"}'
