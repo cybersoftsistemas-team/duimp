@@ -136,8 +136,9 @@ jobs:
           }
           # --- Montar comentário ---
           $releaseTag = "${{ steps.tag.outputs.release_tag }}"
-          $kind = "Pre-release"
-          $comment_body = "$kind published: $releaseTag → ${{ steps.get_installer.outputs.installer_path }} `n`n@elismarpartelli"
+          $releaseUrl = "https://github.com/${{ github.repository }}/releases/tag/$releaseTag"
+          $kind = "Pre-Release"
+          $comment_body = "$kind publicado: [$releaseTag]($releaseUrl) `n`n@elismarpartelli"
           Write-Host "Criando novo comentario..."
           $jsonBody = @{ body = $comment_body } | ConvertTo-Json -Depth 3 -Compress
           $url = "https://api.github.com/repos/${{ github.repository }}/issues/$issue_number/comments"
