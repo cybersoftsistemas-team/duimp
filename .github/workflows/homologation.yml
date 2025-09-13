@@ -110,31 +110,47 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Find or create notification issue
-        id: find_issue
+      - name: Notify Pre-release in Issue
+        shell: powershell
         run: |
-          issue_number=$(curl -s \
-            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-            -H "Accept: application/vnd.github+json" \
-            "https://api.github.com/repos/${{ github.repository }}/issues?state=open&labels=release-notify" \
-            | jq -r '.[0].number // empty')
-          if [ -z "$issue_number" ]; then
-            echo "Nenhuma issue encontrada, criando..."
-            issue_number=$(curl -s -X POST \
-              -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-              -H "Accept: application/vnd.github+json" \
-              https://api.github.com/repos/${{ github.repository }}/issues \
-              -d '{"title":"${{ vars.NOTIFY_ISSUE_TITLE }}","labels":["release-notify"],"body":"Esta issue centraliza todas as notificações de releases e pre-releases."}' \
-              | jq -r '.number')
-          fi
-          echo "issue_number=$issue_number" >> $GITHUB_OUTPUT
-
-      - name: Post comment
-        run: |
-          kind="🔎 Pré-release"
-          comment_body="$kind publicado: ${{ steps.tag.outputs.release_tag }} → https://github.com/${{ github.repository }}/releases/tag/${{ steps.tag.outputs.release_tag }}\n\n${{ vars.NOTIFY_USERS }}"
-          curl -X POST \
-            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-            -H "Accept: application/vnd.github+json" \
-            https://api.github.com/repos/${{ github.repository }}/issues/${{ steps.find_issue.outputs.issue_number }}/comments \
-            -d '{"body":"'"$comment_body"'"}'
+          $headers = @{
+            "Authorization" = "token ${{ secrets.GITHUB_TOKEN }}"
+            "Accept"        = "application/vnd.github+json"
+          }
+          # --- Buscar ou criar a issue ---
+          $url = "https://api.github.com/repos/${{ github.repository }}/issues?state=open&labels=release-notify"
+          $issues = Invoke-RestMethod -Uri $url -Headers $headers -Method Get
+          $issue_number = $issues[0].number
+          if (-not $issue_number) {
+            Write-Host "Nenhuma issue encontrada, criando..."
+            $body = @{
+              title = "📢 Notificações de Releases"
+              labels = @("release-notify")
+              body = "Esta issue centraliza todas as notificações de releases e pre-releases."
+            } | ConvertTo-Json -Depth 3 -Compress
+            $url = "https://api.github.com/repos/${{ github.repository }}/issues"
+            $response = Invoke-RestMethod -Uri $url -Headers $headers -Method Post -Body $body
+            $issue_number = $response.number
+          }
+          # --- Montar comentário ---
+          $kind = "🔎 Pré-release"
+          $comment_body = "$kind publicado: ${{ github.event.release.tag_name }} → ${{ github.event.release.html_url }}`n`n${{ vars.NOTIFY_USERS }}"
+          # --- Postar ou atualizar comentário ---
+          if ("${{ vars.UPDATE_LAST_COMMENT }}" -eq "true") {
+            # Pega último comentário
+            $url = "https://api.github.com/repos/${{ github.repository }}/issues/$issue_number/comments"
+            $comments = Invoke-RestMethod -Uri $url -Headers $headers -Method Get
+            $last_comment_id = $comments[-1].id
+            if ($last_comment_id) {
+              Write-Host "Atualizando comentário existente..."
+              $body = @{ body = $comment_body } | ConvertTo-Json -Depth 3 -Compress
+              $url = "https://api.github.com/repos/${{ github.repository }}/issues/comments/$last_comment_id"
+              Invoke-RestMethod -Uri $url -Headers $headers -Method Patch -Body $body
+            }
+          }
+          else {
+            Write-Host "Criando novo comentário..."
+            $body = @{ body = $comment_body } | ConvertTo-Json -Depth 3 -Compress
+            $url = "https://api.github.com/repos/${{ github.repository }}/issues/$issue_number/comments"
+            Invoke-RestMethod -Uri $url -Headers $headers -Method Post -Body $body
+          }
