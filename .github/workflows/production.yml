@@ -7,7 +7,7 @@ on:
   pull_request:
     branches:
       - main
-    types: [opened, synchronize, reopened, closed]
+    types: [opened, edited, synchronize, reopened, closed]
  
 permissions:
   contents: write
@@ -153,3 +153,36 @@ jobs:
           $wc = New-Object System.Net.WebClient
           $wc.Credentials = New-Object System.Net.NetworkCredential("${{ secrets.FTP_USER }}","${{ secrets.FTP_PASS }}")
           $wc.UploadFile($ftpUrl, "installers\manifest.json")
+
+      - name: Notify Release in Issue
+        shell: powershell
+        run: |
+          $headers = @{
+            "Authorization" = "token ${{ secrets.GITHUB_TOKEN }}"
+            "Accept"        = "application/vnd.github+json"
+            "Content-Type"  = "application/json"
+          }
+          # --- Buscar ou criar a issue ---
+          $url = "https://api.github.com/repos/${{ github.repository }}/issues?state=open&labels=release-notify"
+          $issues = Invoke-RestMethod -Uri $url -Headers $headers -Method Get
+          $issue_number = if ($issues.Count -gt 0) { $issues[0].number } else { $null }
+          if (-not $issue_number) {
+            Write-Host "Nenhuma issue encontrada, criando..."
+            $jsonBody = @{
+              title  = "Release Notifications"
+              labels = @("release-notify")
+              body   = "This issue centralizes all release and pre-release notifications."
+            } | ConvertTo-Json -Depth 3 -Compress
+            $url = "https://api.github.com/repos/${{ github.repository }}/issues"
+            $response = Invoke-RestMethod -Uri $url -Headers $headers -Method Post -Body ([System.Text.Encoding]::UTF8.GetBytes($jsonBody))
+            $issue_number = $response.number
+          }
+          # --- Montar comentário ---
+          $releaseTag = "${{ steps.tag.outputs.release_tag }}"
+          $releaseUrl = "https://github.com/${{ github.repository }}/releases/tag/$releaseTag"
+          $kind = "Release"
+          $comment_body = "$kind published: [$releaseTag]($releaseUrl) `n`n@elismarpartelli"
+          Write-Host "Criando novo comentario..."
+          $jsonBody = @{ body = $comment_body } | ConvertTo-Json -Depth 3 -Compress
+          $url = "https://api.github.com/repos/${{ github.repository }}/issues/$issue_number/comments"
+          Invoke-RestMethod -Uri $url -Headers $headers -Method Post -Body ([System.Text.Encoding]::UTF8.GetBytes($jsonBody))
