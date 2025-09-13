@@ -3,10 +3,10 @@ name: Homologation Build
 on:
   push:
     branches:
-      - develop
+      - stable
   pull_request:
     branches:
-      - develop
+      - stable
     types: [opened, synchronize, reopened, closed]
  
 permissions:
@@ -14,23 +14,29 @@ permissions:
 
 jobs:
   # --------------------------------------------------------------------------------
-  # Valida o pull request da branch develop.
+  # Valida o pull request da branch stable.
   # --------------------------------------------------------------------------------
-  Validate-Pull-Request-to-Develop:
+  Validate-Pull-Request-to-Stable:
     if: (github.event_name == 'pull_request') && 
-        (github.base_ref == 'develop' || github.ref_name == 'develop')
+        (github.base_ref == 'stable' || github.ref_name == 'stable')
     runs-on: ubuntu-latest
     steps:
       - name: Validate pull request origin
         run: |
-          echo "✅ Valid pull request: ${{ github.head_ref }} → ${{ github.base_ref }}"
+          echo "Head branch (origin):  ${{ github.head_ref }}"
+          echo "Base branch (target): ${{ github.base_ref }}"
+          if [ "${{ github.head_ref }}" != "develop" ]; then
+            echo "❌ Only pull request from 'develop' branch to 'stable' is allowed."
+            exit 1
+          fi
+          echo "✅ Valid pull request: develop → stable"
   
   # --------------------------------------------------------------------------------
   # Faz o Checkout dos fontes, gera o os executáveis, gera o instalador e faz deploy
   # para o ambiente de homologação.
   # --------------------------------------------------------------------------------
   Build-Deploy-to-Homologation:
-    if: github.event_name == 'push' && github.ref_name == 'develop'
+    if: github.event_name == 'push' && github.ref_name == 'stable'
     runs-on: self-hosted
     steps:
       - name: Checkout Code
@@ -40,7 +46,7 @@ jobs:
 
       - name: Build Project
         shell: powershell
-        run: .\build-develop.bat
+        run: .\build-stable.bat
       
       - name: Sign Project Artifacts
         shell: powershell
