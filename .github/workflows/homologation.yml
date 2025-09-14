@@ -61,17 +61,23 @@ jobs:
           & $SignerExe -directories=build\Win32\VCL
 
       - name: Build Homologation Installer
-        shell: powershell
-        run: |
-          & "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" "src\foundation\InnoSetup\duimp.iss"
-
-      - name: Identify Installer
         id: get_installer
         shell: powershell
         run: |
+          # --- Build do instalador ---
+          & "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" "src\foundation\InnoSetup\duimp.iss"
+          # --- Identificar o instalador gerado ---
           $file = Get-ChildItem -Path "installers\duimp-*.exe" | Sort-Object LastWriteTime -Descending | Select-Object -First 1
-          echo "installer_name=$([System.IO.Path]::GetFileNameWithoutExtension($file.Name))" >> $env:GITHUB_OUTPUT
-          echo "installer_path=$($file.FullName)" >> $env:GITHUB_OUTPUT
+          if (-not $file) {
+              Write-Error "❌ Não foi possível localizar o instalador gerado."
+              exit 1
+          }
+          $installerName = [System.IO.Path]::GetFileNameWithoutExtension($file.Name)
+          $installerPath = $file.FullName
+          Write-Host "Installer Name: $installerName"
+          Write-Host "Installer Path: $installerPath"
+          echo "installer_name=$installerName" >> $env:GITHUB_OUTPUT
+          echo "installer_path=$installerPath" >> $env:GITHUB_OUTPUT
       
       - name: Sign Installer
         shell: powershell
