@@ -65,7 +65,7 @@ jobs:
         shell: powershell
         run: |
           # --- Build do instalador ---
-          & "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" "src\foundation\InnoSetup\duimp.iss"
+          & "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" /Qp "src\foundation\InnoSetup\duimp.iss"
           # --- Identificar o instalador gerado ---
           $file = Get-ChildItem -Path "installers\duimp-*.exe" | Sort-Object LastWriteTime -Descending | Select-Object -First 1
           if (-not $file) {
