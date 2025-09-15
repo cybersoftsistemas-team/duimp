@@ -30,7 +30,7 @@ jobs:
             echo "❌ Only pull request from 'stable' branch to 'main' is allowed."
             exit 1
           fi
-          echo "✅ Valid pull request: stable → main"
+          echo "✅ Valid pull request: stable → main" 
   
   # --------------------------------------------------------------------------------
   # Faz o Checkout dos fontes, gera o os executáveis, gera o instalador e faz deploy

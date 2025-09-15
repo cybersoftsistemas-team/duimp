@@ -2,7 +2,7 @@
 setlocal enabledelayedexpansion
 
 echo ====================================
-echo Compiling Delphi 12.3 for environment: stable
+echo Compiling Delphi 12.3 for environment
 echo ====================================
 
 REM ============================
