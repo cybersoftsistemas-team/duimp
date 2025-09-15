@@ -801,7 +801,7 @@ begin
           Application.ProcessMessages;
         end);
       cbxRedoDuimp.Checked := False;
-      cbxRedoDuimp.Enabled := LFounded and DataModule.qryCONProcesso_ImportarFechado.AsBoolean;
+      cbxRedoDuimp.Enabled := LFounded and DataModule.qryVNFNfOrPi.AsBoolean;
       tshDuimp.Caption := Format('Duimp (Versão: %d)', [DataModule.qryDUVVersao.AsInteger]);
       tshGoods.Caption := Format('Mercadorias (%d)', [DataModule.qryDCI.RecordCount]);
       tshDPG.Caption := Format('Pagamentos (%d)', [DataModule.dsoDPGSel.DataSet.RecordCount]);

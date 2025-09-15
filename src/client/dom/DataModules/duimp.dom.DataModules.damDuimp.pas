@@ -940,6 +940,8 @@ type
     qryCONProcesso_ImportarFechado: TBooleanField;
     qryDTVDiferenca: TFloatField;
     qryDTVSelDiferenca: TFloatField;
+    qryVNF: TFDQuery;
+    qryVNFNfOrPi: TBooleanField;
     procedure DataModuleCreate(Sender: TObject);
     procedure MoedaNegociadaValorGetText(Sender: TField; var Text: string; DisplayText: Boolean);
     procedure qryDUINewRecord(DataSet: TDataSet);
@@ -1774,6 +1776,7 @@ end;
 
 procedure TdamDuimp.CloseDataSets;
 begin
+  qryVNF.Close;
   qryPRS.Close;
   qryCON.Close;
   qryIFI.Close;
@@ -2030,6 +2033,7 @@ begin
   qryVTF.Open;
   qryTCV.Open;
   qryPRS.Open;
+  qryVNF.Open;
 end;
 
 procedure TdamDuimp.TryCreateDAADataSet(const AAtributos: TArray<TAtributoTributoCover>);
