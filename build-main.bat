@@ -1,10 +1,13 @@
 @echo off
 setlocal enabledelayedexpansion
 
-echo ====================================
-echo Compiling Delphi 12.3 for environment: main
-echo ====================================
+echo =====================================
+echo Compiling Delphi 12.3 for environment
+echo =====================================
 
+REM ============================
+REM Paths
+REM ============================
 set PROJECT_PATH=C:\actions-runner\_work\duimp\duimp\src\client\Siscomex.groupproj
 set DPROJ_PATH=C:\actions-runner\_work\duimp\duimp\src\client\duimp.dproj
 set VERSION_FILE=C:\actions-runner\_work\duimp\version.txt
@@ -12,11 +15,6 @@ set VERSION_FILE=C:\actions-runner\_work\duimp\version.txt
 REM ============================
 REM Read current version
 REM ============================
-set MAJOR=0
-set MINOR=0
-set RELEASE=0
-set BUILD=0
-
 for /f "tokens=1-4 delims=." %%a in (%VERSION_FILE%) do (
     set MAJOR=%%a
     set MINOR=%%b
@@ -24,27 +22,26 @@ for /f "tokens=1-4 delims=." %%a in (%VERSION_FILE%) do (
     set BUILD=%%d
 )
 
-set /a BUILD+=1
+REM ============================
+REM Increment build
+REM ============================
+set /a BUILD=BUILD+1
 set NEW_VERSION=!MAJOR!.!MINOR!.!RELEASE!.!BUILD!
 
-echo Updating duimp project to version !NEW_VERSION!
+REM ============================
+REM Updating duimp project
+REM ============================
+echo Updating duimp project to the new version !NEW_VERSION!
+powershell -Command "(gc '%DPROJ_PATH%') -replace 'FileVersion=.*?;', 'FileVersion=$(MAJOR).$(MINOR).$(RELEASE).$(BUILD);' | Set-Content '%DPROJ_PATH%'"
+powershell -Command "(gc '%DPROJ_PATH%') -replace 'ProductVersion=.*?;', 'ProductVersion=$(MAJOR).$(MINOR).$(RELEASE).$(BUILD);' | Set-Content '%DPROJ_PATH%'"
 
 REM ============================
-REM Update duimp project (.dproj) safely
-REM ============================
-powershell -Command ^
-  "$content = Get-Content '%DPROJ_PATH%'; " ^
-  "$content = $content -replace 'FileVersion=\"\d+\.\d+\.\d+\.\d+\"', 'FileVersion=\"!NEW_VERSION!\"'; " ^
-  "$content = $content -replace 'ProductVersion=\"\d+\.\d+\.\d+\.\d+\"', 'ProductVersion=\"!NEW_VERSION!\"'; " ^
-  "Set-Content '%DPROJ_PATH%' $content"
-
-REM ============================
-REM Load Delphi environment
+REM Loading variables from Delphi 12.3
 REM ============================
 call "C:\Program Files (x86)\Embarcadero\Studio\23.0\bin\rsvars.bat"
 
 REM ============================
-REM Compile project
+REM Compile the executable
 REM ============================
 msbuild.exe "%PROJECT_PATH%" ^
   /t:Build ^
@@ -56,12 +53,12 @@ msbuild.exe "%PROJECT_PATH%" ^
   /p:VerInfo_Build=!BUILD!
 
 if errorlevel 1 (
-    echo ❌ DELPHI COMPILATION ERROR
+    echo DELPHI COMPILATION ERROR
     exit /b 1
 )
 
 echo ====================================
-echo ✅ Compilation completed successfully!
+echo Compilation completed successfully!
 echo Release version: !NEW_VERSION!
 echo ====================================
 exit /b 0
