@@ -937,6 +937,7 @@ type
     qryITRUnidadeComercialCodigo: TStringField;
     qryDPRUnidadeComercialCodigo: TStringField;
     qryDUVNumero: TStringField;
+    qryCONProcesso_ImportarFechado: TBooleanField;
     procedure DataModuleCreate(Sender: TObject);
     procedure MoedaNegociadaValorGetText(Sender: TField; var Text: string; DisplayText: Boolean);
     procedure qryDUINewRecord(DataSet: TDataSet);
@@ -1037,7 +1038,6 @@ uses
   cbsCore.SysUtils,
   duimp.dom.DataModules.damAttrs,
   duimp.dom.DataModules.damConnection,
-
   duimp.dom.Products.Attributes.FillingForm,
   duimp.dom.System.Application,
   duimp.dom.System.ImportaUtils,

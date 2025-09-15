@@ -797,7 +797,7 @@ begin
           Application.ProcessMessages;
         end);
       cbxRedoDuimp.Checked := False;
-      cbxRedoDuimp.Enabled := LFounded and (DataModule.qryDUVProcessoNumero.AsString.Trim.IsEmpty and not DataModule.qryProc.IsEmpty) or (not DataModule.qryDUVProcessoNumero.AsString.Trim.IsEmpty and DataModule.qryProc.IsEmpty);
+      cbxRedoDuimp.Enabled := LFounded and DataModule.qryCONProcesso_ImportarFechado.AsBoolean;
       tshDuimp.Caption := Format('Duimp (Versão: %d)', [DataModule.qryDUVVersao.AsInteger]);
       tshGoods.Caption := Format('Mercadorias (%d)', [DataModule.qryDCI.RecordCount]);
       tshDPG.Caption := Format('Pagamentos (%d)', [DataModule.dsoDPGSel.DataSet.RecordCount]);

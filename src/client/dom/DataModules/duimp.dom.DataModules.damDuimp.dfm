@@ -2282,9 +2282,7 @@ inherited damDuimp: TdamDuimp
           #9',Majorado = '
           #9' SUM('
           #9#9'CASE'
-          
-            #9#9#9'WHEN DMC.TipoAliquota = '#39'AD_VALOREM'#39' AND DMC.TipoAliquota = '#39 +
-            #39
+          #9#9#9'WHEN DMC.TipoAliquota = '#39'AD_VALOREM'#39' OR DMC.TipoAliquota = '#39#39
           #9#9#9#9'THEN DVB.ARecolher'
           #9#9#9'ELSE DMC.ValorAliquotaEspecifica * DCI.QuantidadeComercial'
           #9#9'END)'
@@ -8549,6 +8547,7 @@ inherited damDuimp: TdamDuimp
       ',CONF.SISCOMEX_Documento'
       ',CONF.SISCOMEX_CentroCusto'
       ',CONF.Ramo_Atividade'
+      ',CONF.Processo_ImportarFechado'
       'FROM Configuracao AS CONF')
     Left = 818
     Top = 271
@@ -8613,6 +8612,10 @@ inherited damDuimp: TdamDuimp
     object qryCONRamo_Atividade: TSmallintField
       FieldName = 'Ramo_Atividade'
       Origin = 'Ramo_Atividade'
+    end
+    object qryCONProcesso_ImportarFechado: TBooleanField
+      FieldName = 'Processo_ImportarFechado'
+      Origin = 'Processo_ImportarFechado'
     end
   end
   object dsoITR: TDataSource
