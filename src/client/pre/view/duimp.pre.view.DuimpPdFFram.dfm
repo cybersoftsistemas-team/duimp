@@ -371,6 +371,11 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                       Visible = False
                       LayoutItem = grdDTVDBLayoutViewLayoutItem1
                     end
+                    object grdDTVDBLayoutViewTipo: TcxGridDBLayoutViewItem
+                      DataBinding.FieldName = 'Tipo'
+                      Visible = False
+                      LayoutItem = grdDTVDBLayoutViewLayoutItem12
+                    end
                     object grdDTVDBLayoutViewCalculado: TcxGridDBLayoutViewItem
                       DataBinding.FieldName = 'Calculado'
                       LayoutItem = grdDTVDBLayoutViewLayoutItem2
@@ -403,6 +408,10 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                       DataBinding.FieldName = 'NotaFiscal'
                       LayoutItem = grdDTVDBLayoutViewLayoutItem11
                     end
+                    object grdDTVDBLayoutViewDiferenca: TcxGridDBLayoutViewItem
+                      DataBinding.FieldName = 'Diferenca'
+                      LayoutItem = grdDTVDBLayoutViewLayoutItem13
+                    end
                     object grdDTVDBLayoutViewTributoCalculadoId: TcxGridDBLayoutViewItem
                       DataBinding.FieldName = 'TributoCalculadoId'
                       Visible = False
@@ -418,6 +427,7 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                       AlignVert = avTop
                       CaptionOptions.Text = 'Template Layout'
                       Hidden = True
+                      ItemIndex = 8
                       ScrollOptions.Horizontal = smAuto
                       ShowBorder = False
                       Index = -1
@@ -468,7 +478,16 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                     end
                     object grdDTVDBLayoutViewLayoutItem11: TcxGridLayoutItem
                       Parent = grdDTVDBLayoutViewGroup_Root
+                      CaptionOptions.AlignHorz = taRightJustify
                       Index = 7
+                    end
+                    object grdDTVDBLayoutViewLayoutItem12: TcxGridLayoutItem
+                      Index = -1
+                    end
+                    object grdDTVDBLayoutViewLayoutItem13: TcxGridLayoutItem
+                      Parent = grdDTVDBLayoutViewGroup_Root
+                      CaptionOptions.AlignHorz = taRightJustify
+                      Index = 8
                     end
                   end
                   object grdDTCLevel: TcxGridLevel
