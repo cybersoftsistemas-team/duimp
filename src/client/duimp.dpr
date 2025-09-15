@@ -80,7 +80,8 @@ uses
   duimp.dom.System.AppInfo in 'dom\System\duimp.dom.System.AppInfo.pas',
   duimp.pre.view.CertificateSelectForm in 'pre\view\duimp.pre.view.CertificateSelectForm.pas' {frmCertificateSelect: TdxFluentDesignForm},
   duimp.pre.view.System.LoadFormDef in 'pre\view\System\duimp.pre.view.System.LoadFormDef.pas' {frmLoadDef},
-  _2025_09_02_00000001_alter_table_regime_tributacao_alter_descricao_column in 'inf\Database\Migrations\_2025_09_02_00000001_alter_table_regime_tributacao_alter_descricao_column.pas';
+  _2025_09_02_00000001_alter_table_regime_tributacao_alter_descricao_column in 'inf\Database\Migrations\_2025_09_02_00000001_alter_table_regime_tributacao_alter_descricao_column.pas',
+  _2025_09_15_00000001_alter_table_duimp_tributos_calculados_valores_brl_add_diferenca_column in 'inf\Database\Migrations\_2025_09_15_00000001_alter_table_duimp_tributos_calculados_valores_brl_add_diferenca_column.pas';
 
 {$R *.res}
 

@@ -101,6 +101,7 @@
         <PostBuildEvent><![CDATA[xcopy /Y /S "..\..\deploy\*" "..\..\build\$(Platform)\$(Config)"
 $(PostBuildEvent)]]></PostBuildEvent>
         <Icon_MainIcon>duimp_Icon.ico</Icon_MainIcon>
+        <Debugger_RunParams>-status updated_system</Debugger_RunParams>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_3_Win64)'!=''">
         <BT_BuildType>Debug</BT_BuildType>
@@ -263,6 +264,7 @@ $(PostBuildEvent)]]></PostBuildEvent>
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="inf\Database\Migrations\_2025_09_02_00000001_alter_table_regime_tributacao_alter_descricao_column.pas"/>
+        <DCCReference Include="inf\Database\Migrations\_2025_09_15_00000001_alter_table_duimp_tributos_calculados_valores_brl_add_diferenca_column.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
@@ -1282,7 +1284,7 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <PreBuildEventIgnoreExitCode>False</PreBuildEventIgnoreExitCode>
         <PreLinkEvent/>
         <PreLinkEventIgnoreExitCode>False</PreLinkEventIgnoreExitCode>
-        <PostBuildEvent>xcopy /Y /S &quot;..\..\deploy\*&quot; &quot;..\..\build\$(Platform)\$(Config)&quot;</PostBuildEvent>
+        <PostBuildEvent>xcopy /Y /S &quot;..\..\deploy\*&quot; &quot;..\..\build\$(Platform)\$(Config)&quot;</PostBuildEvent>
         <PostBuildEventIgnoreExitCode>False</PostBuildEventIgnoreExitCode>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Config)'=='VCL' And '$(Platform)'=='Win32'">
@@ -1290,7 +1292,7 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <PreBuildEventIgnoreExitCode>False</PreBuildEventIgnoreExitCode>
         <PreLinkEvent/>
         <PreLinkEventIgnoreExitCode>False</PreLinkEventIgnoreExitCode>
-        <PostBuildEvent>xcopy /Y /S &quot;..\..\deploy\*&quot; &quot;..\..\build\$(Platform)\$(Config)&quot;</PostBuildEvent>
+        <PostBuildEvent>xcopy /Y /S &quot;..\..\deploy\*&quot; &quot;..\..\build\$(Platform)\$(Config)&quot;</PostBuildEvent>
         <PostBuildEventIgnoreExitCode>False</PostBuildEventIgnoreExitCode>
     </PropertyGroup>
 </Project>

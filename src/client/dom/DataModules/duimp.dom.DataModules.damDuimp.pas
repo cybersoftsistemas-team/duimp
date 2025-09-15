@@ -938,6 +938,8 @@ type
     qryDPRUnidadeComercialCodigo: TStringField;
     qryDUVNumero: TStringField;
     qryCONProcesso_ImportarFechado: TBooleanField;
+    qryDTVDiferenca: TFloatField;
+    qryDTVSelDiferenca: TFloatField;
     procedure DataModuleCreate(Sender: TObject);
     procedure MoedaNegociadaValorGetText(Sender: TField; var Text: string; DisplayText: Boolean);
     procedure qryDUINewRecord(DataSet: TDataSet);

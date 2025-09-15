@@ -578,6 +578,10 @@ type
     grdDCIDBBandedTableViewUnidadeComercialCodigo: TcxGridDBBandedColumn;
     edtSearchDuimp: TcxMaskEdit;
     dxLayoutItem31: TdxLayoutItem;
+    grdDTVDBLayoutViewLayoutItem12: TcxGridLayoutItem;
+    grdDTVDBLayoutViewTipo: TcxGridDBLayoutViewItem;
+    grdDTVDBLayoutViewLayoutItem13: TcxGridLayoutItem;
+    grdDTVDBLayoutViewDiferenca: TcxGridDBLayoutViewItem;
     procedure actFindDuimpExecute(Sender: TObject);
     procedure cbxModalidadePropertiesEditValueChanged(Sender: TObject);
     procedure edtProdutoCodigoInternoPropertiesEditValueChanged(Sender: TObject);

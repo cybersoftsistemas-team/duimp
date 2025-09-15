@@ -2398,6 +2398,7 @@ inherited damDuimp: TdamDuimp
           ')'
           'UPDATE duimp.tributos_calculados_valores_brl'
           'SET NotaFiscal = ISNULL(TRI.NotaFiscalValor, 0)'
+          ',Diferenca = DVB.Majorado - ISNULL(TRI.NotaFiscalValor, 0)'
           'FROM duimp.tributos_calculados AS DTC'
           'JOIN duimp.tributos_calculados_valores_brl AS DVB'
           #9'ON DTC.Id = DVB.TributoCalculadoId'
@@ -3441,6 +3442,7 @@ inherited damDuimp: TdamDuimp
       ',DTV.ARecolher'
       ',DTV.Recolhido'
       ',DTV.Majorado'
+      ',DTV.Diferenca'
       ',DTV.TributoCalculadoId'
       'FROM duimp.tributos_calculados_valores_brl AS DTV'
       'WHERE DTV.TributoCalculadoId = @TributoCalculadoId;')
@@ -3496,6 +3498,9 @@ inherited damDuimp: TdamDuimp
       Origin = 'Majorado'
       Required = True
     end
+    object qryDTVDiferenca: TFloatField
+      FieldName = 'Diferenca'
+    end
     object qryDTVTributoCalculadoId: TGuidField
       FieldName = 'TributoCalculadoId'
       Origin = 'TributoCalculadoId'
@@ -3531,6 +3536,7 @@ inherited damDuimp: TdamDuimp
       ',DTV.ARecolher'
       ',DTV.Recolhido'
       ',DTV.Majorado'
+      ',DTV.Diferenca'
       ',DTV.NotaFiscal'
       ',DTV.TributoCalculadoId'
       ',DTC.VersaoId'
@@ -3558,6 +3564,7 @@ inherited damDuimp: TdamDuimp
       FieldName = 'Tipo'
       Origin = 'Tipo'
       Required = True
+      Visible = False
       Size = 17
     end
     object qryDTVSelCalculado: TFloatField
@@ -3608,6 +3615,13 @@ inherited damDuimp: TdamDuimp
       DisplayLabel = 'Nota Fiscal'
       FieldName = 'NotaFiscal'
       Origin = 'NotaFiscal'
+      Required = True
+      DisplayFormat = ',0.00;-,0.00'
+    end
+    object qryDTVSelDiferenca: TFloatField
+      DisplayLabel = 'Diferen'#231'a'
+      FieldName = 'Diferenca'
+      Origin = 'Diferenca'
       Required = True
       DisplayFormat = ',0.00;-,0.00'
     end
