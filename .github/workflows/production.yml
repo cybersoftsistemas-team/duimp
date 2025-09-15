@@ -117,7 +117,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Save Version After Deploy
+      - name: Save Version Information
         shell: powershell
         run: |
           $installerName = "${{ steps.get_installer.outputs.installer_name }}"
