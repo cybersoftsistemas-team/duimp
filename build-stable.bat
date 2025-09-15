@@ -29,19 +29,20 @@ set /a BUILD=BUILD+1
 set NEW_VERSION=!MAJOR!.!MINOR!.!RELEASE!.!BUILD!
 
 REM ============================
-REM Updating duimp project
+REM Update duimp project (.dproj)
 REM ============================
-echo Updating duimp project to the new version !NEW_VERSION!
-powershell -Command "(gc '%DPROJ_PATH%') -replace 'FileVersion=.*?;', 'FileVersion=$(MAJOR).$(MINOR).$(RELEASE).$(BUILD);' | Set-Content '%DPROJ_PATH%'"
-powershell -Command "(gc '%DPROJ_PATH%') -replace 'ProductVersion=.*?;', 'ProductVersion=$(MAJOR).$(MINOR).$(RELEASE).$(BUILD);' | Set-Content '%DPROJ_PATH%'"
+echo Updating duimp project to version !NEW_VERSION!
+
+powershell -Command "(gc '%DPROJ_PATH%') -replace 'FileVersion=\"\d+\.\d+\.\d+\.\d+\"', 'FileVersion=\"!MAJOR!.!MINOR!.!RELEASE!.!BUILD!\"' | Set-Content '%DPROJ_PATH%'"
+powershell -Command "(gc '%DPROJ_PATH%') -replace 'ProductVersion=\"\d+\.\d+\.\d+\.\d+\"', 'ProductVersion=\"!MAJOR!.!MINOR!.!RELEASE!.!BUILD!\"' | Set-Content '%DPROJ_PATH%'"
 
 REM ============================
-REM Loading variables from Delphi 12.3
+REM Load Delphi 12.3 environment
 REM ============================
 call "C:\Program Files (x86)\Embarcadero\Studio\23.0\bin\rsvars.bat"
 
 REM ============================
-REM Compile the executable
+REM Compile the project
 REM ============================
 msbuild.exe "%PROJECT_PATH%" ^
   /t:Build ^
@@ -53,17 +54,12 @@ msbuild.exe "%PROJECT_PATH%" ^
   /p:VerInfo_Build=!BUILD!
 
 if errorlevel 1 (
-    echo DELPHI COMPILATION ERROR
+    echo ❌ DELPHI COMPILATION ERROR
     exit /b 1
 )
 
-REM ============================
-REM Increment build
-REM ============================
-echo !NEW_VERSION! > %VERSION_FILE%
-
 echo ====================================
-echo Compilation completed successfully!
+echo ✅ Compilation completed successfully!
 echo Release version: !NEW_VERSION!
 echo ====================================
 exit /b 0
