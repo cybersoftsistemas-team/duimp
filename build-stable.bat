@@ -1,9 +1,9 @@
 @echo off
 setlocal enabledelayedexpansion
 
-echo ====================================
+echo =====================================
 echo Compiling Delphi 12.3 for environment
-echo ====================================
+echo =====================================
 
 REM ============================
 REM Paths
@@ -56,11 +56,6 @@ if errorlevel 1 (
     echo DELPHI COMPILATION ERROR
     exit /b 1
 )
-
-REM ============================
-REM Increment build
-REM ============================
-echo !NEW_VERSION! > %VERSION_FILE%
 
 echo ====================================
 echo Compilation completed successfully!

@@ -1,9 +1,9 @@
 @echo off
 setlocal enabledelayedexpansion
 
-echo ====================================
+echo =====================================
 echo Compiling Delphi 12.3 for environment
-echo ====================================
+echo =====================================
 
 REM ============================
 REM Paths
@@ -23,15 +23,15 @@ for /f "tokens=1-4 delims=." %%a in (%VERSION_FILE%) do (
 )
 
 REM ============================
-REM Current version
+REM Increment build
 REM ============================
 set /a BUILD=BUILD+1
 set NEW_VERSION=!MAJOR!.!MINOR!.!RELEASE!.!BUILD!
 
 REM ============================
-REM Duimp project version
+REM Updating duimp project
 REM ============================
-echo Current version of the Duimp project: !NEW_VERSION!
+echo Updating duimp project to the new version !NEW_VERSION!
 powershell -Command "(gc '%DPROJ_PATH%') -replace 'FileVersion=.*?;', 'FileVersion=$(MAJOR).$(MINOR).$(RELEASE).$(BUILD);' | Set-Content '%DPROJ_PATH%'"
 powershell -Command "(gc '%DPROJ_PATH%') -replace 'ProductVersion=.*?;', 'ProductVersion=$(MAJOR).$(MINOR).$(RELEASE).$(BUILD);' | Set-Content '%DPROJ_PATH%'"
 
@@ -57,13 +57,8 @@ if errorlevel 1 (
     exit /b 1
 )
 
-REM ============================
-REM Increment build
-REM ============================
-echo !NEW_VERSION! > %VERSION_FILE%
-
 echo ====================================
 echo Compilation completed successfully!
-echo Final version: !NEW_VERSION!
+echo Release version: !NEW_VERSION!
 echo ====================================
 exit /b 0
