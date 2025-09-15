@@ -116,6 +116,18 @@ jobs:
           files: ${{ steps.get_installer.outputs.installer_path }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Save Version After Deploy
+        shell: powershell
+        run: |
+          $installerName = "${{ steps.get_installer.outputs.installer_name }}"
+          if ($installerName -notmatch 'duimp-(\d+\.\d+\.\d+)\.(\d+)') {
+              Write-Error "Não foi possível extrair a versão do instalador"
+              exit 1
+          }
+          $version = "$($matches[1]).$($matches[2])"
+          Write-Host "Saving version $version to version.txt"
+          Set-Content "C:\actions-runner\_work\duimp\version.txt" $version
       
       - name: Download Manifest from FTP
         shell: powershell
