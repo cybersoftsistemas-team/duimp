@@ -30,7 +30,7 @@ jobs:
             echo "❌ Only pull request from 'stable' branch to 'main' is allowed."
             exit 1
           fi
-          echo "✅ Valid pull request: stable → main" 
+          echo "✅ Valid pull request: stable → main"
   
   # --------------------------------------------------------------------------------
   # Faz o Checkout dos fontes, gera o os executáveis, gera o instalador e faz deploy
@@ -61,17 +61,23 @@ jobs:
           & $SignerExe -directories=build\Win32\VCL
 
       - name: Build Production Installer
-        shell: powershell
-        run: |
-          & "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" "src\foundation\InnoSetup\duimp.iss"
-
-      - name: Identify Installer
         id: get_installer
         shell: powershell
         run: |
+          # --- Build do instalador ---
+          & "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" /Qp "src\foundation\InnoSetup\duimp.iss"
+          # --- Identificar o instalador gerado ---
           $file = Get-ChildItem -Path "installers\duimp-*.exe" | Sort-Object LastWriteTime -Descending | Select-Object -First 1
-          echo "installer_name=$([System.IO.Path]::GetFileNameWithoutExtension($file.Name))" >> $env:GITHUB_OUTPUT
-          echo "installer_path=$($file.FullName)" >> $env:GITHUB_OUTPUT
+          if (-not $file) {
+              Write-Error "❌ Não foi possível localizar o instalador gerado."
+              exit 1
+          }
+          $installerName = [System.IO.Path]::GetFileNameWithoutExtension($file.Name)
+          $installerPath = $file.FullName
+          Write-Host "Installer Name: $installerName"
+          Write-Host "Installer Path: $installerPath"
+          echo "installer_name=$installerName" >> $env:GITHUB_OUTPUT
+          echo "installer_path=$installerPath" >> $env:GITHUB_OUTPUT
       
       - name: Sign Installer
         shell: powershell
@@ -110,6 +116,18 @@ jobs:
           files: ${{ steps.get_installer.outputs.installer_path }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Save Version After Deploy
+        shell: powershell
+        run: |
+          $installerName = "${{ steps.get_installer.outputs.installer_name }}"
+          if ($installerName -notmatch 'duimp-(\d+\.\d+\.\d+)\.(\d+)') {
+              Write-Error "Não foi possível extrair a versão do instalador"
+              exit 1
+          }
+          $version = "$($matches[1]).$($matches[2])"
+          Write-Host "Saving version $version to version.txt"
+          Set-Content "C:\actions-runner\_work\duimp\version.txt" $version
       
       - name: Download Manifest from FTP
         shell: powershell
