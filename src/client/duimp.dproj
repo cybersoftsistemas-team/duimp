@@ -104,9 +104,8 @@
         <DCC_DcpOutput>..\..\build\$(Platform)\$(Config)\.dcp</DCC_DcpOutput>
         <VerInfo_Locale>1046</VerInfo_Locale>
         <DCC_UnitSearchPath>..\..\build;..\..\build\$(Platform)\$(Config);..\..\build\$(Platform)\$(Config)\.dcp;..\..\build\$(Platform)\$(Config)\.bpl;..\..\build\$(Platform)\$(Config)\.dcu;..\modules\WinCryptographyAPIs;..\modules\WinCryptographyAPIs\Authentication;..\modules\WinCryptographyAPIs\Cryptography;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
-        <VerInfo_Keys>CompanyName=Cybersoft Sistemas;FileDescription=Sistema de Integracao Declaracao Unica de Importacao (Duimp);FileVersion=0.0.0.0;InternalName=duimp;LegalCopyright=2025 Cybersoft Sistemas; LegalTrademarks=;OriginalFilename=duimp.exe;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=Cybersoft Duimp;ProductVersion=0.0.0.0;Comments=Aplicacao cliente para integracao com o Siscomex</VerInfo_Keys>
+        <VerInfo_Keys>CompanyName=Cybersoft Sistemas;FileDescription=Sistema de Integracao Declaracao Unica de Importacao (Duimp);FileVersion=1.0.0.0;InternalName=duimp;LegalCopyright=2025 Cybersoft Sistemas; LegalTrademarks=;OriginalFilename=duimp.exe;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=Cybersoft Duimp;ProductVersion=0.0.0.0;Comments=Aplicacao cliente para integracao com o Siscomex</VerInfo_Keys>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
-        <VerInfo_MajorVer>0</VerInfo_MajorVer>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Android)'!=''">
         <DCC_UsePackage>DBXSqliteDriver;tethering;FireDACDBXDriver;RESTBackendComponents;bindengine;CloudService;DataSnapClient;bindcompdbx;IndyIPServer;IndySystem;fmxFireDAC;FMXTee;soaprtl;DbxCommonDriver;xmlrtl;soapmidas;DataSnapNativeClient;rtl;DbxClientDriver;LockBox3DR;IndyIPClient;DataSnapProviderClient;RESTComponents;DBXInterBaseDriver;emsclientfiredac;DataSnapFireDAC;bindcompfmx;FmxTeeUI;FireDACIBDriver;fmx;dbexpress;IndyCore;dsnap;DataSnapCommon;emsclient;FireDACCommon;soapserver;FireDACCommonDriver;inet;IndyIPCommon;FireDAC;FireDACSqliteDriver;ibmonitor;ibxpress;ibxbindings;FireDACDSDriver;CustomIPTransport;bindcomp;RtmRxCtl260;dbxcds;dsnapxml;dbrtl;IndyProtocols;$(DCC_UsePackage)</DCC_UsePackage>
@@ -133,6 +132,8 @@
     <PropertyGroup Condition="'$(Cfg_3_Win32)'!=''">
         <BT_BuildType>Debug</BT_BuildType>
         <Debugger_RunParams>-status updated_system</Debugger_RunParams>
+        <VerInfo_Keys>CompanyName=Cybersoft Sistemas;FileDescription=Sistema de Integracao Declaracao Unica de Importacao (Duimp);FileVersion=1.0.0.0;InternalName=duimp;LegalCopyright=2025 Cybersoft Sistemas; LegalTrademarks=;OriginalFilename=duimp.exe;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=Cybersoft Duimp;ProductVersion=0.0.0.0;Comments=Aplicacao cliente para integracao com o Siscomex</VerInfo_Keys>
+        <Icon_MainIcon>duimp_Icon.ico</Icon_MainIcon>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_3_Win64)'!=''">
         <BT_BuildType>Debug</BT_BuildType>
