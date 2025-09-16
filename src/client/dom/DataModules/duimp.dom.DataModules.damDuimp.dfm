@@ -10494,8 +10494,8 @@ inherited damDuimp: TdamDuimp
         '    IIF(C1 = 1 AND C2 = 0, CAST(0 AS bit), CAST(1 AS bit)) AS Nf' +
         'OrPi'
       'FROM Condicoes;')
-    Left = 746
-    Top = 590
+    Left = 496
+    Top = 591
     ParamData = <
       item
         Name = 'PROCESSONUMERO'
@@ -10508,5 +10508,12 @@ inherited damDuimp: TdamDuimp
       Origin = 'NfOrPi'
       ReadOnly = True
     end
+  end
+  object dsoVNF: TDataSource
+    DataSet = qryVNF
+    OnStateChange = dsoStateChange
+    OnDataChange = dsoDataChange
+    Left = 558
+    Top = 591
   end
 end

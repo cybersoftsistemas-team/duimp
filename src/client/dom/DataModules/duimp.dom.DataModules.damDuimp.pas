@@ -942,6 +942,7 @@ type
     qryDTVSelDiferenca: TFloatField;
     qryVNF: TFDQuery;
     qryVNFNfOrPi: TBooleanField;
+    dsoVNF: TDataSource;
     procedure DataModuleCreate(Sender: TObject);
     procedure MoedaNegociadaValorGetText(Sender: TField; var Text: string; DisplayText: Boolean);
     procedure qryDUINewRecord(DataSet: TDataSet);
@@ -1386,6 +1387,8 @@ begin
       DifferenceLaunch;
       Sleep(1000);
     end;
+    qryVNF.Close;
+    qryVNF.Open;
     if LInTransaction then
     begin
       damConnection.DBCliente.Commit;

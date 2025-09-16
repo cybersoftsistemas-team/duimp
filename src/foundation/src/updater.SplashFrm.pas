@@ -16,8 +16,8 @@ type
     labInfor02: TcxLabel;
     labSubTitle1: TcxLabel;
     labVer: TcxLabel;
-    labInfor: TLabel;
-    labDownload: TLabel;
+    labDownload: TcxLabel;
+    labInfor: TcxLabel;
     procedure dxFluentDesignFormActivate(Sender: TObject);
     procedure FormMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
     procedure dxFluentDesignFormCreate(Sender: TObject);

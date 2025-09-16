@@ -296,21 +296,6 @@ object frmSplash: TfrmSplash
       AAF76079BA3B49120000000049454E44AE426082}
     Transparent = True
   end
-  object labInfor: TLabel
-    Left = 8
-    Top = 206
-    Width = 53
-    Height = 15
-    Caption = 'labInfor02'
-  end
-  object labDownload: TLabel
-    Left = 8
-    Top = 190
-    Width = 70
-    Height = 15
-    Caption = 'labDownload'
-    Visible = False
-  end
   object labInfor01: TcxLabel
     Left = 27
     Top = -6
@@ -397,6 +382,25 @@ object frmSplash: TfrmSplash
     Properties.Alignment.Horz = taRightJustify
     Transparent = True
     AnchorX = 404
+  end
+  object labDownload: TcxLabel
+    Left = 8
+    Top = 189
+    AutoSize = False
+    Caption = 'labDownload'
+    Transparent = True
+    Visible = False
+    Height = 19
+    Width = 353
+  end
+  object labInfor: TcxLabel
+    Left = 8
+    Top = 205
+    AutoSize = False
+    Caption = 'labInfor'
+    Transparent = True
+    Height = 19
+    Width = 353
   end
   object dxSkinController: TdxSkinController
     NativeStyle = False

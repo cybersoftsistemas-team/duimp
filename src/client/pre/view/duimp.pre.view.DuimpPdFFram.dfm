@@ -1729,10 +1729,6 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
             object tshGoods: TcxTabSheet
               Caption = 'Mercadorias (0)'
               ImageIndex = 1
-              ExplicitLeft = 0
-              ExplicitTop = 0
-              ExplicitWidth = 0
-              ExplicitHeight = 0
               object lclGoods: TdxLayoutControl
                 Left = 0
                 Top = 0
@@ -1761,10 +1757,6 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                   object tshDCI: TcxTabSheet
                     Caption = 'Mercadoria'
                     ImageIndex = 0
-                    ExplicitLeft = 0
-                    ExplicitTop = 0
-                    ExplicitWidth = 0
-                    ExplicitHeight = 0
                     object dxLayoutControl1: TdxLayoutControl
                       Left = 0
                       Top = 0
@@ -2624,10 +2616,6 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                   object tshTRI: TcxTabSheet
                     Caption = 'Tributos'
                     ImageIndex = 1
-                    ExplicitLeft = 0
-                    ExplicitTop = 0
-                    ExplicitWidth = 0
-                    ExplicitHeight = 0
                     object dxLayoutControl2: TdxLayoutControl
                       Left = 0
                       Top = 0
@@ -3105,10 +3093,6 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                   object tshCamex: TcxTabSheet
                     Caption = 'Camex'
                     ImageIndex = 2
-                    ExplicitLeft = 0
-                    ExplicitTop = 0
-                    ExplicitWidth = 0
-                    ExplicitHeight = 0
                     object lclCamex: TdxLayoutControl
                       Left = 0
                       Top = 0
@@ -3229,10 +3213,6 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                   object tshDUM: TcxTabSheet
                     Caption = 'Dumping'
                     ImageIndex = 3
-                    ExplicitLeft = 0
-                    ExplicitTop = 0
-                    ExplicitWidth = 0
-                    ExplicitHeight = 0
                     object lclDUM: TdxLayoutControl
                       Left = 0
                       Top = 0
@@ -3350,10 +3330,6 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                   object tshEF: TcxTabSheet
                     Caption = 'Exportador / Fabricante'
                     ImageIndex = 4
-                    ExplicitLeft = 0
-                    ExplicitTop = 0
-                    ExplicitWidth = 0
-                    ExplicitHeight = 0
                     object lclEF: TdxLayoutControl
                       Left = 0
                       Top = 0
@@ -4090,10 +4066,6 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
             object tshDPG: TcxTabSheet
               Caption = 'Pagamentos (0)'
               ImageIndex = 3
-              ExplicitLeft = 0
-              ExplicitTop = 0
-              ExplicitWidth = 0
-              ExplicitHeight = 0
               object lclDPG: TdxLayoutControl
                 Left = 0
                 Top = 0
@@ -4245,10 +4217,6 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
             object tshExpFab: TcxTabSheet
               Caption = 'Exportadores / Fabricantes'
               ImageIndex = 4
-              ExplicitLeft = 0
-              ExplicitTop = 0
-              ExplicitWidth = 0
-              ExplicitHeight = 0
               object lclFornFabric: TdxLayoutControl
                 Left = 0
                 Top = 0
@@ -4459,10 +4427,6 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
             object tshInfCompl: TcxTabSheet
               Caption = 'Informa'#231#227'o Complementar'
               ImageIndex = 2
-              ExplicitLeft = 0
-              ExplicitTop = 0
-              ExplicitWidth = 0
-              ExplicitHeight = 0
               object lclIFC: TdxLayoutControl
                 Left = 0
                 Top = 0
