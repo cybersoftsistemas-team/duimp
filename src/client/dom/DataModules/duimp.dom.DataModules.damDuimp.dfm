@@ -10473,34 +10473,26 @@ inherited damDuimp: TdamDuimp
       ''
       'WITH Condicoes AS ('
       '    SELECT '
-      '        -- Condi'#231#227'o 1: processo existe nas duas tabelas'
+      '        -- Condi'#231#227'o 1: existe em NotasFiscais ou NotasItens'
       '        CASE '
       
-        '            WHEN EXISTS (SELECT 1 FROM NotasFiscais nf WHERE nf.' +
-        'Processo = @Processo)'
+        '            WHEN EXISTS (SELECT 1 FROM NotasFiscais WHERE Proces' +
+        'so = @Processo)'
       
-        '             AND EXISTS (SELECT 1 FROM NotasItens ni WHERE ni.Pr' +
-        'ocesso = @Processo)'
+        '              OR EXISTS (SELECT 1 FROM NotasItens WHERE Processo' +
+        ' = @Processo)'
       '            THEN CAST(1 AS bit) ELSE CAST(0 AS bit)'
-      '        END AS Condicao1,'
+      '        END AS C1,'
       ''
-      '        -- Condi'#231#227'o 2: pega direto da tabela Configuracao'
+      '        -- Condi'#231#227'o 2: flag de configura'#231#227'o'
       
         '        CAST((SELECT TOP 1 Processo_ImportarFechado FROM Configu' +
-        'racao) AS bit) AS Condicao2'
+        'racao) AS bit) AS C2'
       ')'
       'SELECT '
-      '    CASE '
       
-        '        WHEN Condicao1 = 1 AND Condicao2 = 1 THEN CAST(1 AS bit)' +
-        '     -- true AND true'
-      
-        '        WHEN Condicao1 = 0 OR Condicao2 = 0 THEN CAST(1 AS bit) ' +
-        '    -- false OR false'
-      
-        '        WHEN Condicao1 = 1 OR Condicao2 = 0 THEN CAST(0 AS bit) ' +
-        '    -- true OR false'
-      '    END AS NfOrPi'
+        '    IIF(NOT (C1 = 1 AND C2 = 0), CAST(1 AS bit), CAST(0 AS bit))' +
+        ' AS NfOrPi'
       'FROM Condicoes;')
     Left = 746
     Top = 590
