@@ -578,6 +578,10 @@ type
     grdDCIDBBandedTableViewUnidadeComercialCodigo: TcxGridDBBandedColumn;
     edtSearchDuimp: TcxMaskEdit;
     dxLayoutItem31: TdxLayoutItem;
+    grdDTVDBLayoutViewLayoutItem12: TcxGridLayoutItem;
+    grdDTVDBLayoutViewTipo: TcxGridDBLayoutViewItem;
+    grdDTVDBLayoutViewLayoutItem13: TcxGridLayoutItem;
+    grdDTVDBLayoutViewDiferenca: TcxGridDBLayoutViewItem;
     procedure actFindDuimpExecute(Sender: TObject);
     procedure cbxModalidadePropertiesEditValueChanged(Sender: TObject);
     procedure edtProdutoCodigoInternoPropertiesEditValueChanged(Sender: TObject);
@@ -608,6 +612,7 @@ implementation
 
 uses
 {IDE}
+  FireDAC.Stan.Param,
   System.SysUtils,
   System.Threading,
   System.Variants,
@@ -720,6 +725,7 @@ begin
       DataModule.qryDCRUFImportacao.AsString := PComex.Duimp.NI_ESTADO;
     end;
   end;
+  cbxRedoDuimp.Enabled := not DataModule.qryDUV.IsEmpty and DataModule.qryVNFNfOrPi.AsBoolean;
 end;
 
 procedure TfraDuimpPageDef.edtProdutoCodigoInternoPropertiesEditValueChanged(Sender: TObject);
@@ -752,8 +758,11 @@ begin
       pclDCI.ActivePage := tshDCI;
       pclDuimp.ActivePage := tshDuimpCouver;
       Self.Update;
+      DataModule.qryVNF.Close;
+      DataModule.qryVNF.ParamByName('ProcessoNumero').AsString := cbxProcessoNumero.Text;
+      DataModule.qryVNF.Open;
       var LNumeroDuimp := string(edtSearchDuimp.Text).Trim.Replace('-', '');
-      if not SameText(LNumeroDuimp, DataModule.qryDUINumero.AsString) then
+      if not SameText(LNumeroDuimp, DataModule.qryDUINumero.AsString) or not DataModule.qryVNFNfOrPi.AsBoolean then
       begin
         cbxRedoDuimp.Checked := False;
       end;
@@ -797,7 +806,6 @@ begin
           Application.ProcessMessages;
         end);
       cbxRedoDuimp.Checked := False;
-      cbxRedoDuimp.Enabled := LFounded and (DataModule.qryDUVProcessoNumero.AsString.Trim.IsEmpty and not DataModule.qryProc.IsEmpty) or (not DataModule.qryDUVProcessoNumero.AsString.Trim.IsEmpty and DataModule.qryProc.IsEmpty);
       tshDuimp.Caption := Format('Duimp (Versão: %d)', [DataModule.qryDUVVersao.AsInteger]);
       tshGoods.Caption := Format('Mercadorias (%d)', [DataModule.qryDCI.RecordCount]);
       tshDPG.Caption := Format('Pagamentos (%d)', [DataModule.dsoDPGSel.DataSet.RecordCount]);

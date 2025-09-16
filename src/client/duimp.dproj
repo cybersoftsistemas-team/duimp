@@ -5,28 +5,13 @@
         <FrameworkType>VCL</FrameworkType>
         <MainSource>duimp.dpr</MainSource>
         <Base>True</Base>
-        <Config Condition="'$(Config)'==''">VCL</Config>
+        <Config Condition="'$(Config)'==''">deVCL</Config>
         <Platform Condition="'$(Platform)'==''">Win32</Platform>
         <TargetedPlatforms>3</TargetedPlatforms>
         <AppType>Application</AppType>
         <ProjectName Condition="'$(ProjectName)'==''">duimp</ProjectName>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Config)'=='Base' or '$(Base)'!=''">
-        <Base>true</Base>
-    </PropertyGroup>
-    <PropertyGroup Condition="('$(Platform)'=='Android' and '$(Base)'=='true') or '$(Base_Android)'!=''">
-        <Base_Android>true</Base_Android>
-        <CfgParent>Base</CfgParent>
-        <Base>true</Base>
-    </PropertyGroup>
-    <PropertyGroup Condition="('$(Platform)'=='iOSDevice64' and '$(Base)'=='true') or '$(Base_iOSDevice64)'!=''">
-        <Base_iOSDevice64>true</Base_iOSDevice64>
-        <CfgParent>Base</CfgParent>
-        <Base>true</Base>
-    </PropertyGroup>
-    <PropertyGroup Condition="('$(Platform)'=='Linux64' and '$(Base)'=='true') or '$(Base_Linux64)'!=''">
-        <Base_Linux64>true</Base_Linux64>
-        <CfgParent>Base</CfgParent>
         <Base>true</Base>
     </PropertyGroup>
     <PropertyGroup Condition="('$(Platform)'=='Win32' and '$(Base)'=='true') or '$(Base_Win32)'!=''">
@@ -82,13 +67,6 @@
         <Cfg_2>true</Cfg_2>
         <Base>true</Base>
     </PropertyGroup>
-    <PropertyGroup Condition="('$(Platform)'=='Win64' and '$(Cfg_4)'=='true') or '$(Cfg_4_Win64)'!=''">
-        <Cfg_4_Win64>true</Cfg_4_Win64>
-        <CfgParent>Cfg_4</CfgParent>
-        <Cfg_4>true</Cfg_4>
-        <Cfg_2>true</Cfg_2>
-        <Base>true</Base>
-    </PropertyGroup>
     <PropertyGroup Condition="'$(Base)'!=''">
         <DCC_DcuOutput>..\..\build\$(Platform)\$(Config)\.dcu</DCC_DcuOutput>
         <DCC_ExeOutput>..\..\build\$(Platform)\$(Config)</DCC_ExeOutput>
@@ -108,47 +86,30 @@
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <VerInfo_MajorVer>0</VerInfo_MajorVer>
     </PropertyGroup>
-    <PropertyGroup Condition="'$(Base_Android)'!=''">
-        <DCC_UsePackage>DBXSqliteDriver;tethering;FireDACDBXDriver;RESTBackendComponents;bindengine;CloudService;DataSnapClient;bindcompdbx;IndyIPServer;IndySystem;fmxFireDAC;FMXTee;soaprtl;DbxCommonDriver;xmlrtl;soapmidas;DataSnapNativeClient;rtl;DbxClientDriver;LockBox3DR;IndyIPClient;DataSnapProviderClient;RESTComponents;DBXInterBaseDriver;emsclientfiredac;DataSnapFireDAC;bindcompfmx;FmxTeeUI;FireDACIBDriver;fmx;dbexpress;IndyCore;dsnap;DataSnapCommon;emsclient;FireDACCommon;soapserver;FireDACCommonDriver;inet;IndyIPCommon;FireDAC;FireDACSqliteDriver;ibmonitor;ibxpress;ibxbindings;FireDACDSDriver;CustomIPTransport;bindcomp;RtmRxCtl260;dbxcds;dsnapxml;dbrtl;IndyProtocols;$(DCC_UsePackage)</DCC_UsePackage>
-        <EnabledSysJars>android-support-v4.dex.jar;cloud-messaging.dex.jar;fmx.dex.jar;google-analytics-v2.dex.jar;google-play-billing.dex.jar;google-play-licensing.dex.jar;google-play-services-ads-7.0.0.dex.jar;google-play-services-analytics-7.0.0.dex.jar;google-play-services-base-7.0.0.dex.jar;google-play-services-gcm-7.0.0.dex.jar;google-play-services-identity-7.0.0.dex.jar;google-play-services-maps-7.0.0.dex.jar;google-play-services-panorama-7.0.0.dex.jar;google-play-services-plus-7.0.0.dex.jar;google-play-services-wallet-7.0.0.dex.jar</EnabledSysJars>
-        <Android_LauncherIcon192>$(BDS)\bin\Artwork\Android\FM_LauncherIcon_192x192.png</Android_LauncherIcon192>
-    </PropertyGroup>
-    <PropertyGroup Condition="'$(Base_iOSDevice64)'!=''">
-        <DCC_UsePackage>DBXSqliteDriver;tethering;ACBr_NFe;ACBr_PAFNFCe;ACBr_OFX;FireDACDBXDriver;RESTBackendComponents;bindengine;CloudService;ACBr_PAF;DataSnapClient;bindcompdbx;IndyIPServer;ACBr_CTe;IndySystem;ACBre_Social;fmxFireDAC;ACBr_SPED;ACBr_MDFe;FMXTee;soaprtl;DbxCommonDriver;xmlrtl;soapmidas;DataSnapNativeClient;rtl;DbxClientDriver;ACBr_Convenio115;IndyIPClient;ACBr_Boleto;DataSnapProviderClient;ACBr_NFSe;RESTComponents;DBXInterBaseDriver;ACBr_TEFD;emsclientfiredac;DataSnapFireDAC;ACBr_SATWS;bindcompfmx;ACBr_Diversos;FmxTeeUI;ACBr_LCDPR;FireDACIBDriver;fmx;ACBr_Ponto;dbexpress;IndyCore;dsnap;DataSnapCommon;emsclient;FireDACCommon;ACBR_DeSTDA;soapserver;ACBr_Sintegra;FireDACCommonDriver;inet;IndyIPCommon;ACBr_SATExtratoESCPOS;FireDAC;FireDACSqliteDriver;ibmonitor;ibxpress;ibxbindings;FireDACDSDriver;CustomIPTransport;bindcomp;ACBr_Serial;ACBr_BlocoX;dbxcds;ACBr_ANe;dsnapxml;dbrtl;IndyProtocols;fmxase;$(DCC_UsePackage)</DCC_UsePackage>
-        <iOS_AppStore1024>$(BDS)\bin\Artwork\iOS\iPhone\FM_ApplicationIcon_1024x1024.png</iOS_AppStore1024>
-    </PropertyGroup>
-    <PropertyGroup Condition="'$(Base_Linux64)'!=''">
-        <DCC_UsePackage>FireDACADSDriver;FireDACMSSQLDriver;ACBr_OFX;ACBr_GTIN;RESTBackendComponents;bindengine;CloudService;FireDACMySQLDriver;DataSnapClient;IndySystem;ACBr_PagFor;FireDACInfxDriver;emshosting;FireDACTDataDriver;soaprtl;DbxCommonDriver;xmlrtl;soapmidas;DataSnapNativeClient;rtl;emsserverresource;DbxClientDriver;ACBr_DebitoAutomatico;FireDACODBCDriver;DataSnapIndy10ServerTransport;ACBr_Boleto;FireDACMongoDBDriver;DataSnapServerMidas;RESTComponents;emsclientfiredac;DataSnapFireDAC;DatasnapConnectorsFreePascal;inetdb;emsedge;FireDACIBDriver;dbexpress;IndyCore;dsnap;DataSnapCommon;emsclient;FireDACCommon;ACBr_NFSeX;DataSnapConnectors;soapserver;FireDACOracleDriver;FireDACCommonODBC;FireDACCommonDriver;inet;FireDACDb2Driver;FireDAC;FireDACSqliteDriver;FireDACPgDriver;FireDACASADriver;DataSnapServer;CustomIPTransport;bindcomp;dbxcds;dsnapxml;dbrtl;IndyProtocols;$(DCC_UsePackage)</DCC_UsePackage>
-    </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win32)'!=''">
+        <Icon_MainIcon>duimp_Icon.ico</Icon_MainIcon>
         <Manifest_File>(None)</Manifest_File>
         <AppDPIAwarenessMode>none</AppDPIAwarenessMode>
-        <Icon_MainIcon>duimp_Icon.ico</Icon_MainIcon>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win64)'!=''">
+        <Icon_MainIcon>duimp_Icon.ico</Icon_MainIcon>
         <Manifest_File>(None)</Manifest_File>
         <AppDPIAwarenessMode>none</AppDPIAwarenessMode>
-        <Icon_MainIcon>duimp_Icon.ico</Icon_MainIcon>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_3_Win32)'!=''">
         <BT_BuildType>Debug</BT_BuildType>
+        <PostBuildEvent><![CDATA[xcopy /Y /S "..\..\deploy\*" "..\..\build\$(Platform)\$(Config)"
+$(PostBuildEvent)]]></PostBuildEvent>
+        <Icon_MainIcon>duimp_Icon.ico</Icon_MainIcon>
         <Debugger_RunParams>-status updated_system</Debugger_RunParams>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_3_Win64)'!=''">
         <BT_BuildType>Debug</BT_BuildType>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_4_Win32)'!=''">
-        <DCC_UNSUPPORTED_CONSTRUCT>false</DCC_UNSUPPORTED_CONSTRUCT>
-        <Icon_MainIcon>duimp_Icon.ico</Icon_MainIcon>
-        <PostBuildEvent><![CDATA[xcopy /Y /S "..\..\certificates\*" "..\..\build\$(Platform)\$(Config)"
-xcopy /Y /S "..\..\extensions\dlls\*" "..\..\build\$(Platform)\$(Config)"
-xcopy /Y /S "..\..\extensions\drivers\*" "..\..\build\$(Platform)\$(Config)"
+        <PostBuildEvent><![CDATA[xcopy /Y /S "..\..\deploy\*" "..\..\build\$(Platform)\$(Config)"
 $(PostBuildEvent)]]></PostBuildEvent>
-        <BT_BuildType>Debug</BT_BuildType>
-    </PropertyGroup>
-    <PropertyGroup Condition="'$(Cfg_4_Win64)'!=''">
         <Icon_MainIcon>duimp_Icon.ico</Icon_MainIcon>
-        <BT_BuildType>Debug</BT_BuildType>
     </PropertyGroup>
     <ItemGroup>
         <DelphiCompile Include="$(MainSource)">
@@ -303,6 +264,7 @@ $(PostBuildEvent)]]></PostBuildEvent>
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="inf\Database\Migrations\_2025_09_02_00000001_alter_table_regime_tributacao_alter_descricao_column.pas"/>
+        <DCCReference Include="inf\Database\Migrations\_2025_09_15_00000001_alter_table_duimp_tributos_calculados_valores_brl_add_diferenca_column.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
@@ -1317,12 +1279,20 @@ $(PostBuildEvent)]]></PostBuildEvent>
     <Import Project="$(BDS)\Bin\CodeGear.Delphi.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Delphi.Targets')"/>
     <Import Project="$(APPDATA)\Embarcadero\$(BDSAPPDATABASEDIR)\$(PRODUCTVERSION)\UserTools.proj" Condition="Exists('$(APPDATA)\Embarcadero\$(BDSAPPDATABASEDIR)\$(PRODUCTVERSION)\UserTools.proj')"/>
     <Import Project="$(MSBuildProjectName).deployproj" Condition="Exists('$(MSBuildProjectName).deployproj')"/>
+    <PropertyGroup Condition="'$(Config)'=='deVCL' And '$(Platform)'=='Win32'">
+        <PreBuildEvent/>
+        <PreBuildEventIgnoreExitCode>False</PreBuildEventIgnoreExitCode>
+        <PreLinkEvent/>
+        <PreLinkEventIgnoreExitCode>False</PreLinkEventIgnoreExitCode>
+        <PostBuildEvent>xcopy /Y /S &quot;..\..\deploy\*&quot; &quot;..\..\build\$(Platform)\$(Config)&quot;</PostBuildEvent>
+        <PostBuildEventIgnoreExitCode>False</PostBuildEventIgnoreExitCode>
+    </PropertyGroup>
     <PropertyGroup Condition="'$(Config)'=='VCL' And '$(Platform)'=='Win32'">
         <PreBuildEvent/>
         <PreBuildEventIgnoreExitCode>False</PreBuildEventIgnoreExitCode>
         <PreLinkEvent/>
         <PreLinkEventIgnoreExitCode>False</PreLinkEventIgnoreExitCode>
-        <PostBuildEvent>xcopy /Y /S &quot;..\..\certificates\*&quot; &quot;..\..\build\$(Platform)\$(Config)&quot;&amp;&amp;xcopy /Y /S &quot;..\..\extensions\dlls\*&quot; &quot;..\..\build\$(Platform)\$(Config)&quot;&amp;&amp;xcopy /Y /S &quot;..\..\extensions\drivers\*&quot; &quot;..\..\build\$(Platform)\$(Config)&quot;</PostBuildEvent>
+        <PostBuildEvent>xcopy /Y /S &quot;..\..\deploy\*&quot; &quot;..\..\build\$(Platform)\$(Config)&quot;</PostBuildEvent>
         <PostBuildEventIgnoreExitCode>False</PostBuildEventIgnoreExitCode>
     </PropertyGroup>
 </Project>

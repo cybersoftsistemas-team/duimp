@@ -2282,9 +2282,7 @@ inherited damDuimp: TdamDuimp
           #9',Majorado = '
           #9' SUM('
           #9#9'CASE'
-          
-            #9#9#9'WHEN DMC.TipoAliquota = '#39'AD_VALOREM'#39' AND DMC.TipoAliquota = '#39 +
-            #39
+          #9#9#9'WHEN DMC.TipoAliquota = '#39'AD_VALOREM'#39' OR DMC.TipoAliquota = '#39#39
           #9#9#9#9'THEN DVB.ARecolher'
           #9#9#9'ELSE DMC.ValorAliquotaEspecifica * DCI.QuantidadeComercial'
           #9#9'END)'
@@ -2400,6 +2398,7 @@ inherited damDuimp: TdamDuimp
           ')'
           'UPDATE duimp.tributos_calculados_valores_brl'
           'SET NotaFiscal = ISNULL(TRI.NotaFiscalValor, 0)'
+          ',Diferenca = DVB.Majorado - ISNULL(TRI.NotaFiscalValor, 0)'
           'FROM duimp.tributos_calculados AS DTC'
           'JOIN duimp.tributos_calculados_valores_brl AS DVB'
           #9'ON DTC.Id = DVB.TributoCalculadoId'
@@ -3443,6 +3442,7 @@ inherited damDuimp: TdamDuimp
       ',DTV.ARecolher'
       ',DTV.Recolhido'
       ',DTV.Majorado'
+      ',DTV.Diferenca'
       ',DTV.TributoCalculadoId'
       'FROM duimp.tributos_calculados_valores_brl AS DTV'
       'WHERE DTV.TributoCalculadoId = @TributoCalculadoId;')
@@ -3498,6 +3498,9 @@ inherited damDuimp: TdamDuimp
       Origin = 'Majorado'
       Required = True
     end
+    object qryDTVDiferenca: TFloatField
+      FieldName = 'Diferenca'
+    end
     object qryDTVTributoCalculadoId: TGuidField
       FieldName = 'TributoCalculadoId'
       Origin = 'TributoCalculadoId'
@@ -3533,6 +3536,7 @@ inherited damDuimp: TdamDuimp
       ',DTV.ARecolher'
       ',DTV.Recolhido'
       ',DTV.Majorado'
+      ',DTV.Diferenca'
       ',DTV.NotaFiscal'
       ',DTV.TributoCalculadoId'
       ',DTC.VersaoId'
@@ -3560,6 +3564,7 @@ inherited damDuimp: TdamDuimp
       FieldName = 'Tipo'
       Origin = 'Tipo'
       Required = True
+      Visible = False
       Size = 17
     end
     object qryDTVSelCalculado: TFloatField
@@ -3610,6 +3615,13 @@ inherited damDuimp: TdamDuimp
       DisplayLabel = 'Nota Fiscal'
       FieldName = 'NotaFiscal'
       Origin = 'NotaFiscal'
+      Required = True
+      DisplayFormat = ',0.00;-,0.00'
+    end
+    object qryDTVSelDiferenca: TFloatField
+      DisplayLabel = 'Diferen'#231'a'
+      FieldName = 'Diferenca'
+      Origin = 'Diferenca'
       Required = True
       DisplayFormat = ',0.00;-,0.00'
     end
@@ -8549,6 +8561,7 @@ inherited damDuimp: TdamDuimp
       ',CONF.SISCOMEX_Documento'
       ',CONF.SISCOMEX_CentroCusto'
       ',CONF.Ramo_Atividade'
+      ',CONF.Processo_ImportarFechado'
       'FROM Configuracao AS CONF')
     Left = 818
     Top = 271
@@ -8613,6 +8626,10 @@ inherited damDuimp: TdamDuimp
     object qryCONRamo_Atividade: TSmallintField
       FieldName = 'Ramo_Atividade'
       Origin = 'Ramo_Atividade'
+    end
+    object qryCONProcesso_ImportarFechado: TBooleanField
+      FieldName = 'Processo_ImportarFechado'
+      Origin = 'Processo_ImportarFechado'
     end
   end
   object dsoITR: TDataSource
@@ -10444,5 +10461,59 @@ inherited damDuimp: TdamDuimp
       end>
     Left = 944
     Top = 271
+  end
+  object qryVNF: TFDQuery
+    MasterSource = dsoDUV
+    MasterFields = 'ProcessoNumero'
+    Connection = damConnection.DBCliente
+    SQL.Strings = (
+      'DECLARE @Processo varchar(15);'
+      ''
+      'SET @Processo = :ProcessoNumero;'
+      ''
+      'WITH Condicoes AS ('
+      '    SELECT '
+      '        -- Condi'#231#227'o 1: existe em NotasFiscais ou NotasItens'
+      '        CASE '
+      
+        '            WHEN EXISTS (SELECT 1 FROM NotasFiscais WHERE Proces' +
+        'so = @Processo)'
+      
+        '              OR EXISTS (SELECT 1 FROM NotasItens WHERE Processo' +
+        ' = @Processo)'
+      '            THEN CAST(1 AS bit) ELSE CAST(0 AS bit)'
+      '        END AS C1,'
+      ''
+      '        -- Condi'#231#227'o 2: flag de configura'#231#227'o'
+      
+        '        CAST((SELECT TOP 1 Processo_ImportarFechado FROM Configu' +
+        'racao) AS bit) AS C2'
+      ')'
+      'SELECT '
+      
+        '    IIF(C1 = 1 AND C2 = 0, CAST(0 AS bit), CAST(1 AS bit)) AS Nf' +
+        'OrPi'
+      'FROM Condicoes;')
+    Left = 496
+    Top = 591
+    ParamData = <
+      item
+        Name = 'PROCESSONUMERO'
+        DataType = ftString
+        ParamType = ptInput
+        Value = Null
+      end>
+    object qryVNFNfOrPi: TBooleanField
+      FieldName = 'NfOrPi'
+      Origin = 'NfOrPi'
+      ReadOnly = True
+    end
+  end
+  object dsoVNF: TDataSource
+    DataSet = qryVNF
+    OnStateChange = dsoStateChange
+    OnDataChange = dsoDataChange
+    Left = 558
+    Top = 591
   end
 end

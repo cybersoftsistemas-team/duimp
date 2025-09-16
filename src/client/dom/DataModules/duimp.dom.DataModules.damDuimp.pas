@@ -937,6 +937,12 @@ type
     qryITRUnidadeComercialCodigo: TStringField;
     qryDPRUnidadeComercialCodigo: TStringField;
     qryDUVNumero: TStringField;
+    qryCONProcesso_ImportarFechado: TBooleanField;
+    qryDTVDiferenca: TFloatField;
+    qryDTVSelDiferenca: TFloatField;
+    qryVNF: TFDQuery;
+    qryVNFNfOrPi: TBooleanField;
+    dsoVNF: TDataSource;
     procedure DataModuleCreate(Sender: TObject);
     procedure MoedaNegociadaValorGetText(Sender: TField; var Text: string; DisplayText: Boolean);
     procedure qryDUINewRecord(DataSet: TDataSet);
@@ -1037,7 +1043,6 @@ uses
   cbsCore.SysUtils,
   duimp.dom.DataModules.damAttrs,
   duimp.dom.DataModules.damConnection,
-
   duimp.dom.Products.Attributes.FillingForm,
   duimp.dom.System.Application,
   duimp.dom.System.ImportaUtils,
@@ -1382,6 +1387,8 @@ begin
       DifferenceLaunch;
       Sleep(1000);
     end;
+    qryVNF.Close;
+    qryVNF.Open;
     if LInTransaction then
     begin
       damConnection.DBCliente.Commit;
@@ -1772,6 +1779,7 @@ end;
 
 procedure TdamDuimp.CloseDataSets;
 begin
+  qryVNF.Close;
   qryPRS.Close;
   qryCON.Close;
   qryIFI.Close;
@@ -2028,6 +2036,7 @@ begin
   qryVTF.Open;
   qryTCV.Open;
   qryPRS.Open;
+  qryVNF.Open;
 end;
 
 procedure TdamDuimp.TryCreateDAADataSet(const AAtributos: TArray<TAtributoTributoCover>);
