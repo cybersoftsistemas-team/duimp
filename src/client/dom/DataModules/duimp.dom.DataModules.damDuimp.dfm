@@ -10491,8 +10491,8 @@ inherited damDuimp: TdamDuimp
       ')'
       'SELECT '
       
-        '    IIF(NOT (C1 = 1 AND C2 = 0), CAST(1 AS bit), CAST(0 AS bit))' +
-        ' AS NfOrPi'
+        '    IIF(C1 = 1 AND C2 = 0, CAST(0 AS bit), CAST(1 AS bit)) AS Nf' +
+        'OrPi'
       'FROM Condicoes;')
     Left = 746
     Top = 590
