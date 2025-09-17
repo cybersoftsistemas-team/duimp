@@ -186,7 +186,7 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                   Top = 583
                   Width = 376
                   Height = 75
-                  TabOrder = 32
+                  TabOrder = 33
                   LookAndFeel.NativeStyle = False
                   object grdFOADBTableView: TcxGridDBTableView
                     Navigator.Buttons.CustomButtons = <>
@@ -246,7 +246,7 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                   Top = 583
                   Width = 376
                   Height = 75
-                  TabOrder = 33
+                  TabOrder = 34
                   object grdFOBDBTableView: TcxGridDBTableView
                     Navigator.Buttons.CustomButtons = <>
                     ScrollbarAnnotations.CustomAnnotations = <>
@@ -302,7 +302,7 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                 end
                 object cbxRemoverValoracaoNoValorFob: TcxDBCheckBox
                   Left = 418
-                  Top = 180
+                  Top = 191
                   Caption = 'Remover a valora'#231#227'o aduaneira dos valores das mercadorias'
                   DataBinding.DataField = 'RemoverValoracaoNoValorFob'
                   DataBinding.DataSource = damDuimp.dsoDUI
@@ -314,9 +314,9 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                 end
                 object grdDTC: TcxGrid
                   Left = 778
-                  Top = 423
+                  Top = 374
                   Width = 335
-                  Height = 229
+                  Height = 278
                   TabOrder = 48
                   object grdDTCDBTableView: TcxGridDBTableView
                     Navigator.Buttons.CustomButtons = <>
@@ -499,10 +499,10 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                 end
                 object grdADV: TcxGrid
                   Left = 408
-                  Top = 296
+                  Top = 358
                   Width = 358
-                  Height = 259
-                  TabOrder = 31
+                  Height = 197
+                  TabOrder = 32
                   object grdADVDBTableView: TcxGridDBTableView
                     Navigator.Buttons.CustomButtons = <>
                     ScrollbarAnnotations.CustomAnnotations = <>
@@ -558,7 +558,7 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                 end
                 object cbxDesembaracoAduaneiro: TcxDBCheckBox
                   Left = 418
-                  Top = 126
+                  Top = 137
                   Caption = 'Desembara'#231'o Aduaneiro (DA)'
                   DataBinding.DataField = 'DesembaracoAduaneiro'
                   DataBinding.DataSource = damDuimp.dsoDUI
@@ -569,7 +569,7 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                 end
                 object cbxAdmissaoTemporaria: TcxDBCheckBox
                   Left = 418
-                  Top = 99
+                  Top = 110
                   Caption = 'Admiss'#227'o Tempor'#225'ria'
                   DataBinding.DataField = 'AdmissaoTemporaria'
                   DataBinding.DataSource = damDuimp.dsoDUI
@@ -580,7 +580,7 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                 end
                 object cbxSuspensaoImpostos: TcxDBCheckBox
                   Left = 418
-                  Top = 234
+                  Top = 245
                   Caption = 'Suspens'#227'o de Impostos'
                   DataBinding.DataField = 'SuspensaoImpostos'
                   DataBinding.DataSource = damDuimp.dsoDUI
@@ -591,7 +591,7 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                 end
                 object cbxEntrepostoAduaneiro: TcxDBCheckBox
                   Left = 418
-                  Top = 153
+                  Top = 164
                   Caption = 'Entreposto Aduaneiro'
                   DataBinding.DataField = 'EntrepostoAduaneiro'
                   DataBinding.DataSource = damDuimp.dsoDUI
@@ -602,7 +602,7 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                 end
                 object cbxRemoverFreteTerrirtrioNacionalBCImpostos: TcxDBCheckBox
                   Left = 418
-                  Top = 207
+                  Top = 218
                   Caption = 'Remover Frete em Terrirt'#243'rio Nacional da B.C.Impostos'
                   DataBinding.DataField = 'RemoverFreteTerrirtorioNacionalBCImpostos'
                   DataBinding.DataSource = damDuimp.dsoDUI
@@ -649,33 +649,21 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                 end
                 object edtModalidades: TcxDBTextEdit
                   Left = 408
-                  Top = 28
+                  Top = 307
                   DataBinding.DataField = 'Modalidades'
                   DataBinding.DataSource = damDuimp.dsoMDS
                   Properties.ReadOnly = True
-                  TabOrder = 24
+                  TabOrder = 31
                   Width = 358
                 end
-                object dbrgrpCanalConsolidado: TDBRadioGroup
-                  Left = 773
-                  Top = 5
-                  Width = 187
-                  Height = 60
-                  Caption = 'Canal:'
-                  Columns = 2
-                  DataField = 'CanalConsolidado'
-                  DataSource = damDuimp.dsoDRR
-                  ReadOnly = True
-                  TabOrder = 34
-                end
                 object edtProcessoNumeroVinculado: TcxDBTextEdit
-                  Left = 949
-                  Top = 125
+                  Left = 861
+                  Top = 76
                   DataBinding.DataField = 'ProcessoNumeroVinculado'
                   DataBinding.DataSource = damDuimp.dsoDUI
                   Properties.CharCase = ecUpperCase
-                  TabOrder = 38
-                  Width = 164
+                  TabOrder = 36
+                  Width = 165
                 end
                 object edtClienteCNPJ: TcxDBTextEdit
                   Left = 16
@@ -690,20 +678,20 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                   Width = 108
                 end
                 object btnProcessSave: TcxButton
-                  Left = 965
-                  Top = 11
-                  Width = 153
+                  Left = 1033
+                  Top = 43
+                  Width = 75
                   Height = 25
                   Action = actProcessSave
-                  TabOrder = 35
+                  TabOrder = 37
                 end
                 object btnProcessCancel: TcxButton
-                  Left = 965
-                  Top = 40
-                  Width = 153
+                  Left = 1033
+                  Top = 71
+                  Width = 75
                   Height = 25
                   Action = actProcessCancel
-                  TabOrder = 36
+                  TabOrder = 38
                 end
                 object edtViaTransporteDescricao: TcxDBTextEdit
                   Left = 234
@@ -790,7 +778,7 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                 end
                 object edtFobValorTotal: TcxDBButtonEdit
                   Left = 783
-                  Top = 301
+                  Top = 252
                   DataBinding.DataField = 'FobValorTotal'
                   DataBinding.DataSource = damDuimp.dsoDCR
                   Properties.Buttons = <
@@ -807,7 +795,7 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                 end
                 object edtFobAdicaoValorTotal: TcxDBButtonEdit
                   Left = 783
-                  Top = 250
+                  Top = 201
                   DataBinding.DataField = 'FobAdicaoValorTotal'
                   DataBinding.DataSource = damDuimp.dsoDCR
                   Properties.Buttons = <
@@ -824,7 +812,7 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                 end
                 object edtFobValorTotalBRL: TcxDBButtonEdit
                   Left = 987
-                  Top = 301
+                  Top = 252
                   DataBinding.DataField = 'FobValorTotalBRL'
                   DataBinding.DataSource = damDuimp.dsoDCR
                   Properties.Buttons = <
@@ -841,7 +829,7 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                 end
                 object edtFobAdicaoValorTotalBRL: TcxDBButtonEdit
                   Left = 987
-                  Top = 250
+                  Top = 201
                   DataBinding.DataField = 'FobAdicaoValorTotalBRL'
                   DataBinding.DataSource = damDuimp.dsoDCR
                   Properties.Buttons = <
@@ -857,8 +845,8 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                   Width = 121
                 end
                 object cbxProcessoNumero: TcxDBLookupComboBox
-                  Left = 778
-                  Top = 125
+                  Left = 861
+                  Top = 46
                   DataBinding.DataField = 'ProcessoNumero'
                   DataBinding.DataSource = damDuimp.dsoDUV
                   Properties.CharCase = ecUpperCase
@@ -872,12 +860,12 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                   Properties.ListOptions.ColumnSorting = False
                   Properties.ListOptions.ShowHeader = False
                   Properties.ListSource = damDuimp.dsoPRS
-                  TabOrder = 37
-                  Width = 164
+                  TabOrder = 35
+                  Width = 165
                 end
                 object edtValAduaneiraValorTotal: TcxDBButtonEdit
                   Left = 783
-                  Top = 365
+                  Top = 316
                   DataBinding.DataField = 'ValAduaneiraValorTotal'
                   DataBinding.DataSource = damDuimp.dsoDCR
                   Properties.Buttons = <
@@ -896,7 +884,7 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                 end
                 object edtValAduaneiraValorTotalBRL: TcxDBButtonEdit
                   Left = 987
-                  Top = 365
+                  Top = 316
                   DataBinding.DataField = 'ValAduaneiraValorTotalBRL'
                   DataBinding.DataSource = damDuimp.dsoDCR
                   Properties.Buttons = <
@@ -915,7 +903,7 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                 end
                 object edtFobValorCotacao: TcxDBTextEdit
                   Left = 925
-                  Top = 301
+                  Top = 252
                   DataBinding.DataField = 'FobValorCotacao'
                   DataBinding.DataSource = damDuimp.dsoDCR
                   Properties.Alignment.Horz = taRightJustify
@@ -927,7 +915,7 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                 end
                 object edtFobAdicaoValorCotacao: TcxDBTextEdit
                   Left = 925
-                  Top = 250
+                  Top = 201
                   DataBinding.DataField = 'FobAdicaoValorCotacao'
                   DataBinding.DataSource = damDuimp.dsoDCR
                   Properties.Alignment.Horz = taRightJustify
@@ -939,7 +927,7 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                 end
                 object edtValAduaneiraCotacao: TcxDBTextEdit
                   Left = 925
-                  Top = 365
+                  Top = 316
                   DataBinding.DataField = 'ValAduaneiraCotacao'
                   DataBinding.DataSource = damDuimp.dsoDCR
                   Properties.Alignment.Horz = taRightJustify
@@ -971,10 +959,25 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                   TabOrder = 23
                   Width = 78
                 end
+                object rgpCanalConsolidado: TcxDBRadioGroup
+                  Left = 408
+                  Top = 7
+                  Caption = 'Canal:'
+                  DataBinding.DataField = 'CanalConsolidado'
+                  DataBinding.DataSource = damDuimp.dsoDRR
+                  Properties.Columns = 4
+                  Properties.Items = <>
+                  Properties.ReadOnly = True
+                  Style.TransparentBorder = False
+                  TabOrder = 24
+                  Height = 55
+                  Width = 358
+                end
                 object lclDuimpGroup_Root: TdxLayoutGroup
                   AlignHorz = ahParentManaged
                   AlignVert = avClient
                   Hidden = True
+                  ItemIndex = 1
                   LayoutDirection = ldHorizontal
                   Padding.Bottom = -5
                   Padding.Left = -5
@@ -1248,7 +1251,7 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                   Padding.Right = -10
                   Padding.Top = -13
                   Padding.AssignedValues = [lpavBottom, lpavLeft, lpavRight, lpavTop]
-                  Index = 2
+                  Index = 1
                 end
                 object ltgMercadoria: TdxLayoutGroup
                   Parent = ltgTributos
@@ -1273,7 +1276,7 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                   ControlOptions.OriginalHeight = 95
                   ControlOptions.OriginalWidth = 358
                   ControlOptions.ShowBorder = False
-                  Index = 2
+                  Index = 3
                 end
                 object loicbxDesembaracoAduaneiro: TdxLayoutItem
                   Parent = ltgOpcoesDiversas
@@ -1371,30 +1374,13 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                 end
                 object dxLayoutItem12: TdxLayoutItem
                   Parent = dxLayoutAutoCreatedGroup16
-                  AlignHorz = ahClient
                   CaptionOptions.Text = 'Modalidade:'
                   CaptionOptions.Layout = clTop
                   Control = edtModalidades
                   ControlOptions.OriginalHeight = 23
                   ControlOptions.OriginalWidth = 121
                   ControlOptions.ShowBorder = False
-                  Index = 0
-                end
-                object dxLayoutItem13: TdxLayoutItem
-                  Parent = dxLayoutAutoCreatedGroup18
-                  AlignHorz = ahLeft
-                  Offsets.Right = -2
-                  Offsets.Top = -2
-                  SizeOptions.Height = 59
-                  Padding.Bottom = -1
-                  Padding.AssignedValues = [lpavBottom]
-                  CaptionOptions.Visible = False
-                  Control = dbrgrpCanalConsolidado
-                  ControlOptions.AutoColor = True
-                  ControlOptions.OriginalHeight = 60
-                  ControlOptions.OriginalWidth = 187
-                  ControlOptions.ShowBorder = False
-                  Index = 0
+                  Index = 2
                 end
                 object dxLayoutAutoCreatedGroup24: TdxLayoutAutoCreatedGroup
                   Parent = dxLayoutAutoCreatedGroup15
@@ -1407,17 +1393,15 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                   ItemIndex = 1
                   LayoutDirection = ldHorizontal
                   Padding.Bottom = -10
-                  Padding.Left = -10
-                  Padding.Right = -10
-                  Padding.Top = -14
+                  Padding.Left = -5
+                  Padding.Right = -5
+                  Padding.Top = -10
                   Padding.AssignedValues = [lpavBottom, lpavLeft, lpavRight, lpavTop]
-                  Index = 1
+                  Index = 0
                 end
                 object dxLayoutItem17: TdxLayoutItem
-                  Parent = ltgProcesso
-                  AlignHorz = ahClient
+                  Parent = dxLayoutAutoCreatedGroup18
                   CaptionOptions.Text = 'Vinculado ao:'
-                  CaptionOptions.Layout = clTop
                   Control = edtProcessoNumeroVinculado
                   ControlOptions.OriginalHeight = 23
                   ControlOptions.OriginalWidth = 121
@@ -1459,9 +1443,10 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                 end
                 object dxLayoutItem1: TdxLayoutItem
                   Parent = dxLayoutAutoCreatedGroup1
-                  Offsets.Bottom = -3
-                  Offsets.Top = 4
+                  AlignVert = avClient
+                  Offsets.Bottom = -4
                   CaptionOptions.Visible = False
+                  CaptionOptions.Layout = clTop
                   Control = btnProcessSave
                   ControlOptions.OriginalHeight = 25
                   ControlOptions.OriginalWidth = 75
@@ -1471,6 +1456,7 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                 end
                 object dxLayoutItem4: TdxLayoutItem
                   Parent = dxLayoutAutoCreatedGroup1
+                  AlignHorz = ahLeft
                   CaptionOptions.Text = 'cxButton2'
                   CaptionOptions.Visible = False
                   Control = btnProcessCancel
@@ -1479,11 +1465,6 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                   ControlOptions.ShowBorder = False
                   Enabled = False
                   Index = 1
-                end
-                object dxLayoutAutoCreatedGroup18: TdxLayoutAutoCreatedGroup
-                  Parent = dxLayoutAutoCreatedGroup20
-                  LayoutDirection = ldHorizontal
-                  Index = 0
                 end
                 object dxLayoutAutoCreatedGroup6: TdxLayoutAutoCreatedGroup
                   Parent = dxLayoutAutoCreatedGroup4
@@ -1512,12 +1493,6 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                   ControlOptions.OriginalHeight = 23
                   ControlOptions.OriginalWidth = 158
                   ControlOptions.ShowBorder = False
-                  Index = 1
-                end
-                object dxLayoutAutoCreatedGroup1: TdxLayoutAutoCreatedGroup
-                  Parent = dxLayoutAutoCreatedGroup18
-                  AlignHorz = ahClient
-                  AlignVert = avBottom
                   Index = 1
                 end
                 object dxLayoutItem20: TdxLayoutItem
@@ -1623,10 +1598,11 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                   Index = 0
                 end
                 object dxLayoutItem5: TdxLayoutItem
-                  Parent = ltgProcesso
-                  AlignHorz = ahClient
+                  Parent = dxLayoutAutoCreatedGroup18
+                  AlignVert = avTop
+                  Padding.Top = 3
+                  Padding.AssignedValues = [lpavTop]
                   CaptionOptions.Text = 'N'#250'mero:'
-                  CaptionOptions.Layout = clTop
                   Control = cbxProcessoNumero
                   ControlOptions.OriginalHeight = 23
                   ControlOptions.OriginalWidth = 121
@@ -1723,6 +1699,28 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                   ControlOptions.OriginalWidth = 121
                   ControlOptions.ShowBorder = False
                   Index = 4
+                end
+                object dxLayoutItem32: TdxLayoutItem
+                  Parent = dxLayoutAutoCreatedGroup16
+                  CaptionOptions.Text = 'cxDBRadioGroup1'
+                  CaptionOptions.Visible = False
+                  Control = rgpCanalConsolidado
+                  ControlOptions.AutoColor = True
+                  ControlOptions.OriginalHeight = 55
+                  ControlOptions.OriginalWidth = 185
+                  ControlOptions.ShowBorder = False
+                  Index = 0
+                end
+                object dxLayoutAutoCreatedGroup18: TdxLayoutAutoCreatedGroup
+                  Parent = ltgProcesso
+                  AlignHorz = ahClient
+                  Index = 0
+                end
+                object dxLayoutAutoCreatedGroup1: TdxLayoutAutoCreatedGroup
+                  Parent = ltgProcesso
+                  AlignHorz = ahLeft
+                  AlignVert = avTop
+                  Index = 1
                 end
               end
             end
