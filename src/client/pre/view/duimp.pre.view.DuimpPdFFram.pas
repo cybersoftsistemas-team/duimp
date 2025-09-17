@@ -10,11 +10,10 @@ uses
 {IDE}
   System.Classes, Data.DB, cxGraphics, cxControls, cxLookAndFeels, cxLookAndFeelPainters, dxSkinsCore, dxSkinOffice2019Colorful, cxContainer, cxEdit, dxLayoutcxEditAdapters,
   dxLayoutContainer, dxLayoutControlAdapters, dxCore, dxBarBuiltInMenu, cxStyles, cxCustomData, cxFilter, cxData, cxDataStorage, cxNavigator, dxDateRanges, dxScrollbarAnnotations,
-  cxDBData, cxCheckBox, Vcl.Menus, cxEditRepositoryItems, System.Actions, Vcl.ActnList, cxTextEdit, cxMemo, cxRichEdit, cxDBRichEdit, cxGridBandedTableView,
-  cxGridDBBandedTableView, cxButtonEdit, cxDBEdit, cxMaskEdit, cxDropDownEdit, cxLookupEdit, cxDBLookupEdit, cxDBLookupComboBox, Vcl.StdCtrls, cxButtons, Vcl.ExtCtrls, Vcl.DBCtrls,
+  cxDBData, cxCheckBox, Vcl.Menus, cxGroupBox, cxRadioGroup, cxDBEdit, cxEditRepositoryItems, System.Actions, Vcl.ActnList, cxMaskEdit, cxMemo, cxRichEdit, cxDBRichEdit,
+  cxGridBandedTableView, cxGridDBBandedTableView, cxButtonEdit, cxDropDownEdit, cxLookupEdit, cxDBLookupEdit, cxDBLookupComboBox, Vcl.StdCtrls, cxButtons,
   cxGridViewLayoutContainer, cxGridLayoutView, cxGridDBLayoutView, cxGridCustomLayoutView, cxGridLevel, cxGridCustomTableView, cxGridTableView, cxGridDBTableView, cxGridCustomView,
-  cxGrid, cxPC, dxSkinsForm, dxLayoutLookAndFeels, cxLocalization, cxClasses, System.ImageList, Vcl.ImgList, Vcl.Controls, cxImageList, cxLabel, dxLayoutControl,
-  dxSkinOffice2019Black;
+  cxGrid, cxTextEdit, cxPC, dxSkinsForm, dxLayoutLookAndFeels, cxLocalization, cxClasses, System.ImageList, Vcl.ImgList, Vcl.Controls, cxImageList, cxLabel, dxLayoutControl;
 
 type
   TfraDuimpPageDef = class(TfraPageDef)
@@ -483,8 +482,6 @@ type
     dxLayoutItem11: TdxLayoutItem;
     edtModalidades: TcxDBTextEdit;
     dxLayoutItem12: TdxLayoutItem;
-    dbrgrpCanalConsolidado: TDBRadioGroup;
-    dxLayoutItem13: TdxLayoutItem;
     dxLayoutAutoCreatedGroup24: TdxLayoutAutoCreatedGroup;
     ltgProcesso: TdxLayoutGroup;
     edtProcessoNumeroVinculado: TcxDBTextEdit;
@@ -497,7 +494,6 @@ type
     dxLayoutAutoCreatedGroup9: TdxLayoutAutoCreatedGroup;
     btnProcessSave: TcxButton;
     dxLayoutItem1: TdxLayoutItem;
-    dxLayoutAutoCreatedGroup18: TdxLayoutAutoCreatedGroup;
     dxLayoutAutoCreatedGroup6: TdxLayoutAutoCreatedGroup;
     dxLayoutAutoCreatedGroup2: TdxLayoutAutoCreatedGroup;
     dxLayoutAutoCreatedGroup4: TdxLayoutAutoCreatedGroup;
@@ -582,6 +578,10 @@ type
     grdDTVDBLayoutViewTipo: TcxGridDBLayoutViewItem;
     grdDTVDBLayoutViewLayoutItem13: TcxGridLayoutItem;
     grdDTVDBLayoutViewDiferenca: TcxGridDBLayoutViewItem;
+    rgpCanalConsolidado: TcxDBRadioGroup;
+    dxLayoutItem32: TdxLayoutItem;
+    dxLayoutAutoCreatedGroup18: TdxLayoutAutoCreatedGroup;
+    dxLayoutAutoCreatedGroup1: TdxLayoutAutoCreatedGroup;
     procedure actFindDuimpExecute(Sender: TObject);
     procedure cbxModalidadePropertiesEditValueChanged(Sender: TObject);
     procedure edtProdutoCodigoInternoPropertiesEditValueChanged(Sender: TObject);
@@ -672,11 +672,12 @@ procedure TfraDuimpPageDef.CreateCanal;
 var
   I: Integer;
 begin
-  dbrgrpCanalConsolidado.Items.Clear;
+  rgpCanalConsolidado.Properties.Items.Clear;
   for I := 0 to Pred(DataModule.GetCanalConsolidado.Count) do
   begin
-    dbrgrpCanalConsolidado.Items.Add(DataModule.GetCanalConsolidado.Names[I]);
-    dbrgrpCanalConsolidado.Values.Add(DataModule.GetCanalConsolidado.ValueFromIndex[I]);
+    var LItem := rgpCanalConsolidado.Properties.Items.Add;
+    LItem.Caption := DataModule.GetCanalConsolidado.Names[I];
+    LItem.Value := DataModule.GetCanalConsolidado.ValueFromIndex[I];
   end;
 end;
 

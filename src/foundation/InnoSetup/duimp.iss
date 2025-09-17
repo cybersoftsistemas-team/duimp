@@ -16,10 +16,11 @@ AppPublisher={#MyAppPublisher}
 AppPublisherURL={#MyAppURL}
 AppSupportURL={#MyAppURL}
 AppUpdatesURL={#MyAppURL}
+DefaultGroupName={#MyAppName}
 DefaultDirName={autopf}\{#MyAppPublisher}\{#MyAppName}
 UninstallDisplayIcon={app}\{#MyAppExeName}
 ChangesAssociations=yes
-DisableProgramGroupPage=yes
+DisableProgramGroupPage=no
 AllowNoIcons=yes
 PrivilegesRequired=admin
 PrivilegesRequiredOverridesAllowed=dialog
@@ -28,6 +29,7 @@ OutputBaseFilename={#MyAppName}-{#MyAppVersion}
 SetupIconFile=..\..\..\src\client\duimp_Icon.ico
 SolidCompression=yes
 WizardStyle=modern
+WizardSmallImageFile=..\..\..\src\client\images\duimp_Icon-55x55.bmp
 
 [Languages]
 Name: "english"; MessagesFile: "compiler:Default.isl"
@@ -52,7 +54,7 @@ Root: HKA; Subkey: "Software\Classes\{#MyAppAssocKey}\DefaultIcon"; ValueType: s
 Root: HKA; Subkey: "Software\Classes\{#MyAppAssocKey}\shell\open\command"; ValueType: string; ValueName: ""; ValueData: """{app}\{#MyAppExeName}"" ""%1"""
 
 [Icons]
-Name: "{autoprograms}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"
+Name: "{group}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"
 Name: "{autodesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: desktopicon
 
 [Run]

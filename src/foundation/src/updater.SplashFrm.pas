@@ -158,10 +158,13 @@ begin
   LExecutableName := 'duimp.exe';
   LParams := '-status updated_system';
   UpdateLabelInfo('Verificando se há atualizações...');
-  UpdateSystem(LExecutableName, LParams);
-  labDownload.Visible := False;
-  UpdateLabelInfo(Format('Iniciando o Cybersoft Sistemas %s...', [ChangeFileExt(ExtractFileName(LExecutableName), '')]));
-  ShellExecute(Handle, 'open', PChar(LExecutableName), PChar(LParams), nil, SW_SHOWNORMAL);
+  try
+    UpdateSystem(LExecutableName, LParams);
+  finally
+    labDownload.Visible := False;
+    UpdateLabelInfo(Format('Iniciando o Cybersoft Sistemas %s...', [ChangeFileExt(ExtractFileName(LExecutableName), '')]));
+    ShellExecute(Handle, 'open', PChar(LExecutableName), PChar(LParams), nil, SW_SHOWNORMAL);
+  end;
 end;
 
 procedure TfrmSplash.dxFluentDesignFormActivate(Sender: TObject);
