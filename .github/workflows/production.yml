@@ -47,7 +47,7 @@ jobs:
 
       - name: Build Project
         shell: powershell
-        run: .\build-main.bat
+        run: .\build.bat
       
       - name: Sign Project Artifacts
         shell: powershell
