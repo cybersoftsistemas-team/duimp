@@ -289,6 +289,7 @@ end;
 
 procedure TfrmSplash.UpdateSystem(var AExecutableName, AParams: string);
 begin
+  var LExecutableName := AExecutableName;
   try
     FUpdateFileName := GetUpdateFileName;
     if not FUpdateFileName.Trim.IsEmpty then
@@ -319,6 +320,7 @@ begin
   except
     on E: Exception do
     begin
+      AExecutableName := LExecutableName;
       Application.NormalizeTopMosts;
       Application.MessageBox(PChar(E.Message), 'Erro', MB_OK or MB_ICONERROR);
       Application.RestoreTopMosts;
