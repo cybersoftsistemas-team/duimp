@@ -3,14 +3,11 @@ unit duimp.pre.view.System.LoadingForm;
 interface
 
 uses
-{PROJECT}
-  duimp.pre.view.System.DefForm,
 {IDE}
-  System.Classes, cxGraphics, cxControls, cxLookAndFeels, cxLookAndFeelPainters, dxSkinsCore, dxSkinOffice2019Colorful, dxCore, cxLocalization, cxContainer, cxEdit,
-  System.ImageList, Vcl.ImgList, Vcl.Controls, cxImageList, System.Actions, Vcl.ActnList, dxSkinsForm, cxClasses, dxLayoutLookAndFeels, dxLayoutContainer, dxLayoutControl;
+   Vcl.Forms;
 
 type
-  TfrmLoading = class(TfrmDef)
+  TfrmLoading = class(TForm)
   private
     { Private declarations }
   public
