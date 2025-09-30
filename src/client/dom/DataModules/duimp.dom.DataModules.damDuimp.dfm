@@ -7256,13 +7256,13 @@ inherited damDuimp: TdamDuimp
     object qryProcProcesso: TStringField
       FieldName = 'Processo'
       Origin = 'Processo'
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
       Required = True
       Size = 15
     end
     object qryProcNumero_Declaracao: TStringField
       FieldName = 'Numero_Declaracao'
       Origin = 'Numero_Declaracao'
-      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
       Required = True
       Size = 15
     end
