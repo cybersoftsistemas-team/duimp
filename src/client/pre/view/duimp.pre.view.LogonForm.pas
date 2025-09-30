@@ -66,6 +66,7 @@ begin
     begin
       DataModule.mtbLGN.Edit;
       DataModule.mtbLGNCompanyId.AsInteger := DataModule.qryCMPCompanyId.AsInteger;
+      DataModule.mtbLGNCompanyBranch.AsInteger := DataModule.qryCMPBranch.AsInteger;
       DataModule.mtbLGNCompanyName.AsString := DataModule.qryCMPName.AsString;
       DataModule.mtbLGNCompanyState.AsString := DataModule.qryCMPState.AsString;
       DataModule.mtbLGNDatabaseName.AsString := DataModule.qryCMPDatabaseName.AsString;
