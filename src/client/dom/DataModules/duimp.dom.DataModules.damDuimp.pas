@@ -943,6 +943,9 @@ type
     qryVNF: TFDQuery;
     qryVNFNfOrPi: TBooleanField;
     dsoVNF: TDataSource;
+    qryMDSSISCOMEX_Orgao: TMemoField;
+    qryMDSSISCOMEX_Documento: TMemoField;
+    qryMDSSISCOMEX_CentroCusto: TMemoField;
     procedure DataModuleCreate(Sender: TObject);
     procedure MoedaNegociadaValorGetText(Sender: TField; var Text: string; DisplayText: Boolean);
     procedure qryDUINewRecord(DataSet: TDataSet);
@@ -1119,9 +1122,9 @@ var
 begin 
   cmdPRIns.Unprepare;
   cmdPRIns.Params.ParamByName('CodigoCF').AsString := ASender.FieldByName('CodigoCF').AsString;
-  cmdPRIns.Params.ParamByName('SISCOMEX_Orgao').AsString := qryCON.FieldByName('SISCOMEX_Orgao').AsString;
-  cmdPRIns.Params.ParamByName('SISCOMEX_Documento').AsString := qryCON.FieldByName('SISCOMEX_Documento').AsString;
-  cmdPRIns.Params.ParamByName('SISCOMEX_CentroCusto').AsString := qryCON.FieldByName('SISCOMEX_CentroCusto').AsString;
+  cmdPRIns.Params.ParamByName('SISCOMEX_Orgao').AsString := qryMDS.FieldByName('SISCOMEX_Orgao').AsString;
+  cmdPRIns.Params.ParamByName('SISCOMEX_Documento').AsString := qryMDS.FieldByName('SISCOMEX_Documento').AsString;
+  cmdPRIns.Params.ParamByName('SISCOMEX_CentroCusto').AsString := qryMDS.FieldByName('SISCOMEX_CentroCusto').AsString;
   cmdPRIns.Params.ParamByName('TipoCF').AsString := ASender.FieldByName('TipoCF').AsString;
   cmdPRIns.Params.ParamByName('Data_RegistroDeclaracao').AsDateTime := qryProcData_RegistroDeclaracao.AsDateTime;
   cmdPRIns.Params.ParamByName('Numero_Declaracao').AsString := qryProcNumero_Declaracao.AsString;
