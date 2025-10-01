@@ -4352,7 +4352,11 @@ inherited damDuimp: TdamDuimp
       'SET @VersaoId = :Id;'
       ''
       'WITH ModalidadesCTE AS ('
-      #9'SELECT DISTINCT TIP.Codigo, TIP.Descricao'
+      #9'SELECT DISTINCT TIP.Codigo'
+      #9',TIP.Descricao'
+      #9',TIP.SISCOMEX_Orgao'
+      #9',TIP.SISCOMEX_Documento'
+      #9',TIP.SISCOMEX_CentroCusto'
       #9'FROM duimp.capas_itens AS DCI'
       #9'JOIN duimp.modalidades AS MDL'
       #9#9'ON DCI.CaracterizacaoImportacaoIndicador = MDL.Id'
@@ -4368,6 +4372,21 @@ inherited damDuimp: TdamDuimp
       ').value('#39'.'#39', '#39'varchar(max)'#39'), 1, 2, '#39#39')'
       ',Modalidades = STUFF(('
       #9'SELECT '#39'; '#39' + CAST(Descricao AS varchar)'
+      #9'FROM ModalidadesCTE'
+      #9'FOR XML PATH('#39#39'), TYPE'
+      ').value('#39'.'#39', '#39'varchar(max)'#39'), 1, 2, '#39#39')'
+      ',SISCOMEX_Orgao = STUFF(('
+      #9'SELECT '#39'; '#39' + CAST(SISCOMEX_Orgao AS varchar)'
+      #9'FROM ModalidadesCTE'
+      #9'FOR XML PATH('#39#39'), TYPE'
+      ').value('#39'.'#39', '#39'varchar(max)'#39'), 1, 2, '#39#39')'
+      ',SISCOMEX_Documento = STUFF(('
+      #9'SELECT '#39'; '#39' + CAST(SISCOMEX_Documento AS varchar)'
+      #9'FROM ModalidadesCTE'
+      #9'FOR XML PATH('#39#39'), TYPE'
+      ').value('#39'.'#39', '#39'varchar(max)'#39'), 1, 2, '#39#39')'
+      ',SISCOMEX_CentroCusto = STUFF(('
+      #9'SELECT '#39'; '#39' + CAST(SISCOMEX_CentroCusto AS varchar)'
       #9'FROM ModalidadesCTE'
       #9'FOR XML PATH('#39#39'), TYPE'
       ').value('#39'.'#39', '#39'varchar(max)'#39'), 1, 2, '#39#39');')
@@ -4396,6 +4415,27 @@ inherited damDuimp: TdamDuimp
     object qryMDSModalidades: TMemoField
       FieldName = 'Modalidades'
       Origin = 'Modalidades'
+      ReadOnly = True
+      BlobType = ftMemo
+      Size = 2147483647
+    end
+    object qryMDSSISCOMEX_Orgao: TMemoField
+      FieldName = 'SISCOMEX_Orgao'
+      Origin = 'SISCOMEX_Orgao'
+      ReadOnly = True
+      BlobType = ftMemo
+      Size = 2147483647
+    end
+    object qryMDSSISCOMEX_Documento: TMemoField
+      FieldName = 'SISCOMEX_Documento'
+      Origin = 'SISCOMEX_Documento'
+      ReadOnly = True
+      BlobType = ftMemo
+      Size = 2147483647
+    end
+    object qryMDSSISCOMEX_CentroCusto: TMemoField
+      FieldName = 'SISCOMEX_CentroCusto'
+      Origin = 'SISCOMEX_CentroCusto'
       ReadOnly = True
       BlobType = ftMemo
       Size = 2147483647
