@@ -19,14 +19,14 @@ inherited frmProductPropertyDialog: TfrmProductPropertyDialog
     inherited btnWindowOk: TcxButton
       Left = 676
       Top = 463
-      TabOrder = 8
+      TabOrder = 3
       ExplicitLeft = 676
       ExplicitTop = 463
     end
     inherited btnWindowCancel: TcxButton
       Left = 757
       Top = 463
-      TabOrder = 9
+      TabOrder = 4
       ExplicitLeft = 757
       ExplicitTop = 463
     end
@@ -40,7 +40,7 @@ inherited frmProductPropertyDialog: TfrmProductPropertyDialog
       Style.HotTrack = False
       Style.StyleController = escDef
       Style.TransparentBorder = False
-      TabOrder = 3
+      TabOrder = 0
       Height = 21
       Width = 121
     end
@@ -54,7 +54,7 @@ inherited frmProductPropertyDialog: TfrmProductPropertyDialog
       Style.HotTrack = False
       Style.StyleController = escDef
       Style.TransparentBorder = False
-      TabOrder = 4
+      TabOrder = 1
       Height = 21
       Width = 121
     end
@@ -68,7 +68,7 @@ inherited frmProductPropertyDialog: TfrmProductPropertyDialog
       Style.HotTrack = False
       Style.StyleController = escDef
       Style.TransparentBorder = False
-      TabOrder = 5
+      TabOrder = 2
       Height = 21
       Width = 568
     end
@@ -90,7 +90,7 @@ inherited frmProductPropertyDialog: TfrmProductPropertyDialog
       StyleHot.LookAndFeel.SkinName = 'Office2019Colorful'
       StyleReadOnly.LookAndFeel.NativeStyle = False
       StyleReadOnly.LookAndFeel.SkinName = 'Office2019Colorful'
-      TabOrder = 6
+      TabOrder = 5
       Height = 89
       Width = 822
     end
@@ -102,7 +102,7 @@ inherited frmProductPropertyDialog: TfrmProductPropertyDialog
       Color = 15790320
       ParentBackground = False
       ParentColor = False
-      TabOrder = 7
+      TabOrder = 6
       Properties.ActivePage = tshAttributes
       Properties.CustomButtons.Buttons = <>
       ClientRectBottom = 275
@@ -112,6 +112,10 @@ inherited frmProductPropertyDialog: TfrmProductPropertyDialog
       object tshAttributes: TcxTabSheet
         Caption = 'Atributos'
         ImageIndex = 0
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
         object lclAttrs: TdxLayoutControl
           Left = 0
           Top = 0
@@ -127,7 +131,7 @@ inherited frmProductPropertyDialog: TfrmProductPropertyDialog
             Top = 10
             Width = 798
             Height = 232
-            TabOrder = 3
+            TabOrder = 0
             LookAndFeel.NativeStyle = False
             LookAndFeel.SkinName = 'Office2019Colorful'
             object grdAttsDBTableView: TcxGridDBTableView

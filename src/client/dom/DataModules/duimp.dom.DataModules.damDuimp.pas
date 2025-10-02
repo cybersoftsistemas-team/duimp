@@ -1023,7 +1023,7 @@ type
     procedure ProcessCreate(const AProcessCreateEvent: TProcessCreateEvent);
     procedure ProductGet(const AProdutoCodigo, AProdutoVersao, AProdutoCodigoInterno, AModalidadeCodigo, AAdicao,
       ATipoItem: Integer; const AUFImportacao, AUnidadeComercial, ATipoAliquota, ADescricaoMercadoria: string;
-      const ACamex: Boolean; const AII, AIPI, APIS, ACOFINS, APIS_ENTRADA, APIS_SAIDA, ACOFINS_ENTRADA, ACOFINS_SAIDA,
+      const ACamex: Boolean; const APesoLiquidoUnitario, AII, AIPI, APIS, ACOFINS, APIS_ENTRADA, APIS_SAIDA, ACOFINS_ENTRADA, ACOFINS_SAIDA,
       AValorII, AValorIPI, AValorPIS, AValorCOFINS, AReduzidaII, AReduzidaIPI, AReduzidaPIS, AReduzidaCOFINS: Double);
     procedure UpdateDCI;
     procedure UpdateCancelOpe;
@@ -1525,6 +1525,7 @@ begin
          ,qryDPRTipoAliquota.AsString
          ,qryDPRProdutoDescricao.AsString
          ,qryDPRCamex.AsBoolean
+         ,qryDPRPesoLiquidoUnitario.AsFloat
          ,qryDPRAliquotaII.AsFloat
          ,qryDPRAliquotaIPI.AsFloat
          ,qryDPRAliquotaPIS.AsFloat
@@ -1587,7 +1588,7 @@ end;
 
 procedure TdamDuimp.ProductGet(const AProdutoCodigo, AProdutoVersao, AProdutoCodigoInterno, AModalidadeCodigo,
   AAdicao, ATipoItem: Integer; const AUFImportacao, AUnidadeComercial, ATipoAliquota, ADescricaoMercadoria: string;
-  const ACamex: Boolean; const AII, AIPI, APIS, ACOFINS, APIS_ENTRADA, APIS_SAIDA, ACOFINS_ENTRADA, ACOFINS_SAIDA,
+  const ACamex: Boolean; const APesoLiquidoUnitario, AII, AIPI, APIS, ACOFINS, APIS_ENTRADA, APIS_SAIDA, ACOFINS_ENTRADA, ACOFINS_SAIDA,
   AValorII, AValorIPI, AValorPIS, AValorCOFINS, AReduzidaII, AReduzidaIPI, AReduzidaPIS, AReduzidaCOFINS: Double);
 var
   LForeignOperators: TForeignOperators;
@@ -1676,6 +1677,7 @@ begin
           qryPROUnidade.AsString := AUnidadeComercial;
           qryPRONCM.AsString := LProduct.Ncm;
           qryPROTipo_Item.AsInteger := ATipoItem;
+          qryPROPeso_Liquido.AsFloat := APesoLiquidoUnitario;
           qryPROAliquota_II.AsFloat := AII;
           qryPROAliquota_IPI.AsFloat := AIPI;
           qryPROAliquota_PIS.AsFloat := APIS;
