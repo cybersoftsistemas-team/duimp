@@ -142,6 +142,7 @@ begin
    ,DataModule.qryITRTipoAliquota.AsString
    ,DataModule.qryITRProdutoDescricao.AsString
    ,DataModule.qryDCICamex.AsBoolean
+   ,DataModule.qryITRPesoLiquidoUnitario.AsFloat
    ,DataModule.qryITRAliquotaII.AsFloat
    ,DataModule.qryITRAliquotaIPI.AsFloat
    ,DataModule.qryITRAliquotaPIS.AsFloat
