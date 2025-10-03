@@ -946,6 +946,8 @@ type
     qryMDSSISCOMEX_Orgao: TMemoField;
     qryMDSSISCOMEX_Documento: TMemoField;
     qryMDSSISCOMEX_CentroCusto: TMemoField;
+    qryIFIICMS_Diferido: TBooleanField;
+    qryProcICMS_DIferido: TBooleanField;
     procedure DataModuleCreate(Sender: TObject);
     procedure MoedaNegociadaValorGetText(Sender: TField; var Text: string; DisplayText: Boolean);
     procedure qryDUINewRecord(DataSet: TDataSet);
@@ -1316,6 +1318,7 @@ begin
   qryProcEntreposto.AsBoolean := qryDUIEntrepostoAduaneiro.AsBoolean;
   qryProcRemover_FreteNacBC.AsBoolean := qryDUIRemoverFreteTerrirtorioNacionalBCImpostos.AsBoolean;
   qryProcIncoterms.AsString := qryDCIIncotermCodigo.AsString;
+  qryProcICMS_DIferido.AsBoolean := qryIFIICMS_Diferido.AsBoolean;
 end;
 
 procedure TdamDuimp.ProcessCancelUpdates;

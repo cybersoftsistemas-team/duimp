@@ -7282,6 +7282,7 @@ inherited damDuimp: TdamDuimp
       ',PDO.TUP'
       ',PDO.Banco'
       ',PDO.Incoterms'
+      ',PDO.ICMS_DIferido'
       'FROM ProcessosDocumentos AS PDO'
       'WHERE PDO.Processo = :ProcessoNumero;')
     Left = 496
@@ -7546,14 +7547,20 @@ inherited damDuimp: TdamDuimp
       FixedChar = True
       Size = 3
     end
+    object qryProcICMS_DIferido: TBooleanField
+      FieldName = 'ICMS_DIferido'
+      Origin = 'ICMS_DIferido'
+    end
   end
   object qryIFI: TFDQuery
     IndexFieldNames = 'Nome'
     Connection = damConnection.DBCadastro
     SQL.Strings = (
       'SELECT IFI.Codigo'
-      ',IFI.Nome'
-      'FROM IncentivosFiscais AS IFI')
+      ',IFI.Nome        '
+      ',IFI.ICMS_Diferido'
+      'FROM IncentivosFiscais AS IFI'
+      'WHERE IFI.Desativada = 0')
     Left = 378
     Top = 463
     object qryIFICodigo: TSmallintField
@@ -7565,6 +7572,9 @@ inherited damDuimp: TdamDuimp
       FieldName = 'Nome'
       Origin = 'Nome'
       Size = 15
+    end
+    object qryIFIICMS_Diferido: TBooleanField
+      FieldName = 'ICMS_Diferido'
     end
   end
   object dsoIFI: TDataSource
