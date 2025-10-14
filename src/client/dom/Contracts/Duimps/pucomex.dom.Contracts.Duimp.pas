@@ -6,8 +6,10 @@ uses
 {PROJECT}
   pucomex.dom.Contracts.Http,
   pucomex.dom.Contracts.Http.Response,
-  pucomex.dom.Duimps.Model.InformacoesVersaoVigenteCover,
   pucomex.dom.Duimps.Model.DuimpConsultaCover,
+  pucomex.dom.Duimps.Model.InformacoesVersaoVigenteCover,
+  pucomex.dom.Duimps.Model.ItemConsultaDuimpCover,
+  pucomex.dom.Duimps.Model.ItemDuimpCover,
   pucomex.dom.Http.Model.Response.RespostaApiErro;
 
 type
@@ -36,6 +38,7 @@ type
   IDuimp = interface(IHttp)
     ['{BE0EE65E-5537-49CA-8633-A029A6BF1ED9}']
     function GetCpfCnpjRaiz: string;
+    function GetItemCover(const AItems: TArray<TItemConsultaDuimpCover>; const ANumeroItem: Integer): TItemDuimpCover;
     function GetNI_ESTADO: string;
     function GetNI_IMPORTADOR: string;
     procedure Get(const ANumber: string; const AVersao: Integer; const AResponseEvent: TDuimpResponseEvent;

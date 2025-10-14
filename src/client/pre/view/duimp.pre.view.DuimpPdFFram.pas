@@ -669,11 +669,9 @@ begin
 end;
 
 procedure TfraDuimpPageDef.CreateCanal;
-var
-  I: Integer;
 begin
   rgpCanalConsolidado.Properties.Items.Clear;
-  for I := 0 to Pred(DataModule.GetCanalConsolidado.Count) do
+  for var I := 0 to Pred(DataModule.GetCanalConsolidado.Count) do
   begin
     var LItem := rgpCanalConsolidado.Properties.Items.Add;
     LItem.Caption := DataModule.GetCanalConsolidado.Names[I];

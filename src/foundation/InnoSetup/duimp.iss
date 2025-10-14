@@ -8,7 +8,7 @@
 #define MyAppAssocKey StringChange(MyAppAssocName, " ", "") + MyAppAssocExt
 
 [Setup]
-AppId={{8D08FB49-C320-4D73-B08B-2D1003244E84}
+AppId={{8D08FB49-C320-4D73-B08B-2D1003244E84}}
 AppName={#MyAppName}
 AppVersion={#MyAppVersion}
 AppVerName={#MyAppName} {#MyAppVersion}
@@ -96,5 +96,10 @@ begin
       else
         WizardForm.TasksList.Checked[Index] := True; // marca por padrão
     end;
+  end
+  else if CurPageID = wpFinished then
+  begin
+    WizardForm.RunList.Checked[0] := True;
+    WizardForm.RunList.ItemCaption[0] := 'Iniciar o Sistema Cybersoft {#MyAppName} {#MyAppVersion}';
   end;
 end;
