@@ -9,6 +9,7 @@ uses
   pucomex.dom.Duimps.Model.AdicaoValoresCalculadosDuimpCover,
   pucomex.dom.Duimps.Model.AtributoTributoCover,
   pucomex.dom.Duimps.Model.DuimpConsultaCover,
+  pucomex.dom.Duimps.Model.ItemConsultaDuimpCover,
   pucomex.dom.Duimps.Model.ItemDuimpCover,
 {IDE}
   System.Variants, System.Generics.Defaults, System.Classes, System.SysUtils, FireDAC.Stan.Intf, FireDAC.Stan.Option,
@@ -979,8 +980,6 @@ type
     procedure qryDUIRemoverValoracaoNoValorFobChange(Sender: TField);
   private
     FCanalConsolidado: TStrings;
-    function GetItemCover(AItems: TArray<TItemDuimpCover>; const ANumeroItem: Integer;
-      const AComparer: IComparer<TItemDuimpCover>): TItemDuimpCover;
     procedure AdditionCreate(const ARegistro, AAdicao: Integer; const ANCM, AExportador, AProdutoDescricao, AIncoterm: string;
       const AQuantidade, AValor_Unitario, AValor_UnitarioReal, APesoLiquidoUnitario, APIS, ACOFINS, ACIDE,
       AValorUnitarioSemVlc, AValorDevidoCIDE, AValorARecolherCIDE: Double; const ADumping: Boolean);
@@ -998,7 +997,6 @@ type
     procedure PaymentsCreate(const ASender: TDataSet);
     procedure PostDataSet(const ASender: TDataSet);
     procedure AdditionsCreate(const AProcessCreateEvent: TProcessCreateEvent);
-    procedure SortItemDuimpCover(var AItems: TArray<TItemDuimpCover>; var AComparer: IComparer<TItemDuimpCover>);
     procedure TryCreateDAADataSet(const AAtributos: TArray<TAtributoTributoCover>);
     procedure TryCreateDADDataSet(const AItem: TItemDuimpCover);
     procedure TryCreateDCGDataSet(const ADuimp: TDuimpConsultaCover);
@@ -1094,26 +1092,6 @@ end;
 function TdamDuimp.GetCanalConsolidado: TStrings;
 begin
   Result := FCanalConsolidado;
-end;
-
-function TdamDuimp.GetItemCover(AItems: TArray<TItemDuimpCover>; const ANumeroItem: Integer;
-  const AComparer: IComparer<TItemDuimpCover>): TItemDuimpCover;
-var
-  LFoundIndex: Integer;
-  LItem: TItemDuimpCover;
-begin
-  LItem := TItemDuimpCover.Create;
-  try
-    LItem.Identificacao := TIdentificadorItemDuimpCover.Create;
-    LItem.Identificacao.NumeroItem := ANumeroItem;
-    if TArray.BinarySearch<TItemDuimpCover>(AItems, LItem, LFoundIndex, AComparer) then
-    begin
-      Exit(AItems[LFoundIndex]);
-    end;
-  finally
-    FreeAndNil(LItem);
-  end;
-  Result := nil;
 end;
 
 procedure TdamDuimp.GeneratePaymentAndReceipt(const ASender: TDataSet; const AValue: Double; const ATipoCF: string;
@@ -2315,69 +2293,65 @@ begin
 end;
 
 procedure TdamDuimp.TryCreateDCIDataSet(const ADuimp: TDuimpConsultaCover; const AFindDuimpEvent: TFindDuimpEvent);
-var
-  LAdd: TAdicaoValoresCalculadosDuimpCover;
-  LComparer: IComparer<TItemDuimpCover>;
-  LItem: TItemDuimpCover;
-  LItems: TArray<TItemDuimpCover>;
-  LItemIndex: Integer;
 begin
-  LItems := ADuimp.ItensDuimpCover;
-  SortItemDuimpCover(LItems, LComparer);
-  for LAdd in ADuimp.Adicoes do
+  for var LAdd in ADuimp.Adicoes do
   begin
-    for LItemIndex in LAdd.Itens do
+    for var LItemIndex in LAdd.Itens do
     begin
-      LItem := GetItemCover(LItems, LItemIndex, LComparer);
-      qryDCI.Append;
-      qryDCIAdicao.AsInteger := LAdd.Numero;
-      qryDCICamex.AsBoolean := False;
-      qryDCICaracterizacaoImportacaoIndicador.AsString := LItem.CaracterizacaoImportacao.Indicador;
-      if not LItem.CaracterizacaoImportacao.Ni.Trim.IsEmpty then
-      begin
-        qryDCICaracterizacaoImportacaoNI.AsString := LItem.CaracterizacaoImportacao.Ni;
-      end
-      else
-        qryDCICaracterizacaoImportacaoNI.Clear;
-      qryDCICondicaoVendaValorBRL.AsFloat := LItem.CondicaoVenda.ValorBRL;
-      qryDCICondicaoVendaValorFreteBRL.AsFloat := LItem.CondicaoVenda.Frete.ValorBRL;
-      qryDCICondicaoVendaValorMoedaNegociada.AsFloat := LItem.CondicaoVenda.ValorMoedaNegociada;
-      qryDCICondicaoVendaValorSeguroBRL.AsFloat := LItem.CondicaoVenda.Seguro.ValorBRL;
-      qryDCIDumping.AsBoolean := False;
-      if not LItem.Fabricante.Codigo.Trim.IsEmpty then
-      begin
-        qryDCIFabricanteCodigo.AsString := LItem.Fabricante.Codigo;
-        qryDCIFabricanteCodigoPais.AsString := LItem.Fabricante.Pais.Codigo;
-        qryDCIFabricanteNIOperador.AsString := LItem.Fabricante.NiOperador;
-        qryDCIFabricanteVersao.AsInteger := LItem.Fabricante.Versao.ToInteger;
+      var LItem := PComex.Duimp.GetItemCover(ADuimp.Itens, LItemIndex);
+      try
+        qryDCI.Append;
+        qryDCIAdicao.AsInteger := LAdd.Numero;
+        qryDCICamex.AsBoolean := False;
+        qryDCICaracterizacaoImportacaoIndicador.AsString := LItem.CaracterizacaoImportacao.Indicador;
+        if not LItem.CaracterizacaoImportacao.Ni.Trim.IsEmpty then
+        begin
+          qryDCICaracterizacaoImportacaoNI.AsString := LItem.CaracterizacaoImportacao.Ni;
+        end
+        else
+          qryDCICaracterizacaoImportacaoNI.Clear;
+        qryDCICondicaoVendaValorBRL.AsFloat := LItem.CondicaoVenda.ValorBRL;
+        qryDCICondicaoVendaValorFreteBRL.AsFloat := LItem.CondicaoVenda.Frete.ValorBRL;
+        qryDCICondicaoVendaValorMoedaNegociada.AsFloat := LItem.CondicaoVenda.ValorMoedaNegociada;
+        qryDCICondicaoVendaValorSeguroBRL.AsFloat := LItem.CondicaoVenda.Seguro.ValorBRL;
+        qryDCIDumping.AsBoolean := False;
+        if not LItem.Fabricante.Codigo.Trim.IsEmpty then
+        begin
+          qryDCIFabricanteCodigo.AsString := LItem.Fabricante.Codigo;
+          qryDCIFabricanteCodigoPais.AsString := LItem.Fabricante.Pais.Codigo;
+          qryDCIFabricanteNIOperador.AsString := LItem.Fabricante.NiOperador;
+          qryDCIFabricanteVersao.AsInteger := LItem.Fabricante.Versao.ToInteger;
+        end;
+        qryDCIExportadorCodigo.AsString := LItem.Exportador.Codigo;
+        qryDCIExportadorCodigoPais.AsString := LItem.Exportador.Pais.Codigo;
+        qryDCIExportadorNIOperador.AsString := LItem.Exportador.NiOperador;
+        qryDCIExportadorVersao.AsInteger := LItem.Exportador.Versao.ToInteger;
+        qryDCIIncotermCodigo.AsString := LItem.CondicaoVenda.Incoterm.Codigo;
+        qryDCIMoedaNegociadaSimbolo.AsString := LItem.Mercadoria.MoedaNegociada.Codigo;
+        qryDCINumeroItem.AsInteger := LItem.Identificacao.NumeroItem;
+        qryDCIPesoLiquido.AsFloat := LItem.Mercadoria.PesoLiquido;
+        qryDCIPesoLiquidoUnitario.AsFloat := LItem.Mercadoria.PesoLiquido / LItem.Mercadoria.QuantidadeComercial;
+        qryDCIProdutoCodigo.AsInteger := LItem.Produto.Codigo;
+        qryDCIProdutoDescricao.AsString := LItem.Mercadoria.Descricao;
+        qryDCIProdutoVersao.AsInteger := LItem.Produto.Versao;
+        qryDCIProdutoNIResponsavel.AsString := LItem.Produto.NiResponsavel;
+        qryDCIQuantidadeComercial.AsFloat := LItem.Mercadoria.QuantidadeComercial;
+        qryDCITipoAplicacao.AsString := LItem.Mercadoria.TipoAplicacao.Codigo;
+        qryDCIUnidadeComercial.AsString := LItem.Mercadoria.UnidadeComercial;
+        qryDCIValorUnitario.AsFloat := LItem.Mercadoria.ValorUnitarioMoedaNegociada;
+        qryDCIValorUnitarioBRL.AsFloat := LItem.CondicaoVenda.ValorBRL / LItem.Mercadoria.QuantidadeComercial;
+        qryDCI.Post;
+        if Assigned(AFindDuimpEvent) then
+        begin
+          AFindDuimpEvent(TStepFindDuimp.SavingDuimpItem, Null);
+        end;
+        TryCreateDADDataSet(LItem);
+        TryCreateDIEDataSet(LItem);
+        TryCreateDIFDataSet(LItem);
+        TryCreateDITDataSet(LItem);
+      finally
+        FreeAndNil(LItem);
       end;
-      qryDCIExportadorCodigo.AsString := LItem.Exportador.Codigo;
-      qryDCIExportadorCodigoPais.AsString := LItem.Exportador.Pais.Codigo;
-      qryDCIExportadorNIOperador.AsString := LItem.Exportador.NiOperador;
-      qryDCIExportadorVersao.AsInteger := LItem.Exportador.Versao.ToInteger;
-      qryDCIIncotermCodigo.AsString := LItem.CondicaoVenda.Incoterm.Codigo;
-      qryDCIMoedaNegociadaSimbolo.AsString := LItem.Mercadoria.MoedaNegociada.Codigo;
-      qryDCINumeroItem.AsInteger := LItem.Identificacao.NumeroItem;
-      qryDCIPesoLiquido.AsFloat := LItem.Mercadoria.PesoLiquido;
-      qryDCIPesoLiquidoUnitario.AsFloat := LItem.Mercadoria.PesoLiquido / LItem.Mercadoria.QuantidadeComercial;
-      qryDCIProdutoCodigo.AsInteger := LItem.Produto.Codigo;
-      qryDCIProdutoDescricao.AsString := LItem.Mercadoria.Descricao;
-      qryDCIProdutoVersao.AsInteger := LItem.Produto.Versao;
-      qryDCIProdutoNIResponsavel.AsString := LItem.Produto.NiResponsavel;
-      qryDCIQuantidadeComercial.AsFloat := LItem.Mercadoria.QuantidadeComercial;
-      qryDCITipoAplicacao.AsString := LItem.Mercadoria.TipoAplicacao.Codigo;
-      qryDCIUnidadeComercial.AsString := LItem.Mercadoria.UnidadeComercial;
-      qryDCIValorUnitario.AsFloat := LItem.Mercadoria.ValorUnitarioMoedaNegociada;
-      qryDCIValorUnitarioBRL.AsFloat := LItem.CondicaoVenda.ValorBRL / LItem.Mercadoria.QuantidadeComercial;
-      qryDCI.Post;
-      if Assigned(AFindDuimpEvent) then
-      begin
-        AFindDuimpEvent(TStepFindDuimp.SavingDuimpItem, Null);
-      end;
-      TryCreateDADDataSet(LItem);
-      TryCreateDIEDataSet(LItem);
-      TryCreateDIFDataSet(LItem);
-      TryCreateDITDataSet(LItem);
     end;
   end;
 end;
@@ -2854,16 +2828,6 @@ procedure TdamDuimp.qryRFBNewRecord(DataSet: TDataSet);
 begin
   qryRFBId.AsGuid := TGUID.NewGuid;
   qryRFBResultadoAnaliseRiscoId.AsGuid := qryDRRId.AsGuid;
-end;
-
-procedure TdamDuimp.SortItemDuimpCover(var AItems: TArray<TItemDuimpCover>; var AComparer: IComparer<TItemDuimpCover>);
-begin
-  AComparer := TComparer<TItemDuimpCover>.Construct(
-    function(const ALeft, ARight: TItemDuimpCover): Integer
-    begin
-      Result := ALeft.Identificacao.NumeroItem - ARight.Identificacao.NumeroItem;
-    end);
-  TArray.Sort<TItemDuimpCover>(AItems, AComparer);
 end;
 
 end.
