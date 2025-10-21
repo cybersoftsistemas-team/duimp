@@ -9,7 +9,6 @@ uses
   pucomex.dom.Duimps.Model.AdicaoValoresCalculadosDuimpCover,
   pucomex.dom.Duimps.Model.AtributoTributoCover,
   pucomex.dom.Duimps.Model.DuimpConsultaCover,
-  pucomex.dom.Duimps.Model.ItemConsultaDuimpCover,
   pucomex.dom.Duimps.Model.ItemDuimpCover,
 {IDE}
   System.Variants, System.Generics.Defaults, System.Classes, System.SysUtils, FireDAC.Stan.Intf, FireDAC.Stan.Option,
@@ -1548,6 +1547,8 @@ begin
       ProductApplyUpdates;
       qryDIE.Refresh;
       qryDIF.Refresh;
+      qryEXP.Refresh;
+      qryFAB.Refresh;
       if LInTransaction then
       begin
         damConnection.DBCliente.Commit;
@@ -1600,6 +1601,7 @@ begin
           qryFRNMunicipio.AsString := LOperador.NomeCidade;
           qryFRNCEP.AsString := LOperador.Cep;
           qryFRNEmail.AsString := LOperador.Email;
+          qryFRNRamo_Atividade.AsInteger := qryCONRamo_Atividade.AsInteger;
           qryFRN.Post;
         end;
       end);
