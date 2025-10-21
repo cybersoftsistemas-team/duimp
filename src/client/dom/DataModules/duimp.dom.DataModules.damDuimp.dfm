@@ -8695,6 +8695,7 @@ inherited damDuimp: TdamDuimp
     Top = 463
   end
   object qryFRN: TFDQuery
+    Active = True
     CachedUpdates = True
     MasterSource = dsoDPR
     MasterFields = 'Id'
@@ -8881,9 +8882,10 @@ inherited damDuimp: TdamDuimp
       #9',:NEW_Rua_Numero AS Rua_Numero'
       #9',:NEW_Bairro AS Bairro'
       #9',9999999 AS Municipio_Codigo'
-      #9',:NEW_Municipio AS Municipio'
+      #9',:NEW_Municipio AS Municipio -- Exterior'
       #9','#39'EX'#39' AS Estado'
-      #9',:NEW_Pais AS Pais'
+      '        ,'#39'EXTERIOR'#39' AS Estado_Nome'
+      #9',:NEW_Pais AS Pais -- 1058 diferente'
       #9',:NEW_CEP AS CEP'
       #9',:NEW_Email AS Email'
       #9',:NEW_Codigo_DUIMP AS Codigo_DUIMP'
@@ -8906,6 +8908,7 @@ inherited damDuimp: TdamDuimp
       #9',TARGET.Municipio_Codigo = SOURCE.Municipio_Codigo'
       #9',TARGET.Municipio = SOURCE.Municipio'
       #9',TARGET.Estado = SOURCE.Estado'
+      #9',TARGET.Estado_Nome = SOURCE.Estado_Nome'
       #9',TARGET.Pais = SOURCE.Pais'
       #9',TARGET.CEP = SOURCE.CEP'
       #9',TARGET.Email = SOURCE.Email'
@@ -8925,6 +8928,7 @@ inherited damDuimp: TdamDuimp
       '           ,Municipio_Codigo'
       '           ,Municipio'
       '           ,Estado'
+      '           ,Estado_Nome'
       '           ,Pais'
       '           ,CEP'
       '           ,Email'
@@ -8942,6 +8946,7 @@ inherited damDuimp: TdamDuimp
       '           ,SOURCE.Municipio_Codigo'
       '           ,SOURCE.Municipio'
       '           ,SOURCE.Estado'
+      '           ,SOURCE.Estado_Nome'
       '           ,SOURCE.Pais'
       '           ,SOURCE.CEP'
       '           ,SOURCE.Email'
@@ -8958,6 +8963,7 @@ inherited damDuimp: TdamDuimp
       ',FRN.CEP'
       ',FRN.Email'
       ',FRN.Estado'
+      ',FRN.Estado_Nome'
       ',FRN.Municipio_Codigo'
       ',FRN.Municipio'
       ',OPE.NIOperador'
