@@ -1,4 +1,4 @@
-unit pucomex.dom.Http;
+﻿unit pucomex.dom.Http;
 
 interface
 
@@ -12,6 +12,7 @@ uses
   IdSSLOpenSSL,
   System.Classes,
   System.IniFiles,
+  System.JSON,
   System.SysUtils;
 
 type
@@ -36,6 +37,7 @@ type
     function GetKeyFile: string;
     function GetPassword: string;
     function GetRootCertFile: string;
+    function ParseJSONFromError(const E: Exception): TJSONObject;
     procedure IdSSLGetPassword(var Password: string);
     procedure SetAuthenticator(const AValue: IAuthenticator);
     procedure SetBaseURL(const AValue: string);
@@ -76,7 +78,6 @@ uses
 {IDE}
   IdGlobalProtocols,
   IdIOHandler,
-  System.JSON,
   System.NetEncoding;
 
 { THttp }
@@ -211,7 +212,7 @@ begin
         begin
           LErrorMessage := E.Message;
           try
-            LJSONMessage := TJSONObject.ParseJSONValue(TEncoding.UTF8.GetString(BytesOf(E.ErrorMessage))) as TJSONObject;
+            LJSONMessage := ParseJSONFromError(E);
             if Assigned(LJSONMessage) then
             begin
               try
@@ -290,6 +291,49 @@ begin
     DoLoadConfig(LSectionConfigName, LConfig);
   finally
     FreeAndNil(LConfig);
+  end;
+end;
+
+function THttp.ParseJSONFromError(const E: Exception): TJSONObject;
+var
+  LJSONText: string;
+  LBytes: TBytes;
+begin
+  Result := nil;
+
+  if E = nil then
+    Exit;
+
+  // Se for uma exceção que já vem com texto JSON:
+  LJSONText := E.Message;
+
+  // 🔹 Tentativa direta (string Unicode)
+  Result := TJSONObject.ParseJSONValue(LJSONText) as TJSONObject;
+  if Assigned(Result) then
+    Exit;
+
+  try
+    // 🔹 Tentativa 2: caso o texto tenha vindo mal interpretado (UTF-8 bytes lidos como ANSI)
+    LBytes := TEncoding.Default.GetBytes(LJSONText);
+    LJSONText := TEncoding.UTF8.GetString(LBytes);
+
+    Result := TJSONObject.ParseJSONValue(LJSONText) as TJSONObject;
+    if Assigned(Result) then
+      Exit;
+  except
+    Result := nil;
+  end;
+
+  try
+    // 🔹 Tentativa 3: se a exceção tiver sido gerada a partir de Bytes UTF8 (como em THTTPClient)
+    if E is EIdHTTPProtocolException then
+    begin
+      LBytes := TEncoding.UTF8.GetBytes(EIdHTTPProtocolException(E).ErrorMessage);
+      LJSONText := TEncoding.UTF8.GetString(LBytes);
+      Result := TJSONObject.ParseJSONValue(LJSONText) as TJSONObject;
+    end;
+  except
+    Result := nil;
   end;
 end;
 
