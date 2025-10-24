@@ -36,7 +36,8 @@ type
     function GetUpdateFileName: string;
     function GetAppLocalTempPath: string;
     procedure CheckForUpdates;
-    procedure TryConnect(const AIdFTP: TIdFTP);
+    procedure TryConnectFTP(const AIdFTP: TIdFTP);
+    procedure ConnectFTP(const AIdFTP: TIdFTP; const AHost: string; const AConnectTimeout: Integer);
     procedure SetComponentOnMouseDownEvent;
     procedure UpdateLabelInfo(const AValue: string; const ASleep: DWORD = 1000);
     procedure UpdateSystem(var AExecutableName, AParams: string);
@@ -55,7 +56,6 @@ uses
   Winapi.Messages,
   Winapi.ShellAPI,
   Winapi.Windows,
-
 {PROJECT}
   cbsCore.System;
 
@@ -65,9 +65,9 @@ function FormatSize(Bytes: Int64): string;
 begin
   if Bytes < 1024 then
     Result := FormatFloat('0.##', Bytes) + ' B'
-  else if Bytes < 1024*1024 then
+  else if Bytes < 1024 * 1024 then
     Result := FormatFloat('0.##', Bytes / 1024) + ' KB'
-  else if Bytes < 1024*1024*1024 then
+  else if Bytes < 1024 * 1024 * 1024 then
     Result := FormatFloat('0.##', Bytes / 1024 / 1024) + ' MB'
   else
   begin
@@ -122,7 +122,7 @@ begin
   Result := '';
   var LManifestFTP := GetFTP;
   try
-    TryConnect(LManifestFTP);
+    TryConnectFTP(LManifestFTP);
     var LStream := TBytesStream.Create;
     try
       LManifestFTP.Get(Concat(ROOT_PATH_FTP, MANIFEST_FILE_FTP), LStream, True);
@@ -162,9 +162,17 @@ begin
     UpdateSystem(LExecutableName, LParams);
   finally
     labDownload.Visible := False;
-    UpdateLabelInfo(Format('Iniciando o Cybersoft Sistemas %s...', [ChangeFileExt(ExtractFileName(LExecutableName), '')]));
+    UpdateLabelInfo(Format('Iniciando o sistema Cybersoft %s...', [ChangeFileExt(ExtractFileName(LExecutableName), '')]));
     ShellExecute(Handle, 'open', PChar(LExecutableName), PChar(LParams), nil, SW_SHOWNORMAL);
   end;
+end;
+
+procedure TfrmSplash.ConnectFTP(const AIdFTP: TIdFTP; const AHost: string; const AConnectTimeout: Integer);
+begin
+  AIdFTP.Disconnect;
+  AIdFTP.Host := AHost;
+  AIdFTP.ConnectTimeout := AConnectTimeout;
+  AIdFTP.Connect;
 end;
 
 procedure TfrmSplash.dxFluentDesignFormActivate(Sender: TObject);
@@ -236,6 +244,32 @@ begin
   end;
 end;
 
+procedure TfrmSplash.TryConnectFTP(const AIdFTP: TIdFTP);
+begin
+  try
+    // Servidor FTP interno
+    ConnectFTP(AIdFTP, 'server-cyber', 2000);
+  except
+    on E: Exception do
+    begin
+      try
+        // IP Público da Claro...
+        ConnectFTP(AIdFTP, '187.64.131.96', 10000);
+      except
+        on E: Exception do
+        begin
+          try
+            // IP Público da Vivo...
+            ConnectFTP(AIdFTP, '187.115.149.232', 10000);
+          except
+            raise;
+          end;
+        end;
+      end;
+    end;
+  end;
+end;
+
 procedure TfrmSplash.SetComponentOnMouseDownEvent;
 begin
   for var LComponent in Self do
@@ -251,28 +285,6 @@ begin
     else if LComponent is TPanel then
     begin
       TPanel(LComponent).OnMouseDown := FormMouseDown;
-    end;
-  end;
-end;
-
-procedure TfrmSplash.TryConnect(const AIdFTP: TIdFTP);
-begin
-  try
-    AIdFTP.Disconnect;
-    AIdFTP.Host := 'server-cyber';
-    AIdFTP.ConnectTimeout := 2000;
-    AIdFTP.Connect;
-  except
-    on E: Exception do
-    begin
-      try
-        AIdFTP.Disconnect;
-        AIdFTP.Host := '187.64.131.96';
-        AIdFTP.ConnectTimeout := 10000;
-        AIdFTP.Connect;
-      except
-        raise;
-      end;
     end;
   end;
 end;
@@ -299,7 +311,7 @@ begin
       try
         LServerFTP.OnWorkBegin := IdFTPWorkBegin;
         LServerFTP.OnWork := IdFTPWork;
-        TryConnect(LServerFTP);
+        TryConnectFTP(LServerFTP);
         try
           var LAppLocalTempPath := GetAppLocalTempPath;
           var LStream := TFileStream.Create(Concat(LAppLocalTempPath, FDownloadFileName), fmCreate);
