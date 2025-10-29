@@ -1,13 +1,13 @@
 {
 
-FastMM 5.05
+FastMM 5.06
 
 Description:
   A fast replacement memory manager for Embarcadero Delphi applications that scales well across multiple threads and CPU
   cores, is not prone to memory fragmentation, and supports shared memory without the use of external .DLL files.
 
 Developed by:
-  Pierre le Riche, copyright 2004 - 2023, all rights reserved
+  Pierre le Riche, copyright 2004 - 2025, all rights reserved
 
 Sponsored by:
   gs-soft AG
@@ -226,7 +226,7 @@ dynamic loading is explicitly specified.}
 const
 
   {The current version of FastMM.  The first digit is the major version, followed by a two digit minor version number.}
-  CFastMM_Version = 505;
+  CFastMM_Version = 506;
 
   {The number of arenas for small, medium and large blocks.  Increasing the number of arenas decreases the likelihood
   of thread contention happening (when the number of threads inside a GetMem call is greater than the number of arenas),
@@ -291,7 +291,7 @@ const
   CFastMM_LargeBlockArenaCount = 8;
 {$endif}
 
-  {The default name of debug support library.}
+  {The default name of the debug support library.}
   CFastMM_DefaultDebugSupportLibraryName = {$ifndef 64Bit}'FastMM_FullDebugMode.dll'{$else}'FastMM_FullDebugMode64.dll'{$endif};
 
 type
@@ -793,8 +793,12 @@ var
   by the application to track memory issues.}
   FastMM_CurrentAllocationGroup: Cardinal;
   {This variable is incremented during every debug getmem call (wrapping to 0 once it hits 4G) and stored in the debug
-  header.  It may be useful for debugging purposes.}
+  header.  It may be useful for debugging purposes.  A break point may be triggered in the debugger for a specific
+  AllocationNumber via FastMM_DebugBreakAllocationNumber.}
   FastMM_LastAllocationNumber: Cardinal;
+  {If this value is non-zero and the block with matching allocation number is allocated then a break point will be
+  triggered in the debugger.}
+  FastMM_DebugBreakAllocationNumber: Cardinal;
   {These variables are incremented every time all the arenas for the block size are locked simultaneously and FastMM had
   to relinquish the thread's timeslice during a GetMem or ReallocMem call. (FreeMem frees can always be deferred, so
   will never cause a thread contention).  If these numbers are excessively high then it is an indication that the number
@@ -2557,6 +2561,12 @@ begin
   Winapi.Windows.SwitchToThread;
 end;
 
+{Returns the current process ID.}
+function OS_GetCurrentProcessID: Cardinal; inline;
+begin
+  Result := Winapi.Windows.GetCurrentProcessId;
+end;
+
 {Returns the thread ID for the calling thread.}
 function OS_GetCurrentThreadID: Cardinal; inline;
 begin
@@ -2691,6 +2701,11 @@ end;
 procedure OS_OutputDebugString(APDebugMessage: PWideChar); inline;
 begin
   Winapi.Windows.OutputDebugString(APDebugMessage);
+end;
+
+procedure OS_DebugBreak; inline;
+begin
+  Winapi.Windows.DebugBreak;
 end;
 
 {Shows a message box if the program is not showing one already.}
@@ -2864,12 +2879,12 @@ var
   LMemoryRegionInfo: TMemoryRegionInfo;
 
   {Checks whether the given address is a valid address for a VMT entry.}
-  function IsValidVMTAddress(APAddress: Pointer): Boolean;
+  function IsValidVMTAddress(APAddress: Pointer; AMustBePointerAligned: Boolean): Boolean;
   begin
-    {Do some basic pointer checks:  Must be pointer aligned and beyond 64K. (The low 64K is never readable, at least
-    under Windows.)}
+    {Do some basic pointer checks:  The pointer must be beyond 64K since the the low 64K is never readable, at least
+    under Windows.  Also optionally check that the pointer is aligned to SizeOf(Pointer).}
     if (NativeUInt(APAddress) <= 65535)
-      or (NativeUInt(APAddress) and (SizeOf(Pointer) - 1) <> 0) then
+      or (AMustBePointerAligned and (NativeUInt(APAddress) and (SizeOf(Pointer) - 1) <> 0)) then
     begin
       Exit(False);
     end;
@@ -2896,8 +2911,8 @@ var
     {Check that the self pointer as well as parent class self pointer addresses are valid}
     if (ADepth < 1000)
       and (NativeUInt(AClassPointer) > 65535)
-      and IsValidVMTAddress(Pointer(PByte(AClassPointer) + SelfPtrVMTOffset))
-      and IsValidVMTAddress(Pointer(PByte(AClassPointer) + ParentVMTOffset)) then
+      and IsValidVMTAddress(Pointer(PByte(AClassPointer) + SelfPtrVMTOffset), True)
+      and IsValidVMTAddress(Pointer(PByte(AClassPointer) + ParentVMTOffset), True) then
     begin
       try
         {Get a pointer to the parent class' self pointer}
@@ -2910,7 +2925,7 @@ var
         after the VMT.}
         LPClassNameString := PShortString(PPointer(PByte(AClassPointer) + ClassNameVMTOffset)^);
         if (NativeUInt(LPClassNameString) - NativeUInt(AClassPointer) > CMaxVMTSize)
-          or (not IsValidVMTAddress(LPClassNameString)) then
+          or (not IsValidVMTAddress(LPClassNameString, False)) then
         begin
           Exit(False);
         end;
@@ -2925,7 +2940,7 @@ var
       if LParentClassSelfPointer = nil then
         Exit(True);
       {Recursively check the parent class for validity.}
-      Result := IsValidVMTAddress(LParentClassSelfPointer)
+      Result := IsValidVMTAddress(LParentClassSelfPointer, True)
         and InternalIsValidClass(LParentClassSelfPointer^, ADepth + 1);
     end
     else
@@ -4217,7 +4232,14 @@ var
   LPUserArea: PByte;
   LOffset, LChangeStart: NativeInt;
   LLogCount: Integer;
+  LExpectedFillPatternFirst8Bytes: UInt64;
+  LExpectedFillPatternByte: Byte;
 begin
+  {If the block is large enough to be an object then the first pointer in the block would have been set to point to the
+  TFastMM_FreedObject class.}
+  LExpectedFillPatternFirst8Bytes := UInt64($0101010101010101) * CDebugFillByteFreedBlock;
+  if APDebugBlockHeader.UserSize >= CTObjectInstanceSize then
+    PPointer(@LExpectedFillPatternFirst8Bytes)^ := TFastMM_FreedObject;
 
   LTokenValues := Default(TEventLogTokenValues);
   LPBufferPos := @LTokenValueBuffer;
@@ -4230,7 +4252,12 @@ begin
   LTokenValues[CEventLogTokenModifyAfterFreeDetail] := LPBufferPos;
   while LOffset < APDebugBlockHeader.UserSize do
   begin
-    if LPUserArea[LOffset] <> CDebugFillByteFreedBlock then
+    if LOffset < 8 then
+      LExpectedFillPatternByte := PByte(@LExpectedFillPatternFirst8Bytes)[LOffset]
+    else
+      LExpectedFillPatternByte := CDebugFillByteFreedBlock;
+
+    if LPUserArea[LOffset] <> LExpectedFillPatternByte then
     begin
 
       {Found the start of a changed block, now find the length}
@@ -4238,11 +4265,17 @@ begin
       while True do
       begin
         Inc(LOffset);
-        if (LOffset >= APDebugBlockHeader.UserSize)
-          or (LPUserArea[LOffset] = CDebugFillByteFreedBlock) then
-        begin
+
+        if LOffset >= APDebugBlockHeader.UserSize then
           Break;
-        end;
+
+        if LOffset < 8 then
+          LExpectedFillPatternByte := PByte(@LExpectedFillPatternFirst8Bytes)[LOffset]
+        else
+          LExpectedFillPatternByte := CDebugFillByteFreedBlock;
+
+        if LPUserArea[LOffset] = LExpectedFillPatternByte then
+          Break;
       end;
 
       if LLogCount > 0 then
@@ -4299,7 +4332,6 @@ begin
     Dec(LByteOffset, 8);
     Inc(LPUserArea, 8);
   end;
-
 
   if LByteOffset and 1 <> 0 then
   begin
@@ -5962,7 +5994,7 @@ asm
 @Attempt1Failed:
 
   {--------------Attempt 2--------------
-  Try to get a block from a sequential feed span.  Splitting off a sequentisal feed block is very likely to touch a new
+  Try to get a block from a sequential feed span.  Splitting off a sequential feed block is very likely to touch a new
   memory page and thus cause an (expensive) page fault.}
 
   {edx = AMinimumBlockSize, eax = AMinimumBlockSize + CMediumBlockSpanHeaderSize}
@@ -8023,6 +8055,14 @@ begin
   {Set the flag in the actual block header to indicate that the block contains debug information.}
   SetBlockHasDebugInfo(Result, True);
 
+  {If the current allocation number matches FastMM_DebugBreakAllocationNumber then trigger a break point in the
+  debugger.}
+  if (FastMM_DebugBreakAllocationNumber <> 0)
+    and (PFastMM_DebugBlockHeader(Result).AllocationNumber = FastMM_DebugBreakAllocationNumber) then
+  begin
+    OS_DebugBreak;
+  end;
+
   {Return a pointer to the user data}
   Inc(PByte(Result), CDebugBlockHeaderSize);
 end;
@@ -9399,7 +9439,7 @@ procedure FastMM_BuildFileMappingObjectName;
 var
   i, LProcessID: Cardinal;
 begin
-  LProcessID := GetCurrentProcessId;
+  LProcessID := OS_GetCurrentProcessID;
   for i := 0 to 7 do
   begin
     SharingFileMappingObjectName[(High(SharingFileMappingObjectName) - 1) - i] :=
@@ -9414,7 +9454,7 @@ var
   LLocalMappingObjectHandle: NativeUInt;
 begin
   {Try to open the shared memory manager file mapping}
-  LLocalMappingObjectHandle := OpenFileMappingA(FILE_MAP_READ, False, SharingFileMappingObjectName);
+  LLocalMappingObjectHandle := Winapi.Windows.OpenFileMappingA(FILE_MAP_READ, False, @SharingFileMappingObjectName);
   {Is a memory manager in this process sharing its memory manager?}
   if LLocalMappingObjectHandle = 0 then
   begin
@@ -9424,10 +9464,10 @@ begin
   else
   begin
     {Map a view of the shared memory and get the address of the shared memory manager}
-    LPMapAddress := MapViewOfFile(LLocalMappingObjectHandle, FILE_MAP_READ, 0, 0, 0);
+    LPMapAddress := Winapi.Windows.MapViewOfFile(LLocalMappingObjectHandle, FILE_MAP_READ, 0, 0, 0);
     Result := PPointer(LPMapAddress)^;
-    UnmapViewOfFile(LPMapAddress);
-    CloseHandle(LLocalMappingObjectHandle);
+    Winapi.Windows.UnmapViewOfFile(LPMapAddress);
+    Winapi.Windows.CloseHandle(LLocalMappingObjectHandle);
   end;
 end;
 
@@ -9468,7 +9508,6 @@ begin
       begin
         {Memory has already been allocated using this memory manager.  We cannot rip the memory manager out from under
         live pointers.}
-
         LTokenValues := Default(TEventLogTokenValues);
         AddTokenValues_GeneralTokens(LTokenValues, @LTokenValueBuffer, @LTokenValueBuffer[High(LTokenValueBuffer)]);
         LogEvent(mmetCannotSwitchToSharedMemoryManagerWithLivePointers, LTokenValues);
@@ -9505,14 +9544,14 @@ begin
     if FastMM_FindSharedMemoryManager = nil then
     begin
       {Create the memory mapped file}
-      SharingFileMappingObjectHandle := CreateFileMappingA(INVALID_HANDLE_VALUE, nil, PAGE_READWRITE, 0,
+      SharingFileMappingObjectHandle := Winapi.Windows.CreateFileMappingA(INVALID_HANDLE_VALUE, nil, PAGE_READWRITE, 0,
         SizeOf(Pointer), SharingFileMappingObjectName);
       {Map a view of the memory}
-      LPMapAddress := MapViewOfFile(SharingFileMappingObjectHandle, FILE_MAP_WRITE, 0, 0, 0);
+      LPMapAddress := Winapi.Windows.MapViewOfFile(SharingFileMappingObjectHandle, FILE_MAP_WRITE, 0, 0, 0);
       {Set a pointer to the new memory manager}
       PPointer(LPMapAddress)^ := @InstalledMemoryManager;
       {Unmap the file}
-      UnmapViewOfFile(LPMapAddress);
+      Winapi.Windows.UnmapViewOfFile(LPMapAddress);
       {Sharing this MM}
       Result := True;
     end
@@ -10579,12 +10618,12 @@ begin
   if DebugSupportLibraryHandle <> 0 then
     Exit(True);
 
-  DebugSupportLibraryHandle := LoadLibrary(FastMM_DebugSupportLibraryName);
+  DebugSupportLibraryHandle := Winapi.Windows.LoadLibrary(FastMM_DebugSupportLibraryName);
   if DebugSupportLibraryHandle <> 0 then
   begin
-    DebugLibrary_GetRawStackTrace := GetProcAddress(DebugSupportLibraryHandle, PAnsiChar('GetRawStackTrace'));
-    DebugLibrary_GetFrameBasedStackTrace := GetProcAddress(DebugSupportLibraryHandle, PAnsiChar('GetFrameBasedStackTrace'));
-    DebugLibrary_LogStackTrace_Legacy := GetProcAddress(DebugSupportLibraryHandle, PAnsiChar('LogStackTrace'));
+    DebugLibrary_GetRawStackTrace := Winapi.Windows.GetProcAddress(DebugSupportLibraryHandle, PAnsiChar('GetRawStackTrace'));
+    DebugLibrary_GetFrameBasedStackTrace := Winapi.Windows.GetProcAddress(DebugSupportLibraryHandle, PAnsiChar('GetFrameBasedStackTrace'));
+    DebugLibrary_LogStackTrace_Legacy := Winapi.Windows.GetProcAddress(DebugSupportLibraryHandle, PAnsiChar('LogStackTrace'));
 
     {Try to use the stack trace routines from the debug support library, if available.}
     if (@FastMM_GetStackTrace = @FastMM_NoOpGetStackTrace)
@@ -10634,7 +10673,7 @@ begin
   end;
 
 {$ifndef FastMM_DebugLibraryStaticDependency}
-  FreeLibrary(DebugSupportLibraryHandle);
+  Winapi.Windows.FreeLibrary(DebugSupportLibraryHandle);
   DebugSupportLibraryHandle := 0;
 
   DebugLibrary_GetRawStackTrace := nil;
