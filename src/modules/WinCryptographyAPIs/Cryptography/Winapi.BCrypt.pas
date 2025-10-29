@@ -3,7 +3,7 @@ unit Winapi.BCrypt;
 interface
 
 uses
-  Winapi.Windows;
+  Windows;
 
 {$IF not DECLARED(PVOID)}
 type
