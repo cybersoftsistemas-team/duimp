@@ -1,20 +1,20 @@
 @echo off
 setlocal enabledelayedexpansion
 
-echo =====================================
-echo Compiling Delphi 12.3 for environment
-echo =====================================
+echo ====================================
+echo Compiling Delphi 13 for environment
+echo ====================================
 
-REM ============================
+REM =====================================
 REM Paths
-REM ============================
+REM =====================================
 set PROJECT_PATH=C:\actions-runner\_work\duimp\duimp\src\client\Siscomex.groupproj
 set DPROJ_PATH=C:\actions-runner\_work\duimp\duimp\src\client\duimp.dproj
 set VERSION_FILE=C:\actions-runner\_work\duimp\version.txt
 
-REM ============================
+REM =====================================
 REM Read current version
-REM ============================
+REM =====================================
 for /f "tokens=1-4 delims=." %%a in (%VERSION_FILE%) do (
     set MAJOR=%%a
     set MINOR=%%b
@@ -22,27 +22,27 @@ for /f "tokens=1-4 delims=." %%a in (%VERSION_FILE%) do (
     set BUILD=%%d
 )
 
-REM ============================
+REM =====================================
 REM Increment build
-REM ============================
+REM =====================================
 set /a BUILD=BUILD+1
 set NEW_VERSION=!MAJOR!.!MINOR!.!RELEASE!.!BUILD!
 
-REM ============================
+REM =====================================
 REM Updating duimp project
-REM ============================
+REM =====================================
 echo Updating duimp project to the new version !NEW_VERSION!
 powershell -Command "(gc '%DPROJ_PATH%') -replace 'FileVersion=.*?;', 'FileVersion=$(MAJOR).$(MINOR).$(RELEASE).$(BUILD);' | Set-Content '%DPROJ_PATH%'"
 powershell -Command "(gc '%DPROJ_PATH%') -replace 'ProductVersion=.*?;', 'ProductVersion=$(MAJOR).$(MINOR).$(RELEASE).$(BUILD);' | Set-Content '%DPROJ_PATH%'"
 
-REM ============================
-REM Loading variables from Delphi 12.3
-REM ============================
-call "C:\Program Files (x86)\Embarcadero\Studio\23.0\bin\rsvars.bat"
+REM =====================================
+REM Loading variables from Delphi
+REM =====================================
+call "C:\Program Files (x86)\Embarcadero\Studio\37.0\bin\rsvars.bat"
 
-REM ============================
+REM =====================================
 REM Compile the executable
-REM ============================
+REM =====================================
 msbuild.exe "%PROJECT_PATH%" ^
   /t:Build ^
   /p:Config=VCL ^
