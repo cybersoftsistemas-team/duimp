@@ -2095,6 +2095,11 @@ begin
           if AResponse.ResponseCode = 200 then
           begin
             LDuimp := AResponse.Content;
+            if not SameText(LDuimp.Identificacao.Importador.Ni, PComex.Duimp.NI_IMPORTADOR) then
+            begin
+              raise Exception.CreateFmt('A empresa logada ''%s'' não é o importador da DUIMP ''%s''.', [
+                GetCpfOrCnpfMask(PComex.Duimp.NI_IMPORTADOR), ANumer]);
+            end;
             if Assigned(AFindDuimpEvent) then
             begin
               AFindDuimpEvent(TStepFindDuimp.DuimpLocated, Length(LDuimp.ItensDuimpCover));
@@ -2417,33 +2422,33 @@ begin
   if (LVersion > qryDUVVersao.AsInteger) or
     (qryDUVVersao.AsInteger = 0) then
   begin
-    if qryDUI.IsEmpty then
-    begin
-      qryDUI.Append;
-      qryDUIAdmissaoTemporaria.AsBoolean := false;
-      qryDUIDesembaracoAduaneiro.AsBoolean := false;
-      qryDUIEntrepostoAduaneiro.AsBoolean := false;
-      qryDUINumero.AsString := ANumer;
-      qryDUIRemoverFreteTerrirtorioNacionalBCImpostos.AsBoolean := false;
-      qryDUIRemoverValoracaoNoValorFob.AsBoolean := False;
-      qryDUISuspensaoImpostos.AsBoolean := false;
-      qryDUI.Post;
-    end;
-    qryDUV.Append;
-    qryDUVProcessoNumero.Clear;
-    qryDUVVersao.AsInteger := LVersion;
-    qryDUV.Post;
-    TryCreateDCRDataSet(ANumer, LVersion, AFindDuimpEvent);
-    if Assigned(AFindDuimpEvent) then
-    begin
-      AFindDuimpEvent(TStepFindDuimp.ExecutingScripts, Null);
-    end;
     LInTransaction := qryDUI.Connection.InTransaction;
     if not LInTransaction then
     begin
       qryDUI.Connection.StartTransaction;
     end;
     try
+      if qryDUI.IsEmpty then
+      begin
+        qryDUI.Append;
+        qryDUIAdmissaoTemporaria.AsBoolean := false;
+        qryDUIDesembaracoAduaneiro.AsBoolean := false;
+        qryDUIEntrepostoAduaneiro.AsBoolean := false;
+        qryDUINumero.AsString := ANumer;
+        qryDUIRemoverFreteTerrirtorioNacionalBCImpostos.AsBoolean := false;
+        qryDUIRemoverValoracaoNoValorFob.AsBoolean := False;
+        qryDUISuspensaoImpostos.AsBoolean := false;
+        qryDUI.Post;
+      end;
+      qryDUV.Append;
+      qryDUVProcessoNumero.Clear;
+      qryDUVVersao.AsInteger := LVersion;
+      qryDUV.Post;
+      TryCreateDCRDataSet(ANumer, LVersion, AFindDuimpEvent);
+      if Assigned(AFindDuimpEvent) then
+      begin
+        AFindDuimpEvent(TStepFindDuimp.ExecutingScripts, Null);
+      end;
       qryDUI.ApplyUpdates;
       qryDPG.ApplyUpdates;
       qryDPJ.ApplyUpdates;
@@ -2465,10 +2470,8 @@ begin
       qryDAA.ApplyUpdates;
       qryDTC.ApplyUpdates;
       qryDTV.ApplyUpdates;
-
       sptDCI.Params.ParamByName('VersaoId').AsGuid := qryDUVId.AsGuid;
       sptDCI.ValidateAll;
-
       if sptDCI.Status = ssFinishWithErrors then
       begin
         if not LInTransaction then
