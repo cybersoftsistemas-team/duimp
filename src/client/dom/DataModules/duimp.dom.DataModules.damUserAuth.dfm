@@ -260,7 +260,7 @@ inherited damUserAuth: TdamUserAuth
       ')'
       ''
       'SELECT CompanyId'
-      ',Name'
+      ',Name + '#39' - '#39' + Estado'
       ',CNPJ'
       ',Branch'
       ',DatabaseName'
@@ -273,7 +273,9 @@ inherited damUserAuth: TdamUserAuth
       'UNION'
       ''
       'SELECT CompanyId'
-      ',Name = CAST(Branch AS VARCHAR(18)) + '#39' - '#39' + Name'
+      
+        ',Name = CAST(Branch AS VARCHAR(18)) + '#39' - '#39' + Name + '#39' - '#39' + Est' +
+        'ado'
       ',CNPJ'
       ',Branch'
       ',DatabaseName'
