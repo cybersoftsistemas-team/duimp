@@ -7,7 +7,7 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
     Width = 1171
     Height = 859
     ExplicitWidth = 1171
-    ExplicitHeight = 834
+    ExplicitHeight = 859
     inherited labTitle: TcxLabel
       Caption = 'Duimp'
       ExplicitWidth = 1147
@@ -30,7 +30,6 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
       object tshDuimp: TcxTabSheet
         Caption = 'Duimp (Vers'#227'o: 0)'
         ImageIndex = 0
-        ExplicitHeight = 707
         object lclDUI: TdxLayoutControl
           Left = 0
           Top = 0
@@ -41,7 +40,6 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
           TabOrder = 0
           Transparent = True
           LayoutLookAndFeel = lsfMain
-          ExplicitHeight = 707
           object pclDuimp: TcxPageControl
             Left = 7
             Top = 8
@@ -60,7 +58,6 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
             object tshDuimpCouver: TcxTabSheet
               Caption = 'Capa'
               ImageIndex = 0
-              ExplicitHeight = 665
               object lclDuimp: TdxLayoutControl
                 Left = 0
                 Top = 0
@@ -71,7 +68,6 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                 TabOrder = 0
                 Transparent = True
                 LayoutLookAndFeel = lsfMain
-                ExplicitHeight = 665
                 object edtSituacaoDuimp: TcxDBTextEdit
                   Left = 7
                   Top = 28
@@ -82,13 +78,13 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                   Width = 393
                 end
                 object edtUnidadeDespachoDescricao: TcxDBTextEdit
-                  Left = 14
-                  Top = 213
+                  Left = 15
+                  Top = 216
                   DataBinding.DataField = 'UnidadeDespachoDescricao'
                   DataBinding.DataSource = damDuimp.dsoDCG
                   Properties.ReadOnly = True
                   TabOrder = 7
-                  Width = 180
+                  Width = 178
                 end
                 object edtDataRegistro: TcxDBTextEdit
                   Left = 7
@@ -112,8 +108,8 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                   Width = 64
                 end
                 object edtFreteMoedaNegociadaSimbolo: TcxDBTextEdit
-                  Left = 21
-                  Top = 398
+                  Left = 23
+                  Top = 404
                   DataBinding.DataField = 'FreteMoedaNegociadaSimbolo'
                   DataBinding.DataSource = damDuimp.dsoDCG
                   Properties.Alignment.Horz = taCenter
@@ -122,8 +118,8 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                   Width = 41
                 end
                 object edtFreteMoedaNegociadaValorCotacao: TcxDBTextEdit
-                  Left = 156
-                  Top = 398
+                  Left = 157
+                  Top = 404
                   DataBinding.DataField = 'FreteMoedaNegociadaValorCotacao'
                   DataBinding.DataSource = damDuimp.dsoDCG
                   Properties.ReadOnly = True
@@ -131,8 +127,8 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                   Width = 48
                 end
                 object edtSeguroMoedaNegociadaSimbolo: TcxDBTextEdit
-                  Left = 21
-                  Top = 486
+                  Left = 23
+                  Top = 498
                   DataBinding.DataField = 'SeguroMoedaNegociadaSimbolo'
                   DataBinding.DataSource = damDuimp.dsoDCG
                   Properties.Alignment.Horz = taCenter
@@ -141,8 +137,8 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                   Width = 41
                 end
                 object edtSeguroMoedaNegociadaValorCotacao: TcxDBTextEdit
-                  Left = 156
-                  Top = 486
+                  Left = 157
+                  Top = 498
                   DataBinding.DataField = 'SeguroMoedaNegociadaValorCotacao'
                   DataBinding.DataSource = damDuimp.dsoDCG
                   Properties.ReadOnly = True
@@ -150,46 +146,46 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                   Width = 48
                 end
                 object edtFreteMoedaNegociadaValorBRL: TcxDBTextEdit
-                  Left = 211
-                  Top = 398
+                  Left = 212
+                  Top = 404
                   DataBinding.DataField = 'FreteMoedaNegociadaValorBRL'
                   DataBinding.DataSource = damDuimp.dsoDCG
                   Properties.ReadOnly = True
                   TabOrder = 17
-                  Width = 88
+                  Width = 86
                 end
                 object edtFreteMoedaNegociadaValor: TcxDBTextEdit
-                  Left = 69
-                  Top = 398
+                  Left = 71
+                  Top = 404
                   DataBinding.DataField = 'FreteMoedaNegociadaValor'
                   DataBinding.DataSource = damDuimp.dsoDCG
                   Properties.ReadOnly = True
                   TabOrder = 15
-                  Width = 80
+                  Width = 79
                 end
                 object edtSeguroMoedaNegociadaValorBRL: TcxDBTextEdit
-                  Left = 211
-                  Top = 486
+                  Left = 212
+                  Top = 498
                   DataBinding.DataField = 'SeguroMoedaNegociadaValorBRL'
                   DataBinding.DataSource = damDuimp.dsoDCG
                   Properties.ReadOnly = True
                   TabOrder = 22
-                  Width = 88
+                  Width = 86
                 end
                 object edtSeguroMoedaNegociadaValor: TcxDBTextEdit
-                  Left = 69
-                  Top = 486
+                  Left = 71
+                  Top = 498
                   DataBinding.DataField = 'SeguroMoedaNegociadaValor'
                   DataBinding.DataSource = damDuimp.dsoDCG
                   Properties.ReadOnly = True
                   TabOrder = 20
-                  Width = 80
+                  Width = 79
                 end
                 object grdFOA: TcxGrid
                   Left = 7
-                  Top = 547
+                  Top = 565
                   Width = 376
-                  Height = 119
+                  Height = 101
                   TabOrder = 33
                   LookAndFeel.NativeStyle = False
                   object grdFOADBTableView: TcxGridDBTableView
@@ -243,9 +239,9 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                 end
                 object grdFOB: TcxGrid
                   Left = 390
-                  Top = 547
+                  Top = 565
                   Width = 375
-                  Height = 119
+                  Height = 101
                   TabOrder = 34
                   object grdFOBDBTableView: TcxGridDBTableView
                     DataController.DataSource = damDuimp.dsoFCV
@@ -487,7 +483,7 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                   Left = 407
                   Top = 346
                   Width = 358
-                  Height = 173
+                  Height = 191
                   TabOrder = 32
                   object grdADVDBTableView: TcxGridDBTableView
                     DataController.DataSource = damDuimp.dsoADV
@@ -603,17 +599,17 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                   Width = 184
                 end
                 object edtClienteNome: TcxDBTextEdit
-                  Left = 129
-                  Top = 264
+                  Left = 130
+                  Top = 267
                   DataBinding.DataField = 'ClienteNome'
                   DataBinding.DataSource = damDuimp.dsoDCR
                   Properties.ReadOnly = True
                   TabOrder = 11
-                  Width = 264
+                  Width = 262
                 end
                 object edtUFDesembaracoNome: TcxDBTextEdit
-                  Left = 248
-                  Top = 213
+                  Left = 247
+                  Top = 216
                   DataBinding.DataField = 'UFDesembaracoNome'
                   DataBinding.DataSource = damDuimp.dsoDCR
                   Properties.ReadOnly = True
@@ -648,8 +644,8 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                   Width = 175
                 end
                 object edtClienteCNPJ: TcxDBTextEdit
-                  Left = 14
-                  Top = 264
+                  Left = 15
+                  Top = 267
                   OnFocusChanged = EnableCpfOrCnpfDBFieldDisplayText
                   DataBinding.DataField = 'ClienteCNPJ'
                   DataBinding.DataSource = damDuimp.dsoDCR
@@ -676,8 +672,8 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                   TabOrder = 38
                 end
                 object edtViaTransporteDescricao: TcxDBTextEdit
-                  Left = 235
-                  Top = 315
+                  Left = 234
+                  Top = 318
                   DataBinding.DataField = 'ViaTransporteDescricao'
                   DataBinding.DataSource = damDuimp.dsoDCG
                   Properties.ReadOnly = True
@@ -685,13 +681,13 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                   Width = 158
                 end
                 object edtIdentificacao: TcxDBTextEdit
-                  Left = 14
-                  Top = 315
+                  Left = 15
+                  Top = 318
                   DataBinding.DataField = 'Identificacao'
                   DataBinding.DataSource = damDuimp.dsoDCG
                   Properties.ReadOnly = True
                   TabOrder = 12
-                  Width = 214
+                  Width = 212
                 end
                 object cbxIncentivoFiscalNome: TcxDBLookupComboBox
                   Left = 198
@@ -736,8 +732,8 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                   Width = 40
                 end
                 object cbxUFDesembaraco: TcxDBLookupComboBox
-                  Left = 201
-                  Top = 213
+                  Left = 200
+                  Top = 216
                   DataBinding.DataField = 'UFDesembaraco'
                   DataBinding.DataSource = damDuimp.dsoDCR
                   Properties.DropDownAutoSize = True
@@ -920,26 +916,26 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                   Width = 55
                 end
                 object edtFreteFobValor: TcxDBTextEdit
-                  Left = 306
-                  Top = 398
+                  Left = 305
+                  Top = 404
                   DataBinding.DataField = 'FreteFobValor'
                   DataBinding.DataSource = damDuimp.dsoDCG
                   Properties.ReadOnly = True
                   Style.HotTrack = False
                   Style.TransparentBorder = False
                   TabOrder = 18
-                  Width = 80
+                  Width = 79
                 end
                 object edtSeguroFobValor: TcxDBTextEdit
-                  Left = 306
-                  Top = 486
+                  Left = 305
+                  Top = 498
                   DataBinding.DataField = 'SeguroFobValor'
                   DataBinding.DataSource = damDuimp.dsoDCG
                   Properties.ReadOnly = True
                   Style.HotTrack = False
                   Style.TransparentBorder = False
                   TabOrder = 23
-                  Width = 80
+                  Width = 79
                 end
                 object rgpCanalConsolidado: TcxDBRadioGroup
                   Left = 407
@@ -1118,10 +1114,10 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                   AlignVert = avClient
                   CaptionOptions.Text = 'Carga:'
                   ItemIndex = 4
-                  Padding.Bottom = -8
-                  Padding.Left = -6
-                  Padding.Right = -6
-                  Padding.Top = -8
+                  Padding.Bottom = -5
+                  Padding.Left = -5
+                  Padding.Right = -5
+                  Padding.Top = -5
                   Padding.AssignedValues = [lpavBottom, lpavLeft, lpavRight, lpavTop]
                   Index = 3
                 end
@@ -1166,20 +1162,20 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                 object ltgFrete: TdxLayoutGroup
                   Parent = ltgCarga
                   CaptionOptions.Text = 'Frete:'
-                  Padding.Bottom = -8
-                  Padding.Left = -6
-                  Padding.Right = -6
-                  Padding.Top = -8
+                  Padding.Bottom = -5
+                  Padding.Left = -5
+                  Padding.Right = -5
+                  Padding.Top = -5
                   Padding.AssignedValues = [lpavBottom, lpavLeft, lpavRight, lpavTop]
                   Index = 3
                 end
                 object ltgSeguro: TdxLayoutGroup
                   Parent = ltgCarga
                   CaptionOptions.Text = 'Seguro:'
-                  Padding.Bottom = -8
-                  Padding.Left = -6
-                  Padding.Right = -6
-                  Padding.Top = -8
+                  Padding.Bottom = -5
+                  Padding.Left = -5
+                  Padding.Right = -5
+                  Padding.Top = -5
                   Padding.AssignedValues = [lpavBottom, lpavLeft, lpavRight, lpavTop]
                   Index = 4
                 end
@@ -1713,7 +1709,6 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
             object tshGoods: TcxTabSheet
               Caption = 'Mercadorias (0)'
               ImageIndex = 1
-              ExplicitHeight = 665
               object lclGoods: TdxLayoutControl
                 Left = 0
                 Top = 0
@@ -1724,7 +1719,6 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                 TabOrder = 0
                 Transparent = True
                 LayoutLookAndFeel = lsfMain
-                ExplicitHeight = 665
                 object pclDCI: TcxPageControl
                   Left = 12
                   Top = 12
@@ -1743,7 +1737,6 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                   object tshDCI: TcxTabSheet
                     Caption = 'Mercadoria'
                     ImageIndex = 0
-                    ExplicitHeight = 614
                     object dxLayoutControl1: TdxLayoutControl
                       Left = 0
                       Top = 0
@@ -1754,7 +1747,6 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                       TabOrder = 0
                       Transparent = True
                       LayoutLookAndFeel = lsfMain
-                      ExplicitHeight = 614
                       DesignSize = (
                         1097
                         639)
@@ -2595,6 +2587,9 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                   object tshTRI: TcxTabSheet
                     Caption = 'Tributos'
                     ImageIndex = 1
+                    ExplicitLeft = 0
+                    ExplicitTop = 0
+                    ExplicitWidth = 0
                     ExplicitHeight = 614
                     object dxLayoutControl2: TdxLayoutControl
                       Left = 0
@@ -3060,6 +3055,9 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                   object tshCamex: TcxTabSheet
                     Caption = 'Camex'
                     ImageIndex = 2
+                    ExplicitLeft = 0
+                    ExplicitTop = 0
+                    ExplicitWidth = 0
                     ExplicitHeight = 614
                     object lclCamex: TdxLayoutControl
                       Left = 0
@@ -3177,6 +3175,9 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                   object tshDUM: TcxTabSheet
                     Caption = 'Dumping'
                     ImageIndex = 3
+                    ExplicitLeft = 0
+                    ExplicitTop = 0
+                    ExplicitWidth = 0
                     ExplicitHeight = 614
                     object lclDUM: TdxLayoutControl
                       Left = 0
@@ -3291,7 +3292,6 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                   object tshEF: TcxTabSheet
                     Caption = 'Exportador / Fabricante'
                     ImageIndex = 4
-                    ExplicitHeight = 614
                     object lclEF: TdxLayoutControl
                       Left = 0
                       Top = 0
@@ -3302,7 +3302,6 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                       TabOrder = 0
                       Transparent = True
                       LayoutLookAndFeel = lsfMain
-                      ExplicitHeight = 614
                       object edtExpNome: TcxDBTextEdit
                         Left = 68
                         Top = 137
@@ -4029,6 +4028,9 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
             object tshDPG: TcxTabSheet
               Caption = 'Pagamentos (0)'
               ImageIndex = 3
+              ExplicitLeft = 0
+              ExplicitTop = 0
+              ExplicitWidth = 0
               ExplicitHeight = 665
               object lclDPG: TdxLayoutControl
                 Left = 0
@@ -4178,6 +4180,9 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
             object tshExpFab: TcxTabSheet
               Caption = 'Exportadores / Fabricantes'
               ImageIndex = 4
+              ExplicitLeft = 0
+              ExplicitTop = 0
+              ExplicitWidth = 0
               ExplicitHeight = 665
               object lclFornFabric: TdxLayoutControl
                 Left = 0
@@ -4382,7 +4387,6 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
             object tshInfCompl: TcxTabSheet
               Caption = 'Informa'#231#227'o Complementar'
               ImageIndex = 2
-              ExplicitHeight = 665
               object lclIFC: TdxLayoutControl
                 Left = 0
                 Top = 0
@@ -4393,7 +4397,6 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                 TabOrder = 0
                 Transparent = True
                 LayoutLookAndFeel = lsfMain
-                ExplicitHeight = 665
                 object redInformacaoComplementar: TcxDBRichEdit
                   Left = 12
                   Top = 12
