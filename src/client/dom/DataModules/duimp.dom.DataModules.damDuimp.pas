@@ -75,11 +75,11 @@ type
     qryDCIFabricanteCodigo: TStringField;
     qryDCIFabricanteCodigoPais: TStringField;
     qryDCIFabricanteNIOperador: TStringField;
-    qryDCIFabricanteVersao: TIntegerField;
+    qryDCIFabricanteVersao: TStringField;
     qryDCIExportadorCodigo: TStringField;
     qryDCIExportadorCodigoPais: TStringField;
     qryDCIExportadorNIOperador: TStringField;
-    qryDCIExportadorVersao: TIntegerField;
+    qryDCIExportadorVersao: TStringField;
     qryDCIIncotermCodigo: TStringField;
     qryDCIMoedaNegociadaSimbolo: TStringField;
     qryDCINumeroItem: TIntegerField;
@@ -378,7 +378,7 @@ type
     qryDIENome: TStringField;
     qryDIEPaisCodigo: TStringField;
     qryDIERua: TStringField;
-    qryDIEVersao: TIntegerField;
+    qryDIEVersao: TStringField;
     qryDIFId: TGuidField;
     qryDIFCEP: TStringField;
     qryDIFCodigo: TStringField;
@@ -388,7 +388,7 @@ type
     qryDIFNome: TStringField;
     qryDIFPaisCodigo: TStringField;
     qryDIFRua: TStringField;
-    qryDIFVersao: TIntegerField;
+    qryDIFVersao: TStringField;
     updDIE: TFDUpdateSQL;
     updDIF: TFDUpdateSQL;
     qryDIECodigoInterno: TIntegerField;
@@ -406,7 +406,7 @@ type
     qryEXPNome: TStringField;
     qryEXPPaisCodigo: TStringField;
     qryEXPRua: TStringField;
-    qryEXPVersao: TIntegerField;
+    qryEXPVersao: TStringField;
     qryEXPAdicao: TIntegerField;
     qryLFR: TFDQuery;
     qryLFRCodigoInterno: TIntegerField;
@@ -436,7 +436,7 @@ type
     qryFABPaisCodigo: TStringField;
     qryFABRua: TStringField;
     qryFABRua_Numero: TStringField;
-    qryFABVersao: TIntegerField;
+    qryFABVersao: TStringField;
     qryPRO: TFDQuery;
     dsoPRO: TDataSource;
     updPRO: TFDUpdateSQL;
@@ -720,7 +720,7 @@ type
     qryFRNPaisCodigo: TStringField;
     qryFRNRua: TStringField;
     qryFRNRua_Numero: TStringField;
-    qryFRNVersao: TIntegerField;
+    qryFRNVersao: TStringField;
     dsoFRN: TDataSource;
     updFRN: TFDUpdateSQL;
     qryFRNPais: TStringField;
@@ -2281,7 +2281,7 @@ begin
   qryDIECodigo.AsString := AItem.Exportador.Codigo;
   qryDIENIOperador.AsString := AItem.Exportador.NiOperador;
   qryDIEPaisCodigo.AsString := AItem.Exportador.Pais.Codigo;
-  qryDIEVersao.AsInteger := AItem.Exportador.Versao.ToInteger;
+  qryDIEVersao.AsString := AItem.Exportador.Versao;
   qryDIE.Post;
 end;
 
@@ -2295,7 +2295,7 @@ begin
   qryDIFCodigo.AsString := AItem.Fabricante.Codigo;
   qryDIFNIOperador.AsString := AItem.Fabricante.NiOperador;
   qryDIFPaisCodigo.AsString := AItem.Fabricante.Pais.Codigo;
-  qryDIFVersao.AsInteger := AItem.Fabricante.Versao.ToInteger;
+  qryDIFVersao.AsString := AItem.Fabricante.Versao;
   qryDIF.Post;
 end;
 
@@ -2327,12 +2327,12 @@ begin
           qryDCIFabricanteCodigo.AsString := LItem.Fabricante.Codigo;
           qryDCIFabricanteCodigoPais.AsString := LItem.Fabricante.Pais.Codigo;
           qryDCIFabricanteNIOperador.AsString := LItem.Fabricante.NiOperador;
-          qryDCIFabricanteVersao.AsInteger := LItem.Fabricante.Versao.ToInteger;
+          qryDCIFabricanteVersao.AsString := LItem.Fabricante.Versao;
         end;
         qryDCIExportadorCodigo.AsString := LItem.Exportador.Codigo;
         qryDCIExportadorCodigoPais.AsString := LItem.Exportador.Pais.Codigo;
         qryDCIExportadorNIOperador.AsString := LItem.Exportador.NiOperador;
-        qryDCIExportadorVersao.AsInteger := LItem.Exportador.Versao.ToInteger;
+        qryDCIExportadorVersao.AsString := LItem.Exportador.Versao;
         qryDCIIncotermCodigo.AsString := LItem.CondicaoVenda.Incoterm.Codigo;
         qryDCIMoedaNegociadaSimbolo.AsString := LItem.Mercadoria.MoedaNegociada.Codigo;
         qryDCINumeroItem.AsInteger := LItem.Identificacao.NumeroItem;

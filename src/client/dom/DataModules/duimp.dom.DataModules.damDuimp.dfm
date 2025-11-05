@@ -813,7 +813,7 @@ inherited damDuimp: TdamDuimp
       Visible = False
       Size = 11
     end
-    object qryDCIFabricanteVersao: TIntegerField
+    object qryDCIFabricanteVersao: TStringField
       FieldName = 'FabricanteVersao'
       Origin = 'FabricanteVersao'
       Visible = False
@@ -839,7 +839,7 @@ inherited damDuimp: TdamDuimp
       Visible = False
       Size = 11
     end
-    object qryDCIExportadorVersao: TIntegerField
+    object qryDCIExportadorVersao: TStringField
       FieldName = 'ExportadorVersao'
       Origin = 'ExportadorVersao'
       Required = True
@@ -5210,7 +5210,7 @@ inherited damDuimp: TdamDuimp
       Origin = 'Rua_Numero'
       Size = 10
     end
-    object qryDIEVersao: TIntegerField
+    object qryDIEVersao: TStringField
       FieldName = 'Versao'
       Origin = 'Versao'
       Required = True
@@ -5342,7 +5342,7 @@ inherited damDuimp: TdamDuimp
       Origin = 'Rua_Numero'
       Size = 10
     end
-    object qryDIFVersao: TIntegerField
+    object qryDIFVersao: TStringField
       FieldName = 'Versao'
       Origin = 'Versao'
       Required = True
@@ -5547,7 +5547,7 @@ inherited damDuimp: TdamDuimp
       Origin = 'Rua_Numero'
       Size = 10
     end
-    object qryEXPVersao: TIntegerField
+    object qryEXPVersao: TStringField
       DisplayLabel = 'Vers'#227'o'
       DisplayWidth = 6
       FieldName = 'Versao'
@@ -5680,7 +5680,7 @@ inherited damDuimp: TdamDuimp
       Origin = 'Rua_Numero'
       Size = 10
     end
-    object qryFABVersao: TIntegerField
+    object qryFABVersao: TStringField
       DisplayLabel = 'Vers'#227'o'
       DisplayWidth = 6
       FieldName = 'Versao'
@@ -8695,7 +8695,6 @@ inherited damDuimp: TdamDuimp
     Top = 463
   end
   object qryFRN: TFDQuery
-    Active = True
     CachedUpdates = True
     MasterSource = dsoDPR
     MasterFields = 'Id'
@@ -8829,7 +8828,7 @@ inherited damDuimp: TdamDuimp
       Origin = 'Rua_Numero'
       Size = 10
     end
-    object qryFRNVersao: TIntegerField
+    object qryFRNVersao: TStringField
       FieldName = 'Versao'
       Origin = 'Versao'
       Required = True
