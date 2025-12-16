@@ -989,8 +989,7 @@ type
     procedure CreateCanalConsolidado;
     procedure DifferenceLaunch;
     procedure DoApplyUpdates(const ADataSet: TFDDataSet; const ADoUpdateRecord: TDoUpdateRecord);
-    procedure GeneratePaymentAndReceipt(const ASender: TDataSet; const AValue: Double; const ATipoCF: string;
-      const ABanco: Integer; const ABanco_Conta: string; const APRObservacao: string; const APRBObservacao: string);
+    procedure GeneratePaymentAndReceipt(const ASender: TDataSet; const AValue: Double; const APRObservacao: string);
     procedure OpenDataSets;
     procedure OPERefresh;    
     procedure PaymentsCreate(const ASender: TDataSet);
@@ -1093,12 +1092,11 @@ begin
   Result := FCanalConsolidado;
 end;
 
-procedure TdamDuimp.GeneratePaymentAndReceipt(const ASender: TDataSet; const AValue: Double; const ATipoCF: string;
-  const ABanco: Integer; const ABanco_Conta, APRObservacao, APRBObservacao: string);
-var 
+procedure TdamDuimp.GeneratePaymentAndReceipt(const ASender: TDataSet; const AValue: Double; const APRObservacao: string);
+var
   LNumeroParam: TFDParam;
   LRegistroParam: TFDParam;
-begin 
+begin
   cmdPRIns.Unprepare;
   cmdPRIns.Params.ParamByName('CodigoCF').AsString := ASender.FieldByName('CodigoCF').AsString;
   cmdPRIns.Params.ParamByName('SISCOMEX_Orgao').AsString := qryMDS.FieldByName('SISCOMEX_Orgao').AsString;
@@ -1124,35 +1122,9 @@ begin
   cmdPRIns.Params.ParamByName('Valor_Total').AsFloat := AValue;
   cmdPRIns.Params.ParamByName('Valor_Operacao').AsFloat := AValue;
   cmdPRIns.Params.ParamByName('Observacao').AsString := APRObservacao;
-  if ABanco > 0 then
-  begin
-    cmdPRIns.Params.ParamByName('Valor_Baixado').AsFloat := AValue;
-  end;
   LNumeroParam := cmdPRIns.ParamByName('Numero');
   LNumeroParam.ParamType := ptOutput;
   cmdPRIns.Execute;
-  if qryProcBanco.AsInteger > 0 then
-  begin
-    cmdPRBIns.Unprepare;
-    cmdPRBIns.Params.ParamByName('Numero').AsInteger             := LNumeroParam.AsInteger;
-    cmdPRBIns.Params.ParamByName('Data').AsDateTime              := qryProcData_RegistroDeclaracao.AsDateTime;
-    cmdPRBIns.Params.ParamByName('Tipo').AsString                := ATipoCF;
-    cmdPRBIns.Params.ParamByName('Valor').AsFloat                := AValue;
-    cmdPRBIns.Params.ParamByName('Banco').AsInteger              := qryProcBanco.AsInteger;
-    cmdPRBIns.Params.ParamByName('Forma_Tipo').AsString          := '';
-    cmdPRBIns.Params.ParamByName('Forma_TipoDocumento').AsString := '';
-    cmdPRBIns.Params.ParamByName('Observacao').AsString          := APRBObservacao;
-    cmdPRBIns.Params.ParamByName('Banco_Conta').AsString         := ABanco_Conta;    
-    LRegistroParam := cmdPRBIns.ParamByName('Registro');
-    LRegistroParam.ParamType := ptOutput;
-    cmdPRBIns.Execute;
-    cmdPRUpd.Unprepare;
-    cmdPRUpd.Params.ParamByName('Baixa_Numero').AsInteger        := LRegistroParam.AsInteger;
-    cmdPRUpd.Params.ParamByName('Valor').AsFloat                 := AValue;
-    cmdPRUpd.Params.ParamByName('Banco').AsInteger               := qryProcBanco.AsInteger;
-    cmdPRUpd.Params.ParamByName('Numero').AsInteger              := LNumeroParam.AsInteger;
-    cmdPRUpd.Execute;
-  end;
 end;
 
 procedure TdamDuimp.PaymentsCreate(const ASender: TDataSet);
@@ -1165,15 +1137,7 @@ begin
     {ELSE},
       qryProcValor_COFINS2.AsFloat
     {ENDIF});
-  GeneratePaymentAndReceipt(
-    ASender
-   ,LValue
-   ,ASender.FieldByName('TipoCF').AsString
-   ,ASender.FieldByName('Banco').AsInteger
-   ,ASender.FieldByName('Conta').AsString
-   ,''
-   ,Concat('Baixa referente a lançamento importado do siscomex DI nº: ', qryProcNumero_Declaracao.AsString, 
-    '; Processo nº: ', qryProcProcesso.AsString));
+  GeneratePaymentAndReceipt(ASender, LValue, '');
 end;
 
 procedure TdamDuimp.PostDataSet(const ASender: TDataSet);
@@ -1860,14 +1824,7 @@ begin
     (qryDTVSelMajorado.AsFloat > 0) and
     not qryCFPis.IsEmpty and (LValue > 0) then
   begin
-    GeneratePaymentAndReceipt(
-      qryCFPis
-     ,LValue
-     ,qryCFPisTipoCF.AsString
-     ,qryProcBanco.AsInteger
-     ,''
-     ,'Diferença de PIS importação'
-     ,Concat('Baixa referente a lançamento de Diferença de PIS importado do siscomex Duimp nº: ', qryProcNumero_Declaracao.AsString, '; Processo nº: ', qryProc.FieldByName('Processo').AsString));
+    GeneratePaymentAndReceipt(qryCFPis, LValue, 'Diferença de PIS importação');
   end;
   // COFINS...
   LValue := qryProcValor_COFINS.AsFloat - qryProcValor_COFINS2.AsFloat;
@@ -1875,40 +1832,19 @@ begin
     (qryDTVSelMajorado.AsFloat > 0) and
     not qryCFCofins.IsEmpty and (LValue > 0) then
   begin
-    GeneratePaymentAndReceipt(
-      qryCFCofins
-     ,LValue
-     ,qryCFCofinsTipoCF.AsString
-     ,qryProcBanco.AsInteger
-     ,''
-     ,'Diferença de COFINS importação'
-     ,Concat('Baixa referente a lançamento de Diferença de COFINS importado do siscomex Duimp nº: ', qryProcNumero_Declaracao.AsString, '; Processo nº: ', qryProcProcesso.AsString));
+    GeneratePaymentAndReceipt(qryCFCofins, LValue, 'Diferença de COFINS importação');
   end;
   // AFRMM...
   LValue := qryProcAFRMM.AsFloat;
   if not qryCFAfrmm.IsEmpty and (LValue > 0) then
   begin
-    GeneratePaymentAndReceipt(
-      qryCFAfrmm
-     ,LValue
-     ,qryCFAfrmmTipoCF.AsString
-     ,qryProcBanco.AsInteger
-     ,''
-     ,'Marinha Mercante (AFRMM)'
-     ,Concat('Baixa referente a lançamento de Diferença de AFRMM importado do siscomex Duimp nº: ', qryProcNumero_Declaracao.AsString, '; Processo nº: ', qryProcProcesso.AsString));
+    GeneratePaymentAndReceipt(qryCFAfrmm, LValue, 'Marinha Mercante (AFRMM)');
   end;
   // TUP...
   LValue := qryProcTUP.AsFloat;
   if not qryCFTup.IsEmpty and (LValue > 0) then
   begin
-    GeneratePaymentAndReceipt(
-      qryCFTup
-     ,LValue
-     ,qryCFTupTipoCF.AsString
-     ,qryProcBanco.AsInteger
-     ,''
-     ,'Tarifa utilização Portuário (TUP)'
-     ,Concat('Baixa referente a lançamento de Diferença de TUP importado do siscomex Duimp nº: ', qryProcNumero_Declaracao.AsString, '; Processo nº: ', qryProcProcesso.AsString));
+    GeneratePaymentAndReceipt(qryCFTup, LValue, 'Tarifa utilização Portuário (TUP)');
   end;
 end;
 
