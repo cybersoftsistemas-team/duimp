@@ -16,25 +16,27 @@ type
   private
     FConnection: TCustomConnection;
     FMigrationTypeList: TMigrationTypeList;
-    FRepositoryPrefix: string;
+    FOwnsConnection: Boolean;
     FRepository: IDatabaseMigrationRepository;
+    FRepositoryPrefix: string;
     FResolver: IConnectionResolver;
     function GetConnection: TCustomConnection;
-    function GetRepositoryPrefix: string;
     function GetRepositoryName: string;
+    function GetRepositoryPrefix: string;
     procedure GetDeclaredMigrationTypes;
+    procedure RejectMigrationTypes(const ARan: TArray<string>);
     procedure SetConnection(const AValue: TCustomConnection);
     procedure SetRepositoryPrefix(const AValue: string);
     procedure SortMigrationTypes;
-    procedure RejectMigrationTypes(const ARan: TArray<string>);
   protected
-    const
-      RepositoryPrefixDef = 'CBS';
+  const
       RepositoryNameDef = '__%sMigrationsHistory';
-  protected
+      RepositoryPrefixDef = 'CBS';
+      RepositorySchema = 'dbo';
     function CreateRepository: IDatabaseMigrationRepository; virtual; abstract;
     function CreateResolver: IConnectionResolver; virtual; abstract;
     procedure DoUpdateDatabase; virtual;
+    procedure SetOwnsConnection(const AValue: Boolean = True);
     property Resolver: IConnectionResolver read FResolver;
   public
     constructor Create;
@@ -67,35 +69,26 @@ begin
   FRepository := nil;
   FResolver := nil;
   FMigrationTypeList := nil;
-  inherited;
-end;
-
-function TMigrationContext.GetConnection: TCustomConnection;
-begin
-  Result := FConnection;
-end;
-
-function TMigrationContext.GetRepositoryPrefix: string;
-begin
-  if FRepositoryPrefix.Trim.IsEmpty then
+  if FOwnsConnection then
   begin
-    Exit(RepositoryPrefixDef);
+    FreeAndNil(FConnection);
   end;
-  Result := FRepositoryPrefix;
-end;
-
-function TMigrationContext.GetRepositoryName: string;
-begin
-  Result := Format(RepositoryNameDef, [RepositoryPrefix]);
+  inherited;
 end;
 
 procedure TMigrationContext.DoUpdateDatabase;
 begin
   GetDeclaredMigrationTypes;
+  FRepository.Schema := RepositorySchema;
   FRepository.Table := GetRepositoryName;
   FRepository.CreateIfNotExists;
   RejectMigrationTypes(FRepository.GetRan);
   FRepository.RunPending(FMigrationTypeList.Values.ToArray);
+end;
+
+function TMigrationContext.GetConnection: TCustomConnection;
+begin
+  Result := FConnection;
 end;
 
 procedure TMigrationContext.GetDeclaredMigrationTypes;
@@ -110,12 +103,47 @@ begin
   SortMigrationTypes;
 end;
 
+function TMigrationContext.GetRepositoryName: string;
+begin
+  Result := Format(RepositoryNameDef, [RepositoryPrefix]);
+end;
+
+function TMigrationContext.GetRepositoryPrefix: string;
+begin
+  if FRepositoryPrefix.Trim.IsEmpty then
+  begin
+    Exit(RepositoryPrefixDef);
+  end;
+  Result := FRepositoryPrefix;
+end;
+
+procedure TMigrationContext.RejectMigrationTypes(const ARan: TArray<string>);
+var
+  LRanSet: IRanSet;
+begin
+  LRanSet := CreateRanSet(ARan);
+  FMigrationTypeList.RemoveAll(
+    function(const AMigrationTypeItem: TMigrationTypeItem): Boolean
+    begin
+      Result := LRanSet.Contains(AMigrationTypeItem.Key);
+    end);
+end;
+
 procedure TMigrationContext.SetConnection(const AValue: TCustomConnection);
 begin
+  if FOwnsConnection then
+  begin
+    FreeAndNil(FConnection);
+  end;
   FConnection := AValue;
   FResolver := CreateResolver;
   FResolver.Connection := AValue;
   FRepository := CreateRepository;
+end;
+
+procedure TMigrationContext.SetOwnsConnection(const AValue: Boolean);
+begin
+  FOwnsConnection := AValue;
 end;
 
 procedure TMigrationContext.SetRepositoryPrefix(const AValue: string);
@@ -129,18 +157,6 @@ begin
     CreateMigrationTypeList(FMigrationTypeList.Ordered);
   FMigrationTypeList.Clear;
   FMigrationTypeList.AddRange(LOrderedMigrationTypes);
-end;
-
-procedure TMigrationContext.RejectMigrationTypes(const ARan: TArray<string>);
-var
-  LRanSet: IRanSet;
-begin
-  LRanSet := CreateRanSet(ARan);
-  FMigrationTypeList.RemoveAll(
-    function(const AMigrationTypeItem: TMigrationTypeItem): Boolean
-    begin
-      Result := LRanSet.Contains(AMigrationTypeItem.Key);
-    end);
 end;
 
 procedure TMigrationContext.UpdateDatabase(const ASeed: TProc);
