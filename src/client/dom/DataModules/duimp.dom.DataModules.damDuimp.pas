@@ -1124,35 +1124,9 @@ begin
   cmdPRIns.Params.ParamByName('Valor_Total').AsFloat := AValue;
   cmdPRIns.Params.ParamByName('Valor_Operacao').AsFloat := AValue;
   cmdPRIns.Params.ParamByName('Observacao').AsString := APRObservacao;
-  if ABanco > 0 then
-  begin
-    cmdPRIns.Params.ParamByName('Valor_Baixado').AsFloat := AValue;
-  end;
   LNumeroParam := cmdPRIns.ParamByName('Numero');
   LNumeroParam.ParamType := ptOutput;
   cmdPRIns.Execute;
-  if qryProcBanco.AsInteger > 0 then
-  begin
-    cmdPRBIns.Unprepare;
-    cmdPRBIns.Params.ParamByName('Numero').AsInteger             := LNumeroParam.AsInteger;
-    cmdPRBIns.Params.ParamByName('Data').AsDateTime              := qryProcData_RegistroDeclaracao.AsDateTime;
-    cmdPRBIns.Params.ParamByName('Tipo').AsString                := ATipoCF;
-    cmdPRBIns.Params.ParamByName('Valor').AsFloat                := AValue;
-    cmdPRBIns.Params.ParamByName('Banco').AsInteger              := qryProcBanco.AsInteger;
-    cmdPRBIns.Params.ParamByName('Forma_Tipo').AsString          := '';
-    cmdPRBIns.Params.ParamByName('Forma_TipoDocumento').AsString := '';
-    cmdPRBIns.Params.ParamByName('Observacao').AsString          := APRBObservacao;
-    cmdPRBIns.Params.ParamByName('Banco_Conta').AsString         := ABanco_Conta;    
-    LRegistroParam := cmdPRBIns.ParamByName('Registro');
-    LRegistroParam.ParamType := ptOutput;
-    cmdPRBIns.Execute;
-    cmdPRUpd.Unprepare;
-    cmdPRUpd.Params.ParamByName('Baixa_Numero').AsInteger        := LRegistroParam.AsInteger;
-    cmdPRUpd.Params.ParamByName('Valor').AsFloat                 := AValue;
-    cmdPRUpd.Params.ParamByName('Banco').AsInteger               := qryProcBanco.AsInteger;
-    cmdPRUpd.Params.ParamByName('Numero').AsInteger              := LNumeroParam.AsInteger;
-    cmdPRUpd.Execute;
-  end;
 end;
 
 procedure TdamDuimp.PaymentsCreate(const ASender: TDataSet);
