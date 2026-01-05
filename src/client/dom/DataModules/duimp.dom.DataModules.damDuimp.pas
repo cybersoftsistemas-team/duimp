@@ -948,6 +948,8 @@ type
     qryMDSSISCOMEX_CentroCusto: TMemoField;
     qryIFIICMS_Diferido: TBooleanField;
     qryProcICMS_DIferido: TBooleanField;
+    qryCONAliquota_CBS: TFloatField;
+    qryPROAliquota_CBS: TFloatField;
     procedure DataModuleCreate(Sender: TObject);
     procedure MoedaNegociadaValorGetText(Sender: TField; var Text: string; DisplayText: Boolean);
     procedure qryDUINewRecord(DataSet: TDataSet);
@@ -1658,6 +1660,7 @@ begin
           qryPROModalidadeCodigo.AsInteger := AModalidadeCodigo;
           qryPROProdutoCodigo.AsInteger := LProduct.Codigo;
           qryPROFornecedor.AsString := qryFRNCodigo_DUIMP.AsString;
+          qryPROAliquota_CBS.AsFloat := qryCONAliquota_CBS.AsFloat;
           qryPRO.Post;
           damAttrs := TdamAttrs.Create(nil);
           try

@@ -14,11 +14,13 @@ inherited damConnection: TdamConnection
   end
   object DBCliente: TFDConnection
     Params.Strings = (
-      'DriverID=MSSQL'
       'Database=Cybersoft_Pradotex2'
       'Server=SERVER-DADOS'
       'User_Name=sa'
-      'Password=cybersoft@123')
+      'Password=cybersoft@123'
+      'ODBCAdvanced=TrustServerCertificate=Yes'
+      'Encrypt=Yes'
+      'DriverID=MSSQL')
     FetchOptions.AssignedValues = [evMode]
     FetchOptions.Mode = fmAll
     UpdateOptions.AssignedValues = [uvRefreshMode, uvAutoCommitUpdates]
