@@ -214,7 +214,15 @@ inherited damAttrs: TdamAttrs
     FetchOptions.AutoClose = False
     CommandKind = skInsert
     CommandText.Strings = (
-      'INSERT INTO AtributosNCM '
+      'INSERT INTO AtributosNCM'
+      '(Codigo'
+      ',Nome_Apresentacao'
+      ',Nome_Atributo'
+      ',Orientacao_Preenchimento'
+      ',Forma_Preenchimento'
+      ',Modalidade_Operacao'
+      ',Multivalorado'
+      ',Obrigatorio) '
       'SELECT :Codigo'
       ',:Nome_Apresentacao'
       ',:Nome_Atributo'
