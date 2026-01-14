@@ -7,9 +7,9 @@
         <Base>True</Base>
         <Config Condition="'$(Config)'==''">deVCL</Config>
         <Platform Condition="'$(Platform)'==''">Win32</Platform>
-        <ProjectName Condition="'$(ProjectName)'==''">cbsMigrationsFireDac</ProjectName>
-        <TargetedPlatforms>1048577</TargetedPlatforms>
+        <TargetedPlatforms>129</TargetedPlatforms>
         <AppType>Package</AppType>
+        <ProjectName Condition="'$(ProjectName)'==''">cbsMigrationsFireDac</ProjectName>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Config)'=='Base' or '$(Base)'!=''">
         <Base>true</Base>
@@ -71,13 +71,6 @@
         <Cfg_1>true</Cfg_1>
         <Base>true</Base>
     </PropertyGroup>
-    <PropertyGroup Condition="('$(Platform)'=='Win32' and '$(Cfg_3)'=='true') or '$(Cfg_3_Win32)'!=''">
-        <Cfg_3_Win32>true</Cfg_3_Win32>
-        <CfgParent>Cfg_3</CfgParent>
-        <Cfg_3>true</Cfg_3>
-        <Cfg_1>true</Cfg_1>
-        <Base>true</Base>
-    </PropertyGroup>
     <PropertyGroup Condition="'$(Config)'=='Release' or '$(Cfg_2)'!=''">
         <Cfg_2>true</Cfg_2>
         <CfgParent>Base</CfgParent>
@@ -103,9 +96,9 @@
         <DCC_CBuilderOutput>All</DCC_CBuilderOutput>
         <RuntimeOnlyPackage>true</RuntimeOnlyPackage>
         <SanitizedProjectName>cbsMigrationsFireDac</SanitizedProjectName>
-        <DCC_UnitSearchPath>..\..\build;..\..\build\$(Platform)\$(Config)\.dcp;..\..\build\$(Platform)\$(Config)\.bpl;..\..\build\$(Platform)\$(Config)\.dcu;..\modules\datavalidator;..\modules\spring4d\Source;..\modules\spring4d\Source\Base;..\modules\spring4d\Source\Base\Collections;..\modules\spring4d\Source\Base\Logging;..\modules\spring4d\Source\Base\Patches;..\modules\spring4d\Source\Base\Patterns;..\modules\spring4d\Source\Core\Container;..\modules\spring4d\Source\Core\Interception;..\modules\spring4d\Source\Core\Logging;..\modules\spring4d\Source\Core\Mocking;..\modules\spring4d\Source\Core\Services;..\modules\spring4d\Source\Data\ObjectDataSet;..\modules\spring4d\Source\Extensions\Cryptography;..\modules\spring4d\Source\Extensions\Utils;..\modules\spring4d\Source\Persistence\Adapters;..\modules\spring4d\Source\Persistence\Core;..\modules\spring4d\Source\Persistence\Criteria;..\modules\spring4d\Source\Persistence\Mapping;..\modules\spring4d\Source\Persistence\SQL;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
+        <DCC_UnitSearchPath>..\..\build;..\..\build\$(Platform)\$(Config);..\..\build\$(Platform)\$(Config)\.dcp;..\..\build\$(Platform)\$(Config)\.bpl;..\..\build\$(Platform)\$(Config)\.dcu;..\..\build\$(Platform)\$(Config)\modules;..\modules\spring4d\Source;..\modules\spring4d\Source\Base;..\modules\spring4d\Source\Base\Collections;..\modules\spring4d\Source\Base\Logging;..\modules\spring4d\Source\Base\Patches;..\modules\spring4d\Source\Base\Patterns;..\modules\spring4d\Source\Core\Container;..\modules\spring4d\Source\Core\Interception;..\modules\spring4d\Source\Core\Logging;..\modules\spring4d\Source\Core\Mocking;..\modules\spring4d\Source\Core\Services;..\modules\spring4d\Source\Data\ObjectDataSet;..\modules\spring4d\Source\Extensions\Cryptography;..\modules\spring4d\Source\Extensions\Utils;..\modules\spring4d\Source\Persistence\Adapters;..\modules\spring4d\Source\Persistence\Core;..\modules\spring4d\Source\Persistence\Criteria;..\modules\spring4d\Source\Persistence\Mapping;..\modules\spring4d\Source\Persistence\SQL;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
         <DCC_DcpOutput>..\..\build\$(Platform)\$(Config)\.dcp</DCC_DcpOutput>
-        <DCC_BplOutput>..\..\build\$(Platform)\$(Config)\.bpl</DCC_BplOutput>
+        <DCC_BplOutput>..\..\build\$(Platform)\$(Config)</DCC_BplOutput>
         <VerInfo_Locale>1046</VerInfo_Locale>
         <VerInfo_Keys>CompanyName=;FileDescription=$(MSBuildProjectName);FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
         <DCC_UNSUPPORTED_CONSTRUCT>false</DCC_UNSUPPORTED_CONSTRUCT>
@@ -164,10 +157,6 @@
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <VerInfo_Locale>1033</VerInfo_Locale>
     </PropertyGroup>
-    <PropertyGroup Condition="'$(Cfg_3_Win32)'!=''">
-        <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
-        <VerInfo_Locale>1033</VerInfo_Locale>
-    </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
         <DCC_LocalDebugSymbols>false</DCC_LocalDebugSymbols>
         <DCC_Define>RELEASE;$(DCC_Define)</DCC_Define>
@@ -222,8 +211,8 @@
         <BorlandProject>
             <Delphi.Personality>
                 <Excluded_Packages>
-                    <Excluded_Packages Name="$(BDSBIN)\dcloffice2k290.bpl">Microsoft Office 2000 Sample Automation Server Wrapper Components</Excluded_Packages>
-                    <Excluded_Packages Name="$(BDSBIN)\dclofficexp290.bpl">Microsoft Office XP Sample Automation Server Wrapper Components</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\dcloffice2k370.bpl">Microsoft Office 2000 Sample Automation Server Wrapper Components</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\dclofficexp370.bpl">Microsoft Office XP Sample Automation Server Wrapper Components</Excluded_Packages>
                 </Excluded_Packages>
                 <Source>
                     <Source Name="MainSource">cbsMigrationsFireDac.dpk</Source>
@@ -1108,12 +1097,12 @@
                 <Platform value="Android64">False</Platform>
                 <Platform value="iOSDevice64">False</Platform>
                 <Platform value="iOSSimARM64">False</Platform>
-                <Platform value="Linux64">False</Platform>
+                <Platform value="Linux64">True</Platform>
                 <Platform value="OSX64">False</Platform>
                 <Platform value="OSXARM64">False</Platform>
                 <Platform value="Win32">True</Platform>
                 <Platform value="Win64">False</Platform>
-                <Platform value="Win64x">True</Platform>
+                <Platform value="Win64x">False</Platform>
             </Platforms>
         </BorlandProject>
         <ProjectFileVersion>12</ProjectFileVersion>

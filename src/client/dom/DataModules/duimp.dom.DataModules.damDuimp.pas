@@ -75,11 +75,11 @@ type
     qryDCIFabricanteCodigo: TStringField;
     qryDCIFabricanteCodigoPais: TStringField;
     qryDCIFabricanteNIOperador: TStringField;
-    qryDCIFabricanteVersao: TIntegerField;
+    qryDCIFabricanteVersao: TStringField;
     qryDCIExportadorCodigo: TStringField;
     qryDCIExportadorCodigoPais: TStringField;
     qryDCIExportadorNIOperador: TStringField;
-    qryDCIExportadorVersao: TIntegerField;
+    qryDCIExportadorVersao: TStringField;
     qryDCIIncotermCodigo: TStringField;
     qryDCIMoedaNegociadaSimbolo: TStringField;
     qryDCINumeroItem: TIntegerField;
@@ -378,7 +378,7 @@ type
     qryDIENome: TStringField;
     qryDIEPaisCodigo: TStringField;
     qryDIERua: TStringField;
-    qryDIEVersao: TIntegerField;
+    qryDIEVersao: TStringField;
     qryDIFId: TGuidField;
     qryDIFCEP: TStringField;
     qryDIFCodigo: TStringField;
@@ -388,7 +388,7 @@ type
     qryDIFNome: TStringField;
     qryDIFPaisCodigo: TStringField;
     qryDIFRua: TStringField;
-    qryDIFVersao: TIntegerField;
+    qryDIFVersao: TStringField;
     updDIE: TFDUpdateSQL;
     updDIF: TFDUpdateSQL;
     qryDIECodigoInterno: TIntegerField;
@@ -406,7 +406,7 @@ type
     qryEXPNome: TStringField;
     qryEXPPaisCodigo: TStringField;
     qryEXPRua: TStringField;
-    qryEXPVersao: TIntegerField;
+    qryEXPVersao: TStringField;
     qryEXPAdicao: TIntegerField;
     qryLFR: TFDQuery;
     qryLFRCodigoInterno: TIntegerField;
@@ -436,7 +436,7 @@ type
     qryFABPaisCodigo: TStringField;
     qryFABRua: TStringField;
     qryFABRua_Numero: TStringField;
-    qryFABVersao: TIntegerField;
+    qryFABVersao: TStringField;
     qryPRO: TFDQuery;
     dsoPRO: TDataSource;
     updPRO: TFDUpdateSQL;
@@ -720,7 +720,7 @@ type
     qryFRNPaisCodigo: TStringField;
     qryFRNRua: TStringField;
     qryFRNRua_Numero: TStringField;
-    qryFRNVersao: TIntegerField;
+    qryFRNVersao: TStringField;
     dsoFRN: TDataSource;
     updFRN: TFDUpdateSQL;
     qryFRNPais: TStringField;
@@ -948,6 +948,8 @@ type
     qryMDSSISCOMEX_CentroCusto: TMemoField;
     qryIFIICMS_Diferido: TBooleanField;
     qryProcICMS_DIferido: TBooleanField;
+    qryCONAliquota_CBS: TFloatField;
+    qryPROAliquota_CBS: TFloatField;
     procedure DataModuleCreate(Sender: TObject);
     procedure MoedaNegociadaValorGetText(Sender: TField; var Text: string; DisplayText: Boolean);
     procedure qryDUINewRecord(DataSet: TDataSet);
@@ -989,8 +991,7 @@ type
     procedure CreateCanalConsolidado;
     procedure DifferenceLaunch;
     procedure DoApplyUpdates(const ADataSet: TFDDataSet; const ADoUpdateRecord: TDoUpdateRecord);
-    procedure GeneratePaymentAndReceipt(const ASender: TDataSet; const AValue: Double; const ATipoCF: string;
-      const ABanco: Integer; const ABanco_Conta: string; const APRObservacao: string; const APRBObservacao: string);
+    procedure GeneratePaymentAndReceipt(const ASender: TDataSet; const AValue: Double; const APRObservacao: string);
     procedure OpenDataSets;
     procedure OPERefresh;    
     procedure PaymentsCreate(const ASender: TDataSet);
@@ -1093,12 +1094,11 @@ begin
   Result := FCanalConsolidado;
 end;
 
-procedure TdamDuimp.GeneratePaymentAndReceipt(const ASender: TDataSet; const AValue: Double; const ATipoCF: string;
-  const ABanco: Integer; const ABanco_Conta, APRObservacao, APRBObservacao: string);
-var 
+procedure TdamDuimp.GeneratePaymentAndReceipt(const ASender: TDataSet; const AValue: Double; const APRObservacao: string);
+var
   LNumeroParam: TFDParam;
   LRegistroParam: TFDParam;
-begin 
+begin
   cmdPRIns.Unprepare;
   cmdPRIns.Params.ParamByName('CodigoCF').AsString := ASender.FieldByName('CodigoCF').AsString;
   cmdPRIns.Params.ParamByName('SISCOMEX_Orgao').AsString := qryMDS.FieldByName('SISCOMEX_Orgao').AsString;
@@ -1124,35 +1124,9 @@ begin
   cmdPRIns.Params.ParamByName('Valor_Total').AsFloat := AValue;
   cmdPRIns.Params.ParamByName('Valor_Operacao').AsFloat := AValue;
   cmdPRIns.Params.ParamByName('Observacao').AsString := APRObservacao;
-  if ABanco > 0 then
-  begin
-    cmdPRIns.Params.ParamByName('Valor_Baixado').AsFloat := AValue;
-  end;
   LNumeroParam := cmdPRIns.ParamByName('Numero');
   LNumeroParam.ParamType := ptOutput;
   cmdPRIns.Execute;
-  if qryProcBanco.AsInteger > 0 then
-  begin
-    cmdPRBIns.Unprepare;
-    cmdPRBIns.Params.ParamByName('Numero').AsInteger             := LNumeroParam.AsInteger;
-    cmdPRBIns.Params.ParamByName('Data').AsDateTime              := qryProcData_RegistroDeclaracao.AsDateTime;
-    cmdPRBIns.Params.ParamByName('Tipo').AsString                := ATipoCF;
-    cmdPRBIns.Params.ParamByName('Valor').AsFloat                := AValue;
-    cmdPRBIns.Params.ParamByName('Banco').AsInteger              := qryProcBanco.AsInteger;
-    cmdPRBIns.Params.ParamByName('Forma_Tipo').AsString          := '';
-    cmdPRBIns.Params.ParamByName('Forma_TipoDocumento').AsString := '';
-    cmdPRBIns.Params.ParamByName('Observacao').AsString          := APRBObservacao;
-    cmdPRBIns.Params.ParamByName('Banco_Conta').AsString         := ABanco_Conta;    
-    LRegistroParam := cmdPRBIns.ParamByName('Registro');
-    LRegistroParam.ParamType := ptOutput;
-    cmdPRBIns.Execute;
-    cmdPRUpd.Unprepare;
-    cmdPRUpd.Params.ParamByName('Baixa_Numero').AsInteger        := LRegistroParam.AsInteger;
-    cmdPRUpd.Params.ParamByName('Valor').AsFloat                 := AValue;
-    cmdPRUpd.Params.ParamByName('Banco').AsInteger               := qryProcBanco.AsInteger;
-    cmdPRUpd.Params.ParamByName('Numero').AsInteger              := LNumeroParam.AsInteger;
-    cmdPRUpd.Execute;
-  end;
 end;
 
 procedure TdamDuimp.PaymentsCreate(const ASender: TDataSet);
@@ -1165,15 +1139,7 @@ begin
     {ELSE},
       qryProcValor_COFINS2.AsFloat
     {ENDIF});
-  GeneratePaymentAndReceipt(
-    ASender
-   ,LValue
-   ,ASender.FieldByName('TipoCF').AsString
-   ,ASender.FieldByName('Banco').AsInteger
-   ,ASender.FieldByName('Conta').AsString
-   ,''
-   ,Concat('Baixa referente a lançamento importado do siscomex DI nº: ', qryProcNumero_Declaracao.AsString, 
-    '; Processo nº: ', qryProcProcesso.AsString));
+  GeneratePaymentAndReceipt(ASender, LValue, '');
 end;
 
 procedure TdamDuimp.PostDataSet(const ASender: TDataSet);
@@ -1694,6 +1660,7 @@ begin
           qryPROModalidadeCodigo.AsInteger := AModalidadeCodigo;
           qryPROProdutoCodigo.AsInteger := LProduct.Codigo;
           qryPROFornecedor.AsString := qryFRNCodigo_DUIMP.AsString;
+          qryPROAliquota_CBS.AsFloat := qryCONAliquota_CBS.AsFloat;
           qryPRO.Post;
           damAttrs := TdamAttrs.Create(nil);
           try
@@ -1860,14 +1827,7 @@ begin
     (qryDTVSelMajorado.AsFloat > 0) and
     not qryCFPis.IsEmpty and (LValue > 0) then
   begin
-    GeneratePaymentAndReceipt(
-      qryCFPis
-     ,LValue
-     ,qryCFPisTipoCF.AsString
-     ,qryProcBanco.AsInteger
-     ,''
-     ,'Diferença de PIS importação'
-     ,Concat('Baixa referente a lançamento de Diferença de PIS importado do siscomex Duimp nº: ', qryProcNumero_Declaracao.AsString, '; Processo nº: ', qryProc.FieldByName('Processo').AsString));
+    GeneratePaymentAndReceipt(qryCFPis, LValue, 'Diferença de PIS importação');
   end;
   // COFINS...
   LValue := qryProcValor_COFINS.AsFloat - qryProcValor_COFINS2.AsFloat;
@@ -1875,40 +1835,19 @@ begin
     (qryDTVSelMajorado.AsFloat > 0) and
     not qryCFCofins.IsEmpty and (LValue > 0) then
   begin
-    GeneratePaymentAndReceipt(
-      qryCFCofins
-     ,LValue
-     ,qryCFCofinsTipoCF.AsString
-     ,qryProcBanco.AsInteger
-     ,''
-     ,'Diferença de COFINS importação'
-     ,Concat('Baixa referente a lançamento de Diferença de COFINS importado do siscomex Duimp nº: ', qryProcNumero_Declaracao.AsString, '; Processo nº: ', qryProcProcesso.AsString));
+    GeneratePaymentAndReceipt(qryCFCofins, LValue, 'Diferença de COFINS importação');
   end;
   // AFRMM...
   LValue := qryProcAFRMM.AsFloat;
   if not qryCFAfrmm.IsEmpty and (LValue > 0) then
   begin
-    GeneratePaymentAndReceipt(
-      qryCFAfrmm
-     ,LValue
-     ,qryCFAfrmmTipoCF.AsString
-     ,qryProcBanco.AsInteger
-     ,''
-     ,'Marinha Mercante (AFRMM)'
-     ,Concat('Baixa referente a lançamento de Diferença de AFRMM importado do siscomex Duimp nº: ', qryProcNumero_Declaracao.AsString, '; Processo nº: ', qryProcProcesso.AsString));
+    GeneratePaymentAndReceipt(qryCFAfrmm, LValue, 'Marinha Mercante (AFRMM)');
   end;
   // TUP...
   LValue := qryProcTUP.AsFloat;
   if not qryCFTup.IsEmpty and (LValue > 0) then
   begin
-    GeneratePaymentAndReceipt(
-      qryCFTup
-     ,LValue
-     ,qryCFTupTipoCF.AsString
-     ,qryProcBanco.AsInteger
-     ,''
-     ,'Tarifa utilização Portuário (TUP)'
-     ,Concat('Baixa referente a lançamento de Diferença de TUP importado do siscomex Duimp nº: ', qryProcNumero_Declaracao.AsString, '; Processo nº: ', qryProcProcesso.AsString));
+    GeneratePaymentAndReceipt(qryCFTup, LValue, 'Tarifa utilização Portuário (TUP)');
   end;
 end;
 
@@ -2281,7 +2220,7 @@ begin
   qryDIECodigo.AsString := AItem.Exportador.Codigo;
   qryDIENIOperador.AsString := AItem.Exportador.NiOperador;
   qryDIEPaisCodigo.AsString := AItem.Exportador.Pais.Codigo;
-  qryDIEVersao.AsInteger := AItem.Exportador.Versao.ToInteger;
+  qryDIEVersao.AsString := AItem.Exportador.Versao;
   qryDIE.Post;
 end;
 
@@ -2295,7 +2234,7 @@ begin
   qryDIFCodigo.AsString := AItem.Fabricante.Codigo;
   qryDIFNIOperador.AsString := AItem.Fabricante.NiOperador;
   qryDIFPaisCodigo.AsString := AItem.Fabricante.Pais.Codigo;
-  qryDIFVersao.AsInteger := AItem.Fabricante.Versao.ToInteger;
+  qryDIFVersao.AsString := AItem.Fabricante.Versao;
   qryDIF.Post;
 end;
 
@@ -2327,12 +2266,12 @@ begin
           qryDCIFabricanteCodigo.AsString := LItem.Fabricante.Codigo;
           qryDCIFabricanteCodigoPais.AsString := LItem.Fabricante.Pais.Codigo;
           qryDCIFabricanteNIOperador.AsString := LItem.Fabricante.NiOperador;
-          qryDCIFabricanteVersao.AsInteger := LItem.Fabricante.Versao.ToInteger;
+          qryDCIFabricanteVersao.AsString := LItem.Fabricante.Versao;
         end;
         qryDCIExportadorCodigo.AsString := LItem.Exportador.Codigo;
         qryDCIExportadorCodigoPais.AsString := LItem.Exportador.Pais.Codigo;
         qryDCIExportadorNIOperador.AsString := LItem.Exportador.NiOperador;
-        qryDCIExportadorVersao.AsInteger := LItem.Exportador.Versao.ToInteger;
+        qryDCIExportadorVersao.AsString := LItem.Exportador.Versao;
         qryDCIIncotermCodigo.AsString := LItem.CondicaoVenda.Incoterm.Codigo;
         qryDCIMoedaNegociadaSimbolo.AsString := LItem.Mercadoria.MoedaNegociada.Codigo;
         qryDCINumeroItem.AsInteger := LItem.Identificacao.NumeroItem;

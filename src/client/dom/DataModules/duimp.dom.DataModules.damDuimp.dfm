@@ -813,7 +813,7 @@ inherited damDuimp: TdamDuimp
       Visible = False
       Size = 11
     end
-    object qryDCIFabricanteVersao: TIntegerField
+    object qryDCIFabricanteVersao: TStringField
       FieldName = 'FabricanteVersao'
       Origin = 'FabricanteVersao'
       Visible = False
@@ -839,7 +839,7 @@ inherited damDuimp: TdamDuimp
       Visible = False
       Size = 11
     end
-    object qryDCIExportadorVersao: TIntegerField
+    object qryDCIExportadorVersao: TStringField
       FieldName = 'ExportadorVersao'
       Origin = 'ExportadorVersao'
       Required = True
@@ -5210,7 +5210,7 @@ inherited damDuimp: TdamDuimp
       Origin = 'Rua_Numero'
       Size = 10
     end
-    object qryDIEVersao: TIntegerField
+    object qryDIEVersao: TStringField
       FieldName = 'Versao'
       Origin = 'Versao'
       Required = True
@@ -5342,7 +5342,7 @@ inherited damDuimp: TdamDuimp
       Origin = 'Rua_Numero'
       Size = 10
     end
-    object qryDIFVersao: TIntegerField
+    object qryDIFVersao: TStringField
       FieldName = 'Versao'
       Origin = 'Versao'
       Required = True
@@ -5547,7 +5547,7 @@ inherited damDuimp: TdamDuimp
       Origin = 'Rua_Numero'
       Size = 10
     end
-    object qryEXPVersao: TIntegerField
+    object qryEXPVersao: TStringField
       DisplayLabel = 'Vers'#227'o'
       DisplayWidth = 6
       FieldName = 'Versao'
@@ -5680,7 +5680,7 @@ inherited damDuimp: TdamDuimp
       Origin = 'Rua_Numero'
       Size = 10
     end
-    object qryFABVersao: TIntegerField
+    object qryFABVersao: TStringField
       DisplayLabel = 'Vers'#227'o'
       DisplayWidth = 6
       FieldName = 'Versao'
@@ -5799,6 +5799,7 @@ inherited damDuimp: TdamDuimp
       '      ELSE '#39'IMPORTACAO'#39
       ' END'
       ',ModalidadeCodigo = Modalidade'
+      ',PRO.Aliquota_CBS'
       'FROM Produtos AS PRO'
       'LEFT JOIN Fornecedores AS FRN'
       #9'ON PRO.Fornecedor = FRN.Codigo'
@@ -5945,6 +5946,10 @@ inherited damDuimp: TdamDuimp
       Origin = 'ProdutoCodigo'
       Required = True
     end
+    object qryPROAliquota_CBS: TFloatField
+      FieldName = 'Aliquota_CBS'
+      Origin = 'Aliquota_CBS'
+    end
   end
   object dsoPRO: TDataSource
     DataSet = qryPRO
@@ -6041,6 +6046,7 @@ inherited damDuimp: TdamDuimp
         'rigem'
       '       ,:NEW_ModalidadeCodigo AS Modalidade'
       '       ,:NEW_ProdutoCodigo AS Codigo_DUIMP'
+      '       ,:NEW_Aliquota_CBS AS Aliquota_CBS'
       '      ) AS SOURCE'
       'ON TARGET.Codigo = SOURCE.Codigo'
       ''
@@ -6086,6 +6092,7 @@ inherited damDuimp: TdamDuimp
       '       ,TARGET.Origem = SOURCE.Origem'
       '       ,TARGET.Modalidade = SOURCE.Modalidade'
       '       ,TARGET.Codigo_DUIMP = SOURCE.Codigo_DUIMP'
+      '       ,TARGET.Aliquota_CBS = SOURCE.Aliquota_CBS'
       ''
       'WHEN NOT MATCHED THEN'
       '    INSERT ('
@@ -6130,6 +6137,7 @@ inherited damDuimp: TdamDuimp
       '       ,Origem'
       '       ,Modalidade'
       '       ,Codigo_DUIMP'
+      '       ,Aliquota_CBS'
       '    )'
       '    VALUES ('
       '        SOURCE.Codigo'
@@ -6173,6 +6181,7 @@ inherited damDuimp: TdamDuimp
       '       ,SOURCE.Origem'
       '       ,SOURCE.Modalidade'
       '       ,SOURCE.Codigo_DUIMP'
+      '       ,SOURCE.Aliquota_CBS'
       '    );'
       ''
       'SET ANSI_WARNINGS ON;'
@@ -6215,6 +6224,7 @@ inherited damDuimp: TdamDuimp
       '      ELSE '#39'IMPORTACAO'#39
       ' END'
       ',ModalidadeCodigo = Modalidade'
+      ',PRO.Aliquota_CBS'
       'FROM Produtos AS PRO'
       'LEFT JOIN Fornecedores AS FRN'
       #9'ON PRO.Fornecedor = FRN.Codigo'
@@ -6258,6 +6268,7 @@ inherited damDuimp: TdamDuimp
       '      ELSE '#39'IMPORTACAO'#39
       ' END'
       ',ModalidadeCodigo = Modalidade'
+      ',PRO.Aliquota_CBS'
       'FROM Produtos AS PRO'
       'LEFT JOIN Fornecedores AS FRN'
       #9'ON PRO.Fornecedor = FRN.Codigo'
@@ -8618,7 +8629,8 @@ inherited damDuimp: TdamDuimp
       ',CONF.SISCOMEX_Documento'
       ',CONF.SISCOMEX_CentroCusto'
       ',CONF.Ramo_Atividade'
-      ',CONF.Processo_ImportarFechado'
+      ',CONF.Processo_ImportarFechado      '
+      ',CONF.Aliquota_CBS'
       'FROM Configuracao AS CONF')
     Left = 818
     Top = 271
@@ -8688,6 +8700,10 @@ inherited damDuimp: TdamDuimp
       FieldName = 'Processo_ImportarFechado'
       Origin = 'Processo_ImportarFechado'
     end
+    object qryCONAliquota_CBS: TFloatField
+      FieldName = 'Aliquota_CBS'
+      Origin = 'Aliquota_CBS'
+    end
   end
   object dsoITR: TDataSource
     DataSet = qryITR
@@ -8695,7 +8711,6 @@ inherited damDuimp: TdamDuimp
     Top = 463
   end
   object qryFRN: TFDQuery
-    Active = True
     CachedUpdates = True
     MasterSource = dsoDPR
     MasterFields = 'Id'
@@ -8829,7 +8844,7 @@ inherited damDuimp: TdamDuimp
       Origin = 'Rua_Numero'
       Size = 10
     end
-    object qryFRNVersao: TIntegerField
+    object qryFRNVersao: TStringField
       FieldName = 'Versao'
       Origin = 'Versao'
       Required = True
