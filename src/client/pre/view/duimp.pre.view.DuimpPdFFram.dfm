@@ -49,7 +49,7 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
             ParentBackground = False
             ParentColor = False
             TabOrder = 0
-            Properties.ActivePage = tshGoods
+            Properties.ActivePage = tshDuimpCouver
             Properties.CustomButtons.Buttons = <>
             ClientRectBottom = 715
             ClientRectLeft = 2
@@ -3293,6 +3293,10 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                   object tshEF: TcxTabSheet
                     Caption = 'Exportador / Fabricante'
                     ImageIndex = 4
+                    ExplicitLeft = 0
+                    ExplicitTop = 0
+                    ExplicitWidth = 0
+                    ExplicitHeight = 0
                     object lclEF: TdxLayoutControl
                       Left = 0
                       Top = 0
