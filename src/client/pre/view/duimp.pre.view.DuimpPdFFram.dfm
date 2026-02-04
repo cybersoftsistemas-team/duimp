@@ -1813,6 +1813,7 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                           OptionsData.Editing = False
                           OptionsData.Inserting = False
                           OptionsView.CellEndEllipsis = True
+                          OptionsView.CellAutoHeight = True
                           OptionsView.Footer = True
                           OptionsView.FooterMultiSummaries = True
                           OptionsView.GroupByBox = False
@@ -3292,6 +3293,10 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                   object tshEF: TcxTabSheet
                     Caption = 'Exportador / Fabricante'
                     ImageIndex = 4
+                    ExplicitLeft = 0
+                    ExplicitTop = 0
+                    ExplicitWidth = 0
+                    ExplicitHeight = 0
                     object lclEF: TdxLayoutControl
                       Left = 0
                       Top = 0
@@ -4387,6 +4392,10 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
             object tshInfCompl: TcxTabSheet
               Caption = 'Informa'#231#227'o Complementar'
               ImageIndex = 2
+              ExplicitLeft = 0
+              ExplicitTop = 0
+              ExplicitWidth = 0
+              ExplicitHeight = 0
               object lclIFC: TdxLayoutControl
                 Left = 0
                 Top = 0

@@ -461,7 +461,6 @@ type
     updATS: TFDUpdateSQL;
     qryDOM: TFDQuery;
     qryDOMAtributo: TStringField;
-    qryDOMCodigo: TIntegerField;
     qryDOMDescricao: TStringField;
     qryPROProdutoCodigoInterno: TIntegerField;
     qryPROProdutoCodigo: TIntegerField;
@@ -950,6 +949,7 @@ type
     qryProcICMS_DIferido: TBooleanField;
     qryCONAliquota_CBS: TFloatField;
     qryPROAliquota_CBS: TFloatField;
+    qryDOMCodigo: TStringField;
     procedure DataModuleCreate(Sender: TObject);
     procedure MoedaNegociadaValorGetText(Sender: TField; var Text: string; DisplayText: Boolean);
     procedure qryDUINewRecord(DataSet: TDataSet);
