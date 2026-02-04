@@ -49,7 +49,7 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
             ParentBackground = False
             ParentColor = False
             TabOrder = 0
-            Properties.ActivePage = tshDuimpCouver
+            Properties.ActivePage = tshGoods
             Properties.CustomButtons.Buttons = <>
             ClientRectBottom = 715
             ClientRectLeft = 2
@@ -1813,6 +1813,7 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                           OptionsData.Editing = False
                           OptionsData.Inserting = False
                           OptionsView.CellEndEllipsis = True
+                          OptionsView.CellAutoHeight = True
                           OptionsView.Footer = True
                           OptionsView.FooterMultiSummaries = True
                           OptionsView.GroupByBox = False
@@ -4387,6 +4388,10 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
             object tshInfCompl: TcxTabSheet
               Caption = 'Informa'#231#227'o Complementar'
               ImageIndex = 2
+              ExplicitLeft = 0
+              ExplicitTop = 0
+              ExplicitWidth = 0
+              ExplicitHeight = 0
               object lclIFC: TdxLayoutControl
                 Left = 0
                 Top = 0

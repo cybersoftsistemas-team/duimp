@@ -281,6 +281,7 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DCCReference Include="inf\Database\Migrations\_2025_11_05_00000002_alter_table_duimp_capas_itens_alter_exportador_versao_column.pas"/>
         <DCCReference Include="inf\Database\Migrations\_2025_11_05_00000003_alter_table_duimp_itens_exportadores_alter_versao_column.pas"/>
         <DCCReference Include="inf\Database\Migrations\_2025_11_05_00000003_alter_table_duimp_itens_fabricantes_alter_versao_column.pas"/>
+        <DCCReference Include="inf\Database\Migrations\_2025_05_24_00000003_alter_table_dominios_att_alter_codigo_column.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
