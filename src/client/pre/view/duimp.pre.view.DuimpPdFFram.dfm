@@ -2588,10 +2588,6 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                   object tshTRI: TcxTabSheet
                     Caption = 'Tributos'
                     ImageIndex = 1
-                    ExplicitLeft = 0
-                    ExplicitTop = 0
-                    ExplicitWidth = 0
-                    ExplicitHeight = 614
                     object dxLayoutControl2: TdxLayoutControl
                       Left = 0
                       Top = 0
@@ -2602,7 +2598,6 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                       TabOrder = 0
                       Transparent = True
                       LayoutLookAndFeel = lsfMain
-                      ExplicitHeight = 614
                       object edtMercadoriaValorLocalEmbarqueBRL: TcxDBTextEdit
                         Left = 20
                         Top = 68
@@ -2652,6 +2647,7 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                           OptionsData.Editing = False
                           OptionsData.Inserting = False
                           OptionsView.CellEndEllipsis = True
+                          OptionsView.CellAutoHeight = True
                           OptionsView.ColumnAutoWidth = True
                           OptionsView.Footer = True
                           OptionsView.GroupByBox = False
@@ -3056,10 +3052,6 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                   object tshCamex: TcxTabSheet
                     Caption = 'Camex'
                     ImageIndex = 2
-                    ExplicitLeft = 0
-                    ExplicitTop = 0
-                    ExplicitWidth = 0
-                    ExplicitHeight = 614
                     object lclCamex: TdxLayoutControl
                       Left = 0
                       Top = 0
@@ -3070,7 +3062,6 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                       TabOrder = 0
                       Transparent = True
                       LayoutLookAndFeel = lsfMain
-                      ExplicitHeight = 614
                       object grdCMX: TcxGrid
                         Left = 12
                         Top = 12
@@ -3092,6 +3083,7 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                           OptionsData.Deleting = False
                           OptionsData.Inserting = False
                           OptionsView.CellEndEllipsis = True
+                          OptionsView.CellAutoHeight = True
                           OptionsView.ColumnAutoWidth = True
                           OptionsView.GroupByBox = False
                           OptionsView.Indicator = True
@@ -3176,10 +3168,6 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                   object tshDUM: TcxTabSheet
                     Caption = 'Dumping'
                     ImageIndex = 3
-                    ExplicitLeft = 0
-                    ExplicitTop = 0
-                    ExplicitWidth = 0
-                    ExplicitHeight = 614
                     object lclDUM: TdxLayoutControl
                       Left = 0
                       Top = 0
@@ -3190,7 +3178,6 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                       TabOrder = 0
                       Transparent = True
                       LayoutLookAndFeel = lsfMain
-                      ExplicitHeight = 614
                       object grdDUM: TcxGrid
                         Left = 12
                         Top = 12
@@ -3211,6 +3198,7 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                           OptionsData.Deleting = False
                           OptionsData.Inserting = False
                           OptionsView.CellEndEllipsis = True
+                          OptionsView.CellAutoHeight = True
                           OptionsView.ColumnAutoWidth = True
                           OptionsView.GroupByBox = False
                           OptionsView.Indicator = True
@@ -3293,10 +3281,6 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                   object tshEF: TcxTabSheet
                     Caption = 'Exportador / Fabricante'
                     ImageIndex = 4
-                    ExplicitLeft = 0
-                    ExplicitTop = 0
-                    ExplicitWidth = 0
-                    ExplicitHeight = 0
                     object lclEF: TdxLayoutControl
                       Left = 0
                       Top = 0
@@ -4033,10 +4017,6 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
             object tshDPG: TcxTabSheet
               Caption = 'Pagamentos (0)'
               ImageIndex = 3
-              ExplicitLeft = 0
-              ExplicitTop = 0
-              ExplicitWidth = 0
-              ExplicitHeight = 665
               object lclDPG: TdxLayoutControl
                 Left = 0
                 Top = 0
@@ -4047,7 +4027,6 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                 TabOrder = 0
                 Transparent = True
                 LayoutLookAndFeel = lsfMain
-                ExplicitHeight = 665
                 object grdDPG: TcxGrid
                   Left = 12
                   Top = 12
@@ -4185,10 +4164,6 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
             object tshExpFab: TcxTabSheet
               Caption = 'Exportadores / Fabricantes'
               ImageIndex = 4
-              ExplicitLeft = 0
-              ExplicitTop = 0
-              ExplicitWidth = 0
-              ExplicitHeight = 665
               object lclFornFabric: TdxLayoutControl
                 Left = 0
                 Top = 0
@@ -4199,7 +4174,6 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                 TabOrder = 0
                 Transparent = True
                 LayoutLookAndFeel = lsfMain
-                ExplicitHeight = 665
                 object grdExp: TcxGrid
                   Left = 12
                   Top = 33
@@ -4392,10 +4366,6 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
             object tshInfCompl: TcxTabSheet
               Caption = 'Informa'#231#227'o Complementar'
               ImageIndex = 2
-              ExplicitLeft = 0
-              ExplicitTop = 0
-              ExplicitWidth = 0
-              ExplicitHeight = 0
               object lclIFC: TdxLayoutControl
                 Left = 0
                 Top = 0
