@@ -6480,10 +6480,9 @@ inherited damDuimp: TdamDuimp
       FieldName = 'Atributo'
       Origin = 'Atributo'
     end
-    object qryDOMCodigo: TIntegerField
+    object qryDOMCodigo: TStringField
       FieldName = 'Codigo'
       Origin = 'Codigo'
-      Required = True
     end
     object qryDOMDescricao: TStringField
       FieldName = 'Descricao'

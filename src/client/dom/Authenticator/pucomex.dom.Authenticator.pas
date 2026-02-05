@@ -38,6 +38,7 @@ type
     property ExpiresAt: string read GetExpiresAt write SetExpiresAt;
     property Token: string read GetToken write SetToken;
   public
+    constructor Create;
     procedure Execute; overload;
     procedure Execute(const AExecute: TAuthExecute); overload;
     property Resource: string read GetResource write SetResource;
@@ -67,6 +68,12 @@ begin
 end;
 
 { TAuthenticator }
+
+constructor TAuthenticator.Create;
+begin
+  inherited Create;
+  SetExpiredToken;
+end;
 
 function TAuthenticator.GetAppLocalTempPath: string;
 begin
