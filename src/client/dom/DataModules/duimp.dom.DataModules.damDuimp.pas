@@ -1621,7 +1621,13 @@ begin
           begin
             qryPROProdutoCodigoInterno.AsInteger := AProdutoCodigoInterno;
           end;
-          qryPRODescricao.AsString := LProduct.Descricao;
+          qryPRODescricao.AsString :=
+            if LProduct.Descricao.Trim.IsEmpty and not LProduct.Denominacao.Trim.IsEmpty then
+              LProduct.Denominacao
+            else if LProduct.Descricao.Trim.Contains(LProduct.Denominacao, True) then
+              LProduct.Descricao
+            else
+              Concat(LProduct.Denominacao, ' ', LProduct.Descricao);
           qryPRODescricao_Reduzida.AsString := LProduct.Denominacao;
           qryPROUnidade.AsString := AUnidadeComercial;
           qryPRONCM.AsString := LProduct.Ncm;
