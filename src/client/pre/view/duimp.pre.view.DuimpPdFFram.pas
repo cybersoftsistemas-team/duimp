@@ -5,6 +5,7 @@ interface
 uses
 {PROJECT}
   duimp.dom.DataModules.damDuimp,
+  duimp.dom.DataModules.damProducts,
   duimp.dom.DataModules.System.damMain,
   duimp.pre.view.System.PageDefFram,
 {IDE}
@@ -521,7 +522,6 @@ type
     dxLayoutAutoCreatedGroup8: TdxLayoutAutoCreatedGroup;
     actFindProdutoCodigoInterno: TAction;
     actShowProdutoCodigoInterno: TAction;
-    dxLayoutGroup3: TdxLayoutGroup;
     dxLayoutItem5: TdxLayoutItem;
     cbxProcessoNumero: TcxDBLookupComboBox;
     dxLayoutItem18: TdxLayoutItem;
@@ -582,6 +582,52 @@ type
     dxLayoutItem32: TdxLayoutItem;
     dxLayoutAutoCreatedGroup18: TdxLayoutAutoCreatedGroup;
     dxLayoutAutoCreatedGroup1: TdxLayoutAutoCreatedGroup;
+    tshProducts: TcxTabSheet;
+    lclProductsGroup_Root: TdxLayoutGroup;
+    lclProducts: TdxLayoutControl;
+    actGetProducts: TAction;
+    btnDoNotProductExport: TcxButton;
+    dxLayoutItem35: TdxLayoutItem;
+    actDoNotProductExport: TAction;
+    pclProductList: TcxPageControl;
+    dxLayoutItem36: TdxLayoutItem;
+    tshProductList: TcxTabSheet;
+    dxLayoutControl3Group_Root: TdxLayoutGroup;
+    dxLayoutControl3: TdxLayoutControl;
+    dxLayoutItem13: TdxLayoutItem;
+    grdProducts: TcxGrid;
+    grdProductsDBTableView: TcxGridDBTableView;
+    grdProductsDBTableViewCodigo: TcxGridDBColumn;
+    grdProductsDBTableViewProduto: TcxGridDBColumn;
+    grdProductsDBTableViewDescricao: TcxGridDBColumn;
+    grdProductsDBTableViewNaoSincPSiscomex: TcxGridDBColumn;
+    grdProductsLevel: TcxGridLevel;
+    dxLayoutItem33: TdxLayoutItem;
+    btnGetProducts: TcxButton;
+    dxLayoutAutoCreatedGroup23: TdxLayoutAutoCreatedGroup;
+    tshProductExportList: TcxTabSheet;
+    btnPrepareToExport: TcxButton;
+    dxLayoutItem34: TdxLayoutItem;
+    actPrepareToExport: TAction;
+    dxLayoutEmptySpaceItem1: TdxLayoutEmptySpaceItem;
+    dxLayoutAutoCreatedGroup27: TdxLayoutAutoCreatedGroup;
+    grdProductsDBTableViewNCM: TcxGridDBColumn;
+    dxLayoutControl4Group_Root: TdxLayoutGroup;
+    dxLayoutControl4: TdxLayoutControl;
+    dxLayoutItem37: TdxLayoutItem;
+    grdEProducts: TcxGrid;
+    grdEProductsDBTableView: TcxGridDBTableView;
+    grdEProductsLevel: TcxGridLevel;
+    dxLayoutSplitterItem1: TdxLayoutSplitterItem;
+    cxGrid2DBTableView1: TcxGridDBTableView;
+    cxGrid2Level1: TcxGridLevel;
+    cxGrid2: TcxGrid;
+    dxLayoutItem38: TdxLayoutItem;
+    grdEProductsDBTableViewCodigo: TcxGridDBColumn;
+    grdEProductsDBTableViewNCM: TcxGridDBColumn;
+    grdEProductsDBTableViewProduto: TcxGridDBColumn;
+    grdEProductsDBTableViewDescricao: TcxGridDBColumn;
+    grdEProductsDBTableViewNaoSincPSiscomex: TcxGridDBColumn;
     procedure actFindDuimpExecute(Sender: TObject);
     procedure cbxModalidadePropertiesEditValueChanged(Sender: TObject);
     procedure edtProdutoCodigoInternoPropertiesEditValueChanged(Sender: TObject);
@@ -589,13 +635,20 @@ type
     procedure grdDUMDBTableViewDumpingPropertiesEditValueChanged(Sender: TObject);
     procedure actSaveOpeExecute(Sender: TObject);
     procedure actCancelOpeExecute(Sender: TObject);
+    procedure actDoNotProductExportExecute(Sender: TObject);
+    procedure actGetProductsExecute(Sender: TObject);
+    procedure actPrepareToExportExecute(Sender: TObject);
     procedure actProcessSaveExecute(Sender: TObject);
     procedure actProcessCancelExecute(Sender: TObject);
     procedure cbxRemoverValoracaoNoValorFobPropertiesEditValueChanged(Sender: TObject);
     procedure actShowProdutoCodigoInternoExecute(Sender: TObject);
+    procedure grdProductsDBTableViewSelectionChanged(Sender:
+        TcxCustomGridTableView);
+    procedure pclProductListChange(Sender: TObject);
   private
-    procedure ValoracaoNoValorFob;
+    FdamProducts: TdamProducts;
     function GetdamDuimp: TdamDuimp;
+    procedure ValoracaoNoValorFob;
   protected
     function GetDataModuleType: damMainType; override;
     function GetInternalNavBarGroupCaption: string; override;
@@ -637,6 +690,8 @@ begin
   CreateCanal;
   pclDuimpProcess.ActivePage := tshDuimp;
   pclDuimp.ActivePage := tshDuimpCouver;
+  pclProductList.ActivePage := tshProductList;
+  FdamProducts := TdamProducts.Create(Self);
 end;
 
 function TfraDuimpPageDef.GetdamDuimp: TdamDuimp;
@@ -747,6 +802,11 @@ begin
   DataModule.UpdateCancelOpe;
 end;
 
+procedure TfraDuimpPageDef.actDoNotProductExportExecute(Sender: TObject);
+begin
+  //inherited;
+end;
+
 procedure TfraDuimpPageDef.actFindDuimpExecute(Sender: TObject);
 begin
   ShowLoading<TfrmDuimpLoad>(
@@ -822,6 +882,17 @@ begin
       loiedtSeguroFobValor.Caption := loiedtFreteFobValor.Caption;
     end,
     False);
+end;
+
+procedure TfraDuimpPageDef.actGetProductsExecute(Sender: TObject);
+begin
+  FdamProducts.qryPRO.Close;
+  FdamProducts.qryPRO.Open;
+end;
+
+procedure TfraDuimpPageDef.actPrepareToExportExecute(Sender: TObject);
+begin
+  //inherited;
 end;
 
 procedure TfraDuimpPageDef.actProcessCancelExecute(Sender: TObject);
@@ -928,6 +999,22 @@ begin
   finally
     DataModule.OnDataChange := DataChange;
     FreeAndNil(LForm);
+  end;
+end;
+
+procedure TfraDuimpPageDef.grdProductsDBTableViewSelectionChanged(Sender:
+    TcxCustomGridTableView);
+begin
+  actPrepareToExport.Enabled := Sender.Controller.SelectedRecordCount > 0;
+  actDoNotProductExport.Enabled := actPrepareToExport.Enabled;
+end;
+
+procedure TfraDuimpPageDef.pclProductListChange(Sender: TObject);
+begin
+  if pclProductList.ActivePage = tshProductExportList then
+  begin
+    FdamProducts.qryEPR.Close;
+    FdamProducts.qryEPR.Open;
   end;
 end;
 

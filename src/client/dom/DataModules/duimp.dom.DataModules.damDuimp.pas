@@ -461,7 +461,6 @@ type
     updATS: TFDUpdateSQL;
     qryDOM: TFDQuery;
     qryDOMAtributo: TStringField;
-    qryDOMCodigo: TIntegerField;
     qryDOMDescricao: TStringField;
     qryPROProdutoCodigoInterno: TIntegerField;
     qryPROProdutoCodigo: TIntegerField;
@@ -950,6 +949,7 @@ type
     qryProcICMS_DIferido: TBooleanField;
     qryCONAliquota_CBS: TFloatField;
     qryPROAliquota_CBS: TFloatField;
+    qryDOMCodigo: TStringField;
     procedure DataModuleCreate(Sender: TObject);
     procedure MoedaNegociadaValorGetText(Sender: TField; var Text: string; DisplayText: Boolean);
     procedure qryDUINewRecord(DataSet: TDataSet);
@@ -1621,7 +1621,13 @@ begin
           begin
             qryPROProdutoCodigoInterno.AsInteger := AProdutoCodigoInterno;
           end;
-          qryPRODescricao.AsString := LProduct.Descricao;
+          qryPRODescricao.AsString :=
+            if LProduct.Descricao.Trim.IsEmpty and not LProduct.Denominacao.Trim.IsEmpty then
+              LProduct.Denominacao
+            else if LProduct.Descricao.Trim.Contains(LProduct.Denominacao, True) then
+              LProduct.Descricao
+            else
+              Concat(LProduct.Denominacao, ' ', LProduct.Descricao);
           qryPRODescricao_Reduzida.AsString := LProduct.Denominacao;
           qryPROUnidade.AsString := AUnidadeComercial;
           qryPRONCM.AsString := LProduct.Ncm;

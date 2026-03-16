@@ -49,6 +49,7 @@ type
     procedure CreateTableUniqueConstraints(const AOperation: ICreateTableOperation; const ABuilder: IMigrationCommandListBuilder);
     procedure ForeignKeyAction(const AReferentialAction: ReferentialAction; const ABuilder: IMigrationCommandListBuilder);
     procedure ForeignKeyConstraint(const AOperation: IAddForeignKeyOperation; const ABuilder: IMigrationCommandListBuilder);
+    procedure GenerateIncludeColumnList(const AOperation: ICreateIndexOperation; const ABuilder: IMigrationCommandListBuilder);
     procedure GenerateIndexColumnList(const AOperation: ICreateIndexOperation; const ABuilder: IMigrationCommandListBuilder);
     procedure IndexOptions(const AOperation: IMigrationOperation; const ABuilder: IMigrationCommandListBuilder);
     procedure PrimaryKeyConstraint(const AOperation: IAddPrimaryKeyOperation; const ABuilder: IMigrationCommandListBuilder);
@@ -440,6 +441,17 @@ begin
   GenerateIndexColumnList(AOperation, ABuilder);
   ABuilder
    .Append(')');
+  if not AOperation.IncludeColumns.IsEmpty then
+  begin
+    ABuilder
+     .Append(' ')
+     .Append('INCLUDE')
+     .Append(' ')
+     .Append('(');
+    GenerateIncludeColumnList(AOperation, ABuilder);
+    ABuilder
+     .Append(')');
+  end;
   IndexOptions(AOperation, ABuilder);
   ABuilder.AppendLine(StatementTerminator);
   EndStatement(ABuilder);
@@ -590,6 +602,24 @@ procedure TMigrationsSqlGenerator.Generate(const AOperation: ISqlOperation; cons
 begin
   ABuilder.AppendLine(NormalizeTheSQLScript(AOperation.Sql));
   EndStatement(ABuilder);
+end;
+
+procedure TMigrationsSqlGenerator.GenerateIncludeColumnList(const AOperation: ICreateIndexOperation; const ABuilder: IMigrationCommandListBuilder);
+var
+  I: Integer;
+  LColumns: TArray<string>;
+begin
+  LColumns := AOperation.IncludeColumns.ToArray;
+  for I := Low(LColumns) to High(LColumns) do
+  begin
+    if I > 0 then
+    begin
+      ABuilder
+       .Append(',')
+       .Append(' ');
+    end;
+    ABuilder.Append(DelimitIdentifier(LColumns[I]));
+  end;
 end;
 
 procedure TMigrationsSqlGenerator.GenerateIndexColumnList(const AOperation: ICreateIndexOperation; const ABuilder: IMigrationCommandListBuilder);

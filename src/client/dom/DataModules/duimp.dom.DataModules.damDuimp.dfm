@@ -5800,6 +5800,7 @@ inherited damDuimp: TdamDuimp
       ' END'
       ',ModalidadeCodigo = Modalidade'
       ',PRO.Aliquota_CBS'
+      ',PRO.NaoSincPSiscomex'
       'FROM Produtos AS PRO'
       'LEFT JOIN Fornecedores AS FRN'
       #9'ON PRO.Fornecedor = FRN.Codigo'
@@ -6047,6 +6048,7 @@ inherited damDuimp: TdamDuimp
       '       ,:NEW_ModalidadeCodigo AS Modalidade'
       '       ,:NEW_ProdutoCodigo AS Codigo_DUIMP'
       '       ,:NEW_Aliquota_CBS AS Aliquota_CBS'
+      '       ,1 AS NaoSincPSiscomex'
       '      ) AS SOURCE'
       'ON TARGET.Codigo = SOURCE.Codigo'
       ''
@@ -6093,6 +6095,7 @@ inherited damDuimp: TdamDuimp
       '       ,TARGET.Modalidade = SOURCE.Modalidade'
       '       ,TARGET.Codigo_DUIMP = SOURCE.Codigo_DUIMP'
       '       ,TARGET.Aliquota_CBS = SOURCE.Aliquota_CBS'
+      '       ,TARGET.NaoSincPSiscomex = SOURCE.NaoSincPSiscomex'
       ''
       'WHEN NOT MATCHED THEN'
       '    INSERT ('
@@ -6138,6 +6141,7 @@ inherited damDuimp: TdamDuimp
       '       ,Modalidade'
       '       ,Codigo_DUIMP'
       '       ,Aliquota_CBS'
+      '       ,NaoSincPSiscomex'
       '    )'
       '    VALUES ('
       '        SOURCE.Codigo'
@@ -6182,6 +6186,7 @@ inherited damDuimp: TdamDuimp
       '       ,SOURCE.Modalidade'
       '       ,SOURCE.Codigo_DUIMP'
       '       ,SOURCE.Aliquota_CBS'
+      '       ,SOURCE.NaoSincPSiscomex'
       '    );'
       ''
       'SET ANSI_WARNINGS ON;'
@@ -6225,6 +6230,7 @@ inherited damDuimp: TdamDuimp
       ' END'
       ',ModalidadeCodigo = Modalidade'
       ',PRO.Aliquota_CBS'
+      ',PRO.NaoSincPSiscomex'
       'FROM Produtos AS PRO'
       'LEFT JOIN Fornecedores AS FRN'
       #9'ON PRO.Fornecedor = FRN.Codigo'
@@ -6269,6 +6275,7 @@ inherited damDuimp: TdamDuimp
       ' END'
       ',ModalidadeCodigo = Modalidade'
       ',PRO.Aliquota_CBS'
+      ',PRO.NaoSincPSiscomex'
       'FROM Produtos AS PRO'
       'LEFT JOIN Fornecedores AS FRN'
       #9'ON PRO.Fornecedor = FRN.Codigo'
@@ -6480,10 +6487,9 @@ inherited damDuimp: TdamDuimp
       FieldName = 'Atributo'
       Origin = 'Atributo'
     end
-    object qryDOMCodigo: TIntegerField
+    object qryDOMCodigo: TStringField
       FieldName = 'Codigo'
       Origin = 'Codigo'
-      Required = True
     end
     object qryDOMDescricao: TStringField
       FieldName = 'Descricao'
