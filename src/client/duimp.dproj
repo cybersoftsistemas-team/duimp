@@ -109,7 +109,6 @@
 $(PostBuildEvent)]]></PostBuildEvent>
         <Icon_MainIcon>duimp_Icon.ico</Icon_MainIcon>
         <Debugger_RunParams>-status updated_system</Debugger_RunParams>
-        <VerInfo_Keys>CompanyName=Cybersoft Sistemas;FileDescription=Cybersoft Sistemas Duimp;FileVersion=0.0.0.0;InternalName=duimp;LegalCopyright=2025 Cybersoft Sistemas; LegalTrademarks=;OriginalFilename=duimp.exe;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=Cybersoft Duimp;ProductVersion=0.0.0.0;Comments=Aplicacao cliente para integracao com o Siscomex</VerInfo_Keys>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_3_Win64)'!=''">
         <BT_BuildType>Debug</BT_BuildType>
@@ -282,6 +281,20 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DCCReference Include="inf\Database\Migrations\_2025_11_05_00000003_alter_table_duimp_itens_exportadores_alter_versao_column.pas"/>
         <DCCReference Include="inf\Database\Migrations\_2025_11_05_00000003_alter_table_duimp_itens_fabricantes_alter_versao_column.pas"/>
         <DCCReference Include="inf\Database\Migrations\_2025_05_24_00000003_alter_table_dominios_att_alter_codigo_column.pas"/>
+        <DCCReference Include="inf\Database\Migrations\_2026_03_05_00000001_alter_table_produtos_add_naosincpsiscomex_column.pas"/>
+        <DCCReference Include="inf\Database\Migrations\_2026_03_05_00000010_update_table_produtos_set_naosincpsiscomex_column.pas"/>
+        <DCCReference Include="inf\Database\Migrations\_2026_03_05_00000015_create_produtos_add_codigo_duimp_naosincpsiscomex_index.pas"/>
+        <DCCReference Include="dom\DataModules\duimp.dom.DataModules.damProducts.pas">
+            <Form>damProducts</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TDataModule</DesignClass>
+        </DCCReference>
+        <DCCReference Include="inf\Database\Migrations\_2026_03_11_00000001_create_duimp_export_products_table.pas"/>
+        <DCCReference Include="pre\view\duimp.pre.view.ProdAttDomsDialogForm.pas">
+            <Form>frmProdAttDomsDialog</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TdxFluentDesignForm</DesignClass>
+        </DCCReference>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

@@ -8,7 +8,6 @@ uses
 {PROJECT}
   pucomex.dom.Contracts.Authenticator,
   pucomex.dom.Contracts.Duimp,
-  pucomex.dom.Duimps.Model.DuimpConsultaCover,
   pucomex.dom.Duimps.Model.ItemConsultaDuimpCover,
   pucomex.dom.Duimps.Model.ItemDuimpCover,
   pucomex.dom.Http;
@@ -138,14 +137,12 @@ end;
 
 procedure TDuimp.Get(const ANumber: string; const AVersao: Integer; const AResponseEvent: TDuimpResponseEvent;
   const AErroResponseEvent: TApiErroResponseEvent);
-var
-  LParams: string;
 begin
   if ANumber.Trim.IsEmpty then
   begin
     raise Exception.Create('É nescessário informar um número de Duimp para realizar a consulta.');
   end;
-  LParams := Concat(ANumber, '/', AVersao.ToString);
+  var LParams := Concat(ANumber, '/', AVersao.ToString);
   DoGet(Concat('duimp-api/api/ext/duimp/', LParams),
     procedure(const AResponseContent: TStringStream; const AResponseCode: Integer)
     var
@@ -160,14 +157,12 @@ begin
 end;
 
 procedure TDuimp.GetCurrentVersion(const ANumber: string; const AResponseEvent: TDuimpVersaoResponseEvent);
-var
-  LParams: string;
 begin
   if ANumber.Trim.IsEmpty then
   begin
     raise Exception.Create('É nescessário informar um número de Duimp para realizar a consulta.');
   end;
-  LParams := Concat(ANumber, '/versoes');
+  var LParams := Concat(ANumber, '/versoes');
   DoGet(Concat('duimp-api/api/ext/duimp/', LParams),
     procedure(const AResponseContent: TStringStream; const AResponseCode: Integer)
     var
