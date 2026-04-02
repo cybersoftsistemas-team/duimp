@@ -2180,7 +2180,7 @@ inherited damDuimp: TdamDuimp
           #9',CTA.MoedaNegociadaValorCotacao'
           #9',DCI.QuantidadeComercial'
           '    FROM duimp.capas_itens AS DCI'
-          '    JOIN Cybersoft_Cadastros.dbo.Incoterms AS ICT '
+          '    LEFT JOIN Cybersoft_Cadastros.dbo.Incoterms AS ICT '
           #9#9'ON ICT.Codigo = DCI.IncotermCodigo'
           '    JOIN Cotacao AS CTA '
           

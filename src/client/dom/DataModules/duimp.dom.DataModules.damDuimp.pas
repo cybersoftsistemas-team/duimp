@@ -2278,7 +2278,7 @@ begin
         qryDCIExportadorCodigoPais.AsString := LItem.Exportador.Pais.Codigo;
         qryDCIExportadorNIOperador.AsString := LItem.Exportador.NiOperador;
         qryDCIExportadorVersao.AsString := LItem.Exportador.Versao;
-        qryDCIIncotermCodigo.AsString := LItem.CondicaoVenda.Incoterm.Codigo;
+        qryDCIIncotermCodigo.AsString := if Assigned(LItem.CondicaoVenda.Incoterm) then LItem.CondicaoVenda.Incoterm.Codigo else '';
         qryDCIMoedaNegociadaSimbolo.AsString := LItem.Mercadoria.MoedaNegociada.Codigo;
         qryDCINumeroItem.AsInteger := LItem.Identificacao.NumeroItem;
         qryDCIPesoLiquido.AsFloat := LItem.Mercadoria.PesoLiquido;

@@ -8,13 +8,15 @@ uses
   duimp.dom.DataModules.damProducts,
   duimp.dom.DataModules.System.damMain,
   duimp.pre.view.System.PageDefFram,
+{SPRING}
+  Spring.Collections,
 {IDE}
-  System.Classes, Data.DB, cxGraphics, cxControls, cxLookAndFeels, cxLookAndFeelPainters, dxSkinsCore, dxSkinOffice2019Colorful, cxContainer, cxEdit, dxLayoutcxEditAdapters,
-  dxLayoutContainer, dxLayoutControlAdapters, dxCore, dxBarBuiltInMenu, cxStyles, cxCustomData, cxFilter, cxData, cxDataStorage, cxNavigator, dxDateRanges, dxScrollbarAnnotations,
-  cxDBData, cxCheckBox, Vcl.Menus, cxGroupBox, cxRadioGroup, cxDBEdit, cxEditRepositoryItems, System.Actions, Vcl.ActnList, cxMaskEdit, cxMemo, cxRichEdit, cxDBRichEdit,
-  cxGridBandedTableView, cxGridDBBandedTableView, cxButtonEdit, cxDropDownEdit, cxLookupEdit, cxDBLookupEdit, cxDBLookupComboBox, Vcl.StdCtrls, cxButtons,
-  cxGridViewLayoutContainer, cxGridLayoutView, cxGridDBLayoutView, cxGridCustomLayoutView, cxGridLevel, cxGridCustomTableView, cxGridTableView, cxGridDBTableView, cxGridCustomView,
-  cxGrid, cxTextEdit, cxPC, dxSkinsForm, dxLayoutLookAndFeels, cxLocalization, cxClasses, System.ImageList, Vcl.ImgList, Vcl.Controls, cxImageList, cxLabel, dxLayoutControl;
+  System.Classes, cxGraphics, cxControls, cxLookAndFeels, cxLookAndFeelPainters, cxContainer, cxEdit, dxLayoutcxEditAdapters, dxLayoutContainer, dxLayoutControlAdapters, dxCore,
+  dxBarBuiltInMenu, cxStyles, cxCustomData, cxFilter, cxData, cxDataStorage, cxNavigator, dxDateRanges, dxScrollbarAnnotations, Data.DB, cxDBData, cxCheckBox, Vcl.Menus,
+  cxEditRepositoryItems, System.Actions, Vcl.ActnList, cxMaskEdit, cxMemo, cxRichEdit, cxDBRichEdit, cxGridBandedTableView, cxGridDBBandedTableView, cxGroupBox, cxRadioGroup,
+  cxDBEdit, cxButtonEdit, cxDropDownEdit, cxLookupEdit, cxDBLookupEdit, cxDBLookupComboBox, Vcl.StdCtrls, cxButtons, cxGridViewLayoutContainer, cxGridLayoutView,
+  cxGridDBLayoutView, cxGridCustomLayoutView, cxGridLevel, cxGridCustomTableView, cxGridTableView, cxGridDBTableView, cxGridCustomView, cxGrid, cxTextEdit, cxPC, dxSkinsForm,
+  dxLayoutLookAndFeels, cxLocalization, cxClasses, System.ImageList, Vcl.ImgList, Vcl.Controls, cxImageList, cxLabel, dxLayoutControl;
 
 type
   TfraDuimpPageDef = class(TfraPageDef)
@@ -597,10 +599,9 @@ type
     dxLayoutItem13: TdxLayoutItem;
     grdProducts: TcxGrid;
     grdProductsDBTableView: TcxGridDBTableView;
-    grdProductsDBTableViewCodigo: TcxGridDBColumn;
+    grdProductsDBTableViewProdId: TcxGridDBColumn;
     grdProductsDBTableViewProduto: TcxGridDBColumn;
     grdProductsDBTableViewDescricao: TcxGridDBColumn;
-    grdProductsDBTableViewNaoSincPSiscomex: TcxGridDBColumn;
     grdProductsLevel: TcxGridLevel;
     dxLayoutItem33: TdxLayoutItem;
     btnGetProducts: TcxButton;
@@ -619,15 +620,100 @@ type
     grdEProductsDBTableView: TcxGridDBTableView;
     grdEProductsLevel: TcxGridLevel;
     dxLayoutSplitterItem1: TdxLayoutSplitterItem;
-    cxGrid2DBTableView1: TcxGridDBTableView;
-    cxGrid2Level1: TcxGridLevel;
-    cxGrid2: TcxGrid;
-    dxLayoutItem38: TdxLayoutItem;
-    grdEProductsDBTableViewCodigo: TcxGridDBColumn;
+    grdEProductsDBTableViewProdId: TcxGridDBColumn;
     grdEProductsDBTableViewNCM: TcxGridDBColumn;
-    grdEProductsDBTableViewProduto: TcxGridDBColumn;
     grdEProductsDBTableViewDescricao: TcxGridDBColumn;
-    grdEProductsDBTableViewNaoSincPSiscomex: TcxGridDBColumn;
+    grdEProductsDBTableViewSituacao: TcxGridDBColumn;
+    grdEProductsDBTableViewModalidade: TcxGridDBColumn;
+    dxLayoutItem38: TdxLayoutItem;
+    pclProductProperties: TcxPageControl;
+    tshAtts: TcxTabSheet;
+    tshManufacturerOrProducer: TcxTabSheet;
+    lclManufacturerOrProducer: TdxLayoutControl;
+    edtForCodigo: TcxDBTextEdit;
+    edtForNome: TcxDBTextEdit;
+    cxDBTextEdit1: TcxDBTextEdit;
+    cxDBTextEdit2: TcxDBTextEdit;
+    edtForEmail: TcxDBTextEdit;
+    cxDBTextEdit3: TcxDBTextEdit;
+    edtForLogradouro: TcxDBTextEdit;
+    cxDBTextEdit4: TcxDBTextEdit;
+    edtForCidade: TcxDBTextEdit;
+    edtFabCidade: TcxDBTextEdit;
+    edtForCep: TcxDBTextEdit;
+    edtForCodigoPais: TcxDBTextEdit;
+    cxDBTextEdit5: TcxDBTextEdit;
+    edtFabCodigoPais: TcxDBTextEdit;
+    edtForCodigoExterno: TcxDBTextEdit;
+    edtFabCodigoExterno: TcxDBTextEdit;
+    dxLayoutGroup2: TdxLayoutGroup;
+    loiForCodigo: TdxLayoutItem;
+    loiForNome: TdxLayoutItem;
+    dxLayoutGroup3: TdxLayoutGroup;
+    loiFabCodigo: TdxLayoutItem;
+    loiFabNome: TdxLayoutItem;
+    dxLayoutGroup5: TdxLayoutGroup;
+    loiForEmail: TdxLayoutItem;
+    loiFabEmail: TdxLayoutItem;
+    ltgForEndereco: TdxLayoutGroup;
+    dxLayoutGroup6: TdxLayoutGroup;
+    loiForLogradouro: TdxLayoutItem;
+    loiFabLogradouro: TdxLayoutItem;
+    loiForCidade: TdxLayoutItem;
+    loiFabCidade: TdxLayoutItem;
+    loiForCep: TdxLayoutItem;
+    dxLayoutGroup7: TdxLayoutGroup;
+    loiForCodigoPais: TdxLayoutItem;
+    loiFabCep: TdxLayoutItem;
+    dxLayoutAutoCreatedGroup26: TdxLayoutAutoCreatedGroup;
+    loiFabCodigoPais: TdxLayoutItem;
+    loiForCodigoExterno: TdxLayoutItem;
+    loiFabCodigoExterno: TdxLayoutItem;
+    edrProd: TcxEditRepository;
+    ertList: TcxEditRepositoryButtonItem;
+    ertText: TcxEditRepositoryTextItem;
+    ertYesOrNo: TcxEditRepositoryComboBoxItem;
+    ertDouble: TcxEditRepositoryCurrencyItem;
+    ertInt: TcxEditRepositorySpinItem;
+    ertDate: TcxEditRepositoryDateItem;
+    ertDataTime: TcxEditRepositoryDateItem;
+    actDomains: TAction;
+    stlDisabled: TcxStyle;
+    stlEnabled: TcxStyle;
+    dxLayoutControl5Group_Root: TdxLayoutGroup;
+    dxLayoutControl5: TdxLayoutControl;
+    dxLayoutItem39: TdxLayoutItem;
+    grdATT: TcxGrid;
+    grdATTDBTableView: TcxGridDBTableView;
+    grdATTDBTableViewprodId: TcxGridDBColumn;
+    grdATTDBTableViewncm: TcxGridDBColumn;
+    grdATTDBTableViewatributo: TcxGridDBColumn;
+    grdATTDBTableViewnomeApresentacao: TcxGridDBColumn;
+    grdATTDBTableViewformaPreenchimento: TcxGridDBColumn;
+    grdATTDBTableVieworientacaoPreenchimento: TcxGridDBColumn;
+    grdATTDBTableViewnome: TcxGridDBColumn;
+    grdATTDBTableViewvalor: TcxGridDBColumn;
+    grdATTDBTableViewmodalidade: TcxGridDBColumn;
+    grdATTDBTableViewmultivalorado: TcxGridDBColumn;
+    grdATTLevel: TcxGridLevel;
+    btnSaveAttr: TcxButton;
+    dxLayoutItem40: TdxLayoutItem;
+    actSaveAttr: TAction;
+    btnCancelAttr: TcxButton;
+    dxLayoutItem41: TdxLayoutItem;
+    dxLayoutAutoCreatedGroup28: TdxLayoutAutoCreatedGroup;
+    actCancelAttr: TAction;
+    actExportProducts: TAction;
+    btnExportProducts: TcxButton;
+    dxLayoutItem42: TdxLayoutItem;
+    dxLayoutAutoCreatedGroup29: TdxLayoutAutoCreatedGroup;
+    grdATTDBTableViewobrigatorio: TcxGridDBColumn;
+    grdEProductsDBTableViewseq: TcxGridDBColumn;
+    grdEProductsDBTableViewdenominacao: TcxGridDBColumn;
+    grdEProductsDBTableViewmsg: TcxGridDBColumn;
+    grdEProductsDBTableViewcpfCnpjRaiz: TcxGridDBColumn;
+    grdEProductsDBTableViewcodigoProduto: TcxGridDBColumn;
+    procedure actCancelAttrExecute(Sender: TObject);
     procedure actFindDuimpExecute(Sender: TObject);
     procedure cbxModalidadePropertiesEditValueChanged(Sender: TObject);
     procedure edtProdutoCodigoInternoPropertiesEditValueChanged(Sender: TObject);
@@ -635,13 +721,20 @@ type
     procedure grdDUMDBTableViewDumpingPropertiesEditValueChanged(Sender: TObject);
     procedure actSaveOpeExecute(Sender: TObject);
     procedure actCancelOpeExecute(Sender: TObject);
+    procedure actDomainsExecute(Sender: TObject);
     procedure actDoNotProductExportExecute(Sender: TObject);
+    procedure actExportProductsExecute(Sender: TObject);
     procedure actGetProductsExecute(Sender: TObject);
     procedure actPrepareToExportExecute(Sender: TObject);
     procedure actProcessSaveExecute(Sender: TObject);
     procedure actProcessCancelExecute(Sender: TObject);
+    procedure actSaveAttrExecute(Sender: TObject);
     procedure cbxRemoverValoracaoNoValorFobPropertiesEditValueChanged(Sender: TObject);
     procedure actShowProdutoCodigoInternoExecute(Sender: TObject);
+    procedure grdATTDBTableViewvalorGetProperties(Sender: TcxCustomGridTableItem;
+        ARecord: TcxCustomGridRecord; var AProperties: TcxCustomEditProperties);
+    procedure grdEProductsDBTableViewSelectionChanged(Sender:
+        TcxCustomGridTableView);
     procedure grdProductsDBTableViewSelectionChanged(Sender:
         TcxCustomGridTableView);
     procedure pclProductListChange(Sender: TObject);
@@ -649,11 +742,14 @@ type
     FdamProducts: TdamProducts;
     function GetdamDuimp: TdamDuimp;
     procedure ValoracaoNoValorFob;
+    procedure PrepareProducts(const AGrid: TcxGridDBTableView; const AProductIDColumn, ANCMColumn: TcxGridDBColumn; out AProductList: IProductList);
+    procedure qryEPRBeforeScroll(DataSet: TDataSet);
   protected
     function GetDataModuleType: damMainType; override;
     function GetInternalNavBarGroupCaption: string; override;
     procedure CreateCanal;
     procedure DataChange(Sender: TObject; Field: TField); override;
+    procedure damProductsDataChange(Sender: TObject; Field: TField);
   public
     constructor Create(AOwner: TComponent); override;
     property DataModule: TdamDuimp read GetdamDuimp;
@@ -674,9 +770,12 @@ uses
 {PROJECT}
   cbsCore.Reflection,
   cbsCore.SysUtils,
+  duimp.dom.System.Utils,
+  duimp.dom.Products.Attributes.FillingForm,
   duimp.pre.view.DuimpLoadForm,
   duimp.pre.view.DuimpLoadProductForm,
   duimp.pre.view.ProcessDialogForm,
+  duimp.pre.view.ProdAttDomsDialogForm,
   duimp.pre.view.ProductPropertyDialogForm,
   pucomex.dom.Support.PUComex;
 
@@ -692,6 +791,21 @@ begin
   pclDuimp.ActivePage := tshDuimpCouver;
   pclProductList.ActivePage := tshProductList;
   FdamProducts := TdamProducts.Create(Self);
+  FdamProducts.OnDataChange := damProductsDataChange;
+  FdamProducts.qryEPR.BeforeScroll := qryEPRBeforeScroll;
+  ertYesOrNo.Properties.Items.Assign(GetYesOrNoItems);
+end;
+
+procedure TfraDuimpPageDef.actCancelAttrExecute(Sender: TObject);
+begin
+  if FdamProducts.qryATT.State in dsEditModes then
+  begin
+    FdamProducts.qryATT.Cancel;
+  end;
+  if FdamProducts.qryATT.ChangeCount > 0 then
+  begin
+    FdamProducts.qryATT.CancelUpdates;
+  end;
 end;
 
 function TfraDuimpPageDef.GetdamDuimp: TdamDuimp;
@@ -732,6 +846,14 @@ begin
     LItem.Caption := DataModule.GetCanalConsolidado.Names[I];
     LItem.Value := DataModule.GetCanalConsolidado.ValueFromIndex[I];
   end;
+end;
+
+procedure TfraDuimpPageDef.damProductsDataChange(Sender: TObject; Field: TField);
+begin
+  tshProductList.Caption := Format('Lista de Produtos (%s)', [FormatCurr('0,', FdamProducts.qryPRO.RecordCount)]);
+  tshProductExportList.Caption := Format('Lista de Produtos para Exportar (%s)', [FormatCurr('0,', FdamProducts.qryEPR.RecordCount)]);
+  actSaveAttr.Enabled := (FdamProducts.qryATT.State in dsEditModes) or (FdamProducts.qryATT.ChangeCount > 0);
+  actCancelAttr.Enabled := actSaveAttr.Enabled;
 end;
 
 procedure TfraDuimpPageDef.DataChange(Sender: TObject; Field: TField);
@@ -802,9 +924,37 @@ begin
   DataModule.UpdateCancelOpe;
 end;
 
-procedure TfraDuimpPageDef.actDoNotProductExportExecute(Sender: TObject);
+procedure TfraDuimpPageDef.actDomainsExecute(Sender: TObject);
 begin
-  //inherited;
+  var LForm := TfrmProdAttDomsDialog.Create(Self);
+  try
+    if LForm.ShowModal = mrOk then
+    begin
+      FdamProducts.qryATT.Edit;
+      FdamProducts.qryATTValor.AsString := FdamProducts.qryDOMcodigo.AsString;
+      FdamProducts.qryATT.Post;
+    end;
+  finally
+    FreeAndNil(LForm);
+  end;
+end;
+
+procedure TfraDuimpPageDef.actDoNotProductExportExecute(Sender: TObject);
+var
+  LProductList: IProductList;
+begin
+  try
+    PrepareProducts(grdEProductsDBTableView, grdEProductsDBTableViewProdId, grdEProductsDBTableViewNCM, LProductList);
+    FdamProducts.PrepareProducts(LProductList);
+    FdamProducts.GetAllProducts;
+  finally
+    LProductList := nil;
+  end;
+end;
+
+procedure TfraDuimpPageDef.actExportProductsExecute(Sender: TObject);
+begin
+  FdamProducts.ExportProd;
 end;
 
 procedure TfraDuimpPageDef.actFindDuimpExecute(Sender: TObject);
@@ -868,17 +1018,17 @@ begin
       tshDuimp.Caption := Format('Duimp (Versão: %d)', [DataModule.qryDUVVersao.AsInteger]);
       tshGoods.Caption := Format('Mercadorias (%d)', [DataModule.qryDCI.RecordCount]);
       tshDPG.Caption := Format('Pagamentos (%d)', [DataModule.dsoDPGSel.DataSet.RecordCount]);
-      grdDCIDBBandedTableViewCondicaoVendaValorFrete.Caption := Format('Frete %s', [IIF(LFounded and not DataModule.qryDCGFreteMoedaNegociadaSimbolo.AsString.Trim.IsEmpty, Concat('(', DataModule.qryDCGFreteMoedaNegociadaSimbolo.AsString, ')'), '')]);
-      grdDCIDBBandedTableViewCondicaoVendaValorSeguro.Caption := Format('Seguro %s', [IIF(LFounded and not DataModule.qryDCGSeguroMoedaNegociadaSimbolo.AsString.Trim.IsEmpty, Concat('(', DataModule.qryDCGSeguroMoedaNegociadaSimbolo.AsString, ')'), '')]);
-      grdDCIDBBandedTableViewIncotermValorUnitarioCVT.Caption := Format(Concat(grdDCIDBBandedTableViewIncotermValorUnitarioVlc.Caption, ' %s'), [IIF(LFounded and not DataModule.qryDCIIncotermMoedaNegociadaSimboloCVT.AsString.Trim.IsEmpty, Concat('(', DataModule.qryDCIIncotermMoedaNegociadaSimboloCVT.AsString, ')'), '')]);
+      grdDCIDBBandedTableViewCondicaoVendaValorFrete.Caption := Format('Frete %s', [if LFounded and not DataModule.qryDCGFreteMoedaNegociadaSimbolo.AsString.Trim.IsEmpty then Concat('(', DataModule.qryDCGFreteMoedaNegociadaSimbolo.AsString, ')') else '']);
+      grdDCIDBBandedTableViewCondicaoVendaValorSeguro.Caption := Format('Seguro %s', [if LFounded and not DataModule.qryDCGSeguroMoedaNegociadaSimbolo.AsString.Trim.IsEmpty then Concat('(', DataModule.qryDCGSeguroMoedaNegociadaSimbolo.AsString, ')') else '']);
+      grdDCIDBBandedTableViewIncotermValorUnitarioCVT.Caption := Format(Concat(grdDCIDBBandedTableViewIncotermValorUnitarioVlc.Caption, ' %s'), [if LFounded and not DataModule.qryDCIIncotermMoedaNegociadaSimboloCVT.AsString.Trim.IsEmpty then Concat('(', DataModule.qryDCIIncotermMoedaNegociadaSimboloCVT.AsString, ')') else '']);
       grdDCIDBBandedTableViewIncotermValorUnitarioVlcCVT.Caption := grdDCIDBBandedTableViewIncotermValorUnitarioCVT.Caption;
-      grdDCIDBBandedTableViewIncotermValorMoedaNegociadaCVT.Caption := Format(Concat(grdDCIDBBandedTableViewIncotermValorMoedaNegociadaVlc.Caption, ' %s'), [IIF(LFounded and not DataModule.qryDCIIncotermMoedaNegociadaSimboloCVT.AsString.Trim.IsEmpty, Concat('(', DataModule.qryDCIIncotermMoedaNegociadaSimboloCVT.AsString, ')'), '')]);
+      grdDCIDBBandedTableViewIncotermValorMoedaNegociadaCVT.Caption := Format(Concat(grdDCIDBBandedTableViewIncotermValorMoedaNegociadaVlc.Caption, ' %s'), [if LFounded and not DataModule.qryDCIIncotermMoedaNegociadaSimboloCVT.AsString.Trim.IsEmpty then Concat('(', DataModule.qryDCIIncotermMoedaNegociadaSimboloCVT.AsString, ')') else '']);
       grdDCIDBBandedTableViewIncotermValorMoedaNegociadaVlcCVT.Caption := grdDCIDBBandedTableViewIncotermValorMoedaNegociadaCVT.Caption;
       grdDCIDBBandedTableView.ViewData.Expand(not DataModule.qryFCV.IsEmpty and (DataModule.qryFCV.RecordCount < 1));
       grdDPGDBTableView.ViewData.Expand(True);
       cbxRemoverValoracaoNoValorFob.Enabled := LFounded and not DataModule.qryADV.IsEmpty;
-      grdADVDBTableView.Styles.Background := IIF<TcxStyle>(LFounded and not DataModule.qryADV.IsEmpty, nil, stlGrd);
-      loiedtFreteFobValor.Caption := Format('Valor %s:', [IIF(LFounded and not DataModule.qryDCIIncotermMoedaNegociadaSimboloCVT.AsString.Trim.IsEmpty, Concat('(', DataModule.qryDCIIncotermMoedaNegociadaSimboloCVT.AsString, ')'), '')]);
+      grdADVDBTableView.Styles.Background := if LFounded and not DataModule.qryADV.IsEmpty then nil else stlGrd;
+      loiedtFreteFobValor.Caption := Format('Valor %s:', [if LFounded and not DataModule.qryDCIIncotermMoedaNegociadaSimboloCVT.AsString.Trim.IsEmpty then Concat('(', DataModule.qryDCIIncotermMoedaNegociadaSimboloCVT.AsString, ')') else '']);
       loiedtSeguroFobValor.Caption := loiedtFreteFobValor.Caption;
     end,
     False);
@@ -886,13 +1036,21 @@ end;
 
 procedure TfraDuimpPageDef.actGetProductsExecute(Sender: TObject);
 begin
-  FdamProducts.qryPRO.Close;
-  FdamProducts.qryPRO.Open;
+  FdamProducts.GetAllProducts;
 end;
 
 procedure TfraDuimpPageDef.actPrepareToExportExecute(Sender: TObject);
+var
+  LProductList: IProductList;
 begin
-  //inherited;
+  try
+    PrepareProducts(grdProductsDBTableView, grdProductsDBTableViewProdId, grdProductsDBTableViewNCM, LProductList);
+    FdamProducts.PrepareProducts(LProductList);
+    FdamProducts.ImportAttributes(LProductList);
+    FdamProducts.GetAllProducts;
+  finally
+    LProductList := nil;
+  end;
 end;
 
 procedure TfraDuimpPageDef.actProcessCancelExecute(Sender: TObject);
@@ -902,10 +1060,9 @@ end;
 
 procedure TfraDuimpPageDef.actProcessSaveExecute(Sender: TObject);
 var
-  frmProcessDialog: TfrmProcessDialog;
   LModalResult: TModalResult;
 begin
-  frmProcessDialog := TfrmProcessDialog.Create(Self, DataModule, False);
+  var frmProcessDialog := TfrmProcessDialog.Create(Self, DataModule, False);
   try
     DataModule.PrepareNewProcess;
     LModalResult := frmProcessDialog.ShowModal;
@@ -984,16 +1141,26 @@ begin
     DataModule.ProcessCancelUpdates;
 end;
 
+procedure TfraDuimpPageDef.actSaveAttrExecute(Sender: TObject);
+begin
+  if FdamProducts.qryATT.State in dsEditModes then
+  begin
+    FdamProducts.qryATT.Post;
+  end;
+  if FdamProducts.qryATT.ChangeCount > 0 then
+  begin
+    FdamProducts.qryATT.ApplyUpdates;
+  end;
+end;
+
 procedure TfraDuimpPageDef.actSaveOpeExecute(Sender: TObject);
 begin
   DataModule.UpdateOpe;
 end;
 
 procedure TfraDuimpPageDef.actShowProdutoCodigoInternoExecute(Sender: TObject);
-var
-  LForm: TfrmProductPropertyDialog;
 begin
-  LForm := TfrmProductPropertyDialog.Create(Self, DataModule, False);
+  var LForm := TfrmProductPropertyDialog.Create(Self, DataModule, False);
   try
     LForm.ShowModal;
   finally
@@ -1002,19 +1169,78 @@ begin
   end;
 end;
 
+procedure TfraDuimpPageDef.grdATTDBTableViewvalorGetProperties(Sender: TcxCustomGridTableItem;
+  ARecord: TcxCustomGridRecord; var AProperties: TcxCustomEditProperties);
+begin
+  if SameText(VarToStr(ARecord.Values[grdATTDBTableViewformaPreenchimento.Index]), LISTA_ESTATICA.ToString) then
+  begin
+    AProperties := ertList.Properties;
+  end
+  else if SameText(VarToStr(ARecord.Values[grdATTDBTableViewformaPreenchimento.Index]), BOOLEANO.ToString) then
+  begin
+    AProperties := ertYesOrNo.Properties;
+  end
+  else if SameText(VarToStr(ARecord.Values[grdATTDBTableViewformaPreenchimento.Index]),
+    duimp.dom.Products.Attributes.FillingForm.DATA.ToString) then
+  begin
+    AProperties := ertDate.Properties;
+  end
+  else if SameText(VarToStr(ARecord.Values[grdATTDBTableViewformaPreenchimento.Index]), DATA_HORA.ToString) then
+  begin
+    AProperties := ertDataTime.Properties;
+  end
+  else if SameText(VarToStr(ARecord.Values[grdATTDBTableViewformaPreenchimento.Index]), NUMERO_INTEIRO.ToString) then
+  begin
+    AProperties := ertInt.Properties;
+  end
+  else if SameText(VarToStr(ARecord.Values[grdATTDBTableViewformaPreenchimento.Index]), NUMERO_REAL.ToString) then
+  begin
+    AProperties := ertDouble.Properties;
+  end
+  else
+    AProperties := ertText.Properties;
+end;
+
+procedure TfraDuimpPageDef.grdEProductsDBTableViewSelectionChanged(Sender:
+    TcxCustomGridTableView);
+begin
+  actDoNotProductExport.Enabled := Sender.Controller.SelectedRecordCount > 0;
+  actExportProducts.Enabled := actDoNotProductExport.Enabled;
+end;
+
 procedure TfraDuimpPageDef.grdProductsDBTableViewSelectionChanged(Sender:
     TcxCustomGridTableView);
 begin
   actPrepareToExport.Enabled := Sender.Controller.SelectedRecordCount > 0;
-  actDoNotProductExport.Enabled := actPrepareToExport.Enabled;
 end;
 
 procedure TfraDuimpPageDef.pclProductListChange(Sender: TObject);
 begin
   if pclProductList.ActivePage = tshProductExportList then
   begin
-    FdamProducts.qryEPR.Close;
-    FdamProducts.qryEPR.Open;
+    FdamProducts.GetProductsForExport;
+  end;
+end;
+
+procedure TfraDuimpPageDef.PrepareProducts(const AGrid: TcxGridDBTableView; const AProductIDColumn, ANCMColumn: TcxGridDBColumn; out AProductList: IProductList);
+begin
+  AProductList := CreateProductList;
+  for var I := 0 to Pred(AGrid.Controller.SelectedRowCount) do
+  begin
+    var LProductID := AGrid.Controller.SelectedRows[I].Values[AProductIDColumn.Index];
+    if not VarIsNull(LProductID) then
+    begin
+      AProductList[LProductID] := AGrid.Controller.SelectedRows[I].Values[ANCMColumn.Index];
+    end;
+  end;
+end;
+
+procedure TfraDuimpPageDef.qryEPRBeforeScroll(DataSet: TDataSet);
+begin
+  if (FdamProducts.qryATT.ChangeCount > 0) and
+    (Application.MessageBox('Deseja salvar as alterações feita nos valores dos atributos?', 'Confirmação', MB_YESNO or MB_ICONQUESTION or MB_DEFBUTTON1) = mrYes) then
+  begin
+
   end;
 end;
 
@@ -1022,18 +1248,16 @@ procedure TfraDuimpPageDef.ValoracaoNoValorFob;
 const
   LSemValoracaoIndex = 4;
   LComValoracaoIndex = 5;
-var
-  LRemoverValoracaoNoValorFob: Boolean;
 begin
-  LRemoverValoracaoNoValorFob := DataModule.qryDUIRemoverValoracaoNoValorFob.AsBoolean;
+  var LRemoverValoracaoNoValorFob := DataModule.qryDUIRemoverValoracaoNoValorFob.AsBoolean;
   grdDCIDBBandedTableView.Bands[LSemValoracaoIndex].Visible := LRemoverValoracaoNoValorFob;
   grdDCIDBBandedTableView.Bands[LComValoracaoIndex].Visible := not LRemoverValoracaoNoValorFob;
   lsi3.Visible := not LRemoverValoracaoNoValorFob;
   loigrdDAD.Visible := not DataModule.qryADV.IsEmpty and not LRemoverValoracaoNoValorFob;
   loiMercadoriaValorLocalEmbarqueBRL.Visible := not LRemoverValoracaoNoValorFob;
   loiIncotermValorBRL.Visible := LRemoverValoracaoNoValorFob;
-  grdFOADBTableView.DataController.DataSource := IIF(not LRemoverValoracaoNoValorFob, DataModule.dsoACV, DataModule.dsoASV);
-  grdFOBDBTableView.DataController.DataSource := IIF(not LRemoverValoracaoNoValorFob, DataModule.dsoFCV, DataModule.dsoFSV);
+  grdFOADBTableView.DataController.DataSource := if not LRemoverValoracaoNoValorFob then DataModule.dsoACV else DataModule.dsoASV;
+  grdFOBDBTableView.DataController.DataSource := if not LRemoverValoracaoNoValorFob then DataModule.dsoFCV else DataModule.dsoFSV;
 end;
 
 initialization
