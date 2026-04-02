@@ -13,11 +13,13 @@ type
     FColumns: IIndexColumnList;
     FDescending: TDescending;
     FFilter: string;
+    FIncludeColumns: IIncludeColumnList;
     FUnique: Boolean;
     function GetDescending: TDescending;
     function GetFilter: string;
     function GetUnique: Boolean;
     procedure AddColumn(const AColumn: TIndexColumn);
+    procedure AddIncludeColumn(const AIncludeColumn: TIncludeColumn);
   protected
     procedure DoPrepare; override;
   public
@@ -26,10 +28,12 @@ type
     function Columns: IIndexColumns;
     function HasColumns(const AColumns: array of TIndexColumn): IIndexOperation;
     function HasDescending(const ADescending: TDescending): IIndexOperation;
+    function HasInclude(const AColumns: array of TIncludeColumn): IIndexOperation;
     function HasName(const AName: string): IIndexOperation;
     function HasSchema(const ASchema: string): IIndexOperation;
     function HasTable(const ATable: string): IIndexOperation;
     function HasUnique(const AUnique: Boolean): IIndexOperation;
+    function IncludeColumns: IIncludeColumns;
     property Descending: TDescending read GetDescending;
     property Filter: string read GetFilter;
     property Unique: Boolean read GetUnique;
@@ -47,12 +51,15 @@ constructor TIndexOperation.Create;
 begin
   inherited Create('');
   FColumns := CreateIndexColumnList;
+  FIncludeColumns := CreateIncludeColumnList;
 end;
 
 destructor TIndexOperation.Destroy;
 begin
   FColumns.Clear;
+  FIncludeColumns.Clear;
   FColumns := nil;
+  FIncludeColumns := nil;
   inherited;
 end;
 
@@ -91,6 +98,15 @@ begin
   Result := Self;
 end;
 
+function TIndexOperation.HasInclude(const AColumns: array of TIncludeColumn): IIndexOperation;
+begin
+  for var LIncludeColumn in AColumns do
+  begin
+    AddIncludeColumn(LIncludeColumn);
+  end;
+  Result := Self;
+end;
+
 function TIndexOperation.HasName(const AName: string): IIndexOperation;
 begin
   SetName(AName);
@@ -115,11 +131,24 @@ begin
   Result := Self;
 end;
 
+function TIndexOperation.IncludeColumns: IIncludeColumns;
+begin
+  Result := FIncludeColumns;
+end;
+
 procedure TIndexOperation.AddColumn(const AColumn: TIndexColumn);
 begin
   if not FColumns.Contains(AColumn) then
   begin
     FColumns.Add(AColumn);
+  end;
+end;
+
+procedure TIndexOperation.AddIncludeColumn(const AIncludeColumn: TIncludeColumn);
+begin
+  if not FIncludeColumns.Contains(AIncludeColumn) then
+  begin
+    FIncludeColumns.Add(AIncludeColumn);
   end;
 end;
 

@@ -1,6 +1,6 @@
 inherited frmDialogDef: TfrmDialogDef
+  BorderStyle = bsDialog
   Caption = 'frmDialogDef'
-  StyleElements = [seFont, seClient, seBorder]
   TextHeight = 13
   inherited lclDef: TdxLayoutControl
     object btnWindowOk: TcxButton [0]
@@ -11,7 +11,7 @@ inherited frmDialogDef: TfrmDialogDef
       Action = actWindowOk
       Default = True
       ModalResult = 1
-      TabOrder = 3
+      TabOrder = 0
     end
     object btnWindowCancel: TcxButton [1]
       Left = 336
@@ -21,7 +21,7 @@ inherited frmDialogDef: TfrmDialogDef
       Action = actWindowCancel
       Cancel = True
       ModalResult = 2
-      TabOrder = 4
+      TabOrder = 1
     end
     inherited lclDefGroup_Root: TdxLayoutGroup
       ItemIndex = 1

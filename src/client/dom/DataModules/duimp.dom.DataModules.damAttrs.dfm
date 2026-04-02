@@ -1,6 +1,6 @@
 inherited damAttrs: TdamAttrs
-  Height = 248
-  Width = 89
+  Height = 254
+  Width = 117
   object cmdNCMIns: TFDCommand
     Connection = damConnection.DBCliente
     FetchOptions.AssignedValues = [evAutoClose]
@@ -205,7 +205,7 @@ inherited damAttrs: TdamAttrs
         ParamType = ptInput
         Value = Null
       end>
-    Left = 27
+    Left = 43
     Top = 16
   end
   object cmdATSIns: TFDCommand
@@ -282,7 +282,7 @@ inherited damAttrs: TdamAttrs
         ParamType = ptInput
         Value = Null
       end>
-    Left = 27
+    Left = 43
     Top = 72
   end
   object cmdDOMIns: TFDCommand
@@ -319,7 +319,7 @@ inherited damAttrs: TdamAttrs
         ParamType = ptInput
         Value = Null
       end>
-    Left = 27
+    Left = 43
     Top = 128
   end
   object cmdNATIns: TFDCommand
@@ -351,7 +351,7 @@ inherited damAttrs: TdamAttrs
         ParamType = ptInput
         Value = Null
       end>
-    Left = 27
+    Left = 43
     Top = 184
   end
 end

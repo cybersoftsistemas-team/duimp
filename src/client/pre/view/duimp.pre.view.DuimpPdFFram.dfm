@@ -14,16 +14,16 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
     end
     object pclDuimpProcess: TcxPageControl [1]
       Left = 12
-      Top = 88
+      Top = 64
       Width = 1147
-      Height = 759
+      Height = 783
       Color = 15790320
       ParentBackground = False
       ParentColor = False
-      TabOrder = 4
+      TabOrder = 1
       Properties.ActivePage = tshDuimp
       Properties.CustomButtons.Buttons = <>
-      ClientRectBottom = 757
+      ClientRectBottom = 781
       ClientRectLeft = 2
       ClientRectRight = 1145
       ClientRectTop = 25
@@ -34,7 +34,7 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
           Left = 0
           Top = 0
           Width = 1143
-          Height = 732
+          Height = 756
           Align = alClient
           ParentBackground = True
           TabOrder = 0
@@ -42,16 +42,16 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
           LayoutLookAndFeel = lsfMain
           object pclDuimp: TcxPageControl
             Left = 7
-            Top = 8
+            Top = 35
             Width = 1129
-            Height = 717
+            Height = 714
             Color = 15790320
             ParentBackground = False
             ParentColor = False
-            TabOrder = 0
+            TabOrder = 3
             Properties.ActivePage = tshDuimpCouver
             Properties.CustomButtons.Buttons = <>
-            ClientRectBottom = 715
+            ClientRectBottom = 712
             ClientRectLeft = 2
             ClientRectRight = 1127
             ClientRectTop = 25
@@ -62,7 +62,7 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                 Left = 0
                 Top = 0
                 Width = 1125
-                Height = 690
+                Height = 687
                 Align = alClient
                 ParentBackground = True
                 TabOrder = 0
@@ -73,6 +73,7 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                   Top = 28
                   DataBinding.DataField = 'SituacaoDuimp'
                   DataBinding.DataSource = damDuimp.dsoDCR
+                  Properties.MaxLength = 0
                   Properties.ReadOnly = True
                   TabOrder = 0
                   Width = 393
@@ -185,7 +186,7 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                   Left = 7
                   Top = 565
                   Width = 376
-                  Height = 101
+                  Height = 98
                   TabOrder = 33
                   LookAndFeel.NativeStyle = False
                   object grdFOADBTableView: TcxGridDBTableView
@@ -241,7 +242,7 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                   Left = 390
                   Top = 565
                   Width = 375
-                  Height = 101
+                  Height = 98
                   TabOrder = 34
                   object grdFOBDBTableView: TcxGridDBTableView
                     DataController.DataSource = damDuimp.dsoFCV
@@ -308,7 +309,7 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                   Left = 780
                   Top = 374
                   Width = 337
-                  Height = 284
+                  Height = 281
                   TabOrder = 48
                   object grdDTCDBTableView: TcxGridDBTableView
                     DataController.DataSource = damDuimp.dsoDTC
@@ -1713,7 +1714,7 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                 Left = 0
                 Top = 0
                 Width = 1125
-                Height = 690
+                Height = 687
                 Align = alClient
                 ParentBackground = True
                 TabOrder = 0
@@ -1723,14 +1724,14 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                   Left = 12
                   Top = 12
                   Width = 1101
-                  Height = 666
+                  Height = 663
                   Color = 15790320
                   ParentBackground = False
                   ParentColor = False
                   TabOrder = 0
                   Properties.ActivePage = tshDCI
                   Properties.CustomButtons.Buttons = <>
-                  ClientRectBottom = 664
+                  ClientRectBottom = 661
                   ClientRectLeft = 2
                   ClientRectRight = 1099
                   ClientRectTop = 25
@@ -1741,7 +1742,7 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                       Left = 0
                       Top = 0
                       Width = 1097
-                      Height = 639
+                      Height = 636
                       Align = alClient
                       ParentBackground = True
                       TabOrder = 0
@@ -1749,12 +1750,12 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                       LayoutLookAndFeel = lsfMain
                       DesignSize = (
                         1097
-                        639)
+                        636)
                       object grdDCI: TcxGrid
                         Left = 12
                         Top = 33
                         Width = 742
-                        Height = 446
+                        Height = 443
                         TabOrder = 0
                         object grdDCIDBBandedTableView: TcxGridDBBandedTableView
                           DataController.DataSource = damDuimp.dsoDCI
@@ -2384,7 +2385,7 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                       end
                       object redIncotermTexto: TcxDBRichEdit
                         Left = 12
-                        Top = 558
+                        Top = 555
                         DataBinding.DataField = 'IncotermTexto'
                         DataBinding.DataSource = damDuimp.dsoDCI
                         Properties.HideScrollBars = False
@@ -2399,7 +2400,7 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                         Left = 770
                         Top = 33
                         Width = 315
-                        Height = 594
+                        Height = 591
                         TabOrder = 4
                         object grdDADDBTableView: TcxGridDBTableView
                           DataController.DataSource = damDuimp.dsoDAD
@@ -2465,7 +2466,7 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                       end
                       object edtProdutoCodigoInterno: TcxDBButtonEdit
                         Left = 12
-                        Top = 507
+                        Top = 504
                         Anchors = [akLeft, akBottom]
                         DataBinding.DataField = 'ProdutoCodigoInterno'
                         DataBinding.DataSource = damDuimp.dsoDCI
@@ -2486,7 +2487,7 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                       end
                       object edtProdutoNomeInterno: TcxDBTextEdit
                         Left = 140
-                        Top = 510
+                        Top = 507
                         Anchors = [akLeft, akBottom]
                         AutoSize = False
                         DataBinding.DataField = 'ProdutoNomeInterno'
@@ -2592,7 +2593,7 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                       Left = 0
                       Top = 0
                       Width = 1097
-                      Height = 639
+                      Height = 636
                       Align = alClient
                       ParentBackground = True
                       TabOrder = 0
@@ -2629,7 +2630,7 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                         Left = 12
                         Top = 127
                         Width = 675
-                        Height = 500
+                        Height = 497
                         TabOrder = 3
                         object grdDIADBTableView: TcxGridDBTableView
                           DataController.DataSource = damDuimp.dsoDIA
@@ -2687,7 +2688,7 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                         Left = 694
                         Top = 127
                         Width = 391
-                        Height = 500
+                        Height = 497
                         TabOrder = 4
                         object grdDICSelDBLayoutView: TcxGridDBLayoutView
                           DataController.DataSource = damDuimp.dsoDICSel
@@ -3056,7 +3057,7 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                       Left = 0
                       Top = 0
                       Width = 1097
-                      Height = 639
+                      Height = 636
                       Align = alClient
                       ParentBackground = True
                       TabOrder = 0
@@ -3066,7 +3067,7 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                         Left = 12
                         Top = 12
                         Width = 1073
-                        Height = 615
+                        Height = 612
                         TabOrder = 0
                         object grdCMXDBTableView: TcxGridDBTableView
                           DataController.DataSource = damDuimp.dsoDCI
@@ -3172,7 +3173,7 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                       Left = 0
                       Top = 0
                       Width = 1097
-                      Height = 639
+                      Height = 636
                       Align = alClient
                       ParentBackground = True
                       TabOrder = 0
@@ -3182,7 +3183,7 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                         Left = 12
                         Top = 12
                         Width = 1073
-                        Height = 615
+                        Height = 612
                         TabOrder = 0
                         object grdDUMDBTableView: TcxGridDBTableView
                           DataController.DataSource = damDuimp.dsoDCI
@@ -3285,7 +3286,7 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                       Left = 0
                       Top = 0
                       Width = 1097
-                      Height = 639
+                      Height = 636
                       Align = alClient
                       ParentBackground = True
                       TabOrder = 0
@@ -3298,7 +3299,7 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                         DataBinding.DataSource = damDuimp.dsoDIE
                         Properties.ReadOnly = True
                         TabOrder = 6
-                        Width = 1009
+                        Width = 992
                       end
                       object edtFabNome: TcxDBTextEdit
                         Left = 68
@@ -3307,7 +3308,7 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                         DataBinding.DataSource = damDuimp.dsoDIF
                         Properties.ReadOnly = True
                         TabOrder = 18
-                        Width = 1009
+                        Width = 992
                       end
                       object edtExpEmail: TcxDBTextEdit
                         Left = 68
@@ -3316,7 +3317,7 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                         DataBinding.DataSource = damDuimp.dsoDIE
                         Properties.ReadOnly = True
                         TabOrder = 7
-                        Width = 1009
+                        Width = 992
                       end
                       object edtFabEmail: TcxDBTextEdit
                         Left = 68
@@ -3325,7 +3326,7 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                         DataBinding.DataSource = damDuimp.dsoDIF
                         Properties.ReadOnly = True
                         TabOrder = 19
-                        Width = 1009
+                        Width = 992
                       end
                       object edtExpRua: TcxDBTextEdit
                         Left = 68
@@ -3334,7 +3335,7 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                         DataBinding.DataSource = damDuimp.dsoDIE
                         Properties.ReadOnly = True
                         TabOrder = 8
-                        Width = 881
+                        Width = 864
                       end
                       object edtFabLogradouro: TcxDBTextEdit
                         Left = 68
@@ -3343,7 +3344,7 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                         DataBinding.DataSource = damDuimp.dsoDIF
                         Properties.ReadOnly = True
                         TabOrder = 20
-                        Width = 881
+                        Width = 864
                       end
                       object edtExpMunicipio: TcxDBTextEdit
                         Left = 242
@@ -3552,7 +3553,7 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                         Width = 70
                       end
                       object btnCancelOpe: TcxButton
-                        Left = 1010
+                        Left = 993
                         Top = 12
                         Width = 75
                         Height = 25
@@ -3560,7 +3561,7 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                         TabOrder = 1
                       end
                       object btnSaveOpe: TcxButton
-                        Left = 928
+                        Left = 911
                         Top = 12
                         Width = 75
                         Height = 25
@@ -3568,7 +3569,7 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                         TabOrder = 0
                       end
                       object edtExpRua_Numero: TcxDBTextEdit
-                        Left = 1009
+                        Left = 992
                         Top = 232
                         AutoSize = False
                         DataBinding.DataField = 'Rua_Numero'
@@ -3579,7 +3580,7 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                         Width = 60
                       end
                       object edtFabRua_Numero: TcxDBTextEdit
-                        Left = 1009
+                        Left = 992
                         Top = 528
                         AutoSize = False
                         DataBinding.DataField = 'Rua_Numero'
@@ -4021,7 +4022,7 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                 Left = 0
                 Top = 0
                 Width = 1125
-                Height = 690
+                Height = 687
                 Align = alClient
                 ParentBackground = True
                 TabOrder = 0
@@ -4031,7 +4032,7 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                   Left = 12
                   Top = 12
                   Width = 1101
-                  Height = 666
+                  Height = 663
                   TabOrder = 0
                   object grdDPGDBTableView: TcxGridDBTableView
                     DataController.DataSource = damDuimp.dsoDPGSel
@@ -4168,7 +4169,7 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                 Left = 0
                 Top = 0
                 Width = 1125
-                Height = 690
+                Height = 687
                 Align = alClient
                 ParentBackground = True
                 TabOrder = 0
@@ -4178,7 +4179,7 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                   Left = 12
                   Top = 33
                   Width = 1101
-                  Height = 320
+                  Height = 319
                   TabOrder = 0
                   object grdExpDBTableView: TcxGridDBTableView
                     DataController.DataSource = damDuimp.dsoEXP
@@ -4251,9 +4252,9 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                 end
                 object grdFab: TcxGrid
                   Left = 12
-                  Top = 398
+                  Top = 397
                   Width = 1101
-                  Height = 280
+                  Height = 278
                   TabOrder = 1
                   object grdFabDBTableView: TcxGridDBTableView
                     DataController.DataSource = damDuimp.dsoFAB
@@ -4370,7 +4371,7 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                 Left = 0
                 Top = 0
                 Width = 1125
-                Height = 690
+                Height = 687
                 Align = alClient
                 ParentBackground = True
                 TabOrder = 0
@@ -4386,7 +4387,7 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                   Properties.ScrollBars = ssBoth
                   Style.Color = clInfoBk
                   TabOrder = 0
-                  Height = 666
+                  Height = 663
                   Width = 1101
                 end
                 object lclIFCGroup_Root: TdxLayoutGroup
@@ -4408,6 +4409,48 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
               end
             end
           end
+          object btnFindDuimp: TcxButton
+            Left = 1114
+            Top = 8
+            Width = 22
+            Height = 20
+            Action = actFindDuimp
+            OptionsImage.Glyph.SourceDPI = 96
+            OptionsImage.Glyph.Data = {
+              89504E470D0A1A0A0000000D49484452000000100000001008060000001FF3FF
+              610000001974455874536F6674776172650041646F626520496D616765526561
+              647971C9653C00000026744558745469746C650046696E643B426172733B5269
+              62626F6E3B5374616E646172643B536561726368BB659C080000005B49444154
+              785EB592C10900310804AFC16B630B4955E9CEE0C129C124FB303EC6C72A2388
+              8F88186FEBF24372232F8843CE2E3F094004A81168B882F594B89D834940868F
+              7D1384ED1C140BFC801FF50283BEB2734FA025415E3000FE3DA38A41B3014A00
+              00000049454E44AE426082}
+            PaintStyle = bpsGlyph
+            TabOrder = 2
+          end
+          object cbxRedoDuimp: TcxCheckBox
+            Left = 7
+            Top = 8
+            Caption = 'Recarregar a Duimp do portal Siscomex.'
+            Enabled = False
+            Style.HotTrack = False
+            Style.TransparentBorder = False
+            TabOrder = 1
+            Transparent = True
+          end
+          object edtSearchDuimp: TcxMaskEdit
+            Left = 1003
+            Top = 8
+            AutoSize = False
+            Properties.Alignment.Horz = taCenter
+            Properties.EditMask = '99\BR9999999999\-9;1;_'
+            Style.HotTrack = False
+            Style.TransparentBorder = False
+            TabOrder = 0
+            Text = '  BR          - '
+            Height = 19
+            Width = 104
+          end
           object lclDUIGroup_Root: TdxLayoutGroup
             AlignHorz = ahParentManaged
             AlignVert = avParentManaged
@@ -4428,55 +4471,1207 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
             ControlOptions.OriginalHeight = 593
             ControlOptions.OriginalWidth = 289
             ControlOptions.ShowBorder = False
+            Index = 1
+          end
+          object dxLayoutItem30: TdxLayoutItem
+            Parent = dxLayoutAutoCreatedGroup27
+            AlignHorz = ahLeft
+            CaptionOptions.Text = 'cxCheckBox1'
+            CaptionOptions.Visible = False
+            Control = cbxRedoDuimp
+            ControlOptions.OriginalHeight = 20
+            ControlOptions.OriginalWidth = 233
+            ControlOptions.ShowBorder = False
+            Enabled = False
+            Index = 1
+          end
+          object dxLayoutAutoCreatedGroup27: TdxLayoutAutoCreatedGroup
+            Parent = lclDUIGroup_Root
+            LayoutDirection = ldHorizontal
+            Index = 0
+          end
+          object loiFindDuimp: TdxLayoutItem
+            Parent = dxLayoutAutoCreatedGroup27
+            AlignHorz = ahRight
+            SizeOptions.AssignedValues = [sovSizableHorz, sovSizableVert]
+            SizeOptions.SizableHorz = True
+            SizeOptions.SizableVert = True
+            SizeOptions.Height = 20
+            SizeOptions.Width = 22
+            CaptionOptions.Visible = False
+            Control = btnFindDuimp
+            ControlOptions.OriginalHeight = 20
+            ControlOptions.OriginalWidth = 22
+            ControlOptions.ShowBorder = False
+            Index = 2
+          end
+          object dxLayoutItem31: TdxLayoutItem
+            Parent = dxLayoutAutoCreatedGroup27
+            AlignHorz = ahRight
+            CaptionOptions.Text = 'Numero Duimp:'
+            Control = edtSearchDuimp
+            ControlOptions.OriginalHeight = 19
+            ControlOptions.OriginalWidth = 104
+            ControlOptions.ShowBorder = False
+            Index = 0
+          end
+        end
+      end
+      object tshProducts: TcxTabSheet
+        Caption = 'Produtos'
+        ImageIndex = 1
+        TabVisible = False
+        object lclProducts: TdxLayoutControl
+          Left = 0
+          Top = 0
+          Width = 1143
+          Height = 756
+          Align = alClient
+          TabOrder = 0
+          object pclProductList: TcxPageControl
+            Left = 12
+            Top = 12
+            Width = 1119
+            Height = 732
+            Color = 15790320
+            ParentBackground = False
+            ParentColor = False
+            TabOrder = 0
+            Properties.ActivePage = tshProductList
+            Properties.CustomButtons.Buttons = <>
+            OnChange = pclProductListChange
+            ClientRectBottom = 730
+            ClientRectLeft = 2
+            ClientRectRight = 1117
+            ClientRectTop = 25
+            object tshProductList: TcxTabSheet
+              Caption = 'Lista de Produtos (0)'
+              ImageIndex = 0
+              object dxLayoutControl3: TdxLayoutControl
+                Left = 0
+                Top = 0
+                Width = 1115
+                Height = 705
+                Align = alClient
+                TabOrder = 0
+                object grdProducts: TcxGrid
+                  Left = 12
+                  Top = 44
+                  Width = 1091
+                  Height = 649
+                  TabOrder = 2
+                  object grdProductsDBTableView: TcxGridDBTableView
+                    OnSelectionChanged = grdProductsDBTableViewSelectionChanged
+                    DataController.DataSource = damProducts.dsoPRO
+                    DataController.Summary.FooterSummaryItems = <
+                      item
+                        Format = '0,'
+                        Kind = skCount
+                        Column = grdProductsDBTableViewProdId
+                      end>
+                    DataController.Summary.SummaryGroups = <
+                      item
+                        Links = <
+                          item
+                            Column = grdProductsDBTableViewNCM
+                          end>
+                        SummaryItems = <
+                          item
+                            Format = ',0'
+                            Kind = skCount
+                            Column = grdProductsDBTableViewNCM
+                          end>
+                      end>
+                    OptionsBehavior.CellHints = True
+                    OptionsCustomize.ColumnFiltering = False
+                    OptionsData.Deleting = False
+                    OptionsData.Editing = False
+                    OptionsData.Inserting = False
+                    OptionsSelection.MultiSelect = True
+                    OptionsView.ColumnAutoWidth = True
+                    OptionsView.Footer = True
+                    OptionsView.Indicator = True
+                    object grdProductsDBTableViewProdId: TcxGridDBColumn
+                      DataBinding.FieldName = 'ProdId'
+                      Options.GroupFooters = False
+                      Options.Grouping = False
+                      Options.Moving = False
+                      SortIndex = 0
+                      SortOrder = soAscending
+                    end
+                    object grdProductsDBTableViewNCM: TcxGridDBColumn
+                      DataBinding.FieldName = 'NCM'
+                    end
+                    object grdProductsDBTableViewProduto: TcxGridDBColumn
+                      DataBinding.FieldName = 'Produto'
+                      Options.GroupFooters = False
+                      Options.Grouping = False
+                      Options.Moving = False
+                    end
+                    object grdProductsDBTableViewDescricao: TcxGridDBColumn
+                      DataBinding.FieldName = 'Descricao'
+                      Options.GroupFooters = False
+                      Options.Grouping = False
+                      Options.Moving = False
+                    end
+                  end
+                  object grdProductsLevel: TcxGridLevel
+                    GridView = grdProductsDBTableView
+                  end
+                end
+                object btnGetProducts: TcxButton
+                  Left = 12
+                  Top = 12
+                  Width = 93
+                  Height = 25
+                  Action = actGetProducts
+                  TabOrder = 1
+                end
+                object btnPrepareToExport: TcxButton
+                  Left = 970
+                  Top = 12
+                  Width = 133
+                  Height = 25
+                  Action = actPrepareToExport
+                  TabOrder = 0
+                end
+                object dxLayoutControl3Group_Root: TdxLayoutGroup
+                  AlignHorz = ahParentManaged
+                  AlignVert = avParentManaged
+                  Hidden = True
+                  ShowBorder = False
+                  Index = -1
+                end
+                object dxLayoutItem13: TdxLayoutItem
+                  Parent = dxLayoutControl3Group_Root
+                  AlignVert = avClient
+                  Control = grdProducts
+                  ControlOptions.OriginalHeight = 328
+                  ControlOptions.OriginalWidth = 1119
+                  ControlOptions.ShowBorder = False
+                  Index = 1
+                end
+                object dxLayoutItem33: TdxLayoutItem
+                  Parent = dxLayoutAutoCreatedGroup23
+                  AlignHorz = ahLeft
+                  CaptionOptions.Visible = False
+                  Control = btnGetProducts
+                  ControlOptions.OriginalHeight = 25
+                  ControlOptions.OriginalWidth = 93
+                  ControlOptions.ShowBorder = False
+                  Index = 1
+                end
+                object dxLayoutAutoCreatedGroup23: TdxLayoutAutoCreatedGroup
+                  Parent = dxLayoutControl3Group_Root
+                  LayoutDirection = ldHorizontal
+                  Index = 0
+                end
+                object dxLayoutItem34: TdxLayoutItem
+                  Parent = dxLayoutAutoCreatedGroup23
+                  AlignHorz = ahRight
+                  AlignVert = avClient
+                  CaptionOptions.Text = 'cxButton1'
+                  CaptionOptions.Visible = False
+                  Control = btnPrepareToExport
+                  ControlOptions.OriginalHeight = 25
+                  ControlOptions.OriginalWidth = 133
+                  ControlOptions.ShowBorder = False
+                  Enabled = False
+                  Index = 0
+                end
+              end
+            end
+            object tshProductExportList: TcxTabSheet
+              Caption = 'Lista de Produtos para Exportar (0)'
+              ImageIndex = 1
+              object dxLayoutControl4: TdxLayoutControl
+                Left = 0
+                Top = 0
+                Width = 1115
+                Height = 705
+                Align = alClient
+                TabOrder = 0
+                object btnDoNotProductExport: TcxButton
+                  Left = 12
+                  Top = 12
+                  Width = 157
+                  Height = 25
+                  Action = actDoNotProductExport
+                  TabOrder = 0
+                end
+                object grdEProducts: TcxGrid
+                  Left = 12
+                  Top = 65
+                  Width = 1091
+                  Height = 288
+                  TabOrder = 2
+                  object grdEProductsDBTableView: TcxGridDBTableView
+                    OnSelectionChanged = grdEProductsDBTableViewSelectionChanged
+                    DataController.DataSource = damProducts.dsoEPR
+                    DataController.Summary.FooterSummaryItems = <
+                      item
+                        Format = '0,'
+                        Kind = skCount
+                      end
+                      item
+                        Format = '0,'
+                        Kind = skCount
+                        Column = grdEProductsDBTableViewProdId
+                      end>
+                    DataController.Summary.SummaryGroups = <
+                      item
+                        Links = <
+                          item
+                            Column = grdEProductsDBTableViewNCM
+                          end>
+                        SummaryItems = <
+                          item
+                            Format = ',0'
+                            Kind = skCount
+                            Column = grdEProductsDBTableViewNCM
+                          end>
+                      end>
+                    OptionsBehavior.CellHints = True
+                    OptionsCustomize.ColumnFiltering = False
+                    OptionsData.Deleting = False
+                    OptionsData.Editing = False
+                    OptionsData.Inserting = False
+                    OptionsSelection.MultiSelect = True
+                    OptionsView.ColumnAutoWidth = True
+                    OptionsView.Footer = True
+                    OptionsView.Indicator = True
+                    Preview.Column = grdEProductsDBTableViewmsg
+                    Preview.LeftIndent = 35
+                    Preview.MaxLineCount = 4
+                    Preview.Visible = True
+                    object grdEProductsDBTableViewseq: TcxGridDBColumn
+                      DataBinding.FieldName = 'seq'
+                      Visible = False
+                    end
+                    object grdEProductsDBTableViewProdId: TcxGridDBColumn
+                      DataBinding.FieldName = 'ProdId'
+                      Options.GroupFooters = False
+                      Options.Grouping = False
+                      Options.Moving = False
+                      SortIndex = 0
+                      SortOrder = soAscending
+                    end
+                    object grdEProductsDBTableViewNCM: TcxGridDBColumn
+                      DataBinding.FieldName = 'NCM'
+                    end
+                    object grdEProductsDBTableViewdenominacao: TcxGridDBColumn
+                      DataBinding.FieldName = 'denominacao'
+                    end
+                    object grdEProductsDBTableViewDescricao: TcxGridDBColumn
+                      DataBinding.FieldName = 'Descricao'
+                      Options.GroupFooters = False
+                      Options.Grouping = False
+                      Options.Moving = False
+                    end
+                    object grdEProductsDBTableViewSituacao: TcxGridDBColumn
+                      DataBinding.FieldName = 'Situacao'
+                      Visible = False
+                    end
+                    object grdEProductsDBTableViewModalidade: TcxGridDBColumn
+                      DataBinding.FieldName = 'Modalidade'
+                      Visible = False
+                    end
+                    object grdEProductsDBTableViewmsg: TcxGridDBColumn
+                      DataBinding.FieldName = 'msg'
+                    end
+                    object grdEProductsDBTableViewcpfCnpjRaiz: TcxGridDBColumn
+                      DataBinding.FieldName = 'cpfCnpjRaiz'
+                      Visible = False
+                    end
+                    object grdEProductsDBTableViewcodigoProduto: TcxGridDBColumn
+                      DataBinding.FieldName = 'codigoProduto'
+                      Visible = False
+                    end
+                  end
+                  object grdEProductsLevel: TcxGridLevel
+                    GridView = grdEProductsDBTableView
+                  end
+                end
+                object pclProductProperties: TcxPageControl
+                  Left = 12
+                  Top = 377
+                  Width = 1091
+                  Height = 316
+                  Color = 15790320
+                  ParentBackground = False
+                  ParentColor = False
+                  TabOrder = 3
+                  Properties.ActivePage = tshAtts
+                  Properties.CustomButtons.Buttons = <>
+                  LookAndFeel.NativeStyle = False
+                  LookAndFeel.SkinName = 'Office2019Colorful'
+                  ClientRectBottom = 314
+                  ClientRectLeft = 2
+                  ClientRectRight = 1089
+                  ClientRectTop = 25
+                  object tshAtts: TcxTabSheet
+                    Caption = 'Atributos do produto'
+                    ImageIndex = 0
+                    object dxLayoutControl5: TdxLayoutControl
+                      Left = 0
+                      Top = 0
+                      Width = 1087
+                      Height = 289
+                      Align = alClient
+                      TabOrder = 0
+                      object grdATT: TcxGrid
+                        Left = 12
+                        Top = 44
+                        Width = 1063
+                        Height = 233
+                        TabOrder = 2
+                        LookAndFeel.NativeStyle = False
+                        LookAndFeel.SkinName = 'Office2019Colorful'
+                        object grdATTDBTableView: TcxGridDBTableView
+                          DataController.DataSource = damProducts.dsoATT
+                          DataController.Summary.FooterSummaryItems = <
+                            item
+                              Format = ',0'
+                              Kind = skCount
+                              Column = grdATTDBTableViewatributo
+                            end>
+                          OptionsBehavior.CellHints = True
+                          OptionsCustomize.ColumnFiltering = False
+                          OptionsCustomize.ColumnGrouping = False
+                          OptionsCustomize.ColumnMoving = False
+                          OptionsData.Deleting = False
+                          OptionsData.Inserting = False
+                          OptionsView.CellEndEllipsis = True
+                          OptionsView.ColumnAutoWidth = True
+                          OptionsView.Footer = True
+                          OptionsView.GroupByBox = False
+                          OptionsView.Indicator = True
+                          Preview.Column = grdATTDBTableVieworientacaoPreenchimento
+                          Preview.Visible = True
+                          Styles.Preview = stlEnabled
+                          object grdATTDBTableViewprodId: TcxGridDBColumn
+                            DataBinding.FieldName = 'prodId'
+                            Visible = False
+                          end
+                          object grdATTDBTableViewncm: TcxGridDBColumn
+                            DataBinding.FieldName = 'ncm'
+                            Visible = False
+                            Options.Editing = False
+                          end
+                          object grdATTDBTableViewatributo: TcxGridDBColumn
+                            DataBinding.FieldName = 'atributo'
+                            Options.Editing = False
+                            Styles.Content = stlDisabled
+                          end
+                          object grdATTDBTableViewnomeApresentacao: TcxGridDBColumn
+                            DataBinding.FieldName = 'nomeApresentacao'
+                            Options.Editing = False
+                            Styles.Content = stlDisabled
+                          end
+                          object grdATTDBTableViewformaPreenchimento: TcxGridDBColumn
+                            DataBinding.FieldName = 'formaPreenchimento'
+                            Visible = False
+                            Options.Editing = False
+                          end
+                          object grdATTDBTableVieworientacaoPreenchimento: TcxGridDBColumn
+                            DataBinding.FieldName = 'orientacaoPreenchimento'
+                          end
+                          object grdATTDBTableViewnome: TcxGridDBColumn
+                            DataBinding.FieldName = 'nome'
+                            Options.Editing = False
+                            Styles.Content = stlDisabled
+                          end
+                          object grdATTDBTableViewobrigatorio: TcxGridDBColumn
+                            DataBinding.FieldName = 'obrigatorio'
+                            PropertiesClassName = 'TcxCheckBoxProperties'
+                            Properties.Alignment = taCenter
+                            Properties.DisplayChecked = 'SIM'
+                            Properties.DisplayUnchecked = 'N'#195'O'
+                            Options.Editing = False
+                            Styles.Content = stlDisabled
+                          end
+                          object grdATTDBTableViewvalor: TcxGridDBColumn
+                            DataBinding.FieldName = 'valor'
+                            OnGetProperties = grdATTDBTableViewvalorGetProperties
+                            Styles.Content = stlEnabled
+                          end
+                          object grdATTDBTableViewmodalidade: TcxGridDBColumn
+                            DataBinding.FieldName = 'modalidade'
+                            Visible = False
+                          end
+                          object grdATTDBTableViewmultivalorado: TcxGridDBColumn
+                            DataBinding.FieldName = 'multivalorado'
+                            Visible = False
+                          end
+                        end
+                        object grdATTLevel: TcxGridLevel
+                          GridView = grdATTDBTableView
+                        end
+                      end
+                      object btnSaveAttr: TcxButton
+                        Left = 872
+                        Top = 12
+                        Width = 115
+                        Height = 25
+                        Action = actSaveAttr
+                        TabOrder = 0
+                      end
+                      object btnCancelAttr: TcxButton
+                        Left = 994
+                        Top = 12
+                        Width = 81
+                        Height = 25
+                        Action = actCancelAttr
+                        TabOrder = 1
+                      end
+                      object dxLayoutControl5Group_Root: TdxLayoutGroup
+                        AlignHorz = ahParentManaged
+                        AlignVert = avParentManaged
+                        Hidden = True
+                        ShowBorder = False
+                        Index = -1
+                      end
+                      object dxLayoutItem39: TdxLayoutItem
+                        Parent = dxLayoutControl5Group_Root
+                        AlignHorz = ahClient
+                        AlignVert = avClient
+                        Control = grdATT
+                        ControlOptions.OriginalHeight = 289
+                        ControlOptions.OriginalWidth = 250
+                        ControlOptions.ShowBorder = False
+                        Index = 1
+                      end
+                      object dxLayoutItem40: TdxLayoutItem
+                        Parent = dxLayoutAutoCreatedGroup28
+                        AlignHorz = ahRight
+                        CaptionOptions.Text = 'cxButton1'
+                        CaptionOptions.Visible = False
+                        Control = btnSaveAttr
+                        ControlOptions.OriginalHeight = 25
+                        ControlOptions.OriginalWidth = 115
+                        ControlOptions.ShowBorder = False
+                        Enabled = False
+                        Index = 0
+                      end
+                      object dxLayoutItem41: TdxLayoutItem
+                        Parent = dxLayoutAutoCreatedGroup28
+                        AlignHorz = ahRight
+                        AlignVert = avClient
+                        CaptionOptions.Text = 'cxButton1'
+                        CaptionOptions.Visible = False
+                        Control = btnCancelAttr
+                        ControlOptions.OriginalHeight = 25
+                        ControlOptions.OriginalWidth = 81
+                        ControlOptions.ShowBorder = False
+                        Enabled = False
+                        Index = 1
+                      end
+                      object dxLayoutAutoCreatedGroup28: TdxLayoutAutoCreatedGroup
+                        Parent = dxLayoutControl5Group_Root
+                        LayoutDirection = ldHorizontal
+                        Index = 0
+                      end
+                    end
+                  end
+                  object tshManufacturerOrProducer: TcxTabSheet
+                    Caption = 'Fabricantes/Produtores'
+                    ImageIndex = 1
+                    object lclManufacturerOrProducer: TdxLayoutControl
+                      Left = 0
+                      Top = 0
+                      Width = 1087
+                      Height = 289
+                      Align = alClient
+                      ParentBackground = True
+                      TabOrder = 0
+                      Transparent = True
+                      object edtForCodigo: TcxDBTextEdit
+                        Left = 73
+                        Top = 52
+                        DataBinding.DataField = 'codigo'
+                        DataBinding.DataSource = damProducts.dsoFOR
+                        Properties.ReadOnly = True
+                        Style.HotTrack = False
+                        Style.LookAndFeel.NativeStyle = False
+                        Style.LookAndFeel.SkinName = 'Office2019Colorful'
+                        Style.TransparentBorder = False
+                        StyleDisabled.LookAndFeel.NativeStyle = False
+                        StyleDisabled.LookAndFeel.SkinName = 'Office2019Colorful'
+                        StyleFocused.LookAndFeel.NativeStyle = False
+                        StyleFocused.LookAndFeel.SkinName = 'Office2019Colorful'
+                        StyleHot.LookAndFeel.NativeStyle = False
+                        StyleHot.LookAndFeel.SkinName = 'Office2019Colorful'
+                        StyleReadOnly.LookAndFeel.NativeStyle = False
+                        StyleReadOnly.LookAndFeel.SkinName = 'Office2019Colorful'
+                        TabOrder = 0
+                        Width = 72
+                      end
+                      object edtForNome: TcxDBTextEdit
+                        Left = 73
+                        Top = 80
+                        DataBinding.DataField = 'nome'
+                        DataBinding.DataSource = damProducts.dsoFOR
+                        Properties.ReadOnly = True
+                        Style.HotTrack = False
+                        Style.LookAndFeel.NativeStyle = False
+                        Style.LookAndFeel.SkinName = 'Office2019Colorful'
+                        Style.TransparentBorder = False
+                        StyleDisabled.LookAndFeel.NativeStyle = False
+                        StyleDisabled.LookAndFeel.SkinName = 'Office2019Colorful'
+                        StyleFocused.LookAndFeel.NativeStyle = False
+                        StyleFocused.LookAndFeel.SkinName = 'Office2019Colorful'
+                        StyleHot.LookAndFeel.NativeStyle = False
+                        StyleHot.LookAndFeel.SkinName = 'Office2019Colorful'
+                        StyleReadOnly.LookAndFeel.NativeStyle = False
+                        StyleReadOnly.LookAndFeel.SkinName = 'Office2019Colorful'
+                        TabOrder = 1
+                        Width = 446
+                      end
+                      object cxDBTextEdit1: TcxDBTextEdit
+                        Left = 600
+                        Top = 52
+                        DataBinding.DataField = 'codigo'
+                        Properties.ReadOnly = True
+                        Style.HotTrack = False
+                        Style.LookAndFeel.NativeStyle = False
+                        Style.LookAndFeel.SkinName = 'Office2019Colorful'
+                        Style.TransparentBorder = False
+                        StyleDisabled.LookAndFeel.NativeStyle = False
+                        StyleDisabled.LookAndFeel.SkinName = 'Office2019Colorful'
+                        StyleFocused.LookAndFeel.NativeStyle = False
+                        StyleFocused.LookAndFeel.SkinName = 'Office2019Colorful'
+                        StyleHot.LookAndFeel.NativeStyle = False
+                        StyleHot.LookAndFeel.SkinName = 'Office2019Colorful'
+                        StyleReadOnly.LookAndFeel.NativeStyle = False
+                        StyleReadOnly.LookAndFeel.SkinName = 'Office2019Colorful'
+                        TabOrder = 8
+                        Width = 72
+                      end
+                      object cxDBTextEdit2: TcxDBTextEdit
+                        Left = 600
+                        Top = 80
+                        DataBinding.DataField = 'nome'
+                        Properties.ReadOnly = True
+                        Style.HotTrack = False
+                        Style.LookAndFeel.NativeStyle = False
+                        Style.LookAndFeel.SkinName = 'Office2019Colorful'
+                        Style.TransparentBorder = False
+                        StyleDisabled.LookAndFeel.NativeStyle = False
+                        StyleDisabled.LookAndFeel.SkinName = 'Office2019Colorful'
+                        StyleFocused.LookAndFeel.NativeStyle = False
+                        StyleFocused.LookAndFeel.SkinName = 'Office2019Colorful'
+                        StyleHot.LookAndFeel.NativeStyle = False
+                        StyleHot.LookAndFeel.SkinName = 'Office2019Colorful'
+                        StyleReadOnly.LookAndFeel.NativeStyle = False
+                        StyleReadOnly.LookAndFeel.SkinName = 'Office2019Colorful'
+                        TabOrder = 9
+                        Width = 445
+                      end
+                      object edtForEmail: TcxDBTextEdit
+                        Left = 73
+                        Top = 108
+                        DataBinding.DataField = 'email'
+                        DataBinding.DataSource = damProducts.dsoFOR
+                        Properties.ReadOnly = True
+                        Style.HotTrack = False
+                        Style.LookAndFeel.NativeStyle = False
+                        Style.LookAndFeel.SkinName = 'Office2019Colorful'
+                        Style.TransparentBorder = False
+                        StyleDisabled.LookAndFeel.NativeStyle = False
+                        StyleDisabled.LookAndFeel.SkinName = 'Office2019Colorful'
+                        StyleFocused.LookAndFeel.NativeStyle = False
+                        StyleFocused.LookAndFeel.SkinName = 'Office2019Colorful'
+                        StyleHot.LookAndFeel.NativeStyle = False
+                        StyleHot.LookAndFeel.SkinName = 'Office2019Colorful'
+                        StyleReadOnly.LookAndFeel.NativeStyle = False
+                        StyleReadOnly.LookAndFeel.SkinName = 'Office2019Colorful'
+                        TabOrder = 2
+                        Width = 446
+                      end
+                      object cxDBTextEdit3: TcxDBTextEdit
+                        Left = 600
+                        Top = 108
+                        DataBinding.DataField = 'email'
+                        Properties.ReadOnly = True
+                        Style.HotTrack = False
+                        Style.LookAndFeel.NativeStyle = False
+                        Style.LookAndFeel.SkinName = 'Office2019Colorful'
+                        Style.TransparentBorder = False
+                        StyleDisabled.LookAndFeel.NativeStyle = False
+                        StyleDisabled.LookAndFeel.SkinName = 'Office2019Colorful'
+                        StyleFocused.LookAndFeel.NativeStyle = False
+                        StyleFocused.LookAndFeel.SkinName = 'Office2019Colorful'
+                        StyleHot.LookAndFeel.NativeStyle = False
+                        StyleHot.LookAndFeel.SkinName = 'Office2019Colorful'
+                        StyleReadOnly.LookAndFeel.NativeStyle = False
+                        StyleReadOnly.LookAndFeel.SkinName = 'Office2019Colorful'
+                        TabOrder = 10
+                        Width = 445
+                      end
+                      object edtForLogradouro: TcxDBTextEdit
+                        Left = 128
+                        Top = 176
+                        DataBinding.DataField = 'logradouro'
+                        DataBinding.DataSource = damProducts.dsoFOR
+                        Properties.ReadOnly = True
+                        Style.HotTrack = False
+                        Style.LookAndFeel.NativeStyle = False
+                        Style.LookAndFeel.SkinName = 'Office2019Colorful'
+                        Style.TransparentBorder = False
+                        StyleDisabled.LookAndFeel.NativeStyle = False
+                        StyleDisabled.LookAndFeel.SkinName = 'Office2019Colorful'
+                        StyleFocused.LookAndFeel.NativeStyle = False
+                        StyleFocused.LookAndFeel.SkinName = 'Office2019Colorful'
+                        StyleHot.LookAndFeel.NativeStyle = False
+                        StyleHot.LookAndFeel.SkinName = 'Office2019Colorful'
+                        StyleReadOnly.LookAndFeel.NativeStyle = False
+                        StyleReadOnly.LookAndFeel.SkinName = 'Office2019Colorful'
+                        TabOrder = 3
+                        Width = 204
+                      end
+                      object cxDBTextEdit4: TcxDBTextEdit
+                        Left = 655
+                        Top = 176
+                        DataBinding.DataField = 'logradouro'
+                        Properties.ReadOnly = True
+                        Style.HotTrack = False
+                        Style.LookAndFeel.NativeStyle = False
+                        Style.LookAndFeel.SkinName = 'Office2019Colorful'
+                        Style.TransparentBorder = False
+                        StyleDisabled.LookAndFeel.NativeStyle = False
+                        StyleDisabled.LookAndFeel.SkinName = 'Office2019Colorful'
+                        StyleFocused.LookAndFeel.NativeStyle = False
+                        StyleFocused.LookAndFeel.SkinName = 'Office2019Colorful'
+                        StyleHot.LookAndFeel.NativeStyle = False
+                        StyleHot.LookAndFeel.SkinName = 'Office2019Colorful'
+                        StyleReadOnly.LookAndFeel.NativeStyle = False
+                        StyleReadOnly.LookAndFeel.SkinName = 'Office2019Colorful'
+                        TabOrder = 11
+                        Width = 203
+                      end
+                      object edtForCidade: TcxDBTextEdit
+                        Left = 385
+                        Top = 176
+                        DataBinding.DataField = 'nomeCidade'
+                        DataBinding.DataSource = damProducts.dsoFOR
+                        Properties.ReadOnly = True
+                        Style.HotTrack = False
+                        Style.LookAndFeel.NativeStyle = False
+                        Style.LookAndFeel.SkinName = 'Office2019Colorful'
+                        Style.TransparentBorder = False
+                        StyleDisabled.LookAndFeel.NativeStyle = False
+                        StyleDisabled.LookAndFeel.SkinName = 'Office2019Colorful'
+                        StyleFocused.LookAndFeel.NativeStyle = False
+                        StyleFocused.LookAndFeel.SkinName = 'Office2019Colorful'
+                        StyleHot.LookAndFeel.NativeStyle = False
+                        StyleHot.LookAndFeel.SkinName = 'Office2019Colorful'
+                        StyleReadOnly.LookAndFeel.NativeStyle = False
+                        StyleReadOnly.LookAndFeel.SkinName = 'Office2019Colorful'
+                        TabOrder = 4
+                        Width = 121
+                      end
+                      object edtFabCidade: TcxDBTextEdit
+                        Left = 911
+                        Top = 176
+                        DataBinding.DataField = 'nomeCidade'
+                        Properties.ReadOnly = True
+                        Style.HotTrack = False
+                        Style.LookAndFeel.NativeStyle = False
+                        Style.LookAndFeel.SkinName = 'Office2019Colorful'
+                        Style.TransparentBorder = False
+                        StyleDisabled.LookAndFeel.NativeStyle = False
+                        StyleDisabled.LookAndFeel.SkinName = 'Office2019Colorful'
+                        StyleFocused.LookAndFeel.NativeStyle = False
+                        StyleFocused.LookAndFeel.SkinName = 'Office2019Colorful'
+                        StyleHot.LookAndFeel.NativeStyle = False
+                        StyleHot.LookAndFeel.SkinName = 'Office2019Colorful'
+                        StyleReadOnly.LookAndFeel.NativeStyle = False
+                        StyleReadOnly.LookAndFeel.SkinName = 'Office2019Colorful'
+                        TabOrder = 12
+                        Width = 121
+                      end
+                      object edtForCep: TcxDBTextEdit
+                        Left = 128
+                        Top = 204
+                        DataBinding.DataField = 'cep'
+                        DataBinding.DataSource = damProducts.dsoFOR
+                        Properties.ReadOnly = True
+                        Style.HotTrack = False
+                        Style.LookAndFeel.NativeStyle = False
+                        Style.LookAndFeel.SkinName = 'Office2019Colorful'
+                        Style.TransparentBorder = False
+                        StyleDisabled.LookAndFeel.NativeStyle = False
+                        StyleDisabled.LookAndFeel.SkinName = 'Office2019Colorful'
+                        StyleFocused.LookAndFeel.NativeStyle = False
+                        StyleFocused.LookAndFeel.SkinName = 'Office2019Colorful'
+                        StyleHot.LookAndFeel.NativeStyle = False
+                        StyleHot.LookAndFeel.SkinName = 'Office2019Colorful'
+                        StyleReadOnly.LookAndFeel.NativeStyle = False
+                        StyleReadOnly.LookAndFeel.SkinName = 'Office2019Colorful'
+                        TabOrder = 5
+                        Width = 378
+                      end
+                      object edtForCodigoPais: TcxDBTextEdit
+                        Left = 128
+                        Top = 232
+                        DataBinding.DataField = 'codigoPais'
+                        DataBinding.DataSource = damProducts.dsoFOR
+                        Properties.ReadOnly = True
+                        Style.HotTrack = False
+                        Style.LookAndFeel.NativeStyle = False
+                        Style.LookAndFeel.SkinName = 'Office2019Colorful'
+                        Style.TransparentBorder = False
+                        StyleDisabled.LookAndFeel.NativeStyle = False
+                        StyleDisabled.LookAndFeel.SkinName = 'Office2019Colorful'
+                        StyleFocused.LookAndFeel.NativeStyle = False
+                        StyleFocused.LookAndFeel.SkinName = 'Office2019Colorful'
+                        StyleHot.LookAndFeel.NativeStyle = False
+                        StyleHot.LookAndFeel.SkinName = 'Office2019Colorful'
+                        StyleReadOnly.LookAndFeel.NativeStyle = False
+                        StyleReadOnly.LookAndFeel.SkinName = 'Office2019Colorful'
+                        TabOrder = 6
+                        Width = 378
+                      end
+                      object cxDBTextEdit5: TcxDBTextEdit
+                        Left = 655
+                        Top = 204
+                        DataBinding.DataField = 'cep'
+                        Properties.ReadOnly = True
+                        Style.HotTrack = False
+                        Style.LookAndFeel.NativeStyle = False
+                        Style.LookAndFeel.SkinName = 'Office2019Colorful'
+                        Style.TransparentBorder = False
+                        StyleDisabled.LookAndFeel.NativeStyle = False
+                        StyleDisabled.LookAndFeel.SkinName = 'Office2019Colorful'
+                        StyleFocused.LookAndFeel.NativeStyle = False
+                        StyleFocused.LookAndFeel.SkinName = 'Office2019Colorful'
+                        StyleHot.LookAndFeel.NativeStyle = False
+                        StyleHot.LookAndFeel.SkinName = 'Office2019Colorful'
+                        StyleReadOnly.LookAndFeel.NativeStyle = False
+                        StyleReadOnly.LookAndFeel.SkinName = 'Office2019Colorful'
+                        TabOrder = 13
+                        Width = 377
+                      end
+                      object edtFabCodigoPais: TcxDBTextEdit
+                        Left = 655
+                        Top = 232
+                        DataBinding.DataField = 'codigoPais'
+                        Properties.ReadOnly = True
+                        Style.HotTrack = False
+                        Style.LookAndFeel.NativeStyle = False
+                        Style.LookAndFeel.SkinName = 'Office2019Colorful'
+                        Style.TransparentBorder = False
+                        StyleDisabled.LookAndFeel.NativeStyle = False
+                        StyleDisabled.LookAndFeel.SkinName = 'Office2019Colorful'
+                        StyleFocused.LookAndFeel.NativeStyle = False
+                        StyleFocused.LookAndFeel.SkinName = 'Office2019Colorful'
+                        StyleHot.LookAndFeel.NativeStyle = False
+                        StyleHot.LookAndFeel.SkinName = 'Office2019Colorful'
+                        StyleReadOnly.LookAndFeel.NativeStyle = False
+                        StyleReadOnly.LookAndFeel.SkinName = 'Office2019Colorful'
+                        TabOrder = 14
+                        Width = 377
+                      end
+                      object edtForCodigoExterno: TcxDBTextEdit
+                        Left = 128
+                        Top = 260
+                        AutoSize = False
+                        DataBinding.DataField = 'codigoDuimp'
+                        DataBinding.DataSource = damProducts.dsoFOR
+                        Properties.ReadOnly = True
+                        Style.HotTrack = False
+                        Style.LookAndFeel.NativeStyle = False
+                        Style.LookAndFeel.SkinName = 'Office2019Colorful'
+                        Style.TransparentBorder = False
+                        StyleDisabled.LookAndFeel.NativeStyle = False
+                        StyleDisabled.LookAndFeel.SkinName = 'Office2019Colorful'
+                        StyleFocused.LookAndFeel.NativeStyle = False
+                        StyleFocused.LookAndFeel.SkinName = 'Office2019Colorful'
+                        StyleHot.LookAndFeel.NativeStyle = False
+                        StyleHot.LookAndFeel.SkinName = 'Office2019Colorful'
+                        StyleReadOnly.LookAndFeel.NativeStyle = False
+                        StyleReadOnly.LookAndFeel.SkinName = 'Office2019Colorful'
+                        TabOrder = 7
+                        Height = 21
+                        Width = 378
+                      end
+                      object edtFabCodigoExterno: TcxDBTextEdit
+                        Left = 655
+                        Top = 260
+                        DataBinding.DataField = 'codigoDuimp'
+                        Properties.ReadOnly = True
+                        Style.HotTrack = False
+                        Style.LookAndFeel.NativeStyle = False
+                        Style.LookAndFeel.SkinName = 'Office2019Colorful'
+                        Style.TransparentBorder = False
+                        StyleDisabled.LookAndFeel.NativeStyle = False
+                        StyleDisabled.LookAndFeel.SkinName = 'Office2019Colorful'
+                        StyleFocused.LookAndFeel.NativeStyle = False
+                        StyleFocused.LookAndFeel.SkinName = 'Office2019Colorful'
+                        StyleHot.LookAndFeel.NativeStyle = False
+                        StyleHot.LookAndFeel.SkinName = 'Office2019Colorful'
+                        StyleReadOnly.LookAndFeel.NativeStyle = False
+                        StyleReadOnly.LookAndFeel.SkinName = 'Office2019Colorful'
+                        TabOrder = 15
+                        Width = 377
+                      end
+                      object dxLayoutGroup2: TdxLayoutGroup
+                        AlignHorz = ahClient
+                        AlignVert = avTop
+                        Hidden = True
+                        LayoutDirection = ldHorizontal
+                        ShowBorder = False
+                        Index = -1
+                      end
+                      object loiForCodigo: TdxLayoutItem
+                        Parent = dxLayoutGroup3
+                        AlignHorz = ahLeft
+                        SizeOptions.AssignedValues = [sovSizableHorz]
+                        SizeOptions.SizableHorz = True
+                        SizeOptions.Width = 120
+                        CaptionOptions.AlignHorz = taRightJustify
+                        CaptionOptions.Text = 'C'#243'digo:'
+                        Control = edtForCodigo
+                        ControlOptions.OriginalHeight = 21
+                        ControlOptions.OriginalWidth = 72
+                        ControlOptions.ShowBorder = False
+                        Index = 0
+                      end
+                      object loiForNome: TdxLayoutItem
+                        Parent = dxLayoutGroup3
+                        CaptionOptions.AlignHorz = taRightJustify
+                        CaptionOptions.Text = 'Nome:'
+                        Control = edtForNome
+                        ControlOptions.OriginalHeight = 21
+                        ControlOptions.OriginalWidth = 121
+                        ControlOptions.ShowBorder = False
+                        Index = 1
+                      end
+                      object dxLayoutGroup3: TdxLayoutGroup
+                        Parent = dxLayoutGroup2
+                        AlignHorz = ahClient
+                        AlignVert = avTop
+                        CaptionOptions.Text = 'Fornecedor:'
+                        ItemIndex = 3
+                        Index = 0
+                      end
+                      object loiFabCodigo: TdxLayoutItem
+                        Parent = dxLayoutGroup5
+                        AlignHorz = ahLeft
+                        SizeOptions.AssignedValues = [sovSizableHorz]
+                        SizeOptions.SizableHorz = True
+                        SizeOptions.Width = 120
+                        CaptionOptions.AlignHorz = taRightJustify
+                        CaptionOptions.Text = 'C'#243'digo:'
+                        Control = cxDBTextEdit1
+                        ControlOptions.OriginalHeight = 21
+                        ControlOptions.OriginalWidth = 72
+                        ControlOptions.ShowBorder = False
+                        Index = 0
+                      end
+                      object loiFabNome: TdxLayoutItem
+                        Parent = dxLayoutGroup5
+                        CaptionOptions.AlignHorz = taRightJustify
+                        CaptionOptions.Text = 'Nome:'
+                        Control = cxDBTextEdit2
+                        ControlOptions.OriginalHeight = 21
+                        ControlOptions.OriginalWidth = 121
+                        ControlOptions.ShowBorder = False
+                        Index = 1
+                      end
+                      object dxLayoutGroup5: TdxLayoutGroup
+                        Parent = dxLayoutGroup2
+                        AlignHorz = ahClient
+                        AlignVert = avTop
+                        CaptionOptions.Text = 'Fabricante:'
+                        ItemIndex = 3
+                        Index = 1
+                      end
+                      object loiForEmail: TdxLayoutItem
+                        Parent = dxLayoutGroup3
+                        CaptionOptions.AlignHorz = taRightJustify
+                        CaptionOptions.Text = 'Email:'
+                        Control = edtForEmail
+                        ControlOptions.OriginalHeight = 21
+                        ControlOptions.OriginalWidth = 121
+                        ControlOptions.ShowBorder = False
+                        Index = 2
+                      end
+                      object loiFabEmail: TdxLayoutItem
+                        Parent = dxLayoutGroup5
+                        CaptionOptions.AlignHorz = taRightJustify
+                        CaptionOptions.Text = 'Email:'
+                        Control = cxDBTextEdit3
+                        ControlOptions.OriginalHeight = 21
+                        ControlOptions.OriginalWidth = 121
+                        ControlOptions.ShowBorder = False
+                        Index = 2
+                      end
+                      object ltgForEndereco: TdxLayoutGroup
+                        Parent = dxLayoutGroup3
+                        CaptionOptions.Text = 'Endere'#231'o:'
+                        ItemIndex = 1
+                        Index = 3
+                      end
+                      object dxLayoutGroup6: TdxLayoutGroup
+                        Parent = dxLayoutGroup5
+                        CaptionOptions.Text = 'Endere'#231'o:'
+                        ItemIndex = 1
+                        Index = 3
+                      end
+                      object loiForLogradouro: TdxLayoutItem
+                        Parent = dxLayoutGroup7
+                        AlignHorz = ahClient
+                        AlignVert = avTop
+                        CaptionOptions.AlignHorz = taRightJustify
+                        CaptionOptions.Text = 'Rua:'
+                        Control = edtForLogradouro
+                        ControlOptions.OriginalHeight = 21
+                        ControlOptions.OriginalWidth = 121
+                        ControlOptions.ShowBorder = False
+                        Index = 0
+                      end
+                      object loiFabLogradouro: TdxLayoutItem
+                        Parent = dxLayoutAutoCreatedGroup26
+                        AlignHorz = ahClient
+                        AlignVert = avTop
+                        CaptionOptions.AlignHorz = taRightJustify
+                        CaptionOptions.Text = 'Rua:'
+                        Control = cxDBTextEdit4
+                        ControlOptions.OriginalHeight = 21
+                        ControlOptions.OriginalWidth = 121
+                        ControlOptions.ShowBorder = False
+                        Index = 0
+                      end
+                      object loiForCidade: TdxLayoutItem
+                        Parent = dxLayoutGroup7
+                        AlignHorz = ahRight
+                        AlignVert = avTop
+                        CaptionOptions.AlignHorz = taRightJustify
+                        CaptionOptions.Text = 'Cidade:'
+                        Control = edtForCidade
+                        ControlOptions.OriginalHeight = 21
+                        ControlOptions.OriginalWidth = 121
+                        ControlOptions.ShowBorder = False
+                        Index = 1
+                      end
+                      object loiFabCidade: TdxLayoutItem
+                        Parent = dxLayoutAutoCreatedGroup26
+                        CaptionOptions.AlignHorz = taRightJustify
+                        CaptionOptions.Text = 'Cidade:'
+                        Control = edtFabCidade
+                        ControlOptions.OriginalHeight = 21
+                        ControlOptions.OriginalWidth = 121
+                        ControlOptions.ShowBorder = False
+                        Index = 1
+                      end
+                      object loiForCep: TdxLayoutItem
+                        Parent = ltgForEndereco
+                        AlignHorz = ahClient
+                        AlignVert = avTop
+                        SizeOptions.AssignedValues = [sovSizableHorz, sovSizableVert]
+                        SizeOptions.SizableHorz = True
+                        SizeOptions.SizableVert = False
+                        SizeOptions.Width = 120
+                        CaptionOptions.AlignHorz = taRightJustify
+                        CaptionOptions.Text = 'CEP:'
+                        Control = edtForCep
+                        ControlOptions.OriginalHeight = 21
+                        ControlOptions.OriginalWidth = 121
+                        ControlOptions.ShowBorder = False
+                        Index = 1
+                      end
+                      object dxLayoutGroup7: TdxLayoutGroup
+                        Parent = ltgForEndereco
+                        CaptionOptions.Text = 'New Group'
+                        CaptionOptions.Visible = False
+                        LayoutDirection = ldHorizontal
+                        ShowBorder = False
+                        Index = 0
+                      end
+                      object loiForCodigoPais: TdxLayoutItem
+                        Parent = ltgForEndereco
+                        AlignHorz = ahClient
+                        AlignVert = avTop
+                        SizeOptions.AssignedValues = [sovSizableHorz]
+                        SizeOptions.SizableHorz = True
+                        SizeOptions.Width = 120
+                        CaptionOptions.AlignHorz = taRightJustify
+                        CaptionOptions.Text = 'Pa'#237's:'
+                        Control = edtForCodigoPais
+                        ControlOptions.OriginalHeight = 21
+                        ControlOptions.OriginalWidth = 333
+                        ControlOptions.ShowBorder = False
+                        Index = 2
+                      end
+                      object loiFabCep: TdxLayoutItem
+                        Parent = dxLayoutGroup6
+                        AlignHorz = ahClient
+                        AlignVert = avTop
+                        SizeOptions.AssignedValues = [sovSizableHorz]
+                        SizeOptions.SizableHorz = True
+                        SizeOptions.Width = 120
+                        CaptionOptions.AlignHorz = taRightJustify
+                        CaptionOptions.Text = 'CEP:'
+                        Control = cxDBTextEdit5
+                        ControlOptions.OriginalHeight = 21
+                        ControlOptions.OriginalWidth = 121
+                        ControlOptions.ShowBorder = False
+                        Index = 1
+                      end
+                      object dxLayoutAutoCreatedGroup26: TdxLayoutAutoCreatedGroup
+                        Parent = dxLayoutGroup6
+                        AlignVert = avTop
+                        LayoutDirection = ldHorizontal
+                        Index = 0
+                      end
+                      object loiFabCodigoPais: TdxLayoutItem
+                        Parent = dxLayoutGroup6
+                        AlignHorz = ahClient
+                        AlignVert = avTop
+                        SizeOptions.AssignedValues = [sovSizableHorz]
+                        SizeOptions.SizableHorz = True
+                        SizeOptions.Width = 120
+                        CaptionOptions.AlignHorz = taRightJustify
+                        CaptionOptions.Text = 'Pa'#237's:'
+                        Control = edtFabCodigoPais
+                        ControlOptions.OriginalHeight = 21
+                        ControlOptions.OriginalWidth = 333
+                        ControlOptions.ShowBorder = False
+                        Index = 2
+                      end
+                      object loiForCodigoExterno: TdxLayoutItem
+                        Parent = ltgForEndereco
+                        AlignHorz = ahClient
+                        AlignVert = avTop
+                        SizeOptions.AssignedValues = [sovSizableHorz]
+                        SizeOptions.SizableHorz = True
+                        SizeOptions.Width = 173
+                        CaptionOptions.AlignHorz = taRightJustify
+                        CaptionOptions.Text = 'C'#243'digo Externo:'
+                        Control = edtForCodigoExterno
+                        ControlOptions.OriginalHeight = 21
+                        ControlOptions.OriginalWidth = 121
+                        ControlOptions.ShowBorder = False
+                        Index = 3
+                      end
+                      object loiFabCodigoExterno: TdxLayoutItem
+                        Parent = dxLayoutGroup6
+                        AlignHorz = ahClient
+                        AlignVert = avTop
+                        SizeOptions.AssignedValues = [sovSizableHorz]
+                        SizeOptions.SizableHorz = True
+                        SizeOptions.Width = 173
+                        CaptionOptions.Text = 'C'#243'digo Externo:'
+                        Control = edtFabCodigoExterno
+                        ControlOptions.OriginalHeight = 21
+                        ControlOptions.OriginalWidth = 121
+                        ControlOptions.ShowBorder = False
+                        Index = 3
+                      end
+                    end
+                  end
+                end
+                object btnExportProducts: TcxButton
+                  Left = 976
+                  Top = 12
+                  Width = 127
+                  Height = 25
+                  Action = actExportProducts
+                  TabOrder = 1
+                end
+                object dxLayoutControl4Group_Root: TdxLayoutGroup
+                  AlignHorz = ahParentManaged
+                  AlignVert = avParentManaged
+                  Hidden = True
+                  ShowBorder = False
+                  Index = -1
+                end
+                object dxLayoutItem37: TdxLayoutItem
+                  Parent = dxLayoutControl4Group_Root
+                  CaptionOptions.Text = 'Produtos:'
+                  CaptionOptions.Layout = clTop
+                  Control = grdEProducts
+                  ControlOptions.OriginalHeight = 288
+                  ControlOptions.OriginalWidth = 1091
+                  ControlOptions.ShowBorder = False
+                  Index = 1
+                end
+                object dxLayoutSplitterItem1: TdxLayoutSplitterItem
+                  Parent = dxLayoutControl4Group_Root
+                  SizeOptions.AssignedValues = [sovSizableHorz, sovSizableVert]
+                  SizeOptions.SizableHorz = False
+                  SizeOptions.SizableVert = False
+                  CaptionOptions.Text = 'Splitter'
+                  Index = 2
+                end
+                object dxLayoutItem35: TdxLayoutItem
+                  Parent = dxLayoutAutoCreatedGroup29
+                  AlignHorz = ahLeft
+                  CaptionOptions.Text = 'cxButton1'
+                  CaptionOptions.Visible = False
+                  Control = btnDoNotProductExport
+                  ControlOptions.OriginalHeight = 25
+                  ControlOptions.OriginalWidth = 157
+                  ControlOptions.ShowBorder = False
+                  Enabled = False
+                  Index = 0
+                end
+                object dxLayoutItem38: TdxLayoutItem
+                  Parent = dxLayoutControl4Group_Root
+                  AlignVert = avClient
+                  Control = pclProductProperties
+                  ControlOptions.AutoColor = True
+                  ControlOptions.OriginalHeight = 276
+                  ControlOptions.OriginalWidth = 289
+                  ControlOptions.ShowBorder = False
+                  Index = 3
+                end
+                object dxLayoutItem42: TdxLayoutItem
+                  Parent = dxLayoutAutoCreatedGroup29
+                  AlignHorz = ahRight
+                  CaptionOptions.Text = 'cxButton1'
+                  CaptionOptions.Visible = False
+                  Control = btnExportProducts
+                  ControlOptions.OriginalHeight = 25
+                  ControlOptions.OriginalWidth = 127
+                  ControlOptions.ShowBorder = False
+                  Enabled = False
+                  Index = 1
+                end
+                object dxLayoutAutoCreatedGroup29: TdxLayoutAutoCreatedGroup
+                  Parent = dxLayoutControl4Group_Root
+                  LayoutDirection = ldHorizontal
+                  Index = 0
+                end
+              end
+            end
+          end
+          object lclProductsGroup_Root: TdxLayoutGroup
+            AlignHorz = ahParentManaged
+            AlignVert = avParentManaged
+            Hidden = True
+            ShowBorder = False
+            Index = -1
+          end
+          object dxLayoutItem36: TdxLayoutItem
+            Parent = lclProductsGroup_Root
+            AlignVert = avClient
+            CaptionOptions.Text = 'cxPageControl1'
+            CaptionOptions.Visible = False
+            Control = pclProductList
+            ControlOptions.AutoColor = True
+            ControlOptions.OriginalHeight = 461
+            ControlOptions.OriginalWidth = 289
+            ControlOptions.ShowBorder = False
             Index = 0
           end
         end
       end
     end
-    object btnFindDuimp: TcxButton [2]
-      Left = 1137
-      Top = 61
-      Width = 22
-      Height = 20
-      Action = actFindDuimp
-      OptionsImage.Glyph.SourceDPI = 96
-      OptionsImage.Glyph.Data = {
-        89504E470D0A1A0A0000000D49484452000000100000001008060000001FF3FF
-        610000001974455874536F6674776172650041646F626520496D616765526561
-        647971C9653C00000026744558745469746C650046696E643B426172733B5269
-        62626F6E3B5374616E646172643B536561726368BB659C080000005B49444154
-        785EB592C10900310804AFC16B630B4955E9CEE0C129C124FB303EC6C72A2388
-        8F88186FEBF24372232F8843CE2E3F094004A81168B882F594B89D834940868F
-        7D1384ED1C140BFC801FF50283BEB2734FA025415E3000FE3DA38A41B3014A00
-        00000049454E44AE426082}
-      PaintStyle = bpsGlyph
-      TabOrder = 3
-    end
-    object cbxRedoDuimp: TcxCheckBox [3]
-      Left = 12
-      Top = 61
-      Caption = 'Recarregar a Duimp do portal Siscomex.'
-      Enabled = False
-      Style.HotTrack = False
-      Style.TransparentBorder = False
-      TabOrder = 1
-      Transparent = True
-    end
-    object edtSearchDuimp: TcxMaskEdit [4]
-      Left = 1026
-      Top = 61
-      AutoSize = False
-      Properties.Alignment.Horz = taCenter
-      Properties.EditMask = '99\BR9999999999\-9;1;_'
-      Style.HotTrack = False
-      Style.TransparentBorder = False
-      TabOrder = 2
-      Text = '  BR          - '
-      Height = 19
-      Width = 104
-    end
     inherited ltgPageDef_Root: TdxLayoutGroup
       AlignVert = avClient
+      ItemIndex = 2
     end
     inherited lsiTitle: TdxLayoutSeparatorItem
       Visible = False
@@ -4497,62 +5692,19 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
       ControlOptions.ShowBorder = False
       Index = 3
     end
-    object loiFindDuimp: TdxLayoutItem
-      Parent = dxLayoutGroup3
-      AlignHorz = ahRight
-      AlignVert = avTop
-      SizeOptions.AssignedValues = [sovSizableHorz, sovSizableVert]
-      SizeOptions.SizableHorz = True
-      SizeOptions.SizableVert = True
-      SizeOptions.Height = 20
-      SizeOptions.Width = 22
-      CaptionOptions.Visible = False
-      Control = btnFindDuimp
-      ControlOptions.OriginalHeight = 20
-      ControlOptions.OriginalWidth = 22
-      ControlOptions.ShowBorder = False
-      Index = 2
-    end
-    object dxLayoutGroup3: TdxLayoutGroup
+    object dxLayoutEmptySpaceItem1: TdxLayoutEmptySpaceItem
       Parent = ltgPageDef_Root
-      CaptionOptions.Text = 'New Group'
-      CaptionOptions.Visible = False
-      Offsets.Bottom = 6
-      ItemIndex = 1
-      LayoutDirection = ldHorizontal
-      ShowBorder = False
+      SizeOptions.AssignedValues = [sovSizableHorz, sovSizableVert]
+      SizeOptions.SizableHorz = False
+      SizeOptions.SizableVert = True
+      SizeOptions.Height = 2
+      SizeOptions.Width = 10
+      CaptionOptions.Text = 'Empty Space Item'
       Index = 2
-    end
-    object TdxLayoutItem
-      Index = -1
-    end
-    object TdxLayoutItem
-      Index = -1
-    end
-    object dxLayoutItem30: TdxLayoutItem
-      Parent = dxLayoutGroup3
-      CaptionOptions.Text = 'cxCheckBox1'
-      CaptionOptions.Visible = False
-      Control = cbxRedoDuimp
-      ControlOptions.OriginalHeight = 20
-      ControlOptions.OriginalWidth = 233
-      ControlOptions.ShowBorder = False
-      Enabled = False
-      Index = 0
-    end
-    object dxLayoutItem31: TdxLayoutItem
-      Parent = dxLayoutGroup3
-      AlignHorz = ahRight
-      CaptionOptions.Text = 'Numero Duimp:'
-      Control = edtSearchDuimp
-      ControlOptions.OriginalHeight = 19
-      ControlOptions.OriginalWidth = 104
-      ControlOptions.ShowBorder = False
-      Index = 1
     end
   end
   inherited aclActionList: TActionList
-    Left = 847
+    Left = 821
     object actFindDuimp: TAction
       Caption = 'actFindDuimp'
       ImageIndex = 1
@@ -4591,6 +5743,44 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
       ImageIndex = 6
       Visible = False
       OnExecute = actShowProdutoCodigoInternoExecute
+    end
+    object actGetProducts: TAction
+      Caption = 'Listar Produtos'
+      OnExecute = actGetProductsExecute
+    end
+    object actDoNotProductExport: TAction
+      Caption = 'N'#227'o Exportar Produtos'
+      Enabled = False
+      ImageIndex = 3
+      OnExecute = actDoNotProductExportExecute
+    end
+    object actPrepareToExport: TAction
+      Caption = 'Preparar para Exportar'
+      Enabled = False
+      OnExecute = actPrepareToExportExecute
+    end
+    object actDomains: TAction
+      Caption = 'actDomains'
+      ImageIndex = 5
+      OnExecute = actDomainsExecute
+    end
+    object actSaveAttr: TAction
+      Caption = 'Salvar Atributos'
+      Enabled = False
+      ImageIndex = 2
+      OnExecute = actSaveAttrExecute
+    end
+    object actCancelAttr: TAction
+      Caption = 'Cancelar'
+      Enabled = False
+      ImageIndex = 3
+      OnExecute = actCancelAttrExecute
+    end
+    object actExportProducts: TAction
+      Caption = 'Exportar Produtos'
+      Enabled = False
+      ImageIndex = 2
+      OnExecute = actExportProductsExecute
     end
   end
   inherited iglImageList: TcxImageList
@@ -4709,7 +5899,7 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
       end>
   end
   inherited decDef: TcxDefaultEditStyleController
-    Left = 875
+    Left = 849
     PixelsPerInch = 96
   end
   inherited escDef: TcxEditStyleController
@@ -4735,7 +5925,7 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
     Top = 16
   end
   object edrDuimp: TcxEditRepository
-    Left = 903
+    Left = 877
     Top = 16
     PixelsPerInch = 96
     object edrDuimpDispYesOrNo: TcxEditRepositoryCheckBoxItem
@@ -4753,6 +5943,48 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
     object stlGrd: TcxStyle
       AssignedValues = [svColor]
       Color = clBtnFace
+    end
+    object stlDisabled: TcxStyle
+      AssignedValues = [svColor]
+      Color = clBtnFace
+    end
+    object stlEnabled: TcxStyle
+      AssignedValues = [svColor]
+      Color = clWhite
+    end
+  end
+  object edrProd: TcxEditRepository
+    Left = 904
+    Top = 16
+    PixelsPerInch = 96
+    object ertList: TcxEditRepositoryButtonItem
+      Properties.Buttons = <
+        item
+          Action = actDomains
+          Default = True
+          Kind = bkGlyph
+        end>
+      Properties.Images = iglImageList
+      Properties.ReadOnly = True
+    end
+    object ertText: TcxEditRepositoryTextItem
+    end
+    object ertYesOrNo: TcxEditRepositoryComboBoxItem
+      Properties.DropDownListStyle = lsFixedList
+    end
+    object ertDouble: TcxEditRepositoryCurrencyItem
+      Properties.Alignment.Horz = taRightJustify
+      Properties.DisplayFormat = ',0.00;-,0.00'
+      Properties.Nullable = False
+    end
+    object ertInt: TcxEditRepositorySpinItem
+      Properties.Alignment.Horz = taRightJustify
+      Properties.DisplayFormat = ',0'
+    end
+    object ertDate: TcxEditRepositoryDateItem
+    end
+    object ertDataTime: TcxEditRepositoryDateItem
+      Properties.Kind = ckDateTime
     end
   end
 end

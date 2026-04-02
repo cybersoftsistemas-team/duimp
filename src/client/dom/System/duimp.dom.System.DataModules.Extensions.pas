@@ -12,6 +12,11 @@ uses
   System.Classes;
 
 type
+  TDataSetExtensions = class Helper for TDataSet
+  public
+    function ToJSONStringStream: TStringStream;
+  end;
+
   TFDDatSTableExtensions = class Helper for TFDDatSTable
   public
     function IsEmpty: Boolean;
@@ -39,7 +44,16 @@ implementation
 
 uses
 {IDE}
+  DataSetConverter4D,
+  DataSetConverter4D.Impl,
   System.SysUtils;
+
+{ TDataSetExtensions }
+
+function TDataSetExtensions.ToJSONStringStream: TStringStream;
+begin
+  Result := TStringStream.Create(TConverter.New.DataSet(Self).AsJSONArray.ToJSON, TEncoding.UTF8);
+end;
 
 { TFDDatSTableExtensions }
 
