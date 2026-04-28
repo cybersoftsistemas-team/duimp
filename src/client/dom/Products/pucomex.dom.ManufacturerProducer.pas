@@ -15,7 +15,7 @@ type
   TManufacturerProducer = class(THttp, IManufacturerProducer)
   public
     constructor Create(const AAuthenticator: IAuthenticator);
-    procedure Post(const ABody: TStream; const AResponseEvent: TLVResponseEvent = nil);
+    procedure Post(const AcpfCnpjRaiz: string; const ABody: TStream; const AResponseEvent: TLVResponseEvent = nil);
   end;
 
 implementation
@@ -32,9 +32,9 @@ begin
   Authenticator := AAuthenticator;
 end;
 
-procedure TManufacturerProducer.Post(const ABody: TStream; const AResponseEvent: TLVResponseEvent);
+procedure TManufacturerProducer.Post(const AcpfCnpjRaiz: string; const ABody: TStream; const AResponseEvent: TLVResponseEvent);
 begin
-  DoPost('catp/api/ext/fabricante', ABody,
+  DoPost(Concat('catp/api/ext/fabricante/', AcpfCnpjRaiz), ABody,
     procedure(const AResponseContent: TStringStream; const AResponseCode: Integer)
     begin
       if Assigned(AResponseEvent) then

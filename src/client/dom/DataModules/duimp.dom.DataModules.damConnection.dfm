@@ -14,7 +14,7 @@ inherited damConnection: TdamConnection
   end
   object DBCliente: TFDConnection
     Params.Strings = (
-      'Database=Cybersoft_Pradotex2'
+      'Database=Cybersoft_Rotta'
       'Server=SERVER-DADOS'
       'User_Name=sa'
       'Password=cybersoft@123'

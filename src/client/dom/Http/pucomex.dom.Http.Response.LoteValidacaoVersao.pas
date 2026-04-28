@@ -44,16 +44,13 @@ begin
 end;
 
 procedure TLVVResponse.SetContent(const ADataString: string);
-var
-  I: Integer;
-  LData: TJSONArray;
 begin
-  LData := TJSONObject.ParseJSONValue(ADataString) as TJSONArray;
+  var LData := TJSONObject.ParseJSONValue(ADataString) as TJSONArray;
   try
     if Assigned(LData) then
     begin
       FContent := TObjectList<TLoteValidacaoVersaoDTO>.Create;
-      for I := 0 to Pred(LData.Count) do
+      for var I := 0 to Pred(LData.Count) do
       begin
         FContent.Add(TJson.JsonToObject<TLoteValidacaoVersaoDTO>(LData.Items[I].ToJSON));
       end;
