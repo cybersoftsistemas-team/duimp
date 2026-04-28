@@ -18,7 +18,7 @@ type
     constructor Create(const AAuthenticator: IAuthenticator);
     procedure GetByID(const ACodigo: string; const ACpfCnpjRaiz: string; const ACodigoPais: string; const AResponseEvent: TOEIResponseEvent);
     procedure Get(const ANome: string; const ACpfCnpjRaiz: string; const ACodigoPais: string; const AResponseEvent: TOEIResponseEvent);
-    procedure Post(const ABody: TStream; const AResponseEvent: TLVVResponseEvent);
+    procedure Post(const ABody: TStream; const ACpfCnpjRaiz: string; const ACodigoPais: string; const AResponseEvent: TLVVResponseEvent);
   end;
 
 implementation
@@ -70,9 +70,11 @@ begin
     end);
 end;
 
-procedure TForeignOperators.Post(const ABody: TStream; const AResponseEvent: TLVVResponseEvent);
+procedure TForeignOperators.Post(const ABody: TStream; const ACpfCnpjRaiz: string; const ACodigoPais: string; const AResponseEvent: TLVVResponseEvent);
 begin
+//  var LParams := '/' + ACpfCnpjRaiz + '/' + ACodigoPais;
   DoPost('catp/api/ext/operador-estrangeiro', ABody,
+//  DoPost(Concat('catp/api/ext/operador-estrangeiro' + LParams), ABody,
     procedure(const AResponseContent: TStringStream; const AResponseCode: Integer)
     begin
       AResponseEvent(TLVVResponse.Create(AResponseContent.DataString, AResponseCode));
