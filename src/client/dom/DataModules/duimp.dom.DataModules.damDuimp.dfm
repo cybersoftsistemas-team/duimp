@@ -1440,13 +1440,13 @@ inherited damDuimp: TdamDuimp
       ',ViaTransporteDescricao = VIT.Descricao'
       'FROM duimp.cargas AS DCG'
       'JOIN FreteSeguro AS CFS'
-      #9'ON DCG.Id = CFS.VersaoId'
-      'JOIN duimp.cargas_tipos AS DCT'
-      #9'ON DCT.Id = DCG.IdentificacaoCargaTipo'
-      'JOIN Cybersoft_Cadastros.dbo.ViaTransporte AS VIT'
-      #9'ON VIT.Codigo = DCT.ViaTransporteCodigo'
+      #9'ON DCG.Id = CFS.VersaoId  '
       'JOIN DuimpCapas AS DCP'
       #9'ON DCP.VersaoId = DCG.Id'
+      'LEFT JOIN duimp.cargas_tipos AS DCT'
+      #9'ON DCT.Id = DCG.IdentificacaoCargaTipo'
+      'LEFT JOIN Cybersoft_Cadastros.dbo.ViaTransporte AS VIT'
+      #9'ON VIT.Codigo = DCT.ViaTransporteCodigo'
       'WHERE DCG.Id = @VersaoId;')
     Left = 24
     Top = 335
@@ -1473,7 +1473,6 @@ inherited damDuimp: TdamDuimp
     object qryDCGIdentificacaoCargaTipo: TStringField
       FieldName = 'IdentificacaoCargaTipo'
       Origin = 'IdentificacaoCargaTipo'
-      Required = True
       Size = 3
     end
     object qryDCGFreteMoedaNegociadaCodigo: TIntegerField
@@ -1996,7 +1995,8 @@ inherited damDuimp: TdamDuimp
           '@UpdateASVCouver'
           '@UpdateFCVCouver'
           '@UpdateFSVCouver'
-          '@UpdateVADCouver')
+          '@UpdateVADCouver'
+          '@carga_valor_frete_seguro')
       end
       item
         Name = 'Valuation'
@@ -2439,12 +2439,11 @@ inherited damDuimp: TdamDuimp
           'WITH Dolar AS ('
           #9'SELECT VersaoId = Id'
           
-            #9',MoedaValorCotacao = duimp.ValorCotacao(SUM(ValorTotalLocalEmba' +
-            'rqueBRL), NULLIF(SUM(ValorTotalLocalEmbarqueUSD), 1))'
+            #9',MoedaValorCotacao = duimp.ValorCotacao(ValorTotalLocalEmbarque' +
+            'BRL, NULLIF(ValorTotalLocalEmbarqueUSD, 1))'
           #9',MoedaSimbolo = '#39'USD'#39
           #9'FROM duimp.capas'
           #9'WHERE Id = @VersaoId'
-          #9'GROUP BY Id'
           ')'
           ',Cotacao AS ('
           
@@ -2851,6 +2850,72 @@ inherited damDuimp: TdamDuimp
           #9'ON VAD.VersaoId = DUC.Id;'
           ''
           'DROP TABLE #ValoracaoAduaneira;')
+      end
+      item
+        Name = 'carga_valor_frete_seguro'
+        SQL.Strings = (
+          'DECLARE @VersaoId UNIQUEIDENTIFIER = :VersaoId;'
+          ''
+          'WITH Dolar AS ('
+          #9'SELECT VersaoId = Id'
+          
+            #9',MoedaValorCotacao = duimp.ValorCotacao(ValorTotalLocalEmbarque' +
+            'BRL, NULLIF(ValorTotalLocalEmbarqueUSD, 1))'
+          #9',MoedaSimbolo = '#39'USD'#39
+          #9'FROM duimp.capas'
+          #9'WHERE Id = @VersaoId'
+          '),'
+          'FreteSeguro AS ('
+          '    SELECT VersaoId'
+          '    ,TotalFreteBRL = SUM(CondicaoVendaValorFreteBRL)'
+          '    ,TotalSeguroBRL = SUM(CondicaoVendaValorSeguroBRL)'
+          '    FROM duimp.capas_itens'
+          '    WHERE VersaoId = @VersaoId'
+          '    GROUP BY VersaoId'
+          '),'
+          'ValoresConvertidos AS ('
+          '    SELECT FS.VersaoId'
+          '    ,FreteMoedaNegociadaValor ='
+          
+            '       ROUND(duimp.ValorCotacao(FS.TotalFreteBRL, NULLIF(DL.Moed' +
+            'aValorCotacao, 1)), 2)'
+          '    ,SeguroMoedaNegociadaValor ='
+          
+            '       ROUND(duimp.ValorCotacao(FS.TotalSeguroBRL, NULLIF(DL.Moe' +
+            'daValorCotacao, 1)), 2)'
+          '    FROM FreteSeguro FS'
+          '    INNER JOIN Dolar DL'
+          '      ON DL.VersaoId = FS.VersaoId'
+          ')'
+          'UPDATE C'
+          'SET FreteMoedaNegociadaSimbolo ='
+          '   IIF('
+          '     C.IdentificacaoCargaTipo IS NULL,'
+          '       IIF(VC.FreteMoedaNegociadaValor > 0, DL.MoedaSimbolo, '#39#39')'
+          '    ,C.FreteMoedaNegociadaSimbolo)'
+          ',FreteMoedaNegociadaValor ='
+          '   IIF('
+          '     C.IdentificacaoCargaTipo IS NULL,'
+          '     ISNULL(VC.FreteMoedaNegociadaValor, 0),'
+          '     C.FreteMoedaNegociadaValor)'
+          ',SeguroMoedaNegociadaSimbolo ='
+          '   IIF('
+          '     C.IdentificacaoCargaTipo IS NULL,'
+          
+            '       IIF(VC.SeguroMoedaNegociadaValor > 0, DL.MoedaSimbolo, '#39#39 +
+            ')'
+          '    ,C.SeguroMoedaNegociadaSimbolo)'
+          ',SeguroMoedaNegociadaValor ='
+          '   IIF('
+          '     C.IdentificacaoCargaTipo IS NULL,'
+          '     ISNULL(VC.SeguroMoedaNegociadaValor, 0),'
+          '     C.SeguroMoedaNegociadaValor)'
+          'FROM duimp.cargas C'
+          'LEFT JOIN Dolar DL'
+          '  ON DL.VersaoId = C.Id'
+          'LEFT JOIN ValoresConvertidos VC'
+          '  ON VC.VersaoId = C.Id'
+          'WHERE C.Id = @VersaoId;')
       end>
     Connection = damConnection.DBCliente
     ScriptOptions.BreakOnError = True

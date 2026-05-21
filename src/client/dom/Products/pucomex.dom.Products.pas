@@ -27,7 +27,7 @@ type
     destructor Destroy; override;
     procedure GetByID(const ACodigo: Integer; const AVersao: Integer; const ACpfCnpjRaiz: string;
       const AResponseEvent: TProductResponseEvent);
-    procedure Post(const ABody: TStream; const AResponseEvent: TLVVResponseEvent);
+    procedure Post(const ACpfCnpjRaiz: string; const ABody: TStream; const AResponseEvent: TProductResponseEvent);
     property ForeignOperators: IForeignOperators read GetForeignOperators;
     property ManufacturerProducer: IManufacturerProducer read GetManufacturerProducer;
   end;
@@ -68,12 +68,10 @@ begin
   LParams := Concat(ACpfCnpjRaiz, '/', ACodigo.ToString, '/', AVersao.ToString);
   DoGet(Concat('catp/api/ext/produto/', LParams),
     procedure(const AResponseContent: TStringStream; const AResponseCode: Integer)
-    var
-      LResponse: TProductResponse;
     begin
       if AResponseCode = 200 then
       begin
-        LResponse := TProductResponse.Create(AResponseContent.DataString, AResponseCode);
+        var LResponse := TProductResponse.Create(AResponseContent.DataString, AResponseCode);
         try
           AResponseEvent(LResponse);
         finally
@@ -93,14 +91,12 @@ begin
   Result := FManufacturerProducer;
 end;
 
-procedure TProducts.Post(const ABody: TStream; const AResponseEvent: TLVVResponseEvent);
+procedure TProducts.Post(const ACpfCnpjRaiz: string; const ABody: TStream; const AResponseEvent: TProductResponseEvent);
 begin
-  DoPost('catp/api/ext/produto', ABody,
+  DoPost(Concat('catp/api/ext/produto/', ACpfCnpjRaiz), ABody,
     procedure(const AResponseContent: TStringStream; const AResponseCode: Integer)
-    var
-      LResponse: TLVVResponse;
     begin
-      LResponse := TLVVResponse.Create(AResponseContent.DataString, AResponseCode);
+      var LResponse := TProductResponse.Create(AResponseContent.DataString, AResponseCode);
       try
         AResponseEvent(LResponse);
       finally

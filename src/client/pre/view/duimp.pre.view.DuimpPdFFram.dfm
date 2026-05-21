@@ -21,7 +21,7 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
       ParentBackground = False
       ParentColor = False
       TabOrder = 1
-      Properties.ActivePage = tshProducts
+      Properties.ActivePage = tshDuimp
       Properties.CustomButtons.Buttons = <>
       ClientRectBottom = 781
       ClientRectLeft = 2
@@ -30,10 +30,6 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
       object tshDuimp: TcxTabSheet
         Caption = 'Duimp (Vers'#227'o: 0)'
         ImageIndex = 0
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
         object lclDUI: TdxLayoutControl
           Left = 0
           Top = 0
@@ -62,10 +58,6 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
             object tshDuimpCouver: TcxTabSheet
               Caption = 'Capa'
               ImageIndex = 0
-              ExplicitLeft = 0
-              ExplicitTop = 0
-              ExplicitWidth = 0
-              ExplicitHeight = 0
               object lclDuimp: TdxLayoutControl
                 Left = 0
                 Top = 0
@@ -1718,10 +1710,6 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
             object tshGoods: TcxTabSheet
               Caption = 'Mercadorias (0)'
               ImageIndex = 1
-              ExplicitLeft = 0
-              ExplicitTop = 0
-              ExplicitWidth = 0
-              ExplicitHeight = 0
               object lclGoods: TdxLayoutControl
                 Left = 0
                 Top = 0
@@ -1750,10 +1738,6 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                   object tshDCI: TcxTabSheet
                     Caption = 'Mercadoria'
                     ImageIndex = 0
-                    ExplicitLeft = 0
-                    ExplicitTop = 0
-                    ExplicitWidth = 0
-                    ExplicitHeight = 0
                     object dxLayoutControl1: TdxLayoutControl
                       Left = 0
                       Top = 0
@@ -2605,10 +2589,6 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                   object tshTRI: TcxTabSheet
                     Caption = 'Tributos'
                     ImageIndex = 1
-                    ExplicitLeft = 0
-                    ExplicitTop = 0
-                    ExplicitWidth = 0
-                    ExplicitHeight = 0
                     object dxLayoutControl2: TdxLayoutControl
                       Left = 0
                       Top = 0
@@ -3073,10 +3053,6 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                   object tshCamex: TcxTabSheet
                     Caption = 'Camex'
                     ImageIndex = 2
-                    ExplicitLeft = 0
-                    ExplicitTop = 0
-                    ExplicitWidth = 0
-                    ExplicitHeight = 0
                     object lclCamex: TdxLayoutControl
                       Left = 0
                       Top = 0
@@ -3193,10 +3169,6 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                   object tshDUM: TcxTabSheet
                     Caption = 'Dumping'
                     ImageIndex = 3
-                    ExplicitLeft = 0
-                    ExplicitTop = 0
-                    ExplicitWidth = 0
-                    ExplicitHeight = 0
                     object lclDUM: TdxLayoutControl
                       Left = 0
                       Top = 0
@@ -3310,10 +3282,6 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                   object tshEF: TcxTabSheet
                     Caption = 'Exportador / Fabricante'
                     ImageIndex = 4
-                    ExplicitLeft = 0
-                    ExplicitTop = 0
-                    ExplicitWidth = 0
-                    ExplicitHeight = 0
                     object lclEF: TdxLayoutControl
                       Left = 0
                       Top = 0
@@ -4050,10 +4018,6 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
             object tshDPG: TcxTabSheet
               Caption = 'Pagamentos (0)'
               ImageIndex = 3
-              ExplicitLeft = 0
-              ExplicitTop = 0
-              ExplicitWidth = 0
-              ExplicitHeight = 0
               object lclDPG: TdxLayoutControl
                 Left = 0
                 Top = 0
@@ -4201,10 +4165,6 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
             object tshExpFab: TcxTabSheet
               Caption = 'Exportadores / Fabricantes'
               ImageIndex = 4
-              ExplicitLeft = 0
-              ExplicitTop = 0
-              ExplicitWidth = 0
-              ExplicitHeight = 0
               object lclFornFabric: TdxLayoutControl
                 Left = 0
                 Top = 0
@@ -4407,10 +4367,6 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
             object tshInfCompl: TcxTabSheet
               Caption = 'Informa'#231#227'o Complementar'
               ImageIndex = 2
-              ExplicitLeft = 0
-              ExplicitTop = 0
-              ExplicitWidth = 0
-              ExplicitHeight = 0
               object lclIFC: TdxLayoutControl
                 Left = 0
                 Top = 0
@@ -4564,6 +4520,7 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
       object tshProducts: TcxTabSheet
         Caption = 'Produtos'
         ImageIndex = 1
+        TabVisible = False
         object lclProducts: TdxLayoutControl
           Left = 0
           Top = 0
@@ -4846,7 +4803,7 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                   ParentBackground = False
                   ParentColor = False
                   TabOrder = 3
-                  Properties.ActivePage = tshAtts
+                  Properties.ActivePage = tshManufacturerOrProducer
                   Properties.CustomButtons.Buttons = <>
                   LookAndFeel.NativeStyle = False
                   LookAndFeel.SkinName = 'Office2019Colorful'
@@ -5021,10 +4978,6 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                   object tshManufacturerOrProducer: TcxTabSheet
                     Caption = 'Fabricantes/Produtores'
                     ImageIndex = 1
-                    ExplicitLeft = 0
-                    ExplicitTop = 0
-                    ExplicitWidth = 0
-                    ExplicitHeight = 0
                     object lclManufacturerOrProducer: TdxLayoutControl
                       Left = 0
                       Top = 0
@@ -5080,6 +5033,7 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                         Left = 600
                         Top = 52
                         DataBinding.DataField = 'codigo'
+                        DataBinding.DataSource = damProducts.dsoFAB
                         Properties.ReadOnly = True
                         Style.HotTrack = False
                         Style.LookAndFeel.NativeStyle = False
@@ -5100,6 +5054,7 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                         Left = 600
                         Top = 80
                         DataBinding.DataField = 'nome'
+                        DataBinding.DataSource = damProducts.dsoFAB
                         Properties.ReadOnly = True
                         Style.HotTrack = False
                         Style.LookAndFeel.NativeStyle = False
@@ -5141,6 +5096,7 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                         Left = 600
                         Top = 108
                         DataBinding.DataField = 'email'
+                        DataBinding.DataSource = damProducts.dsoFAB
                         Properties.ReadOnly = True
                         Style.HotTrack = False
                         Style.LookAndFeel.NativeStyle = False
@@ -5182,6 +5138,7 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                         Left = 655
                         Top = 176
                         DataBinding.DataField = 'logradouro'
+                        DataBinding.DataSource = damProducts.dsoFAB
                         Properties.ReadOnly = True
                         Style.HotTrack = False
                         Style.LookAndFeel.NativeStyle = False
@@ -5223,6 +5180,7 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                         Left = 911
                         Top = 176
                         DataBinding.DataField = 'nomeCidade'
+                        DataBinding.DataSource = damProducts.dsoFAB
                         Properties.ReadOnly = True
                         Style.HotTrack = False
                         Style.LookAndFeel.NativeStyle = False
@@ -5285,6 +5243,7 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                         Left = 655
                         Top = 204
                         DataBinding.DataField = 'cep'
+                        DataBinding.DataSource = damProducts.dsoFAB
                         Properties.ReadOnly = True
                         Style.HotTrack = False
                         Style.LookAndFeel.NativeStyle = False
@@ -5305,6 +5264,7 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                         Left = 655
                         Top = 232
                         DataBinding.DataField = 'codigoPais'
+                        DataBinding.DataSource = damProducts.dsoFAB
                         Properties.ReadOnly = True
                         Style.HotTrack = False
                         Style.LookAndFeel.NativeStyle = False
@@ -5348,6 +5308,7 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                         Left = 655
                         Top = 260
                         DataBinding.DataField = 'codigoDuimp'
+                        DataBinding.DataSource = damProducts.dsoFAB
                         Properties.ReadOnly = True
                         Style.HotTrack = False
                         Style.LookAndFeel.NativeStyle = False

@@ -854,6 +854,7 @@ begin
   tshProductExportList.Caption := Format('Lista de Produtos para Exportar (%s)', [FormatCurr('0,', FdamProducts.qryEPR.RecordCount)]);
   actSaveAttr.Enabled := (FdamProducts.qryATT.State in dsEditModes) or (FdamProducts.qryATT.ChangeCount > 0);
   actCancelAttr.Enabled := actSaveAttr.Enabled;
+  actExportProducts.Enabled := not FdamProducts.qryEPR.IsEmpty;
 end;
 
 procedure TfraDuimpPageDef.DataChange(Sender: TObject; Field: TField);
@@ -1205,7 +1206,6 @@ procedure TfraDuimpPageDef.grdEProductsDBTableViewSelectionChanged(Sender:
     TcxCustomGridTableView);
 begin
   actDoNotProductExport.Enabled := Sender.Controller.SelectedRecordCount > 0;
-  actExportProducts.Enabled := actDoNotProductExport.Enabled;
 end;
 
 procedure TfraDuimpPageDef.grdProductsDBTableViewSelectionChanged(Sender:
@@ -1240,7 +1240,7 @@ begin
   if (FdamProducts.qryATT.ChangeCount > 0) and
     (Application.MessageBox('Deseja salvar as alterações feita nos valores dos atributos?', 'Confirmação', MB_YESNO or MB_ICONQUESTION or MB_DEFBUTTON1) = mrYes) then
   begin
-
+    actSaveAttr.Execute;
   end;
 end;
 

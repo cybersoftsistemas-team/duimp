@@ -27,7 +27,7 @@ type
     function GetManufacturerProducer: IManufacturerProducer;
     procedure GetByID(const ACodigo: Integer; const AVersao: Integer; const ACpfCnpjRaiz: string;
       const AResponseEvent: TProductResponseEvent);
-    procedure Post(const ABody: TStream; const AResponseEvent: TLVVResponseEvent);
+    procedure Post(const ACpfCnpjRaiz: string; const ABody: TStream; const AResponseEvent: TProductResponseEvent);
     property ForeignOperators: IForeignOperators read GetForeignOperators;
     property ManufacturerProducer: IManufacturerProducer read GetManufacturerProducer;
   end;
