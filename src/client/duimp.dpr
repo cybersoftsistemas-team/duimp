@@ -93,9 +93,7 @@ uses
   duimp.dom.DataModules.damProducts in 'dom\DataModules\duimp.dom.DataModules.damProducts.pas' {damProducts: TDataModule},
   _2026_03_11_00000001_create_duimp_export_products_table in 'inf\Database\Migrations\_2026_03_11_00000001_create_duimp_export_products_table.pas',
   duimp.pre.view.ProdAttDomsDialogForm in 'pre\view\duimp.pre.view.ProdAttDomsDialogForm.pas' {frmProdAttDomsDialog: TdxFluentDesignForm},
-  _2026_05_20_00000001_alter_table_duimp_cargas_identificacao_carga_tipo_not_null_column in 'inf\Database\Migrations\_2026_05_20_00000001_alter_table_duimp_cargas_identificacao_carga_tipo_not_null_column.pas',
-  _2026_05_20_00000002_alter_table_duimp_cargas_frete_moeda_negociada_simbolo_default_value_column in 'inf\Database\Migrations\_2026_05_20_00000002_alter_table_duimp_cargas_frete_moeda_negociada_simbolo_default_value_column.pas',
-  _2026_05_20_00000003_alter_table_duimp_cargas_seguro_moeda_negociada_simbolo_default_value_column in 'inf\Database\Migrations\_2026_05_20_00000003_alter_table_duimp_cargas_seguro_moeda_negociada_simbolo_default_value_column.pas';
+  _2026_05_20_00000001_alter_table_duimp_cargas_identificacao_carga_tipo_not_null_column in 'inf\Database\Migrations\_2026_05_20_00000001_alter_table_duimp_cargas_identificacao_carga_tipo_not_null_column.pas';
 
 {$R *.res}
 
