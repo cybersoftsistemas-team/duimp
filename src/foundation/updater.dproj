@@ -4,7 +4,7 @@
         <ProjectVersion>20.3</ProjectVersion>
         <FrameworkType>VCL</FrameworkType>
         <Base>True</Base>
-        <Config Condition="'$(Config)'==''">VCL</Config>
+        <Config Condition="'$(Config)'==''">deVCL</Config>
         <Platform Condition="'$(Platform)'==''">Win32</Platform>
         <ProjectName Condition="'$(ProjectName)'==''">updater</ProjectName>
         <TargetedPlatforms>3</TargetedPlatforms>
