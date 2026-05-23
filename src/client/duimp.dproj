@@ -1327,7 +1327,8 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <PreBuildEventIgnoreExitCode>False</PreBuildEventIgnoreExitCode>
         <PreLinkEvent/>
         <PreLinkEventIgnoreExitCode>False</PreLinkEventIgnoreExitCode>
-        <PostBuildEvent>xcopy /Y /S &quot;..\..\deploy\*&quot; &quot;..\..\build\$(Platform)\$(Config)&quot;</PostBuildEvent>
+        <PostBuildEvent>xcopy /Y /S &quot;..\..\deploy\*&quot; &quot;..\..\build\$(Platform)\$(Config)&quot;
+</PostBuildEvent>
         <PostBuildEventIgnoreExitCode>False</PostBuildEventIgnoreExitCode>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Config)'=='VCL' And '$(Platform)'=='Win32'">
@@ -1335,7 +1336,8 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <PreBuildEventIgnoreExitCode>False</PreBuildEventIgnoreExitCode>
         <PreLinkEvent/>
         <PreLinkEventIgnoreExitCode>False</PreLinkEventIgnoreExitCode>
-        <PostBuildEvent>xcopy /Y /S &quot;..\..\deploy\*&quot; &quot;..\..\build\$(Platform)\$(Config)&quot;</PostBuildEvent>
+        <PostBuildEvent>xcopy /Y /S &quot;..\..\deploy\*&quot; &quot;..\..\build\$(Platform)\$(Config)&quot;
+</PostBuildEvent>
         <PostBuildEventIgnoreExitCode>False</PostBuildEventIgnoreExitCode>
     </PropertyGroup>
 </Project>

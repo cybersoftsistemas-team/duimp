@@ -135,7 +135,7 @@ type
   TBooleanFieldType = (bfUnknown, bfBoolean, bfInteger);
 
 resourcestring
-  ERROR_PRODUCT_REGISTERED = 'Já existe produto idêntico cadastrado. Código:';
+  ERROR_PRODUCT_REGISTERED = 'JÃƒÂ¡ existe produto idÃƒÂªntico cadastrado. CÃƒÂ³digo:';
 
 function CreateProductList: IProductList;
 begin
@@ -296,7 +296,7 @@ begin
               begin
                 Result.AddPair(LKey, TJSONTrue.Create);
               end
-              else if SameText(ADataSet.Fields[I].AsWideString, 'NÃO') then
+              else if SameText(ADataSet.Fields[I].AsWideString, 'NÃƒÂƒO') then
               begin
                 Result.AddPair(LKey, TJSONFalse.Create);
               end
@@ -504,7 +504,7 @@ begin
             if qryFABlogradouro.AsString.Trim.IsEmpty then
               raise Exception.CreateFmt('Declare um logradouro para o fabricante %s.', [qryFABNome.AsString]);
             if qryFABcodigoPais.AsString.Trim.IsEmpty then
-              raise Exception.CreateFmt('Declare a sigla de país para o fabricante %s.', [qryFABNome.AsString]);
+              raise Exception.CreateFmt('Declare a sigla de paÃ­s para o fabricante %s.', [qryFABNome.AsString]);
             var LProductExists := LProDST.FieldByName('CodigoProduto').AsInteger > 0;
             if LProductExists then
             begin
