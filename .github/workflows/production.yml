@@ -7,7 +7,7 @@ on:
   pull_request:
     branches:
       - main
-    types: [opened, edited, synchronize, reopened]
+    types: [opened, edited, synchronize, reopened, closed]
  
 permissions:
   contents: write
@@ -108,17 +108,15 @@ jobs:
           echo "release_tag=$installerName" >> $env:GITHUB_OUTPUT
 
       - name: Deploy to Production
-        shell: powershell
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.tag.outputs.release_tag }}
+          name: "Release Production - ${{ steps.get_installer.outputs.installer_name }}"
+          draft: false
+          prerelease: false
+          files: ${{ steps.get_installer.outputs.installer_path }}
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          $tag = "${{ steps.tag.outputs.release_tag }}"
-          $name = "Release Production - ${{ steps.get_installer.outputs.installer_name }}"
-          $file = "${{ steps.get_installer.outputs.installer_path }}"
-
-          gh release create $tag `
-            --title $name `
-            $file
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Save Version Information
         shell: powershell
@@ -174,7 +172,7 @@ jobs:
           $ftpUrl = "ftp://${{ secrets.FTP_HOST }}:${{ secrets.FTP_PORT }}/duimp/updates/manifest.json"
           $wc = New-Object System.Net.WebClient
           $wc.Credentials = New-Object System.Net.NetworkCredential("${{ secrets.FTP_USER }}","${{ secrets.FTP_PASS }}")
-          $wc.UploadFile($ftpUrl, "STOR", "installers\manifest.json")
+          $wc.UploadFile($ftpUrl, "installers\manifest.json")
 
       - name: Notify Release in Issue
         shell: powershell
