@@ -25,8 +25,8 @@ type
   public
     constructor Create(const AAuthenticator: IAuthenticator);
     destructor Destroy; override;
-    procedure GetByID(const ACodigo: Integer; const AVersao: Integer; const ACpfCnpjRaiz: string;
-      const AResponseEvent: TProductResponseEvent);
+    procedure GetByID(const ACodigo: Integer; const ACpfCnpjRaiz: string; const AResponseEvent: TProductResponseEvent); overload;
+    procedure GetByID(const ACodigo: Integer; const AVersao: Integer; const ACpfCnpjRaiz: string; const AResponseEvent: TProductResponseEvent); overload;
     procedure Post(const ACpfCnpjRaiz: string; const ABody: TStream; const AResponseEvent: TProductResponseEvent);
     property ForeignOperators: IForeignOperators read GetForeignOperators;
     property ManufacturerProducer: IManufacturerProducer read GetManufacturerProducer;
@@ -59,6 +59,24 @@ begin
   FForeignOperators := nil;
   FManufacturerProducer := nil;
   inherited;
+end;
+
+procedure TProducts.GetByID(const ACodigo: Integer; const ACpfCnpjRaiz: string; const AResponseEvent: TProductResponseEvent);
+begin
+  var LParams := 'codigo=' + ACodigo.ToString + '&cpfCnpjRaiz=' + ACpfCnpjRaiz;
+  DoGet('catp/api/ext/produto', LParams,
+    procedure(const AResponseContent: TStringStream; const AResponseCode: Integer)
+    begin
+      if AResponseCode = 200 then
+      begin
+        var LResponse := TProductResponse.Create(AResponseContent.DataString, AResponseCode);
+        try
+          AResponseEvent(LResponse);
+        finally
+          FreeAndNil(LResponse);
+        end;
+      end;
+    end);
 end;
 
 procedure TProducts.GetByID(const ACodigo: Integer; const AVersao: Integer; const ACpfCnpjRaiz: string; const AResponseEvent: TProductResponseEvent);

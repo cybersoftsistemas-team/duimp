@@ -42,18 +42,23 @@ begin
 end;
 
 procedure TProductResponse.SetContent(const ADataString: string);
-var
-  LData: TJSONObject;
 begin
-  inherited;
-  LData := TJSONObject.ParseJSONValue(ADataString) as TJSONObject;
+  var LValue := TJSONObject.ParseJSONValue(ADataString);
+  if not Assigned(LValue) then
+    Exit;
   try
-    if Assigned(LData) then
+    if LValue is TJSONObject then
     begin
-      FContent := TJson.JsonToObject<TProdutoIntegracaoDTO>(LData);
+      var LObject := TJSONObject.ParseJSONValue(LValue.ToJSON) as TJSONObject;
+      FContent := TJson.JsonToObject<TProdutoIntegracaoDTO>(LObject.ToJSON);
+    end
+    else if LValue is TJSONArray then
+    begin
+      var LArray := LValue as TJSONArray;
+      FContent := TJson.JsonToObject<TProdutoIntegracaoDTO>(LArray.Items[0].ToJSON);
     end;
   finally
-    FreeAndNil(LData);
+    LValue.Free;
   end;
 end;
 

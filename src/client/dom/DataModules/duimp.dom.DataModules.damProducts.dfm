@@ -1,5 +1,5 @@
 inherited damProducts: TdamProducts
-  Height = 448
+  Height = 375
   Width = 337
   object qryPRO: TFDQuery
     Connection = damConnection.DBCliente
@@ -547,111 +547,14 @@ inherited damProducts: TdamProducts
     Left = 184
     Top = 232
   end
-  object qryFOR: TFDQuery
-    IndexFieldNames = 'prodId;codigo'
-    MasterSource = dsoEPR
-    MasterFields = 'ProdId'
-    Connection = damConnection.DBCliente
-    UpdateObject = updFOR
-    SQL.Strings = (
-      'SELECT prodId = PRO.Codigo'
-      ',codigo = PRO.Fornecedor'
-      ',nome = FORN.Nome'
-      ',logradouro = FORN.Rua'
-      ',nomeCidade = FORN.Municipio'
-      ',codigoPais = PAI.Sigla'
-      ',cep = FORN.CEP'
-      ',email = FORN.Email'
-      ',codigoDuimp = FORN.Codigo_DUIMP'
-      ',cnpj = FORN.CNPJ'
-      'FROM Produtos AS PRO'
-      'INNER JOIN Fornecedores AS FORN'
-      '    ON FORN.Codigo = PRO.Fornecedor'
-      'LEFT JOIN Cybersoft_Cadastros.dbo.Paises AS PAI'
-      '    ON PAI.Codigo = FORN.Pais'
-      'WHERE PRO.Origem IN ('#39'I'#39', '#39'N'#39')'
-      'AND ISNULL(PRO.Servico, 0) = 0'
-      'AND ISNULL(PRO.Desativado, 0) = 0'
-      'AND ISNULL(PRO.NCM, '#39#39') <> '#39'00000000'#39
-      'AND PRO.Codigo = :ProdId;')
-    Left = 24
-    Top = 376
-    ParamData = <
-      item
-        Name = 'PRODID'
-        DataType = ftInteger
-        ParamType = ptInput
-        Value = Null
-      end>
-    object qryFORProdId: TIntegerField
-      Tag = 1
-      FieldName = 'prodId'
-      Origin = 'prodId'
-      Required = True
-    end
-    object qryFORCodigo: TIntegerField
-      Tag = 1
-      FieldName = 'codigo'
-      Origin = 'codigo'
-    end
-    object qryFORNome: TStringField
-      FieldName = 'nome'
-      Origin = 'nome'
-      Size = 60
-    end
-    object qryFORLogradouro: TStringField
-      FieldName = 'logradouro'
-      Origin = 'logradouro'
-      Size = 40
-    end
-    object qryFORNomeCidade: TStringField
-      FieldName = 'nomeCidade'
-      Origin = 'nomeCidade'
-    end
-    object qryFORcodigoPais: TStringField
-      Tag = 1
-      FieldName = 'codigoPais'
-      Origin = 'codigoPais'
-      FixedChar = True
-      Size = 2
-    end
-    object qryFORCep: TStringField
-      FieldName = 'cep'
-      Origin = 'cep'
-      Size = 8
-    end
-    object qryFOREmail: TStringField
-      FieldName = 'email'
-      Origin = 'email'
-      Size = 200
-    end
-    object qryFORcodigoDuimp: TStringField
-      Tag = 1
-      FieldName = 'codigoDuimp'
-      Origin = 'codigoDuimp'
-      Size = 35
-    end
-    object qryFORcnpj: TStringField
-      Tag = 1
-      FieldName = 'cnpj'
-      Origin = 'cnpj'
-      Size = 14
-    end
-  end
-  object dsoFOR: TDataSource
-    DataSet = qryFOR
-    Left = 96
-    Top = 376
-  end
   object qryFAB: TFDQuery
-    IndexFieldNames = 'prodId;codigo'
     MasterSource = dsoEPR
     MasterFields = 'ProdId'
     Connection = damConnection.DBCliente
     UpdateObject = updFAB
     SQL.Strings = (
       'SELECT prodId = PRO.Codigo'
-      ',codigo = PRO.Fabricante'
+      ',codigoInterno = PRO.Fabricante'
       ',nome = FAB.Nome'
       ',logradouro = FAB.Rua'
       ',nomeCidade = FAB.Municipio'
@@ -685,10 +588,9 @@ inherited damProducts: TdamProducts
       Origin = 'prodId'
       Required = True
     end
-    object qryFABcodigo: TIntegerField
-      Tag = 1
-      FieldName = 'codigo'
-      Origin = 'codigo'
+    object qryFABcodigoInterno: TIntegerField
+      FieldName = 'codigoInterno'
+      Origin = 'codigoInterno'
     end
     object qryFABnome: TStringField
       FieldName = 'nome'
@@ -757,15 +659,6 @@ inherited damProducts: TdamProducts
     Left = 184
     Top = 88
   end
-  object updFOR: TFDUpdateSQL
-    Connection = damConnection.DBCliente
-    ModifySQL.Strings = (
-      'UPDATE Fornecedores'
-      'SET Codigo_DUIMP = :NEW_codigoDuimp'
-      'WHERE Codigo = :OLD_Codigo')
-    Left = 184
-    Top = 376
-  end
   object mtbFPR: TFDMemTable
     FetchOptions.AssignedValues = [evMode]
     FetchOptions.Mode = fmAll
@@ -800,7 +693,7 @@ inherited damProducts: TdamProducts
     ModifySQL.Strings = (
       'UPDATE Fabricantes'
       'SET Codigo_DUIMP = :NEW_codigoDuimp'
-      'WHERE Codigo = :OLD_Codigo')
+      'WHERE Codigo = :OLD_codigoInterno')
     Left = 184
     Top = 304
   end

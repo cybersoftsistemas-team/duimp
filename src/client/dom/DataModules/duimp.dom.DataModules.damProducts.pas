@@ -49,16 +49,6 @@ type
     dsoDOM: TDataSource;
     updPAT: TFDUpdateSQL;
     qryATD: TFDQuery;
-    qryFOR: TFDQuery;
-    qryFORProdId: TIntegerField;
-    qryFORCodigo: TIntegerField;
-    qryFORNome: TStringField;
-    qryFORLogradouro: TStringField;
-    qryFORNomeCidade: TStringField;
-    qryFORCep: TStringField;
-    qryFOREmail: TStringField;
-    qryFORcodigoDuimp: TStringField;
-    dsoFOR: TDataSource;
     qryFAB: TFDQuery;
     dsoFAB: TDataSource;
     qryATTobrigatorio: TBooleanField;
@@ -67,17 +57,14 @@ type
     qryEPRcodigoProduto: TIntegerField;
     updEPR: TFDUpdateSQL;
     qryEPRNaoSincPSiscomex: TBooleanField;
-    updFOR: TFDUpdateSQL;
     mtbFPR: TFDMemTable;
     mtbFPRcpfCnpjFabricante: TStringField;
     mtbFPRConhecido: TBooleanField;
     mtbFPRCodigoOperadorEstrangeiro: TStringField;
     mtbFPRCodigoProduto: TIntegerField;
     mtbFPRCodigoPais: TStringField;
-    qryFORcnpj: TStringField;
     qryEPRmsg: TStringField;
     qryFABprodId: TIntegerField;
-    qryFABcodigo: TIntegerField;
     qryFABnome: TStringField;
     qryFABlogradouro: TStringField;
     qryFABnomeCidade: TStringField;
@@ -86,8 +73,8 @@ type
     qryFABemail: TStringField;
     qryFABcodigoDuimp: TStringField;
     qryFABcnpj: TStringField;
-    qryFORcodigoPais: TStringField;
     updFAB: TFDUpdateSQL;
+    qryFABcodigoInterno: TIntegerField;
     procedure DataModuleCreate(Sender: TObject);
     procedure qryATTvalorGetText(Sender: TField; var Text: string; DisplayText:
         Boolean);
@@ -463,38 +450,21 @@ end;
 procedure TdamProducts.LinkManufacturerOrProducer(const AProDST: TDataSet);
 begin
   try
-    if not qryFAB.IsEmpty then
-    begin
-      ForeignOperatorsUpdateRecord(
-        qryFABNome.AsString,
-        AProDST.FieldByName('cpfCnpjRaiz').AsString,
-        qryFABcodigoPais.AsString,
-        qryFABCodigoDuimp,
-        qryFAB,
-        AProDST);
-      LinkManufacturerOrProducerToProduct(
-        qryFABCodigoDuimp,
-        qryFABcnpj,
-        AProDST.FieldByName('CodigoProduto'),
-        qryFABcodigoPais);
-      ManufacturerProducer(AProDST);
-    end;
-    if not qryFOR.IsEmpty then
-    begin
-      ForeignOperatorsUpdateRecord(
-        qryFORNome.AsString,
-        AProDST.FieldByName('cpfCnpjRaiz').AsString,
-        qryFORcodigoPais.AsString,
-        qryFORCodigoDuimp,
-        qryFOR,
-        AProDST);
-      LinkManufacturerOrProducerToProduct(
-        qryFORCodigoDuimp,
-        qryFORcnpj,
-        AProDST.FieldByName('CodigoProduto'),
-        qryFORcodigoPais);
-      ManufacturerProducer(AProDST);
-    end;
+    if qryFAB.IsEmpty then
+      Exit;
+    ForeignOperatorsUpdateRecord(
+      qryFABNome.AsString,
+      AProDST.FieldByName('cpfCnpjRaiz').AsString,
+      qryFABcodigoPais.AsString,
+      qryFABCodigoDuimp,
+      qryFAB,
+      AProDST);
+    LinkManufacturerOrProducerToProduct(
+      qryFABCodigoDuimp,
+      qryFABcnpj,
+      AProDST.FieldByName('CodigoProduto'),
+      qryFABcodigoPais);
+    ManufacturerProducer(AProDST);
   except
     on E: Exception do
     begin
@@ -522,15 +492,32 @@ begin
           RemoverAtributosSemValor(LDetailDS);
           LJSonObject.AddPair('atributos', LDetailDS);
         end;
+        var LArray := TJSONArray.Create;
+        LArray.Add(LProDST.FieldByName('prodId').AsString);
+        LJSonObject.AddPair('codigosInterno', LArray);
         var LStream := TStringStream.Create(LJSonObject.ToJSON, TEncoding.UTF8);
         try
           LStream.Position := 0;
           try
-            if not qryFOR.IsEmpty and qryFORcodigoPais.AsString.Trim.IsEmpty then
-              raise Exception.CreateFmt('Declare a sigla de país para o fornecedor %s.', [qryFORNome.AsString]);
-            if not qryFAB.IsEmpty and qryFABcodigoPais.AsString.Trim.IsEmpty then
+            if qryFAB.IsEmpty then
+              raise Exception.Create('Declare um fabricante.');
+            if qryFABlogradouro.AsString.Trim.IsEmpty then
+              raise Exception.CreateFmt('Declare um logradouro para o fabricante %s.', [qryFABNome.AsString]);
+            if qryFABcodigoPais.AsString.Trim.IsEmpty then
               raise Exception.CreateFmt('Declare a sigla de país para o fabricante %s.', [qryFABNome.AsString]);
-            if LProDST.FieldByName('CodigoProduto').AsInteger = 0 then
+            var LProductExists := LProDST.FieldByName('CodigoProduto').AsInteger > 0;
+            if LProductExists then
+            begin
+              PComex.Products.GetByID(LProDST.FieldByName('CodigoProduto').AsInteger, LProDST.FieldByName('cpfCnpjRaiz').AsString,
+                procedure(const AResponse: IProductResponse)
+                  begin
+                    if AResponse.ResponseCode = 200 then
+                    begin
+                      LProductExists := Assigned(AResponse.Content);
+                    end;
+                  end);
+            end;
+            if not LProductExists then
             begin
               PComex.Products.Post(LProDST.FieldByName('cpfCnpjRaiz').AsString, LStream,
                 procedure(const AResponse: IProductResponse)
@@ -539,14 +526,11 @@ begin
                   begin
                     LProDST.Edit;
                     LProDST.FieldByName('CodigoProduto').AsInteger := AResponse.Content.Codigo;
-                    LProDST.FieldByName('NaoSincPSiscomex').AsBoolean := True;
                     LProDST.Post;
-                    LinkManufacturerOrProducer(LProDST);
                   end;
                 end);
-            end
-            else
-              LinkManufacturerOrProducer(LProDST);
+            end;
+            LinkManufacturerOrProducer(LProDST);
             LProDST.Edit;
             LProDST.FieldByName('NaoSincPSiscomex').AsBoolean := True;
             LProDST.Post;
@@ -567,8 +551,7 @@ begin
       end;
       LProDST.Next;
     end;
-    if LProDST.ChangeCount = 0 then
-      LProDST.Refresh;
+    LProDST.Refresh;
   finally
     if LProDST.BookmarkValid(LBookMark) then
     begin
@@ -597,13 +580,11 @@ begin
   qryATT.Close;
   qryDOM.Close;
   qryFAB.Close;
-  qryFOR.Close;
   qryATD.Open;
   qryEPR.Open;
   qryATT.Open;
   qryDOM.Open;
   qryFAB.Open;
-  qryFOR.Open;
 end;
 
 procedure TdamProducts.ImportAttributes(const AProducts: IProductList);
