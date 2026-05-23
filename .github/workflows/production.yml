@@ -7,7 +7,7 @@ on:
   pull_request:
     branches:
       - main
-    types: [opened, edited, synchronize, reopened, closed]
+    types: [opened, edited, synchronize, reopened]
  
 permissions:
   contents: write
@@ -38,10 +38,11 @@ jobs:
   # --------------------------------------------------------------------------------
   Build-Deploy-to-Production:
     if: github.event_name == 'push' && github.ref_name == 'main'
+    timeout-minutes: 60
     runs-on: self-hosted
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
 
@@ -107,15 +108,17 @@ jobs:
           echo "release_tag=$installerName" >> $env:GITHUB_OUTPUT
 
       - name: Deploy to Production
-        uses: softprops/action-gh-release@v2
-        with:
-          tag_name: ${{ steps.tag.outputs.release_tag }}
-          name: "Release Production - ${{ steps.get_installer.outputs.installer_name }}"
-          draft: false
-          prerelease: false
-          files: ${{ steps.get_installer.outputs.installer_path }}
+        shell: powershell
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          $tag = "${{ steps.tag.outputs.release_tag }}"
+          $name = "Release Production - ${{ steps.get_installer.outputs.installer_name }}"
+          $file = "${{ steps.get_installer.outputs.installer_path }}"
+
+          gh release create $tag `
+            --title $name `
+            $file
 
       - name: Save Version Information
         shell: powershell
@@ -171,7 +174,7 @@ jobs:
           $ftpUrl = "ftp://${{ secrets.FTP_HOST }}:${{ secrets.FTP_PORT }}/duimp/updates/manifest.json"
           $wc = New-Object System.Net.WebClient
           $wc.Credentials = New-Object System.Net.NetworkCredential("${{ secrets.FTP_USER }}","${{ secrets.FTP_PASS }}")
-          $wc.UploadFile($ftpUrl, "installers\manifest.json")
+          $wc.UploadFile($ftpUrl, "STOR", "installers\manifest.json")
 
       - name: Notify Release in Issue
         shell: powershell
