@@ -5,7 +5,7 @@
         <FrameworkType>VCL</FrameworkType>
         <MainSource>duimp.dpr</MainSource>
         <Base>True</Base>
-        <Config Condition="'$(Config)'==''">deVCL</Config>
+        <Config Condition="'$(Config)'==''">VCL</Config>
         <Platform Condition="'$(Platform)'==''">Win32</Platform>
         <TargetedPlatforms>3</TargetedPlatforms>
         <AppType>Application</AppType>
@@ -52,6 +52,12 @@
     <PropertyGroup Condition="'$(Config)'=='Release' or '$(Cfg_2)'!=''">
         <Cfg_2>true</Cfg_2>
         <CfgParent>Base</CfgParent>
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="('$(Platform)'=='Win32' and '$(Cfg_2)'=='true') or '$(Cfg_2_Win32)'!=''">
+        <Cfg_2_Win32>true</Cfg_2_Win32>
+        <CfgParent>Cfg_2</CfgParent>
+        <Cfg_2>true</Cfg_2>
         <Base>true</Base>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Config)'=='VCL' or '$(Cfg_4)'!=''">
@@ -109,10 +115,15 @@
 $(PostBuildEvent)]]></PostBuildEvent>
         <Icon_MainIcon>duimp_Icon.ico</Icon_MainIcon>
         <Debugger_RunParams>-status updated_system</Debugger_RunParams>
-        <VerInfo_Keys>CompanyName=Cybersoft Sistemas;FileDescription=Cybersoft Sistemas Duimp;FileVersion=0.0.0.0;InternalName=duimp;LegalCopyright=2025 Cybersoft Sistemas; LegalTrademarks=;OriginalFilename=duimp.exe;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=Cybersoft Duimp;ProductVersion=0.0.0.0;Comments=Aplicacao cliente para integracao com o Siscomex</VerInfo_Keys>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_3_Win64)'!=''">
         <BT_BuildType>Debug</BT_BuildType>
+        <Icon_MainIcon>duimp_Icon.ico</Icon_MainIcon>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Cfg_2_Win32)'!=''">
+        <VerInfo_MajorVer>1</VerInfo_MajorVer>
+        <VerInfo_Build>202</VerInfo_Build>
+        <VerInfo_Keys>CompanyName=Cybersoft Sistemas;FileDescription=Cybersoft Sistemas Duimp;FileVersion=1.0.0.202;InternalName=duimp;LegalCopyright=2025 Cybersoft Sistemas; LegalTrademarks=;OriginalFilename=duimp.exe;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=Cybersoft Duimp;ProductVersion=0.0.0.0;Comments=Aplicacao cliente para integracao com o Siscomex</VerInfo_Keys>
         <Icon_MainIcon>duimp_Icon.ico</Icon_MainIcon>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_4_Win32)'!=''">
@@ -291,6 +302,12 @@ $(PostBuildEvent)]]></PostBuildEvent>
             <DesignClass>TDataModule</DesignClass>
         </DCCReference>
         <DCCReference Include="inf\Database\Migrations\_2026_03_11_00000001_create_duimp_export_products_table.pas"/>
+        <DCCReference Include="pre\view\duimp.pre.view.ProdAttDomsDialogForm.pas">
+            <Form>frmProdAttDomsDialog</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TdxFluentDesignForm</DesignClass>
+        </DCCReference>
+        <DCCReference Include="inf\Database\Migrations\_2026_05_20_00000001_alter_table_duimp_cargas_identificacao_carga_tipo_not_null_column.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

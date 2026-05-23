@@ -50,22 +50,47 @@ begin
 end;
 
 procedure TOEIResponse.SetContent(const ADataString: string);
-var
-  I: Integer;
-  LData: TJSONArray;
 begin
-  LData := TJSONObject.ParseJSONValue(ADataString) as TJSONArray;
+  var LValue := TJSONObject.ParseJSONValue(ADataString);
   try
-    if Assigned(LData) then
+    if not Assigned(LValue) then
+      Exit;
+    FContent := TObjectList<TOperadorEstrangeiroIntegracaoDTO>.Create;
+    // Quando vier como objeto único
+    if LValue is TJSONObject then
     begin
-      FContent := TObjectList<TOperadorEstrangeiroIntegracaoDTO>.Create;
-      for I := 0 to Pred(LData.Count) do
+      var LArray := TJSONArray.Create;
+      try
+        // Clona o objeto para o array
+        var LObject := TJSONObject.ParseJSONValue(LValue.ToJSON) as TJSONObject;
+        LArray.AddElement(LObject);
+        for var I := 0 to Pred(LArray.Count) do
+        begin
+          FContent.Add(
+            TJson.JsonToObject<TOperadorEstrangeiroIntegracaoDTO>(
+              LArray.Items[I].ToJSON
+            )
+          );
+        end;
+      finally
+        LArray.Free;
+      end;
+    end
+    // Quando vier como array
+    else if LValue is TJSONArray then
+    begin
+      var LArray := LValue as TJSONArray;
+      for var I := 0 to Pred(LArray.Count) do
       begin
-        FContent.Add(TJson.JsonToObject<TOperadorEstrangeiroIntegracaoDTO>(LData.Items[I].ToJSON));
+        FContent.Add(
+          TJson.JsonToObject<TOperadorEstrangeiroIntegracaoDTO>(
+            LArray.Items[I].ToJSON
+          )
+        );
       end;
     end;
   finally
-    FreeAndNil(LData);
+    LValue.Free;
   end;
 end;
 

@@ -1,6 +1,6 @@
 inherited damAttrs: TdamAttrs
-  Height = 248
-  Width = 89
+  Height = 328
+  Width = 117
   object cmdNCMIns: TFDCommand
     Connection = damConnection.DBCliente
     FetchOptions.AssignedValues = [evAutoClose]
@@ -205,7 +205,7 @@ inherited damAttrs: TdamAttrs
         ParamType = ptInput
         Value = Null
       end>
-    Left = 27
+    Left = 43
     Top = 16
   end
   object cmdATSIns: TFDCommand
@@ -282,7 +282,7 @@ inherited damAttrs: TdamAttrs
         ParamType = ptInput
         Value = Null
       end>
-    Left = 27
+    Left = 43
     Top = 72
   end
   object cmdDOMIns: TFDCommand
@@ -319,7 +319,7 @@ inherited damAttrs: TdamAttrs
         ParamType = ptInput
         Value = Null
       end>
-    Left = 27
+    Left = 43
     Top = 128
   end
   object cmdNATIns: TFDCommand
@@ -351,7 +351,32 @@ inherited damAttrs: TdamAttrs
         ParamType = ptInput
         Value = Null
       end>
-    Left = 27
+    Left = 43
     Top = 184
+  end
+  object cmdNATDel: TFDCommand
+    Connection = damConnection.DBCliente
+    CommandKind = skDelete
+    CommandText.Strings = (
+      'DELETE FROM NCMAtributos'
+      'WHERE NCM = :NCM;'
+      ''
+      'DELETE FROM ProdutosAtributos'
+      'WHERE NCM = :NCM'
+      'AND NOT EXISTS('
+      '    SELECT 1'
+      '    FROM NCMAtributos'
+      '    WHERE NCMAtributos.NCM = ProdutosAtributos.NCM'
+      '    AND NCMAtributos.Atributo = ProdutosAtributos.Atributo'
+      ');')
+    ParamData = <
+      item
+        Name = 'NCM'
+        DataType = ftString
+        ParamType = ptInput
+        Value = Null
+      end>
+    Left = 40
+    Top = 256
   end
 end

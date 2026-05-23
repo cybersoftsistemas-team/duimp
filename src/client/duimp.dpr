@@ -91,7 +91,9 @@ uses
   _2026_03_05_00000010_update_table_produtos_set_naosincpsiscomex_column in 'inf\Database\Migrations\_2026_03_05_00000010_update_table_produtos_set_naosincpsiscomex_column.pas',
   _2026_03_05_00000015_create_produtos_add_codigo_duimp_naosincpsiscomex_index in 'inf\Database\Migrations\_2026_03_05_00000015_create_produtos_add_codigo_duimp_naosincpsiscomex_index.pas',
   duimp.dom.DataModules.damProducts in 'dom\DataModules\duimp.dom.DataModules.damProducts.pas' {damProducts: TDataModule},
-  _2026_03_11_00000001_create_duimp_export_products_table in 'inf\Database\Migrations\_2026_03_11_00000001_create_duimp_export_products_table.pas';
+  _2026_03_11_00000001_create_duimp_export_products_table in 'inf\Database\Migrations\_2026_03_11_00000001_create_duimp_export_products_table.pas',
+  duimp.pre.view.ProdAttDomsDialogForm in 'pre\view\duimp.pre.view.ProdAttDomsDialogForm.pas' {frmProdAttDomsDialog: TdxFluentDesignForm},
+  _2026_05_20_00000001_alter_table_duimp_cargas_identificacao_carga_tipo_not_null_column in 'inf\Database\Migrations\_2026_05_20_00000001_alter_table_duimp_cargas_identificacao_carga_tipo_not_null_column.pas';
 
 {$R *.res}
 
