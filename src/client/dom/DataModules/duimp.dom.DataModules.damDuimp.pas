@@ -1149,7 +1149,7 @@ begin
   qryProc.Open;
   qryProc.Edit;
   qryProcNumero_Declaracao.AsString := qryDUVNumero.AsString;
-  qryProcTipo.AsString := 'IMPORTA«√O';
+  qryProcTipo.AsString := 'IMPORTA√á√ÉO';
   qryProcUF_Desembaraco.AsString := qryDCRUFDesembaraco.AsString;
   qryProcUF_Importacao.AsString := qryDCRUFImportacao.AsString;
   qryProcProcesso_Mestre.AsString := qryDUIProcessoNumeroVinculado.AsString;
@@ -1807,7 +1807,7 @@ begin
     (qryDTVSelMajorado.AsFloat > 0) and
     not qryCFPis.IsEmpty and (LValue > 0) then
   begin
-    GeneratePaymentAndReceipt(qryCFPis, LValue, 'DiferenÁa de PIS importaÁ„o');
+    GeneratePaymentAndReceipt(qryCFPis, LValue, 'Diferen√ßa de PIS importa√ß√£o');
   end;
   // COFINS...
   LValue := qryProcValor_COFINS.AsFloat - qryProcValor_COFINS2.AsFloat;
@@ -1815,7 +1815,7 @@ begin
     (qryDTVSelMajorado.AsFloat > 0) and
     not qryCFCofins.IsEmpty and (LValue > 0) then
   begin
-    GeneratePaymentAndReceipt(qryCFCofins, LValue, 'DiferenÁa de COFINS importaÁ„o');
+    GeneratePaymentAndReceipt(qryCFCofins, LValue, 'Diferen√ßa de COFINS importa√ß√£o');
   end;
   // AFRMM...
   LValue := qryProcAFRMM.AsFloat;
@@ -1827,7 +1827,7 @@ begin
   LValue := qryProcTUP.AsFloat;
   if not qryCFTup.IsEmpty and (LValue > 0) then
   begin
-    GeneratePaymentAndReceipt(qryCFTup, LValue, 'Tarifa utilizaÁ„o Portu·rio (TUP)');
+    GeneratePaymentAndReceipt(qryCFTup, LValue, 'Tarifa utiliza√ß√£o Portu√°rio (TUP)');
   end;
 end;
 
@@ -2006,7 +2006,7 @@ begin
             var LDuimp := AResponse.Content;
             if not SameText(LDuimp.Identificacao.Importador.Ni, PComex.Duimp.NI_IMPORTADOR) then
             begin
-              raise Exception.CreateFmt('A empresa logada ''%s'' n„o È o importador da DUIMP ''%s''.', [
+              raise Exception.CreateFmt('A empresa logada ''%s'' n√£o √© o importador da DUIMP ''%s''.', [
                 GetCpfOrCnpfMask(PComex.Duimp.NI_IMPORTADOR), ANumer]);
             end;
             if Assigned(AFindDuimpEvent) then
@@ -2512,11 +2512,11 @@ procedure TdamDuimp.qryDADTipoGetText(Sender: TField; var Text: string; DisplayT
 begin
   if Sender.AsString = 'ACRESCIMO' then
   begin
-    Text := 'ACR…SCIMO';
+    Text := 'ACR√âSCIMO';
   end
   else if Sender.AsString = 'DEDUCAO' then
   begin
-    Text := 'DEDU«√O';
+    Text := 'DEDU√á√ÉO';
   end;
 end;
 
@@ -2568,7 +2568,7 @@ end;
 
 procedure TdamDuimp.qryDCIFreteSeguroGetText(Sender: TField; var Text: string; DisplayText: Boolean);
 begin
-  Text := if Sender.AsBoolean then 'SIM' else 'N√O';
+  Text := if Sender.AsBoolean then 'SIM' else 'N√ÉO';
 end;
 
 procedure TdamDuimp.qryDCINewRecord(DataSet: TDataSet);
