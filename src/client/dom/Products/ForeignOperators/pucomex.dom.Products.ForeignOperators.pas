@@ -18,7 +18,7 @@ type
     constructor Create(const AAuthenticator: IAuthenticator);
     procedure GetByID(const ACodigo: string; const ACpfCnpjRaiz: string; const ACodigoPais: string; const AResponseEvent: TOEIResponseEvent);
     procedure Get(const ANome: string; const ACpfCnpjRaiz: string; const ACodigoPais: string; const AResponseEvent: TOEIResponseEvent);
-    procedure Post(const ABody: TStream; const ACpfCnpjRaiz: string; const ACodigoPais: string; const AResponseEvent: TLVVResponseEvent);
+    procedure Post(const ABody: TStream; const ACpfCnpjRaiz: string; const ACodigoPais: string; const AResponseEvent: TOEIResponseEvent);
   end;
 
 implementation
@@ -42,11 +42,16 @@ procedure TForeignOperators.Get(const ANome: string; const ACpfCnpjRaiz: string;
 var
   LParams: string;
 begin
-  LParams := 'nome=' + ANome + '&cpfCnpjRaiz=' + ACpfCnpjRaiz + '&paisOrigem=' + ACodigoPais;
+  LParams := 'cpfCnpjRaiz=' + ACpfCnpjRaiz + '&nome=' + ANome + '&paisOrigem=' + ACodigoPais;
   DoGet('catp/api/ext/operador-estrangeiro', LParams,
     procedure(const AResponseContent: TStringStream; const AResponseCode: Integer)
     begin
-      AResponseEvent(TOEIResponse.Create(AResponseContent.DataString, AResponseCode));
+      var LResponse := TOEIResponse.Create(AResponseContent.DataString, AResponseCode);
+      try
+        AResponseEvent(LResponse);
+      finally
+        LResponse.Free;
+      end;
     end);
 end;
 
@@ -58,26 +63,28 @@ begin
   LParams := 'codigo=' + ACodigo + '&cpfCnpjRaiz=' + ACpfCnpjRaiz + '&paisOrigem=' + ACodigoPais;
   DoGet('catp/api/ext/operador-estrangeiro', LParams,
     procedure(const AResponseContent: TStringStream; const AResponseCode: Integer)
-    var
-      LOEI: TOEIResponse;
     begin
-      LOEI := TOEIResponse.Create(AResponseContent.DataString, AResponseCode);
+      var LResponse := TOEIResponse.Create(AResponseContent.DataString, AResponseCode);
       try
-        AResponseEvent(LOEI);
+        AResponseEvent(LResponse);
       finally
-        FreeAndNil(LOEI);
+        LResponse.Free;
       end;
     end);
 end;
 
-procedure TForeignOperators.Post(const ABody: TStream; const ACpfCnpjRaiz: string; const ACodigoPais: string; const AResponseEvent: TLVVResponseEvent);
+procedure TForeignOperators.Post(const ABody: TStream; const ACpfCnpjRaiz: string; const ACodigoPais: string; const AResponseEvent: TOEIResponseEvent);
 begin
-//  var LParams := '/' + ACpfCnpjRaiz + '/' + ACodigoPais;
-  DoPost('catp/api/ext/operador-estrangeiro', ABody,
-//  DoPost(Concat('catp/api/ext/operador-estrangeiro' + LParams), ABody,
+  var LParams := '/' + ACpfCnpjRaiz + '/' + ACodigoPais;
+  DoPost(Concat('catp/api/ext/operador-estrangeiro' + LParams), ABody,
     procedure(const AResponseContent: TStringStream; const AResponseCode: Integer)
     begin
-      AResponseEvent(TLVVResponse.Create(AResponseContent.DataString, AResponseCode));
+      var LResponse := TOEIResponse.Create(AResponseContent.DataString, AResponseCode);
+      try
+        AResponseEvent(LResponse);
+      finally
+        LResponse.Free;
+      end;
     end);
 end;
 

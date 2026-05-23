@@ -45,19 +45,19 @@ end;
 
 procedure TLVVResponse.SetContent(const ADataString: string);
 begin
-  var LData := TJSONObject.ParseJSONValue(ADataString) as TJSONArray;
-  try
-    if Assigned(LData) then
-    begin
-      FContent := TObjectList<TLoteValidacaoVersaoDTO>.Create;
-      for var I := 0 to Pred(LData.Count) do
-      begin
-        FContent.Add(TJson.JsonToObject<TLoteValidacaoVersaoDTO>(LData.Items[I].ToJSON));
-      end;
-    end;
-  finally
-    FreeAndNil(LData);
-  end;
+//  var LData := TJSONObject.ParseJSONValue(ADataString) as TJSONArray;
+//  try
+//    if Assigned(LData) then
+//    begin
+//      FContent := TObjectList<TLoteValidacaoVersaoDTO>.Create;
+//      for var I := 0 to Pred(LData.Count) do
+//      begin
+//        FContent.Add(TJson.JsonToObject<TLoteValidacaoVersaoDTO>(LData.Items[I].ToJSON));
+//      end;
+//    end;
+//  finally
+//    FreeAndNil(LData);
+//  end;
 end;
 
 end.

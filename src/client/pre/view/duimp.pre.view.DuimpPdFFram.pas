@@ -630,44 +630,25 @@ type
     tshAtts: TcxTabSheet;
     tshManufacturerOrProducer: TcxTabSheet;
     lclManufacturerOrProducer: TdxLayoutControl;
-    edtForCodigo: TcxDBTextEdit;
-    edtForNome: TcxDBTextEdit;
     cxDBTextEdit1: TcxDBTextEdit;
     cxDBTextEdit2: TcxDBTextEdit;
-    edtForEmail: TcxDBTextEdit;
     cxDBTextEdit3: TcxDBTextEdit;
-    edtForLogradouro: TcxDBTextEdit;
     cxDBTextEdit4: TcxDBTextEdit;
-    edtForCidade: TcxDBTextEdit;
     edtFabCidade: TcxDBTextEdit;
-    edtForCep: TcxDBTextEdit;
-    edtForCodigoPais: TcxDBTextEdit;
     cxDBTextEdit5: TcxDBTextEdit;
     edtFabCodigoPais: TcxDBTextEdit;
-    edtForCodigoExterno: TcxDBTextEdit;
     edtFabCodigoExterno: TcxDBTextEdit;
     dxLayoutGroup2: TdxLayoutGroup;
-    loiForCodigo: TdxLayoutItem;
-    loiForNome: TdxLayoutItem;
-    dxLayoutGroup3: TdxLayoutGroup;
     loiFabCodigo: TdxLayoutItem;
     loiFabNome: TdxLayoutItem;
     dxLayoutGroup5: TdxLayoutGroup;
-    loiForEmail: TdxLayoutItem;
     loiFabEmail: TdxLayoutItem;
-    ltgForEndereco: TdxLayoutGroup;
     dxLayoutGroup6: TdxLayoutGroup;
-    loiForLogradouro: TdxLayoutItem;
     loiFabLogradouro: TdxLayoutItem;
-    loiForCidade: TdxLayoutItem;
     loiFabCidade: TdxLayoutItem;
-    loiForCep: TdxLayoutItem;
-    dxLayoutGroup7: TdxLayoutGroup;
-    loiForCodigoPais: TdxLayoutItem;
     loiFabCep: TdxLayoutItem;
     dxLayoutAutoCreatedGroup26: TdxLayoutAutoCreatedGroup;
     loiFabCodigoPais: TdxLayoutItem;
-    loiForCodigoExterno: TdxLayoutItem;
     loiFabCodigoExterno: TdxLayoutItem;
     edrProd: TcxEditRepository;
     ertList: TcxEditRepositoryButtonItem;
@@ -854,6 +835,7 @@ begin
   tshProductExportList.Caption := Format('Lista de Produtos para Exportar (%s)', [FormatCurr('0,', FdamProducts.qryEPR.RecordCount)]);
   actSaveAttr.Enabled := (FdamProducts.qryATT.State in dsEditModes) or (FdamProducts.qryATT.ChangeCount > 0);
   actCancelAttr.Enabled := actSaveAttr.Enabled;
+  actExportProducts.Enabled := not FdamProducts.qryEPR.IsEmpty;
 end;
 
 procedure TfraDuimpPageDef.DataChange(Sender: TObject; Field: TField);
@@ -1205,7 +1187,6 @@ procedure TfraDuimpPageDef.grdEProductsDBTableViewSelectionChanged(Sender:
     TcxCustomGridTableView);
 begin
   actDoNotProductExport.Enabled := Sender.Controller.SelectedRecordCount > 0;
-  actExportProducts.Enabled := actDoNotProductExport.Enabled;
 end;
 
 procedure TfraDuimpPageDef.grdProductsDBTableViewSelectionChanged(Sender:
@@ -1240,7 +1221,7 @@ begin
   if (FdamProducts.qryATT.ChangeCount > 0) and
     (Application.MessageBox('Deseja salvar as alterações feita nos valores dos atributos?', 'Confirmação', MB_YESNO or MB_ICONQUESTION or MB_DEFBUTTON1) = mrYes) then
   begin
-
+    actSaveAttr.Execute;
   end;
 end;
 

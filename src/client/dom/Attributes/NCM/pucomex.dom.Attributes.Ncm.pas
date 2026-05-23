@@ -38,7 +38,7 @@ begin
   begin
     raise Exception.Create('É nescessário informar um número de N.C.M. para realizar a consulta.');
   end;
-  DoGet(Concat('cadatributos/api/ext/atributo-ncm/', ANcm),
+  DoGet(Concat('cadatributos/api/ext/atributo-ncm/', ANcm, '?modalidade=IMPORTACAO'),
     procedure(const AResponseContent: TStringStream; const AResponseCode: Integer)
     var
       LResponse: TNcmAttributesResponse;

@@ -359,7 +359,16 @@ inherited damAttrs: TdamAttrs
     CommandKind = skDelete
     CommandText.Strings = (
       'DELETE FROM NCMAtributos'
-      'WHERE NCM = :NCM;')
+      'WHERE NCM = :NCM;'
+      ''
+      'DELETE FROM ProdutosAtributos'
+      'WHERE NCM = :NCM'
+      'AND NOT EXISTS('
+      '    SELECT 1'
+      '    FROM NCMAtributos'
+      '    WHERE NCMAtributos.NCM = ProdutosAtributos.NCM'
+      '    AND NCMAtributos.Atributo = ProdutosAtributos.Atributo'
+      ');')
     ParamData = <
       item
         Name = 'NCM'

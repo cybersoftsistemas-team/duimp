@@ -30,10 +30,6 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
       object tshDuimp: TcxTabSheet
         Caption = 'Duimp (Vers'#227'o: 0)'
         ImageIndex = 0
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
         object lclDUI: TdxLayoutControl
           Left = 0
           Top = 0
@@ -62,10 +58,6 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
             object tshDuimpCouver: TcxTabSheet
               Caption = 'Capa'
               ImageIndex = 0
-              ExplicitLeft = 0
-              ExplicitTop = 0
-              ExplicitWidth = 0
-              ExplicitHeight = 0
               object lclDuimp: TdxLayoutControl
                 Left = 0
                 Top = 0
@@ -1718,10 +1710,6 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
             object tshGoods: TcxTabSheet
               Caption = 'Mercadorias (0)'
               ImageIndex = 1
-              ExplicitLeft = 0
-              ExplicitTop = 0
-              ExplicitWidth = 0
-              ExplicitHeight = 0
               object lclGoods: TdxLayoutControl
                 Left = 0
                 Top = 0
@@ -1750,10 +1738,6 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                   object tshDCI: TcxTabSheet
                     Caption = 'Mercadoria'
                     ImageIndex = 0
-                    ExplicitLeft = 0
-                    ExplicitTop = 0
-                    ExplicitWidth = 0
-                    ExplicitHeight = 0
                     object dxLayoutControl1: TdxLayoutControl
                       Left = 0
                       Top = 0
@@ -2605,10 +2589,6 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                   object tshTRI: TcxTabSheet
                     Caption = 'Tributos'
                     ImageIndex = 1
-                    ExplicitLeft = 0
-                    ExplicitTop = 0
-                    ExplicitWidth = 0
-                    ExplicitHeight = 0
                     object dxLayoutControl2: TdxLayoutControl
                       Left = 0
                       Top = 0
@@ -3073,10 +3053,6 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                   object tshCamex: TcxTabSheet
                     Caption = 'Camex'
                     ImageIndex = 2
-                    ExplicitLeft = 0
-                    ExplicitTop = 0
-                    ExplicitWidth = 0
-                    ExplicitHeight = 0
                     object lclCamex: TdxLayoutControl
                       Left = 0
                       Top = 0
@@ -3193,10 +3169,6 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                   object tshDUM: TcxTabSheet
                     Caption = 'Dumping'
                     ImageIndex = 3
-                    ExplicitLeft = 0
-                    ExplicitTop = 0
-                    ExplicitWidth = 0
-                    ExplicitHeight = 0
                     object lclDUM: TdxLayoutControl
                       Left = 0
                       Top = 0
@@ -3310,10 +3282,6 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                   object tshEF: TcxTabSheet
                     Caption = 'Exportador / Fabricante'
                     ImageIndex = 4
-                    ExplicitLeft = 0
-                    ExplicitTop = 0
-                    ExplicitWidth = 0
-                    ExplicitHeight = 0
                     object lclEF: TdxLayoutControl
                       Left = 0
                       Top = 0
@@ -4050,10 +4018,6 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
             object tshDPG: TcxTabSheet
               Caption = 'Pagamentos (0)'
               ImageIndex = 3
-              ExplicitLeft = 0
-              ExplicitTop = 0
-              ExplicitWidth = 0
-              ExplicitHeight = 0
               object lclDPG: TdxLayoutControl
                 Left = 0
                 Top = 0
@@ -4201,10 +4165,6 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
             object tshExpFab: TcxTabSheet
               Caption = 'Exportadores / Fabricantes'
               ImageIndex = 4
-              ExplicitLeft = 0
-              ExplicitTop = 0
-              ExplicitWidth = 0
-              ExplicitHeight = 0
               object lclFornFabric: TdxLayoutControl
                 Left = 0
                 Top = 0
@@ -4407,10 +4367,6 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
             object tshInfCompl: TcxTabSheet
               Caption = 'Informa'#231#227'o Complementar'
               ImageIndex = 2
-              ExplicitLeft = 0
-              ExplicitTop = 0
-              ExplicitWidth = 0
-              ExplicitHeight = 0
               object lclIFC: TdxLayoutControl
                 Left = 0
                 Top = 0
@@ -4580,7 +4536,7 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
             ParentBackground = False
             ParentColor = False
             TabOrder = 0
-            Properties.ActivePage = tshProductExportList
+            Properties.ActivePage = tshProductList
             Properties.CustomButtons.Buttons = <>
             OnChange = pclProductListChange
             ClientRectBottom = 730
@@ -4846,7 +4802,7 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                   ParentBackground = False
                   ParentColor = False
                   TabOrder = 3
-                  Properties.ActivePage = tshAtts
+                  Properties.ActivePage = tshManufacturerOrProducer
                   Properties.CustomButtons.Buttons = <>
                   LookAndFeel.NativeStyle = False
                   LookAndFeel.SkinName = 'Office2019Colorful'
@@ -5021,10 +4977,6 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                   object tshManufacturerOrProducer: TcxTabSheet
                     Caption = 'Fabricantes/Produtores'
                     ImageIndex = 1
-                    ExplicitLeft = 0
-                    ExplicitTop = 0
-                    ExplicitWidth = 0
-                    ExplicitHeight = 0
                     object lclManufacturerOrProducer: TdxLayoutControl
                       Left = 0
                       Top = 0
@@ -5034,11 +4986,11 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                       ParentBackground = True
                       TabOrder = 0
                       Transparent = True
-                      object edtForCodigo: TcxDBTextEdit
+                      object cxDBTextEdit1: TcxDBTextEdit
                         Left = 73
                         Top = 52
-                        DataBinding.DataField = 'codigo'
-                        DataBinding.DataSource = damProducts.dsoFOR
+                        DataBinding.DataField = 'codigoInterno'
+                        DataBinding.DataSource = damProducts.dsoFAB
                         Properties.ReadOnly = True
                         Style.HotTrack = False
                         Style.LookAndFeel.NativeStyle = False
@@ -5055,11 +5007,11 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                         TabOrder = 0
                         Width = 72
                       end
-                      object edtForNome: TcxDBTextEdit
+                      object cxDBTextEdit2: TcxDBTextEdit
                         Left = 73
                         Top = 80
                         DataBinding.DataField = 'nome'
-                        DataBinding.DataSource = damProducts.dsoFOR
+                        DataBinding.DataSource = damProducts.dsoFAB
                         Properties.ReadOnly = True
                         Style.HotTrack = False
                         Style.LookAndFeel.NativeStyle = False
@@ -5074,53 +5026,13 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                         StyleReadOnly.LookAndFeel.NativeStyle = False
                         StyleReadOnly.LookAndFeel.SkinName = 'Office2019Colorful'
                         TabOrder = 1
-                        Width = 446
+                        Width = 972
                       end
-                      object cxDBTextEdit1: TcxDBTextEdit
-                        Left = 600
-                        Top = 52
-                        DataBinding.DataField = 'codigo'
-                        Properties.ReadOnly = True
-                        Style.HotTrack = False
-                        Style.LookAndFeel.NativeStyle = False
-                        Style.LookAndFeel.SkinName = 'Office2019Colorful'
-                        Style.TransparentBorder = False
-                        StyleDisabled.LookAndFeel.NativeStyle = False
-                        StyleDisabled.LookAndFeel.SkinName = 'Office2019Colorful'
-                        StyleFocused.LookAndFeel.NativeStyle = False
-                        StyleFocused.LookAndFeel.SkinName = 'Office2019Colorful'
-                        StyleHot.LookAndFeel.NativeStyle = False
-                        StyleHot.LookAndFeel.SkinName = 'Office2019Colorful'
-                        StyleReadOnly.LookAndFeel.NativeStyle = False
-                        StyleReadOnly.LookAndFeel.SkinName = 'Office2019Colorful'
-                        TabOrder = 8
-                        Width = 72
-                      end
-                      object cxDBTextEdit2: TcxDBTextEdit
-                        Left = 600
-                        Top = 80
-                        DataBinding.DataField = 'nome'
-                        Properties.ReadOnly = True
-                        Style.HotTrack = False
-                        Style.LookAndFeel.NativeStyle = False
-                        Style.LookAndFeel.SkinName = 'Office2019Colorful'
-                        Style.TransparentBorder = False
-                        StyleDisabled.LookAndFeel.NativeStyle = False
-                        StyleDisabled.LookAndFeel.SkinName = 'Office2019Colorful'
-                        StyleFocused.LookAndFeel.NativeStyle = False
-                        StyleFocused.LookAndFeel.SkinName = 'Office2019Colorful'
-                        StyleHot.LookAndFeel.NativeStyle = False
-                        StyleHot.LookAndFeel.SkinName = 'Office2019Colorful'
-                        StyleReadOnly.LookAndFeel.NativeStyle = False
-                        StyleReadOnly.LookAndFeel.SkinName = 'Office2019Colorful'
-                        TabOrder = 9
-                        Width = 445
-                      end
-                      object edtForEmail: TcxDBTextEdit
+                      object cxDBTextEdit3: TcxDBTextEdit
                         Left = 73
                         Top = 108
                         DataBinding.DataField = 'email'
-                        DataBinding.DataSource = damProducts.dsoFOR
+                        DataBinding.DataSource = damProducts.dsoFAB
                         Properties.ReadOnly = True
                         Style.HotTrack = False
                         Style.LookAndFeel.NativeStyle = False
@@ -5135,33 +5047,13 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                         StyleReadOnly.LookAndFeel.NativeStyle = False
                         StyleReadOnly.LookAndFeel.SkinName = 'Office2019Colorful'
                         TabOrder = 2
-                        Width = 446
+                        Width = 972
                       end
-                      object cxDBTextEdit3: TcxDBTextEdit
-                        Left = 600
-                        Top = 108
-                        DataBinding.DataField = 'email'
-                        Properties.ReadOnly = True
-                        Style.HotTrack = False
-                        Style.LookAndFeel.NativeStyle = False
-                        Style.LookAndFeel.SkinName = 'Office2019Colorful'
-                        Style.TransparentBorder = False
-                        StyleDisabled.LookAndFeel.NativeStyle = False
-                        StyleDisabled.LookAndFeel.SkinName = 'Office2019Colorful'
-                        StyleFocused.LookAndFeel.NativeStyle = False
-                        StyleFocused.LookAndFeel.SkinName = 'Office2019Colorful'
-                        StyleHot.LookAndFeel.NativeStyle = False
-                        StyleHot.LookAndFeel.SkinName = 'Office2019Colorful'
-                        StyleReadOnly.LookAndFeel.NativeStyle = False
-                        StyleReadOnly.LookAndFeel.SkinName = 'Office2019Colorful'
-                        TabOrder = 10
-                        Width = 445
-                      end
-                      object edtForLogradouro: TcxDBTextEdit
+                      object cxDBTextEdit4: TcxDBTextEdit
                         Left = 128
                         Top = 176
                         DataBinding.DataField = 'logradouro'
-                        DataBinding.DataSource = damProducts.dsoFOR
+                        DataBinding.DataSource = damProducts.dsoFAB
                         Properties.ReadOnly = True
                         Style.HotTrack = False
                         Style.LookAndFeel.NativeStyle = False
@@ -5176,33 +5068,13 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                         StyleReadOnly.LookAndFeel.NativeStyle = False
                         StyleReadOnly.LookAndFeel.SkinName = 'Office2019Colorful'
                         TabOrder = 3
-                        Width = 204
+                        Width = 730
                       end
-                      object cxDBTextEdit4: TcxDBTextEdit
-                        Left = 655
-                        Top = 176
-                        DataBinding.DataField = 'logradouro'
-                        Properties.ReadOnly = True
-                        Style.HotTrack = False
-                        Style.LookAndFeel.NativeStyle = False
-                        Style.LookAndFeel.SkinName = 'Office2019Colorful'
-                        Style.TransparentBorder = False
-                        StyleDisabled.LookAndFeel.NativeStyle = False
-                        StyleDisabled.LookAndFeel.SkinName = 'Office2019Colorful'
-                        StyleFocused.LookAndFeel.NativeStyle = False
-                        StyleFocused.LookAndFeel.SkinName = 'Office2019Colorful'
-                        StyleHot.LookAndFeel.NativeStyle = False
-                        StyleHot.LookAndFeel.SkinName = 'Office2019Colorful'
-                        StyleReadOnly.LookAndFeel.NativeStyle = False
-                        StyleReadOnly.LookAndFeel.SkinName = 'Office2019Colorful'
-                        TabOrder = 11
-                        Width = 203
-                      end
-                      object edtForCidade: TcxDBTextEdit
-                        Left = 385
+                      object edtFabCidade: TcxDBTextEdit
+                        Left = 911
                         Top = 176
                         DataBinding.DataField = 'nomeCidade'
-                        DataBinding.DataSource = damProducts.dsoFOR
+                        DataBinding.DataSource = damProducts.dsoFAB
                         Properties.ReadOnly = True
                         Style.HotTrack = False
                         Style.LookAndFeel.NativeStyle = False
@@ -5219,31 +5091,11 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                         TabOrder = 4
                         Width = 121
                       end
-                      object edtFabCidade: TcxDBTextEdit
-                        Left = 911
-                        Top = 176
-                        DataBinding.DataField = 'nomeCidade'
-                        Properties.ReadOnly = True
-                        Style.HotTrack = False
-                        Style.LookAndFeel.NativeStyle = False
-                        Style.LookAndFeel.SkinName = 'Office2019Colorful'
-                        Style.TransparentBorder = False
-                        StyleDisabled.LookAndFeel.NativeStyle = False
-                        StyleDisabled.LookAndFeel.SkinName = 'Office2019Colorful'
-                        StyleFocused.LookAndFeel.NativeStyle = False
-                        StyleFocused.LookAndFeel.SkinName = 'Office2019Colorful'
-                        StyleHot.LookAndFeel.NativeStyle = False
-                        StyleHot.LookAndFeel.SkinName = 'Office2019Colorful'
-                        StyleReadOnly.LookAndFeel.NativeStyle = False
-                        StyleReadOnly.LookAndFeel.SkinName = 'Office2019Colorful'
-                        TabOrder = 12
-                        Width = 121
-                      end
-                      object edtForCep: TcxDBTextEdit
+                      object cxDBTextEdit5: TcxDBTextEdit
                         Left = 128
                         Top = 204
                         DataBinding.DataField = 'cep'
-                        DataBinding.DataSource = damProducts.dsoFOR
+                        DataBinding.DataSource = damProducts.dsoFAB
                         Properties.ReadOnly = True
                         Style.HotTrack = False
                         Style.LookAndFeel.NativeStyle = False
@@ -5258,13 +5110,13 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                         StyleReadOnly.LookAndFeel.NativeStyle = False
                         StyleReadOnly.LookAndFeel.SkinName = 'Office2019Colorful'
                         TabOrder = 5
-                        Width = 378
+                        Width = 904
                       end
-                      object edtForCodigoPais: TcxDBTextEdit
+                      object edtFabCodigoPais: TcxDBTextEdit
                         Left = 128
                         Top = 232
                         DataBinding.DataField = 'codigoPais'
-                        DataBinding.DataSource = damProducts.dsoFOR
+                        DataBinding.DataSource = damProducts.dsoFAB
                         Properties.ReadOnly = True
                         Style.HotTrack = False
                         Style.LookAndFeel.NativeStyle = False
@@ -5279,54 +5131,13 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                         StyleReadOnly.LookAndFeel.NativeStyle = False
                         StyleReadOnly.LookAndFeel.SkinName = 'Office2019Colorful'
                         TabOrder = 6
-                        Width = 378
+                        Width = 904
                       end
-                      object cxDBTextEdit5: TcxDBTextEdit
-                        Left = 655
-                        Top = 204
-                        DataBinding.DataField = 'cep'
-                        Properties.ReadOnly = True
-                        Style.HotTrack = False
-                        Style.LookAndFeel.NativeStyle = False
-                        Style.LookAndFeel.SkinName = 'Office2019Colorful'
-                        Style.TransparentBorder = False
-                        StyleDisabled.LookAndFeel.NativeStyle = False
-                        StyleDisabled.LookAndFeel.SkinName = 'Office2019Colorful'
-                        StyleFocused.LookAndFeel.NativeStyle = False
-                        StyleFocused.LookAndFeel.SkinName = 'Office2019Colorful'
-                        StyleHot.LookAndFeel.NativeStyle = False
-                        StyleHot.LookAndFeel.SkinName = 'Office2019Colorful'
-                        StyleReadOnly.LookAndFeel.NativeStyle = False
-                        StyleReadOnly.LookAndFeel.SkinName = 'Office2019Colorful'
-                        TabOrder = 13
-                        Width = 377
-                      end
-                      object edtFabCodigoPais: TcxDBTextEdit
-                        Left = 655
-                        Top = 232
-                        DataBinding.DataField = 'codigoPais'
-                        Properties.ReadOnly = True
-                        Style.HotTrack = False
-                        Style.LookAndFeel.NativeStyle = False
-                        Style.LookAndFeel.SkinName = 'Office2019Colorful'
-                        Style.TransparentBorder = False
-                        StyleDisabled.LookAndFeel.NativeStyle = False
-                        StyleDisabled.LookAndFeel.SkinName = 'Office2019Colorful'
-                        StyleFocused.LookAndFeel.NativeStyle = False
-                        StyleFocused.LookAndFeel.SkinName = 'Office2019Colorful'
-                        StyleHot.LookAndFeel.NativeStyle = False
-                        StyleHot.LookAndFeel.SkinName = 'Office2019Colorful'
-                        StyleReadOnly.LookAndFeel.NativeStyle = False
-                        StyleReadOnly.LookAndFeel.SkinName = 'Office2019Colorful'
-                        TabOrder = 14
-                        Width = 377
-                      end
-                      object edtForCodigoExterno: TcxDBTextEdit
+                      object edtFabCodigoExterno: TcxDBTextEdit
                         Left = 128
                         Top = 260
-                        AutoSize = False
                         DataBinding.DataField = 'codigoDuimp'
-                        DataBinding.DataSource = damProducts.dsoFOR
+                        DataBinding.DataSource = damProducts.dsoFAB
                         Properties.ReadOnly = True
                         Style.HotTrack = False
                         Style.LookAndFeel.NativeStyle = False
@@ -5341,28 +5152,7 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                         StyleReadOnly.LookAndFeel.NativeStyle = False
                         StyleReadOnly.LookAndFeel.SkinName = 'Office2019Colorful'
                         TabOrder = 7
-                        Height = 21
-                        Width = 378
-                      end
-                      object edtFabCodigoExterno: TcxDBTextEdit
-                        Left = 655
-                        Top = 260
-                        DataBinding.DataField = 'codigoDuimp'
-                        Properties.ReadOnly = True
-                        Style.HotTrack = False
-                        Style.LookAndFeel.NativeStyle = False
-                        Style.LookAndFeel.SkinName = 'Office2019Colorful'
-                        Style.TransparentBorder = False
-                        StyleDisabled.LookAndFeel.NativeStyle = False
-                        StyleDisabled.LookAndFeel.SkinName = 'Office2019Colorful'
-                        StyleFocused.LookAndFeel.NativeStyle = False
-                        StyleFocused.LookAndFeel.SkinName = 'Office2019Colorful'
-                        StyleHot.LookAndFeel.NativeStyle = False
-                        StyleHot.LookAndFeel.SkinName = 'Office2019Colorful'
-                        StyleReadOnly.LookAndFeel.NativeStyle = False
-                        StyleReadOnly.LookAndFeel.SkinName = 'Office2019Colorful'
-                        TabOrder = 15
-                        Width = 377
+                        Width = 904
                       end
                       object dxLayoutGroup2: TdxLayoutGroup
                         AlignHorz = ahClient
@@ -5371,38 +5161,6 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                         LayoutDirection = ldHorizontal
                         ShowBorder = False
                         Index = -1
-                      end
-                      object loiForCodigo: TdxLayoutItem
-                        Parent = dxLayoutGroup3
-                        AlignHorz = ahLeft
-                        SizeOptions.AssignedValues = [sovSizableHorz]
-                        SizeOptions.SizableHorz = True
-                        SizeOptions.Width = 120
-                        CaptionOptions.AlignHorz = taRightJustify
-                        CaptionOptions.Text = 'C'#243'digo:'
-                        Control = edtForCodigo
-                        ControlOptions.OriginalHeight = 21
-                        ControlOptions.OriginalWidth = 72
-                        ControlOptions.ShowBorder = False
-                        Index = 0
-                      end
-                      object loiForNome: TdxLayoutItem
-                        Parent = dxLayoutGroup3
-                        CaptionOptions.AlignHorz = taRightJustify
-                        CaptionOptions.Text = 'Nome:'
-                        Control = edtForNome
-                        ControlOptions.OriginalHeight = 21
-                        ControlOptions.OriginalWidth = 121
-                        ControlOptions.ShowBorder = False
-                        Index = 1
-                      end
-                      object dxLayoutGroup3: TdxLayoutGroup
-                        Parent = dxLayoutGroup2
-                        AlignHorz = ahClient
-                        AlignVert = avTop
-                        CaptionOptions.Text = 'Fornecedor:'
-                        ItemIndex = 3
-                        Index = 0
                       end
                       object loiFabCodigo: TdxLayoutItem
                         Parent = dxLayoutGroup5
@@ -5434,17 +5192,7 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                         AlignVert = avTop
                         CaptionOptions.Text = 'Fabricante:'
                         ItemIndex = 3
-                        Index = 1
-                      end
-                      object loiForEmail: TdxLayoutItem
-                        Parent = dxLayoutGroup3
-                        CaptionOptions.AlignHorz = taRightJustify
-                        CaptionOptions.Text = 'Email:'
-                        Control = edtForEmail
-                        ControlOptions.OriginalHeight = 21
-                        ControlOptions.OriginalWidth = 121
-                        ControlOptions.ShowBorder = False
-                        Index = 2
+                        Index = 0
                       end
                       object loiFabEmail: TdxLayoutItem
                         Parent = dxLayoutGroup5
@@ -5456,29 +5204,11 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                         ControlOptions.ShowBorder = False
                         Index = 2
                       end
-                      object ltgForEndereco: TdxLayoutGroup
-                        Parent = dxLayoutGroup3
-                        CaptionOptions.Text = 'Endere'#231'o:'
-                        ItemIndex = 1
-                        Index = 3
-                      end
                       object dxLayoutGroup6: TdxLayoutGroup
                         Parent = dxLayoutGroup5
                         CaptionOptions.Text = 'Endere'#231'o:'
                         ItemIndex = 1
                         Index = 3
-                      end
-                      object loiForLogradouro: TdxLayoutItem
-                        Parent = dxLayoutGroup7
-                        AlignHorz = ahClient
-                        AlignVert = avTop
-                        CaptionOptions.AlignHorz = taRightJustify
-                        CaptionOptions.Text = 'Rua:'
-                        Control = edtForLogradouro
-                        ControlOptions.OriginalHeight = 21
-                        ControlOptions.OriginalWidth = 121
-                        ControlOptions.ShowBorder = False
-                        Index = 0
                       end
                       object loiFabLogradouro: TdxLayoutItem
                         Parent = dxLayoutAutoCreatedGroup26
@@ -5492,18 +5222,6 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                         ControlOptions.ShowBorder = False
                         Index = 0
                       end
-                      object loiForCidade: TdxLayoutItem
-                        Parent = dxLayoutGroup7
-                        AlignHorz = ahRight
-                        AlignVert = avTop
-                        CaptionOptions.AlignHorz = taRightJustify
-                        CaptionOptions.Text = 'Cidade:'
-                        Control = edtForCidade
-                        ControlOptions.OriginalHeight = 21
-                        ControlOptions.OriginalWidth = 121
-                        ControlOptions.ShowBorder = False
-                        Index = 1
-                      end
                       object loiFabCidade: TdxLayoutItem
                         Parent = dxLayoutAutoCreatedGroup26
                         CaptionOptions.AlignHorz = taRightJustify
@@ -5513,45 +5231,6 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                         ControlOptions.OriginalWidth = 121
                         ControlOptions.ShowBorder = False
                         Index = 1
-                      end
-                      object loiForCep: TdxLayoutItem
-                        Parent = ltgForEndereco
-                        AlignHorz = ahClient
-                        AlignVert = avTop
-                        SizeOptions.AssignedValues = [sovSizableHorz, sovSizableVert]
-                        SizeOptions.SizableHorz = True
-                        SizeOptions.SizableVert = False
-                        SizeOptions.Width = 120
-                        CaptionOptions.AlignHorz = taRightJustify
-                        CaptionOptions.Text = 'CEP:'
-                        Control = edtForCep
-                        ControlOptions.OriginalHeight = 21
-                        ControlOptions.OriginalWidth = 121
-                        ControlOptions.ShowBorder = False
-                        Index = 1
-                      end
-                      object dxLayoutGroup7: TdxLayoutGroup
-                        Parent = ltgForEndereco
-                        CaptionOptions.Text = 'New Group'
-                        CaptionOptions.Visible = False
-                        LayoutDirection = ldHorizontal
-                        ShowBorder = False
-                        Index = 0
-                      end
-                      object loiForCodigoPais: TdxLayoutItem
-                        Parent = ltgForEndereco
-                        AlignHorz = ahClient
-                        AlignVert = avTop
-                        SizeOptions.AssignedValues = [sovSizableHorz]
-                        SizeOptions.SizableHorz = True
-                        SizeOptions.Width = 120
-                        CaptionOptions.AlignHorz = taRightJustify
-                        CaptionOptions.Text = 'Pa'#237's:'
-                        Control = edtForCodigoPais
-                        ControlOptions.OriginalHeight = 21
-                        ControlOptions.OriginalWidth = 333
-                        ControlOptions.ShowBorder = False
-                        Index = 2
                       end
                       object loiFabCep: TdxLayoutItem
                         Parent = dxLayoutGroup6
@@ -5588,21 +5267,6 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                         ControlOptions.OriginalWidth = 333
                         ControlOptions.ShowBorder = False
                         Index = 2
-                      end
-                      object loiForCodigoExterno: TdxLayoutItem
-                        Parent = ltgForEndereco
-                        AlignHorz = ahClient
-                        AlignVert = avTop
-                        SizeOptions.AssignedValues = [sovSizableHorz]
-                        SizeOptions.SizableHorz = True
-                        SizeOptions.Width = 173
-                        CaptionOptions.AlignHorz = taRightJustify
-                        CaptionOptions.Text = 'C'#243'digo Externo:'
-                        Control = edtForCodigoExterno
-                        ControlOptions.OriginalHeight = 21
-                        ControlOptions.OriginalWidth = 121
-                        ControlOptions.ShowBorder = False
-                        Index = 3
                       end
                       object loiFabCodigoExterno: TdxLayoutItem
                         Parent = dxLayoutGroup6

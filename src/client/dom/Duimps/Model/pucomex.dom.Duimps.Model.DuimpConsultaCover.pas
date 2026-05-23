@@ -38,6 +38,7 @@ type
     function GetAFRMM: Currency;
     function GetQS(const AParam: string): TStringList;
     function GetTup: Currency;
+    function GetValue(const AStringList: TStringList): Currency;
   public
     destructor Destroy; override;
     property Adicoes: TArray<TAdicaoValoresCalculadosDuimpCover> read FAdicoes write FAdicoes;
@@ -61,6 +62,7 @@ implementation
 
 uses
 {IDE}
+  System.RegularExpressions,
   System.SysUtils,
 {PROJECT}
   cbsCore.Reflection,
@@ -85,44 +87,30 @@ begin
 end;
 
 function TDuimpConsultaCover.GetAFRMM: Currency;
-var
-  I: Integer;
-  LStringList: TStringList;
 begin
-  LStringList := GetQS('AFRMM');
+  var LStringList := GetQS('AFRMM');
   try
-    if LStringList.Count > 0 then
-    begin
-      for I := 0 to pred(LStringList.Count) do if
-        not LStringList[I].Trim.IsEmpty then
-      begin
-        Exit(LStringList[I].Replace('.', '').ToDouble);
-      end;
-    end;
+    Result := GetValue(LStringList);
   finally
     FreeAndNil(LStringList);
   end;
-  Result := 0;
 end;
 
 function TDuimpConsultaCover.GetQS(const AParam: string): TStringList;
-var
-  I: Integer;
-  LStringList: TStringList;
 begin
   Result := TStringList.Create;
   if Pos(AParam, Identificacao.InformacaoComplementar) > 0 then
   begin
-    LStringList := TStringList.Create;
+    var LStringList := TStringList.Create;
     try
       LStringList.Text := Identificacao.InformacaoComplementar;
-      for I := 0 to pred(LStringList.Count) do if
+      for var I := 0 to pred(LStringList.Count) do if
         Pos(AParam, LStringList[I]) > 0 then
       begin
         Result := QuebraString(LStringList[I], ' ');
         break;
       end;
-      for I := 0 to pred(Result.Count) do if
+      for var I := 0 to pred(Result.Count) do if
         ApenasNumeros(Result[I]).Trim.IsEmpty then
       begin
         Result[I] := '';
@@ -134,24 +122,27 @@ begin
 end;
 
 function TDuimpConsultaCover.GetTUP: Currency;
-var
-  I: Integer;
-  LStringList: TStringList;
 begin
-  LStringList := GetQS('TUP');
+  var LStringList := GetQS('TUP');
   try
-    if LStringList.Count > 0 then
-    begin
-      for I := 0 to pred(LStringList.Count) do
-      begin
-        if not LStringList[I].Trim.IsEmpty then
-        begin
-          Exit(LStringList[I].Replace('.', '').ToDouble);
-        end;
-      end;
-    end;
+    Result := GetValue(LStringList);
   finally
     FreeAndNil(LStringList);
+  end;
+end;
+
+function TDuimpConsultaCover.GetValue(const AStringList: TStringList): Currency;
+begin
+  if AStringList.Count > 0 then
+  begin
+    for var I := 0 to Pred(AStringList.Count) do if
+      not AStringList[I].Trim.IsEmpty then
+    begin
+      var LValue := TRegEx.Replace(AStringList[I], '[^0-9,.-]', '');
+      LValue := LValue.Replace('.', '');
+      LValue := LValue.Replace(',', FormatSettings.DecimalSeparator);
+      Exit(LValue.ToDouble);
+    end;
   end;
   Result := 0;
 end;
