@@ -135,7 +135,7 @@ type
   TBooleanFieldType = (bfUnknown, bfBoolean, bfInteger);
 
 resourcestring
-  ERROR_PRODUCT_REGISTERED = 'Já existe produto idêntico cadastrado. Código:';
+  ERROR_PRODUCT_REGISTERED = 'JÃ¡ existe produto idÃªntico cadastrado. CÃ³digo:';
 
 function CreateProductList: IProductList;
 begin
@@ -296,7 +296,7 @@ begin
               begin
                 Result.AddPair(LKey, TJSONTrue.Create);
               end
-              else if SameText(ADataSet.Fields[I].AsWideString, 'NÃO') then
+              else if SameText(ADataSet.Fields[I].AsWideString, 'NÃO') then
               begin
                 Result.AddPair(LKey, TJSONFalse.Create);
               end
