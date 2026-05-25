@@ -1,4 +1,4 @@
-unit duimp.dom.DataModules.damProducts;
+﻿unit duimp.dom.DataModules.damProducts;
 
 interface
 
@@ -75,6 +75,7 @@ type
     qryFABcnpj: TStringField;
     updFAB: TFDUpdateSQL;
     qryFABcodigoInterno: TIntegerField;
+    qryPROModalidade: TStringField;
     procedure DataModuleCreate(Sender: TObject);
     procedure qryATTvalorGetText(Sender: TField; var Text: string; DisplayText:
         Boolean);
