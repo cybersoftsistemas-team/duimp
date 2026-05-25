@@ -694,6 +694,7 @@ type
     grdEProductsDBTableViewmsg: TcxGridDBColumn;
     grdEProductsDBTableViewcpfCnpjRaiz: TcxGridDBColumn;
     grdEProductsDBTableViewcodigoProduto: TcxGridDBColumn;
+    grdProductsDBTableViewModalidade: TcxGridDBColumn;
     procedure actCancelAttrExecute(Sender: TObject);
     procedure actFindDuimpExecute(Sender: TObject);
     procedure cbxModalidadePropertiesEditValueChanged(Sender: TObject);

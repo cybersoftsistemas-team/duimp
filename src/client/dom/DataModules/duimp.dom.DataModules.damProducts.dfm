@@ -7,7 +7,11 @@ inherited damProducts: TdamProducts
       'SELECT ProdId = PRO.Codigo'
       ',PRO.NCM'
       ',Produto   = Red.ReduzidaFinal'
-      ',Descricao = LEFT(Rem.DescricaoFinal, 3700)'
+      ',Descricao = LEFT(Rem.DescricaoFinal, 3700)      '
+      ',Modalidade = '
+      ' CASE WHEN PRO.Origem = '#39'I'#39' THEN '#39'IMPORTACAO'#39
+      '      WHEN PRO.Origem = '#39'N'#39' THEN '#39'EXPORTACAO'#39
+      ' END'
       'FROM Produtos PRO'
       ''
       '-- 1) Normaliza'#231#227'o da descri'#231#227'o reduzida'
@@ -87,6 +91,13 @@ inherited damProducts: TdamProducts
     object qryPRONCM: TStringField
       FieldName = 'NCM'
       Origin = 'NCM'
+      Size = 10
+    end
+    object qryPROModalidade: TStringField
+      DisplayWidth = 11
+      FieldName = 'Modalidade'
+      Origin = 'Modalidade'
+      ReadOnly = True
       Size = 10
     end
     object qryPROProduto: TStringField
@@ -236,10 +247,10 @@ inherited damProducts: TdamProducts
       Size = 7
     end
     object qryEPRmodalidade: TStringField
+      DisplayWidth = 11
       FieldName = 'modalidade'
       Origin = 'modalidade'
       ReadOnly = True
-      Visible = False
       Size = 10
     end
     object qryEPRcpfCnpjRaiz: TStringField
