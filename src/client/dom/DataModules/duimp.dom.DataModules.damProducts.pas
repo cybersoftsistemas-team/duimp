@@ -76,6 +76,7 @@ type
     updFAB: TFDUpdateSQL;
     qryFABcodigoInterno: TIntegerField;
     qryPROModalidade: TStringField;
+    qryEPRcodigoFabricante: TStringField;
     procedure DataModuleCreate(Sender: TObject);
     procedure qryATTvalorGetText(Sender: TField; var Text: string; DisplayText:
         Boolean);
@@ -495,6 +496,8 @@ begin
         end;
         var LArray := TJSONArray.Create;
         LArray.Add(LProDST.FieldByName('prodId').AsString);
+        if not LProDST.FieldByName('codigoFabricante').AsString.Trim.IsEmpty then
+          LArray.Add(LProDST.FieldByName('codigoFabricante').AsString);
         LJSonObject.AddPair('codigosInterno', LArray);
         var LStream := TStringStream.Create(LJSonObject.ToJSON, TEncoding.UTF8);
         try

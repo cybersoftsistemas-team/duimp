@@ -138,6 +138,7 @@ inherited damProducts: TdamProducts
       ' END'
       ',codigoProduto = PRO.Codigo_DUIMP'
       ',PRO.NaoSincPSiscomex'
+      ',codigoFabricante = PRO.Codigo_Fabricante'
       'FROM Produtos PRO'
       ''
       '-- 1) Normaliza'#231#227'o da descri'#231#227'o reduzida'
@@ -266,6 +267,11 @@ inherited damProducts: TdamProducts
       FieldName = 'codigoProduto'
       Origin = 'codigoProduto'
       Visible = False
+    end
+    object qryEPRcodigoFabricante: TStringField
+      Tag = 1
+      FieldName = 'codigoFabricante'
+      Origin = 'codigoFabricante'
     end
     object qryEPRNaoSincPSiscomex: TBooleanField
       Tag = 1
