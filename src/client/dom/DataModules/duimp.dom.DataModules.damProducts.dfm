@@ -7,7 +7,10 @@ inherited damProducts: TdamProducts
       'SELECT ProdId = PRO.Codigo'
       ',PRO.NCM'
       ',Produto   = Red.ReduzidaFinal'
-      ',Descricao = LEFT(Rem.DescricaoFinal, 3700)      '
+      
+        ',Descricao = LEFT(IIF(CHARINDEX('#39'<{'#39', Rem.DescricaoFinal) > 0, S' +
+        'UBSTRING(Rem.DescricaoFinal, 0, CHARINDEX('#39'<{'#39', Rem.DescricaoFin' +
+        'al) -1), Rem.DescricaoFinal), 3700)      '
       ',Modalidade = '
       ' CASE WHEN PRO.Origem = '#39'I'#39' THEN '#39'IMPORTACAO'#39
       '      WHEN PRO.Origem = '#39'N'#39' THEN '#39'EXPORTACAO'#39
@@ -130,7 +133,10 @@ inherited damProducts: TdamProducts
       'SELECT prodId = PRO.Codigo'
       ',PRO.ncm'
       ',denominacao   = Red.ReduzidaFinal'
-      ',descricao = LEFT(Rem.DescricaoFinal, 3700)'
+      
+        ',descricao = LEFT(IIF(CHARINDEX('#39'<{'#39', Rem.DescricaoFinal) > 0, S' +
+        'UBSTRING(Rem.DescricaoFinal, 0, CHARINDEX('#39'<{'#39', Rem.DescricaoFin' +
+        'al) -1), Rem.DescricaoFinal), 3700)'
       ',situacao = '#39'ATIVADO'#39
       ',Modalidade = '
       ' CASE WHEN PRO.Origem = '#39'I'#39' THEN '#39'IMPORTACAO'#39
