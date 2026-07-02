@@ -1,4 +1,4 @@
-unit duimp.dom.DataModules.damProducts;
+﻿unit duimp.dom.DataModules.damProducts;
 
 interface
 
@@ -13,6 +13,7 @@ uses
 
 type
   IProductList = IDictionary<string, string>;
+  IProductMsgList = IDictionary<Integer, string>;
 
   TdamProducts = class(TdamMain)
     qryPRO: TFDQuery;
@@ -48,46 +49,49 @@ type
     dsoDOM: TDataSource;
     updPAT: TFDUpdateSQL;
     qryATD: TFDQuery;
-    qryFOR: TFDQuery;
-    qryFORseq: TIntegerField;
-    qryFORProdId: TIntegerField;
-    qryFORCodigo: TIntegerField;
-    qryFORNome: TStringField;
-    qryFORLogradouro: TStringField;
-    qryFORNomeCidade: TStringField;
-    qryFORCodigoPais: TStringField;
-    qryFORCep: TStringField;
-    qryFOREmail: TStringField;
-    qryFORcodigoDuimp: TStringField;
-    dsoFOR: TDataSource;
     qryFAB: TFDQuery;
-    qryFABseq: TIntegerField;
-    qryFABProdId: TIntegerField;
-    qryFABCodigo: TIntegerField;
-    qryFABNome: TStringField;
-    qryFABLogradouro: TStringField;
-    qryFABNomeCidade: TStringField;
-    qryFABCodigoPais: TStringField;
-    qryFABCep: TStringField;
-    qryFABEmail: TStringField;
-    qryFABCodigoDuimp: TStringField;
     dsoFAB: TDataSource;
     qryATTobrigatorio: TBooleanField;
-    qryEPRseq: TLargeintField;
-    qryEPRmsg: TMemoField;
     qryEPRcpfCnpjRaiz: TStringField;
     qryEPRdenominacao: TStringField;
     qryEPRcodigoProduto: TIntegerField;
+    updEPR: TFDUpdateSQL;
+    qryEPRNaoSincPSiscomex: TBooleanField;
+    mtbFPR: TFDMemTable;
+    mtbFPRcpfCnpjFabricante: TStringField;
+    mtbFPRConhecido: TBooleanField;
+    mtbFPRCodigoOperadorEstrangeiro: TStringField;
+    mtbFPRCodigoProduto: TIntegerField;
+    mtbFPRCodigoPais: TStringField;
+    qryEPRmsg: TStringField;
+    qryFABprodId: TIntegerField;
+    qryFABnome: TStringField;
+    qryFABlogradouro: TStringField;
+    qryFABnomeCidade: TStringField;
+    qryFABcodigoPais: TStringField;
+    qryFABcep: TStringField;
+    qryFABemail: TStringField;
+    qryFABcodigoDuimp: TStringField;
+    qryFABcnpj: TStringField;
+    updFAB: TFDUpdateSQL;
+    qryFABcodigoInterno: TIntegerField;
+    qryPROModalidade: TStringField;
+    qryEPRcodigoFabricante: TStringField;
+    procedure DataModuleCreate(Sender: TObject);
     procedure qryATTvalorGetText(Sender: TField; var Text: string; DisplayText:
         Boolean);
     procedure qryEPRCalcFields(DataSet: TDataSet);
   private
-    function ConverterProDSTToJSON(const AProducts, AAttributes: TDataSet): TJSONArray;
+    FProductMsgList: IProductMsgList;
     function DataSetToJSONArray(const AMaster: TDataSet; const ADetails: TDataSet = nil): TJSONArray;
     function DataSetToJSONObject(const ADataSet: TDataSet): TJSONObject;
-    function FindProdID(AMessages: TArray<string>; out AProdID: Integer): Boolean;
-    function ProDSTToJSONStringStream(const AProducts, AAttributes: TDataSet): TStringStream;
+    function ForeignOperatorsUpdateRecord(const ANome: string; ACpfCnpjRaiz: string; const ACodigoPais: string; const ACodigoDuimpField: TField; const ADataSet: TDataSet;
+      const AProduct: TDataSet): Boolean;
     procedure GetProducts;
+    procedure LinkManufacturerOrProducerToProduct(const ACodigoOperadorEstrangeiroField: TField; const ACpfCnpjFabricanteField: TField; const ACodigoProdutoField: TField;
+      const ACodigoPaisField: TField);
+    procedure LinkManufacturerOrProducer(const AProDST: TDataSet);
+    procedure ManufacturerProducer(const AProDST: TDataSet);
   public
     procedure ExportProd;
     procedure GetAllProducts;
@@ -123,6 +127,7 @@ uses
   pucomex.dom.Contracts.Http.Response.LoteValidacao,
   pucomex.dom.Contracts.Http.Response.LoteValidacaoVersao,
   pucomex.dom.Contracts.Http.Response.OperadorEstrangeiroIntegracao,
+  pucomex.dom.Contracts.Products,
   pucomex.dom.Duimps.Model.OperadorEstrangeiroIntegracaoDTO,
   pucomex.dom.Http.Model.Response.LoteValidacaoVersaoDTO,
   pucomex.dom.Support.PUComex;
@@ -132,55 +137,52 @@ type
   TBooleanFieldType = (bfUnknown, bfBoolean, bfInteger);
 
 resourcestring
-  ERROR_PRODUCT_REGISTERED = 'J� existe produto id�ntico cadastrado. C�digo:';
+  ERROR_PRODUCT_REGISTERED = 'JÃ¡ existe produto idÃªntico cadastrado. CÃ³digo:';
 
 function CreateProductList: IProductList;
 begin
   Result := TCollections.CreateDictionary<string, string>;
 end;
 
-{ TdamProducts }
+function CreateProductMsgList: IProductMsgList;
+begin
+  Result := TCollections.CreateDictionary<Integer, string>;
+end;
 
-function TdamProducts.FindProdID(AMessages: TArray<string>; out AProdID: Integer): Boolean;
-
-  function ExtractProdID(const AText: string): string;
-  var
-    LMatch: TMatch;
-  begin
-    LMatch := TRegEx.Match(AText, 'C�digo:\s*(\d+),?');
-    if LMatch.Success then
-    begin
-      Exit(LMatch.Groups[1].Value);
-    end;
-    Result := '';
-  end;
-
+procedure RemoveEmptyJsonFields(AJsonObject: TJSONObject);
 var
-  LIndex: Integer;
+  LFieldsToRemove: TArray<string>;
+  LPair: TJSONPair;
+  LValue: TJSONValue;
 begin
-  TArray.Sort<string>(AMessages);
-  if TArray.BinarySearch<string>(AMessages, ERROR_PRODUCT_REGISTERED, LIndex,
-    TComparer<string>.Construct(
-      function(const ALeft, ARight: string): Integer
-      begin
-        if ALeft.Contains(ERROR_PRODUCT_REGISTERED) then
-        begin
-          Result := 0;
-        end
-        else
-          Result := CompareStr(ALeft, ARight);
-      end)) then
+  if not Assigned(AJsonObject) then
+    Exit;
+  for LPair in AJsonObject do
   begin
-    Exit(TryStrToInt(ExtractProdID(AMessages[LIndex]), AProdID));
+    LValue := LPair.JsonValue;
+    if
+      (LValue is TJSONNull) or
+      ((LValue is TJSONString) and
+       (Trim(LValue.Value) = ''))
+    then
+      LFieldsToRemove := LFieldsToRemove + [LPair.JsonString.Value];
   end;
-  AProdID := -1;
-  Result := False;
+  for var LField in LFieldsToRemove do
+    AJsonObject.RemovePair(LField).Free;
 end;
 
-function TdamProducts.ConverterProDSTToJSON(const AProducts, AAttributes: TDataSet): TJSONArray;
+procedure RemoverAtributosSemValor(Atributos: TJSONArray);
 begin
-  Result := DataSetToJSONArray(AProducts, AAttributes);
+  for var I := Atributos.Count - 1 downto 0 do
+  begin
+    var Obj := Atributos.Items[I] as TJSONObject;
+    RemoveEmptyJsonFields(Obj);
+    if Obj.GetValue('valor') = nil then
+      Atributos.Remove(I);
+  end;
 end;
+
+{ TdamProducts }
 
 function TdamProducts.DataSetToJSONArray(const AMaster: TDataSet; const ADetails: TDataSet = nil): TJSONArray;
 begin
@@ -195,7 +197,9 @@ begin
         var LJSonObject := DataSetToJSONObject(AMaster);
         if Assigned(ADetails) and not ADetails.IsEmpty then
         begin
-          LJSonObject.AddPair('atributos', DataSetToJSONArray(ADetails));
+          var LDetailDS := DataSetToJSONArray(ADetails);
+          RemoverAtributosSemValor(LDetailDS);
+          LJSonObject.AddPair('atributos', LDetailDS);
         end;
         Result.AddElement(LJSonObject);
         AMaster.Next;
@@ -257,170 +261,307 @@ function TdamProducts.DataSetToJSONObject(const ADataSet: TDataSet): TJSONObject
 
 begin
   Result := nil;
-  if Assigned(ADataSet) and (not ADataSet.IsEmpty) then
+  if Assigned(ADataSet) and not ADataSet.IsEmpty then
   begin
     Result := TJSONObject.Create;
-    for var I := 0 to Pred(ADataSet.FieldCount) do
+    for var I := 0 to Pred(ADataSet.FieldCount) do if
+      ADataSet.Fields[I].Tag = 0 then
     begin
-      if ADataSet.Fields[I].Tag = 0 then
-      begin
-        var LKey := ADataSet.Fields[I].FieldName;
-        case ADataSet.Fields[I].DataType of
-          TFieldType.ftBoolean:
-            begin
-              var LBft := BooleanFieldToType(TBooleanField(ADataSet.Fields[I]));
-              case LBft of
-                bfUnknown, bfBoolean: Result.AddPair(LKey, BooleanToJSON(ADataSet.Fields[I].AsBoolean));
-                bfInteger: Result.AddPair(LKey, TJSONNumber.Create(ADataSet.Fields[I].AsInteger));
-              end;
+      var LKey := ADataSet.Fields[I].FieldName;
+      case ADataSet.Fields[I].DataType of
+        TFieldType.ftBoolean:
+          begin
+            var LBft := BooleanFieldToType(TBooleanField(ADataSet.Fields[I]));
+            case LBft of
+              bfUnknown, bfBoolean: Result.AddPair(LKey, BooleanToJSON(ADataSet.Fields[I].AsBoolean));
+              bfInteger: Result.AddPair(LKey, TJSONNumber.Create(ADataSet.Fields[I].AsInteger));
             end;
-          TFieldType.ftInteger, TFieldType.ftSmallint, TFieldType.ftShortint:
-            Result.AddPair(LKey, TJSONNumber.Create(ADataSet.Fields[I].AsInteger));
-          TFieldType.ftLongWord, TFieldType.ftAutoInc:
+          end;
+        TFieldType.ftInteger, TFieldType.ftSmallint, TFieldType.ftShortint:
+          Result.AddPair(LKey, TJSONNumber.Create(ADataSet.Fields[I].AsInteger));
+        TFieldType.ftLongWord, TFieldType.ftAutoInc:
+          begin
+            if not ADataSet.Fields[I].IsNull then
+              Result.AddPair(LKey, TJSONNumber.Create(ADataSet.Fields[I].AsWideString))
+            else
+              Result.AddPair(LKey, TJSONNull.Create);
+          end;
+        TFieldType.ftLargeint:
+          Result.AddPair(LKey, TJSONNumber.Create(ADataSet.Fields[I].AsLargeInt));
+        TFieldType.ftSingle, TFieldType.ftFloat:
+          Result.AddPair(LKey, TJSONNumber.Create(ADataSet.Fields[I].AsFloat));
+        ftString, ftWideString, ftMemo, ftWideMemo:
+          begin
+            if not ADataSet.Fields[I].IsNull then
             begin
-              if not ADataSet.Fields[I].IsNull then
-                Result.AddPair(LKey, TJSONNumber.Create(ADataSet.Fields[I].AsWideString))
-              else
-                Result.AddPair(LKey, TJSONNull.Create);
-            end;
-          TFieldType.ftLargeint:
-            Result.AddPair(LKey, TJSONNumber.Create(ADataSet.Fields[I].AsLargeInt));
-          TFieldType.ftSingle, TFieldType.ftFloat:
-            Result.AddPair(LKey, TJSONNumber.Create(ADataSet.Fields[I].AsFloat));
-          ftString, ftWideString, ftMemo, ftWideMemo:
-            begin
-              if not ADataSet.Fields[I].IsNull then
-                Result.AddPair(LKey, TJSONString.Create(ADataSet.Fields[I].AsWideString))
-              else
-                Result.AddPair(LKey, TJSONNull.Create);
-            end;
-          TFieldType.ftDate:
-            begin
-              if not ADataSet.Fields[I].IsNull then
-                Result.AddPair(LKey, TJSONString.Create(DateToISODate(ADataSet.Fields[I].AsDateTime)))
-              else
-                Result.AddPair(LKey, TJSONNull.Create);
-            end;
-          TFieldType.ftTimeStamp, TFieldType.ftDateTime:
-            begin
-              if not ADataSet.Fields[I].IsNull then
-                Result.AddPair(LKey, TJSONString.Create(DateTimeToISOTimeStamp(ADataSet.Fields[I].AsDateTime)))
-              else
-                Result.AddPair(LKey, TJSONNull.Create);
-            end;
-          TFieldType.ftTime:
-            begin
-              if not ADataSet.Fields[I].IsNull then
+              if SameText(ADataSet.Fields[I].AsWideString, 'SIM') then
               begin
-                var LTimeStamp := ADataSet.Fields[I].AsSQLTimeStamp;
-                Result.AddPair(LKey, TJSONString.Create(SQLTimeStampToStr('hh:nn:ss', LTimeStamp)));
+                Result.AddPair(LKey, TJSONTrue.Create);
+              end
+              else if SameText(ADataSet.Fields[I].AsWideString, 'NÃO') then
+              begin
+                Result.AddPair(LKey, TJSONFalse.Create);
               end
               else
-                Result.AddPair(LKey, TJSONNull.Create);
-            end;
-          TFieldType.ftCurrency:
-            begin
-              if not ADataSet.Fields[I].IsNull then
-                Result.AddPair(LKey, TJSONString.Create(FormatCurr('0.00##', ADataSet.Fields[I].AsCurrency)))
-              else
-                Result.AddPair(LKey, TJSONNull.Create);
-            end;
-          TFieldType.ftFMTBcd, TFieldType.ftBCD:
-            begin
-              if not ADataSet.Fields[I].IsNull then
-                Result.AddPair(LKey, TJSONNumber.Create(BcdToDouble(ADataSet.Fields[I].AsBcd)))
-              else
-                Result.AddPair(LKey, TJSONNull.Create);
-            end;
-          TFieldType.ftGraphic, TFieldType.ftBlob, TFieldType.ftStream:
-            begin
-              var ms := TMemoryStream.Create;
-              try
-                TBlobField(ADataSet.Fields[I]).SaveToStream(ms);
-                ms.Position := 0;
-                var ss := TStringStream.Create;
-                try
-                  TNetEncoding.Base64.Encode(ms, ss);
-                  Result.AddPair(LKey, TJSONString.Create(ss.DataString));
-                finally
-                  ss.Free;
-                end;
-              finally
-                ms.Free;
-              end;
-            end;
-          TFieldType.ftGuid:
-          begin
-            Result.AddPair(LKey, ADataSet.Fields[I].AsString);
+                Result.AddPair(LKey, TJSONString.Create(ADataSet.Fields[I].AsWideString));
+            end
+            else
+              Result.AddPair(LKey, TJSONNull.Create);
           end;
-        else
-          raise EDataSetConverterException.CreateFmt('Cannot find type for field "%s"', [LKey]);
+        TFieldType.ftDate:
+          begin
+            if not ADataSet.Fields[I].IsNull then
+              Result.AddPair(LKey, TJSONString.Create(DateToISODate(ADataSet.Fields[I].AsDateTime)))
+            else
+              Result.AddPair(LKey, TJSONNull.Create);
+          end;
+        TFieldType.ftTimeStamp, TFieldType.ftDateTime:
+          begin
+            if not ADataSet.Fields[I].IsNull then
+              Result.AddPair(LKey, TJSONString.Create(DateTimeToISOTimeStamp(ADataSet.Fields[I].AsDateTime)))
+            else
+              Result.AddPair(LKey, TJSONNull.Create);
+          end;
+        TFieldType.ftTime:
+          begin
+            if not ADataSet.Fields[I].IsNull then
+            begin
+              var LTimeStamp := ADataSet.Fields[I].AsSQLTimeStamp;
+              Result.AddPair(LKey, TJSONString.Create(SQLTimeStampToStr('hh:nn:ss', LTimeStamp)));
+            end
+            else
+              Result.AddPair(LKey, TJSONNull.Create);
+          end;
+        TFieldType.ftCurrency:
+          begin
+            if not ADataSet.Fields[I].IsNull then
+              Result.AddPair(LKey, TJSONString.Create(FormatCurr('0.00##', ADataSet.Fields[I].AsCurrency)))
+            else
+              Result.AddPair(LKey, TJSONNull.Create);
+          end;
+        TFieldType.ftFMTBcd, TFieldType.ftBCD:
+          begin
+            if not ADataSet.Fields[I].IsNull then
+              Result.AddPair(LKey, TJSONNumber.Create(BcdToDouble(ADataSet.Fields[I].AsBcd)))
+            else
+              Result.AddPair(LKey, TJSONNull.Create);
+          end;
+        TFieldType.ftGraphic, TFieldType.ftBlob, TFieldType.ftStream:
+          begin
+            var ms := TMemoryStream.Create;
+            try
+              TBlobField(ADataSet.Fields[I]).SaveToStream(ms);
+              ms.Position := 0;
+              var ss := TStringStream.Create;
+              try
+                TNetEncoding.Base64.Encode(ms, ss);
+                Result.AddPair(LKey, TJSONString.Create(ss.DataString));
+              finally
+                ss.Free;
+              end;
+            finally
+              ms.Free;
+            end;
+          end;
+        TFieldType.ftGuid:
+        begin
+          Result.AddPair(LKey, ADataSet.Fields[I].AsString);
         end;
+      else
+        raise EDataSetConverterException.CreateFmt('Cannot find type for field "%s"', [LKey]);
       end;
     end;
   end;
 end;
 
-function TdamProducts.ProDSTToJSONStringStream(const AProducts, AAttributes: TDataSet): TStringStream;
+function TdamProducts.ForeignOperatorsUpdateRecord(const ANome: string; ACpfCnpjRaiz: string; const ACodigoPais: string; const ACodigoDuimpField: TField; const ADataSet: TDataSet;
+  const AProduct: TDataSet): Boolean;
 begin
-  var LJSonObject := ConverterProDSTToJSON(AProducts, AAttributes);
+  if ADataSet.IsEmpty then
+  begin
+    Exit(False);
+  end;
+  var LRecordId := '';
+  var LResponseCode := 0;
   try
-    Result := TStringStream.Create(LJSonObject.ToJSON, TEncoding.UTF8);
+    PComex.Products.ForeignOperators.Get(ANome, ACpfCnpjRaiz, ACodigoPais,
+      procedure(const AResponse: IOEIResponse)
+      begin
+        LResponseCode := AResponse.ResponseCode;
+        if LResponseCode = 200 then
+        begin
+          LRecordId := AResponse.Content.ToArray[0].Codigo;
+        end
+        else if AResponse.ResponseCode = 204 then
+        begin
+          var LJSonObject := DataSetToJSONObject(ADataSet);
+          RemoveEmptyJsonFields(LJSonObject);
+          var LStream := TStringStream.Create(LJSonObject.ToJSON, TEncoding.UTF8);
+          try
+            PComex.Products.ForeignOperators.Post(LStream, ACpfCnpjRaiz, ACodigoPais,
+              procedure(const AResponse: IOEIResponse)
+              begin
+                LResponseCode := AResponse.ResponseCode;
+                if LResponseCode = 200 then
+                begin
+                  LRecordId := AResponse.Content.ToArray[0].Codigo;
+                end;
+              end);
+          finally
+            FreeAndNil(LStream);
+          end;
+        end;
+      end);
+    if LResponseCode = 200 then
+    begin
+      ADataSet.Edit;
+      ACodigoDuimpField.AsString := LRecordId;
+      ADataSet.Post;
+    end;
+    Result := LResponseCode <= 204;
+  except
+    on E: Exception do
+    begin
+      raise Exception.Create(E.Message);
+    end;
+  end;
+end;
+
+procedure TdamProducts.DataModuleCreate(Sender: TObject);
+begin
+  inherited;
+  mtbFPR.CreateDataSet;
+  FProductMsgList := CreateProductMsgList;
+end;
+
+procedure TdamProducts.ManufacturerProducer(const AProDST: TDataSet);
+begin
+  var LJSonObject := DataSetToJSONObject(mtbFPR);
+  try
+    var LFORStream := TStringStream.Create(LJSonObject.ToJSON, TEncoding.UTF8);
+    try
+      PComex.Products.ManufacturerProducer.Post(AProDST.FieldByName('cpfCnpjRaiz').AsString, LFORStream);
+    finally
+      FreeAndNil(LFORStream);
+    end;
   finally
     FreeAndNil(LJSonObject);
   end;
 end;
 
-procedure TdamProducts.ExportProd;
+procedure TdamProducts.LinkManufacturerOrProducer(const AProDST: TDataSet);
 begin
-  var LProDST := qryEPR;
-  var LStream := ProDSTToJSONStringStream(LProDST, qryATT);
   try
-    PComex.Products.Post(LStream,
-      procedure(const AResponse: ILVVResponse)
-      var
-        LProdID: Integer;
-      begin
-        if AResponse.ResponseCode = 200 then
+    if qryFAB.IsEmpty then
+      Exit;
+    ForeignOperatorsUpdateRecord(
+      qryFABNome.AsString,
+      AProDST.FieldByName('cpfCnpjRaiz').AsString,
+      qryFABcodigoPais.AsString,
+      qryFABCodigoDuimp,
+      qryFAB,
+      AProDST);
+    LinkManufacturerOrProducerToProduct(
+      qryFABCodigoDuimp,
+      qryFABcnpj,
+      AProDST.FieldByName('CodigoProduto'),
+      qryFABcodigoPais);
+    ManufacturerProducer(AProDST);
+  except
+    on E: Exception do
+    begin
+      raise Exception.Create(E.Message);
+    end;
+  end;
+end;
+
+procedure TdamProducts.ExportProd;
+ var
+   LProDST: TFDDataSet;
+begin
+  FProductMsgList.Clear;
+  LProDST := qryEPR;
+  var LBookMark := LProDST.BookMark;
+  try
+    LProDST.First;
+    while not LProDST.Eof do
+    begin
+      var LJSonObject := DataSetToJSONObject(LProDST);
+      try
+        if not qryATT.IsEmpty then
         begin
-          var LSucessos := 0;
-          var LRecNo := LProDST.RecNo;
+          var LDetailDS := DataSetToJSONArray(qryATT);
+          RemoverAtributosSemValor(LDetailDS);
+          LJSonObject.AddPair('atributos', LDetailDS);
+        end;
+        var LArray := TJSONArray.Create;
+        LArray.Add(LProDST.FieldByName('prodId').AsString);
+        if not LProDST.FieldByName('codigoFabricante').AsString.Trim.IsEmpty then
+          LArray.Add(LProDST.FieldByName('codigoFabricante').AsString);
+        LJSonObject.AddPair('codigosInterno', LArray);
+        var LStream := TStringStream.Create(LJSonObject.ToJSON, TEncoding.UTF8);
+        try
+          LStream.Position := 0;
           try
-            for var LResponse in AResponse.Content do if
-              LProDST.LocateEx('Seq', LResponse.Seq) then
+            if qryFAB.IsEmpty then
+              raise Exception.Create('Declare um fabricante.');
+            if qryFABlogradouro.AsString.Trim.IsEmpty then
+              raise Exception.CreateFmt('Declare um logradouro para o fabricante %s.', [qryFABNome.AsString]);
+            if qryFABcodigoPais.AsString.Trim.IsEmpty then
+              raise Exception.CreateFmt('Declare a sigla de país para o fabricante %s.', [qryFABNome.AsString]);
+            var LProductExists := LProDST.FieldByName('CodigoProduto').AsInteger > 0;
+            if LProductExists then
+            begin
+              PComex.Products.GetByID(LProDST.FieldByName('CodigoProduto').AsInteger, LProDST.FieldByName('cpfCnpjRaiz').AsString,
+                procedure(const AResponse: IProductResponse)
+                  begin
+                    if AResponse.ResponseCode = 200 then
+                    begin
+                      LProductExists := Assigned(AResponse.Content);
+                    end;
+                  end);
+            end;
+            if not LProductExists then
+            begin
+              PComex.Products.Post(LProDST.FieldByName('cpfCnpjRaiz').AsString, LStream,
+                procedure(const AResponse: IProductResponse)
+                begin
+                  if AResponse.ResponseCode = 200 then
+                  begin
+                    LProDST.Edit;
+                    LProDST.FieldByName('CodigoProduto').AsInteger := AResponse.Content.Codigo;
+                    LProDST.Post;
+                  end;
+                end);
+            end;
+            LinkManufacturerOrProducer(LProDST);
+            LProDST.Edit;
+            LProDST.FieldByName('NaoSincPSiscomex').AsBoolean := True;
+            LProDST.Post;
+          except
+            on E: Exception do
             begin
               LProDST.Edit;
-              if LResponse.Sucesso then
-              begin
-                LProDST.FieldByName('CodigoProduto').AsInteger := LResponse.Codigo.ToInteger;
-              end
-              else
-              begin
-                if FindProdID(LResponse.Erros, LProdID) then
-                begin
-                  LProDST.FieldByName('CodigoProduto').AsInteger := LProdID;
-                  LResponse.Sucesso := True;
-                end
-                else
-                  LProDST.FieldByName('Msg').AsString := Concat('Produto - Erro: ', string.Join(#13 + '         ', LResponse.Erros));
-              end;
+              LProDST.FieldByName('NaoSincPSiscomex').AsBoolean := False;
               LProDST.Post;
-//              if LResponse.Sucesso then
-//              begin
-//                ProdUpdateRecord(LProDST);
-//                Inc(LSucessos);
-//              end;
-            end;
-          finally
-            if LSucessos = 0 then
-            begin
-              LProDST.RecNo := LRecNo;
+              FProductMsgList[LProDST.FieldByName('prodId').AsInteger] := Concat('Produto - Erro: ', string.Join(#13 + '         ', E.Message));
             end;
           end;
+        finally
+          FreeAndNil(LStream);
         end;
-      end);
+      finally
+        FreeAndNil(LJSonObject);
+      end;
+      LProDST.Next;
+    end;
+    LProDST.Refresh;
   finally
-    FreeAndNil(LStream);
+    if LProDST.BookmarkValid(LBookMark) then
+    begin
+      LProDST.GotoBookmark(LBookMark);
+    end;
+    LProDST.FreeBookmark(LBookMark);
   end;
 end;
 
@@ -443,13 +584,11 @@ begin
   qryATT.Close;
   qryDOM.Close;
   qryFAB.Close;
-  qryFOR.Close;
   qryATD.Open;
   qryEPR.Open;
   qryATT.Open;
   qryDOM.Open;
   qryFAB.Open;
-  qryFOR.Open;
 end;
 
 procedure TdamProducts.ImportAttributes(const AProducts: IProductList);
@@ -470,6 +609,18 @@ begin
   finally
     FreeAndNil(damAttrs);
   end;
+end;
+
+procedure TdamProducts.LinkManufacturerOrProducerToProduct(const ACodigoOperadorEstrangeiroField, ACpfCnpjFabricanteField, ACodigoProdutoField, ACodigoPaisField: TField);
+begin
+  mtbFPR.EmptyDataSet;
+  mtbFPR.Append;
+  mtbFPRCodigoOperadorEstrangeiro.AsString := ACodigoOperadorEstrangeiroField.AsString;
+  mtbFPRCpfCnpjFabricante.AsString := ACpfCnpjFabricanteField.AsString;
+  mtbFPRConhecido.AsBoolean := True;
+  mtbFPRCodigoProduto.AsInteger := ACodigoProdutoField.AsInteger;
+  mtbFPRCodigoPais.AsString := ACodigoPaisField.AsString;
+  mtbFPR.Post;
 end;
 
 procedure TdamProducts.PrepareProducts(const AProducts: IProductList);
@@ -514,6 +665,7 @@ end;
 procedure TdamProducts.qryEPRCalcFields(DataSet: TDataSet);
 begin
   qryEPRcpfCnpjRaiz.AsString := PComex.Duimp.CpfCnpjRaiz;
+  qryEPRmsg.AsString := if FProductMsgList.ContainsKey(qryEPRprodId.AsInteger) then FProductMsgList[qryEPRprodId.AsInteger] else '';
 end;
 
 end.

@@ -1,4 +1,4 @@
-unit duimp.dom.DataModules.damDuimp;
+Ôªøunit duimp.dom.DataModules.damDuimp;
 
 interface
 
@@ -1095,9 +1095,6 @@ begin
 end;
 
 procedure TdamDuimp.GeneratePaymentAndReceipt(const ASender: TDataSet; const AValue: Double; const APRObservacao: string);
-var
-  LNumeroParam: TFDParam;
-  LRegistroParam: TFDParam;
 begin
   cmdPRIns.Unprepare;
   cmdPRIns.Params.ParamByName('CodigoCF').AsString := ASender.FieldByName('CodigoCF').AsString;
@@ -1124,21 +1121,14 @@ begin
   cmdPRIns.Params.ParamByName('Valor_Total').AsFloat := AValue;
   cmdPRIns.Params.ParamByName('Valor_Operacao').AsFloat := AValue;
   cmdPRIns.Params.ParamByName('Observacao').AsString := APRObservacao;
-  LNumeroParam := cmdPRIns.ParamByName('Numero');
+  var LNumeroParam := cmdPRIns.ParamByName('Numero');
   LNumeroParam.ParamType := ptOutput;
   cmdPRIns.Execute;
 end;
 
 procedure TdamDuimp.PaymentsCreate(const ASender: TDataSet);
-var
-  LValue: Double;
 begin
-  LValue :=
-    {IF}IIF(not SameText(ASender.FieldByName('CodigoReceita').AsString, '5629'){THEN},
-      ASender.FieldByName('Valor').AsFloat
-    {ELSE},
-      qryProcValor_COFINS2.AsFloat
-    {ENDIF});
+  var LValue := if not SameText(ASender.FieldByName('CodigoReceita').AsString, '5629') then ASender.FieldByName('Valor').AsFloat else qryProcValor_COFINS2.AsFloat;
   GeneratePaymentAndReceipt(ASender, LValue, '');
 end;
 
@@ -1159,7 +1149,7 @@ begin
   qryProc.Open;
   qryProc.Edit;
   qryProcNumero_Declaracao.AsString := qryDUVNumero.AsString;
-  qryProcTipo.AsString := 'IMPORTA«√O';
+  qryProcTipo.AsString := 'IMPORTA√á√ÉO';
   qryProcUF_Desembaraco.AsString := qryDCRUFDesembaraco.AsString;
   qryProcUF_Importacao.AsString := qryDCRUFImportacao.AsString;
   qryProcProcesso_Mestre.AsString := qryDUIProcessoNumeroVinculado.AsString;
@@ -1421,22 +1411,19 @@ begin
 end;
 
 procedure TdamDuimp.AdditionsCreate(const AProcessCreateEvent: TProcessCreateEvent);
-var
-  LDataSource: TDataSource;
-  LInTransaction: Boolean;
 begin
   if (qryDUI.ChangeCount > 0) then
   begin
     qryDUI.ApplyUpdates;
   end;
   qryDPR.Refresh;
-  LDataSource := qryPRO.MasterSource;
+  var LDataSource := qryPRO.MasterSource;
   if Assigned(AProcessCreateEvent) then
   begin
     AProcessCreateEvent(TStepProcessCreate.UpdateGoodsData, qryDPR.RecordCount);
   end;
   try
-    LInTransaction := not damConnection.DBCliente.InTransaction;
+    var LInTransaction := not damConnection.DBCliente.InTransaction;
     if LInTransaction then
     begin
       damConnection.DBCliente.StartTransaction;
@@ -1538,11 +1525,8 @@ procedure TdamDuimp.ProductGet(const AProdutoCodigo, AProdutoVersao, AProdutoCod
   AAdicao, ATipoItem: Integer; const AUFImportacao, AUnidadeComercial, ATipoAliquota, ADescricaoMercadoria: string;
   const ACamex: Boolean; const APesoLiquidoUnitario, AII, AIPI, APIS, ACOFINS, APIS_ENTRADA, APIS_SAIDA, ACOFINS_ENTRADA, ACOFINS_SAIDA,
   AValorII, AValorIPI, AValorPIS, AValorCOFINS, AReduzidaII, AReduzidaIPI, AReduzidaPIS, AReduzidaCOFINS: Double);
-var
-  LForeignOperators: TForeignOperators;
-  LProducts: TProducts;
 begin
-  LForeignOperators := TForeignOperators.Create(Authenticator);
+  var LForeignOperators := TForeignOperators.Create(Authenticator);
   try
     LForeignOperators.GetByID(
       qryFRNCodigo_DUIMP.AsString,
@@ -1575,7 +1559,7 @@ begin
     FreeAndNil(LForeignOperators);
   end;
 
-  LProducts := TProducts.Create(Authenticator);
+  var LProducts := TProducts.Create(Authenticator);
   try
     LProducts.GetByID(
       AProdutoCodigo,
@@ -1606,9 +1590,6 @@ begin
           end;
         end;
 
-      var
-        damAttrs: TdamAttrs;
-        LAttr: TProdutoCampoSimplesIntegracaoDTO;
       begin
         if AResponse.ResponseCode = 200 then
         begin
@@ -1668,7 +1649,7 @@ begin
           qryPROFornecedor.AsString := qryFRNCodigo_DUIMP.AsString;
           qryPROAliquota_CBS.AsFloat := qryCONAliquota_CBS.AsFloat;
           qryPRO.Post;
-          damAttrs := TdamAttrs.Create(nil);
+          var damAttrs := TdamAttrs.Create(nil);
           try
             damAttrs.Import(LProduct.Ncm, LProduct.Denominacao, AUnidadeComercial,
               ATipoAliquota, ACamex, AAdicao, AModalidadeCodigo, AII, AIPI, APIS,
@@ -1683,7 +1664,7 @@ begin
             end;
             if not qryATS.IsEmpty then
             begin
-              for LAttr in LProduct.Atributos do if
+              for var LAttr in LProduct.Atributos do if
                 qryATS.LocateEx('Atributo', LAttr.Atributo) and
                 qryATSValor.AsString.Trim.IsEmpty then
               begin
@@ -1730,12 +1711,7 @@ end;
 
 procedure TdamDuimp.CheckMoedaGetText(Sender: TField; var Text: string; DisplayText: Boolean);
 begin
-  if (Sender.AsInteger = 0) or (Sender.AsInteger = 9999) then
-  begin
-    Text := '';
-  end
-  else
-    Text := Sender.AsString;
+  Text := if (Sender.AsInteger = 0) or (Sender.AsInteger = 9999) then '' else Sender.AsString;
 end;
 
 procedure TdamDuimp.CloseDataSets;
@@ -1824,16 +1800,14 @@ begin
 end;
 
 procedure TdamDuimp.DifferenceLaunch;
-var 
-  LValue: Double;
 begin
   // PIS...
-  LValue := qryProcValor_PIS.AsFloat - qryProcValor_PIS2.AsFloat;
+  var LValue := qryProcValor_PIS.AsFloat - qryProcValor_PIS2.AsFloat;
   if qryDTVSel.LocateEx('Tipo', 'PIS') and 
     (qryDTVSelMajorado.AsFloat > 0) and
     not qryCFPis.IsEmpty and (LValue > 0) then
   begin
-    GeneratePaymentAndReceipt(qryCFPis, LValue, 'DiferenÁa de PIS importaÁ„o');
+    GeneratePaymentAndReceipt(qryCFPis, LValue, 'Diferen√ßa de PIS importa√ß√£o');
   end;
   // COFINS...
   LValue := qryProcValor_COFINS.AsFloat - qryProcValor_COFINS2.AsFloat;
@@ -1841,7 +1815,7 @@ begin
     (qryDTVSelMajorado.AsFloat > 0) and
     not qryCFCofins.IsEmpty and (LValue > 0) then
   begin
-    GeneratePaymentAndReceipt(qryCFCofins, LValue, 'DiferenÁa de COFINS importaÁ„o');
+    GeneratePaymentAndReceipt(qryCFCofins, LValue, 'Diferen√ßa de COFINS importa√ß√£o');
   end;
   // AFRMM...
   LValue := qryProcAFRMM.AsFloat;
@@ -1853,17 +1827,15 @@ begin
   LValue := qryProcTUP.AsFloat;
   if not qryCFTup.IsEmpty and (LValue > 0) then
   begin
-    GeneratePaymentAndReceipt(qryCFTup, LValue, 'Tarifa utilizaÁ„o Portu·rio (TUP)');
+    GeneratePaymentAndReceipt(qryCFTup, LValue, 'Tarifa utiliza√ß√£o Portu√°rio (TUP)');
   end;
 end;
 
 procedure TdamDuimp.DoApplyUpdates(const ADataSet: TFDDataSet; const ADoUpdateRecord: TDoUpdateRecord);
-var
-  LRecNo: Integer;
 begin
   if Assigned(ADoUpdateRecord) then
   begin
-    LRecNo := ADataSet.RecNo;
+    var LRecNo := ADataSet.RecNo;
     try
       ADataSet.First;
       while not ADataSet.Eof do
@@ -1886,12 +1858,7 @@ end;
 
 procedure TdamDuimp.MoedaNegociadaValorGetText(Sender: TField; var Text: string; DisplayText: Boolean);
 begin
-  if Sender.AsFloat > 0 then
-  begin
-    Text := FormatCurr(TFloatField(Sender).DisplayFormat, Sender.AsFloat);
-  end
-  else
-    Text := '';
+  Text := if Sender.AsFloat > 0 then FormatCurr(TFloatField(Sender).DisplayFormat, Sender.AsFloat) else '';
 end;
 
 procedure TdamDuimp.qryATSValorGetText(Sender: TField; var Text: string; DisplayText: Boolean);
@@ -1973,10 +1940,8 @@ begin
 end;
 
 procedure TdamDuimp.TryCreateDAADataSet(const AAtributos: TArray<TAtributoTributoCover>);
-var
-  LAtributo: TAtributoTributoCover;
 begin
-  for LAtributo in AAtributos do
+  for var LAtributo in AAtributos do
   begin
     qryDAA.Append;
     qryDAACodigo.AsString := LAtributo.Codigo;
@@ -1986,10 +1951,8 @@ begin
 end;
 
 procedure TdamDuimp.TryCreateDADDataSet(const AItem: TItemDuimpCover);
-var
-  LAD: TAcrescimoDeducaoConsultaItemCover;
 begin
-  for LAD in AItem.CondicaoVenda.AcrescimosDeducoes do
+  for var LAD in AItem.CondicaoVenda.AcrescimosDeducoes do
   begin
     qryDAD.Append;
     qryDADDenominacaoCodigo.AsInteger := LAD.Denominacao.Codigo;
@@ -2005,27 +1968,28 @@ procedure TdamDuimp.TryCreateDCGDataSet(const ADuimp: TDuimpConsultaCover);
 begin
   qryDCG.Append;
   qryDCGIdentificacao.AsString := ADuimp.Carga.Identificacao;
-  qryDCGIdentificacaoCargaTipo.AsString := ADuimp.Carga.TipoIdentificacaoCarga;
-  qryDCGFreteMoedaNegociadaSimbolo.AsString := ADuimp.Carga.Frete.CodigoMoedaNegociada;
-  qryDCGFreteMoedaNegociadaValor.AsFloat := ADuimp.Carga.Frete.ValorMoedaNegociada;
-  if Assigned(ADuimp.Carga.MotivoSituacaoEspecial) then
-  begin
+  if ADuimp.Carga.TipoIdentificacaoCarga.Trim.IsEmpty then
+    qryDCGIdentificacaoCargaTipo.Clear
+  else
+    qryDCGIdentificacaoCargaTipo.AsString := ADuimp.Carga.TipoIdentificacaoCarga;
+  qryDCGFreteMoedaNegociadaSimbolo.AsString := if Assigned(ADuimp.Carga.Frete) then ADuimp.Carga.Frete.CodigoMoedaNegociada else '';
+  qryDCGFreteMoedaNegociadaValor.AsFloat := if Assigned(ADuimp.Carga.Frete) then ADuimp.Carga.Frete.ValorMoedaNegociada else 0.00;
+  if not Assigned(ADuimp.Carga.MotivoSituacaoEspecial) then
+    qryDCGMotivoSituacaoEspecialCodigo.Clear
+  else
     qryDCGMotivoSituacaoEspecialCodigo.AsString := ADuimp.Carga.MotivoSituacaoEspecial.Codigo;
-  end;
-  if Assigned(ADuimp.Carga.PaisProcedencia) then
-  begin
+  if not Assigned(ADuimp.Carga.PaisProcedencia) then
+    qryDCGPaisProcedenciaCodigo.Clear
+  else
     qryDCGPaisProcedenciaCodigo.AsString := ADuimp.Carga.PaisProcedencia.Codigo;
-  end;
-  qryDCGSeguroMoedaNegociadaSimbolo.AsString := ADuimp.Carga.Seguro.CodigoMoedaNegociada;
-  qryDCGSeguroMoedaNegociadaValor.AsFloat := ADuimp.Carga.Seguro.ValorMoedaNegociada;
+  qryDCGSeguroMoedaNegociadaSimbolo.AsString := if Assigned(ADuimp.Carga.Seguro) then ADuimp.Carga.Seguro.CodigoMoedaNegociada else '';
+  qryDCGSeguroMoedaNegociadaValor.AsFloat := if Assigned(ADuimp.Carga.Seguro) then ADuimp.Carga.Seguro.ValorMoedaNegociada else 0.00;
   qryDCGUnidadeDespachoCodigo.AsInteger := ADuimp.Carga.UnidadeDeclarada.Codigo;
   qryDCG.Post;
 end;
 
 procedure TdamDuimp.TryCreateDCRDataSet(const ANumer: string; const AVersion: Integer;
   const AFindDuimpEvent: TFindDuimpEvent);
-var
-  LDuimp: TDuimpConsultaCover;
 begin
   if qryDCR.IsEmpty and (AVersion > 0) then
   begin
@@ -2039,10 +2003,10 @@ begin
         begin
           if AResponse.ResponseCode = 200 then
           begin
-            LDuimp := AResponse.Content;
+            var LDuimp := AResponse.Content;
             if not SameText(LDuimp.Identificacao.Importador.Ni, PComex.Duimp.NI_IMPORTADOR) then
             begin
-              raise Exception.CreateFmt('A empresa logada ''%s'' n„o È o importador da DUIMP ''%s''.', [
+              raise Exception.CreateFmt('A empresa logada ''%s'' n√£o √© o importador da DUIMP ''%s''.', [
                 GetCpfOrCnpfMask(PComex.Duimp.NI_IMPORTADOR), ANumer]);
             end;
             if Assigned(AFindDuimpEvent) then
@@ -2062,10 +2026,8 @@ begin
               end);
             TThread.Queue(nil,
               procedure
-              var
-                LPayment: TPagamentoDuimpConsultaCover;
               begin
-                for LPayment in LDuimp.Pagamentos do if
+                for var LPayment in LDuimp.Pagamentos do if
                   not qryDPG.LocateEx('VersaoOrigem;Tributo', VarArrayOf([
                   LPayment.VersaoOrigem, LPayment.Principal.Tributo.Tipo])) then
                 begin
@@ -2091,8 +2053,6 @@ begin
               end);
             TThread.Queue(nil,
               procedure
-              var
-                LTributo: TTributoCalculadoDuimpConsultaCover;
 
                 procedure AddTributo(const ATipo: string; const ACalculado, AAReduzir, ADevido, ASuspenso,
                   AARecolher, ARecolhido, AMajorado: Double);
@@ -2123,7 +2083,7 @@ begin
                 qryDCRValorTotalLocalEmbarqueBRL.AsFloat := LDuimp.Tributos.Mercadoria.ValorTotalLocalEmbarqueBRL;
                 qryDCRValorTotalLocalEmbarqueUSD.AsFloat := LDuimp.Tributos.Mercadoria.ValorTotalLocalEmbarqueUSD;
                 qryDCR.Post;
-                for LTributo in LDuimp.Tributos.TributosCalculados do
+                for var LTributo in LDuimp.Tributos.TributosCalculados do
                 begin
                   AddTributo(
                    LTributo.Tipo
@@ -2166,10 +2126,8 @@ begin
 end;
 
 procedure TdamDuimp.TryCreateDIADataSet(const AItem: TItemDuimpCover);
-var
-  LItem: TTributoItemCover;
 begin
-  for LItem in AItem.Tributos.TributosAplicados do
+  for var LItem in AItem.Tributos.TributosAplicados do
   begin
     qryDIA.Append;
     qryDIATributoCodigo.AsString := LItem.Tributo.Codigo;
@@ -2181,10 +2139,8 @@ begin
 end;
 
 procedure TdamDuimp.TryCreateDICDataSet(const AItem: TItemDuimpCover);
-var
-  LItem: TTributoCalculadoItemCover;
 begin
-  for LItem in AItem.Tributos.TributosCalculados do
+  for var LItem in AItem.Tributos.TributosCalculados do
   begin
     qryDIC.Append;
     qryDICTipo.AsString := LItem.Tipo;
@@ -2319,21 +2275,18 @@ begin
 end;
 
 procedure TdamDuimp.TryCreateDRRDataSet(const ADuimp: TDuimpConsultaCover);
-var
-  LDRA: TResultadoAnaliseRiscoAnuenteCover;
-  LRFB: TResultadoAnaliseRiscoRfbCover;
 begin
   qryDRR.Append;
   qryDRRCanalConsolidado.AsString := ADuimp.ResultadoAnaliseRisco.CanalConsolidado;
   qryDRR.Post;
-  for LDRA in ADuimp.ResultadoAnaliseRisco.ResultadoAnuente do
+  for var LDRA in ADuimp.ResultadoAnaliseRisco.ResultadoAnuente do
   begin
     qryDRA.Append;
     qryDRAOrgao.AsString := LDRA.Orgao;
     qryDRAResultado.AsString := LDRA.Resultado;
     qryDRA.Post;
   end;
-  for LRFB in ADuimp.ResultadoAnaliseRisco.ResultadoRFB do
+  for var LRFB in ADuimp.ResultadoAnaliseRisco.ResultadoRFB do
   begin
     qryRFB.Append;
     qryRFBOrgao.AsString := LRFB.Orgao;
@@ -2343,11 +2296,8 @@ begin
 end;
 
 procedure TdamDuimp.TryCreateDUIDataSet(const ANumer: string; const AFindDuimpEvent: TFindDuimpEvent);
-var
-  LInTransaction: Boolean;
-  LVersion: Integer;
 begin
-  LVersion := qryDUVVersao.AsInteger;
+  var LVersion := qryDUVVersao.AsInteger;
   if Assigned(AFindDuimpEvent) then
   begin
     AFindDuimpEvent(TStepFindDuimp.CheckingDuimpVersion, Null);
@@ -2367,7 +2317,7 @@ begin
   if (LVersion > qryDUVVersao.AsInteger) or
     (qryDUVVersao.AsInteger = 0) then
   begin
-    LInTransaction := qryDUI.Connection.InTransaction;
+    var LInTransaction := qryDUI.Connection.InTransaction;
     if not LInTransaction then
     begin
       qryDUI.Connection.StartTransaction;
@@ -2476,7 +2426,6 @@ begin
   end;
 end;
 
-
 procedure TdamDuimp.UpdateDCI;
 begin
   qryDCI.Post;
@@ -2563,11 +2512,11 @@ procedure TdamDuimp.qryDADTipoGetText(Sender: TField; var Text: string; DisplayT
 begin
   if Sender.AsString = 'ACRESCIMO' then
   begin
-    Text := 'ACR…SCIMO';
+    Text := 'ACR√âSCIMO';
   end
   else if Sender.AsString = 'DEDUCAO' then
   begin
-    Text := 'DEDU«√O';
+    Text := 'DEDU√á√ÉO';
   end;
 end;
 
@@ -2619,12 +2568,7 @@ end;
 
 procedure TdamDuimp.qryDCIFreteSeguroGetText(Sender: TField; var Text: string; DisplayText: Boolean);
 begin
-  if Sender.AsBoolean then
-  begin
-    Text := 'SIM';
-  end
-  else
-    Text := 'N√O';
+  Text := if Sender.AsBoolean then 'SIM' else 'N√ÉO';
 end;
 
 procedure TdamDuimp.qryDCINewRecord(DataSet: TDataSet);
@@ -2733,13 +2677,10 @@ begin
 end;
 
 procedure TdamDuimp.qryOpeCodigoInternoChange(Sender: TField);
-var
-  LField: TField;
-  LOnChangeEvent: TFieldNotifyEvent;
 begin
   if Sender.IsNull then
   begin
-    for LField in Sender.DataSet.Fields do if
+    for var LField in Sender.DataSet.Fields do if
       LField.Tag = 1 then
     begin
       LField.Clear;
@@ -2751,7 +2692,7 @@ begin
     try
       qryLFR.ParamByName('Codigo').AsInteger := Sender.AsInteger;
       qryLFR.Open;
-      LOnChangeEvent := Sender.OnChange;
+      var LOnChangeEvent := Sender.OnChange;
       try
         Sender.OnChange := nil;
         TFDQuery(Sender.DataSet).CopyRecord(qryLFR);

@@ -1,13 +1,20 @@
 inherited damProducts: TdamProducts
-  Height = 448
-  Width = 261
+  Height = 375
+  Width = 337
   object qryPRO: TFDQuery
     Connection = damConnection.DBCliente
     SQL.Strings = (
       'SELECT ProdId = PRO.Codigo'
       ',PRO.NCM'
       ',Produto   = Red.ReduzidaFinal'
-      ',Descricao = LEFT(Rem.DescricaoFinal, 3700)'
+      
+        ',Descricao = LEFT(IIF(CHARINDEX('#39'<{'#39', Rem.DescricaoFinal) > 0, S' +
+        'UBSTRING(Rem.DescricaoFinal, 0, CHARINDEX('#39'<{'#39', Rem.DescricaoFin' +
+        'al) -1), Rem.DescricaoFinal), 3700)      '
+      ',Modalidade = '
+      ' CASE WHEN PRO.Origem = '#39'I'#39' THEN '#39'IMPORTACAO'#39
+      '      WHEN PRO.Origem = '#39'N'#39' THEN '#39'EXPORTACAO'#39
+      ' END'
       'FROM Produtos PRO'
       ''
       '-- 1) Normaliza'#231#227'o da descri'#231#227'o reduzida'
@@ -89,6 +96,13 @@ inherited damProducts: TdamProducts
       Origin = 'NCM'
       Size = 10
     end
+    object qryPROModalidade: TStringField
+      DisplayWidth = 11
+      FieldName = 'Modalidade'
+      Origin = 'Modalidade'
+      ReadOnly = True
+      Size = 10
+    end
     object qryPROProduto: TStringField
       FieldName = 'Produto'
       Origin = 'Produto'
@@ -114,18 +128,23 @@ inherited damProducts: TdamProducts
   object qryEPR: TFDQuery
     OnCalcFields = qryEPRCalcFields
     Connection = damConnection.DBCliente
+    UpdateObject = updEPR
     SQL.Strings = (
-      'SELECT ROW_NUMBER() OVER(ORDER BY PRO.Codigo ASC) AS seq'
-      ',prodId = PRO.Codigo'
+      'SELECT prodId = PRO.Codigo'
       ',PRO.ncm'
       ',denominacao   = Red.ReduzidaFinal'
-      ',descricao = LEFT(Rem.DescricaoFinal, 3700)'
+      
+        ',descricao = LEFT(IIF(CHARINDEX('#39'<{'#39', Rem.DescricaoFinal) > 0, S' +
+        'UBSTRING(Rem.DescricaoFinal, 0, CHARINDEX('#39'<{'#39', Rem.DescricaoFin' +
+        'al) -1), Rem.DescricaoFinal), 3700)'
       ',situacao = '#39'ATIVADO'#39
       ',Modalidade = '
       ' CASE WHEN PRO.Origem = '#39'I'#39' THEN '#39'IMPORTACAO'#39
       '      WHEN PRO.Origem = '#39'N'#39' THEN '#39'EXPORTACAO'#39
       ' END'
       ',codigoProduto = PRO.Codigo_DUIMP'
+      ',PRO.NaoSincPSiscomex'
+      ',codigoFabricante = PRO.Codigo_Fabricante'
       'FROM Produtos PRO'
       ''
       '-- 1) Normaliza'#231#227'o da descri'#231#227'o reduzida'
@@ -183,8 +202,7 @@ inherited damProducts: TdamProducts
       '        ))'
       ') Rem'
       ''
-      'WHERE PRO.Codigo_DUIMP IS NULL'
-      'AND PRO.Origem IN ('#39'I'#39', '#39'N'#39')'
+      'WHERE PRO.Origem IN ('#39'I'#39', '#39'N'#39')'
       'AND ISNULL(PRO.Servico, 0) = 0 '
       'AND ISNULL(PRO.Desativado, 0) = 0'
       'AND ISNULL(PRO.NCM, '#39#39') <> '#39'00000000'#39
@@ -196,12 +214,6 @@ inherited damProducts: TdamProducts
       ');')
     Left = 24
     Top = 88
-    object qryEPRseq: TLargeintField
-      FieldName = 'seq'
-      Origin = 'seq'
-      ReadOnly = True
-      Visible = False
-    end
     object qryEPRprodId: TIntegerField
       Tag = 1
       DisplayLabel = 'C'#243'digo'
@@ -233,6 +245,7 @@ inherited damProducts: TdamProducts
       Size = 3700
     end
     object qryEPRsituacao: TStringField
+      Tag = 1
       FieldName = 'situacao'
       Origin = 'situacao'
       ReadOnly = True
@@ -241,21 +254,14 @@ inherited damProducts: TdamProducts
       Size = 7
     end
     object qryEPRmodalidade: TStringField
+      DisplayWidth = 11
       FieldName = 'modalidade'
       Origin = 'modalidade'
       ReadOnly = True
-      Visible = False
       Size = 10
     end
-    object qryEPRmsg: TMemoField
-      Tag = 1
-      DisplayLabel = 'Mensagem'
-      FieldKind = fkInternalCalc
-      FieldName = 'msg'
-      Visible = False
-      BlobType = ftMemo
-    end
     object qryEPRcpfCnpjRaiz: TStringField
+      Tag = 1
       FieldKind = fkInternalCalc
       FieldName = 'cpfCnpjRaiz'
       Origin = 'cpfCnpjRaiz'
@@ -267,6 +273,27 @@ inherited damProducts: TdamProducts
       FieldName = 'codigoProduto'
       Origin = 'codigoProduto'
       Visible = False
+    end
+    object qryEPRcodigoFabricante: TStringField
+      Tag = 1
+      FieldName = 'codigoFabricante'
+      Origin = 'codigoFabricante'
+    end
+    object qryEPRNaoSincPSiscomex: TBooleanField
+      Tag = 1
+      FieldName = 'NaoSincPSiscomex'
+      Origin = 'NaoSincPSiscomex'
+      Required = True
+      Visible = False
+    end
+    object qryEPRmsg: TStringField
+      Tag = 1
+      DisplayLabel = 'Mensagem'
+      FieldKind = fkCalculated
+      FieldName = 'msg'
+      Visible = False
+      Size = 1000
+      Calculated = True
     end
   end
   object dsoEPR: TDataSource
@@ -543,121 +570,28 @@ inherited damProducts: TdamProducts
     Left = 184
     Top = 232
   end
-  object qryFOR: TFDQuery
-    IndexFieldNames = 'prodId;codigo'
-    MasterSource = dsoEPR
-    MasterFields = 'ProdId'
-    Connection = damConnection.DBCliente
-    SQL.Strings = (
-      'SELECT seq = 1'
-      ',prodId = PRO.Codigo'
-      ',codigo = PRO.Fornecedor'
-      ',nome = FORN.Nome'
-      ',logradouro = FORN.Rua'
-      ',nomeCidade = FORN.Municipio'
-      ',codigoPais = PAI.Sigla'
-      ',cep = FORN.CEP'
-      ',email = FORN.Email'
-      ',codigoDuimp = FORN.Codigo_DUIMP'
-      'FROM Produtos AS PRO'
-      'INNER JOIN Fornecedores AS FORN'
-      '    ON FORN.Codigo = PRO.Fornecedor'
-      'LEFT JOIN Cybersoft_Cadastros.dbo.Paises AS PAI'
-      '    ON PAI.Codigo = FORN.Pais'
-      'WHERE PRO.Codigo_DUIMP IS NULL'
-      'AND PRO.Origem IN ('#39'I'#39', '#39'N'#39')'
-      'AND ISNULL(PRO.Servico, 0) = 0'
-      'AND ISNULL(PRO.Desativado, 0) = 0'
-      'AND ISNULL(PRO.NCM, '#39#39') <> '#39'00000000'#39
-      'AND PRO.Codigo = :ProdId;')
-    Left = 24
-    Top = 376
-    ParamData = <
-      item
-        Name = 'PRODID'
-        DataType = ftInteger
-        ParamType = ptInput
-        Value = Null
-      end>
-    object qryFORseq: TIntegerField
-      FieldName = 'seq'
-      Origin = 'seq'
-      ReadOnly = True
-      Required = True
-    end
-    object qryFORProdId: TIntegerField
-      FieldName = 'prodId'
-      Origin = 'prodId'
-      Required = True
-    end
-    object qryFORCodigo: TIntegerField
-      FieldName = 'codigo'
-      Origin = 'codigo'
-    end
-    object qryFORNome: TStringField
-      FieldName = 'nome'
-      Origin = 'nome'
-      Size = 60
-    end
-    object qryFORLogradouro: TStringField
-      FieldName = 'logradouro'
-      Origin = 'logradouro'
-      Size = 40
-    end
-    object qryFORNomeCidade: TStringField
-      FieldName = 'nomeCidade'
-      Origin = 'nomeCidade'
-    end
-    object qryFORCodigoPais: TStringField
-      FieldName = 'codigoPais'
-      Origin = 'codigoPais'
-      FixedChar = True
-      Size = 2
-    end
-    object qryFORCep: TStringField
-      FieldName = 'cep'
-      Origin = 'cep'
-      Size = 8
-    end
-    object qryFOREmail: TStringField
-      FieldName = 'email'
-      Origin = 'email'
-      Size = 200
-    end
-    object qryFORcodigoDuimp: TStringField
-      FieldName = 'codigoDuimp'
-      Origin = 'codigoDuimp'
-      Size = 35
-    end
-  end
-  object dsoFOR: TDataSource
-    DataSet = qryFOR
-    Left = 96
-    Top = 376
-  end
   object qryFAB: TFDQuery
-    IndexFieldNames = 'prodId;codigo'
     MasterSource = dsoEPR
     MasterFields = 'ProdId'
     Connection = damConnection.DBCliente
+    UpdateObject = updFAB
     SQL.Strings = (
-      'SELECT seq = 1'
-      ',prodId = PRO.Codigo'
-      ',codigo = PRO.Fabricante'
+      'SELECT prodId = PRO.Codigo'
+      ',codigoInterno = PRO.Fabricante'
       ',nome = FAB.Nome'
       ',logradouro = FAB.Rua'
       ',nomeCidade = FAB.Municipio'
       ',codigoPais = PAI.Sigla'
       ',cep = FAB.CEP'
       ',email = FAB.Email'
-      ',codigoDuimp = FAB.Codigo_DUIMP'
+      ',codigoDuimp = FAB.Codigo_DUIMP        '
+      ',cnpj = FAB.CNPJ'
       'FROM Produtos AS PRO'
       'INNER JOIN Fabricantes AS FAB'
       '    ON FAB.Codigo = PRO.Fabricante'
       'LEFT JOIN Cybersoft_Cadastros.dbo.Paises AS PAI'
       '    ON PAI.Codigo = FAB.Pais'
-      'WHERE PRO.Codigo_DUIMP IS NULL'
-      'AND PRO.Origem IN ('#39'I'#39', '#39'N'#39')'
+      'WHERE PRO.Origem IN ('#39'I'#39', '#39'N'#39')'
       'AND ISNULL(PRO.Servico, 0) = 0'
       'AND ISNULL(PRO.Desativado, 0) = 0'
       'AND ISNULL(PRO.NCM, '#39#39') <> '#39'00000000'#39
@@ -671,60 +605,119 @@ inherited damProducts: TdamProducts
         ParamType = ptInput
         Value = Null
       end>
-    object qryFABseq: TIntegerField
-      FieldName = 'seq'
-      Origin = 'seq'
-      ReadOnly = True
-      Required = True
-    end
-    object qryFABProdId: TIntegerField
+    object qryFABprodId: TIntegerField
+      Tag = 1
       FieldName = 'prodId'
       Origin = 'prodId'
       Required = True
     end
-    object qryFABCodigo: TIntegerField
-      FieldName = 'codigo'
-      Origin = 'codigo'
+    object qryFABcodigoInterno: TIntegerField
+      FieldName = 'codigoInterno'
+      Origin = 'codigoInterno'
     end
-    object qryFABNome: TStringField
+    object qryFABnome: TStringField
       FieldName = 'nome'
       Origin = 'nome'
       Size = 60
     end
-    object qryFABLogradouro: TStringField
+    object qryFABlogradouro: TStringField
       FieldName = 'logradouro'
       Origin = 'logradouro'
       Size = 40
     end
-    object qryFABNomeCidade: TStringField
+    object qryFABnomeCidade: TStringField
       FieldName = 'nomeCidade'
       Origin = 'nomeCidade'
     end
-    object qryFABCodigoPais: TStringField
+    object qryFABcodigoPais: TStringField
+      Tag = 1
       FieldName = 'codigoPais'
       Origin = 'codigoPais'
       FixedChar = True
       Size = 2
     end
-    object qryFABCep: TStringField
+    object qryFABcep: TStringField
       FieldName = 'cep'
       Origin = 'cep'
       Size = 8
     end
-    object qryFABEmail: TStringField
+    object qryFABemail: TStringField
       FieldName = 'email'
       Origin = 'email'
-      Size = 60
+      Size = 200
     end
-    object qryFABCodigoDuimp: TStringField
+    object qryFABcodigoDuimp: TStringField
+      Tag = 1
       FieldName = 'codigoDuimp'
       Origin = 'codigoDuimp'
       Size = 35
+    end
+    object qryFABcnpj: TStringField
+      Tag = 1
+      FieldName = 'cnpj'
+      Origin = 'cnpj'
+      Size = 14
     end
   end
   object dsoFAB: TDataSource
     DataSet = qryFAB
     Left = 96
+    Top = 304
+  end
+  object updEPR: TFDUpdateSQL
+    Connection = damConnection.DBCliente
+    ModifySQL.Strings = (
+      'UPDATE Produtos'
+      'SET NaoSincPSiscomex = :NEW_NaoSincPSiscomex'
+      ',Codigo_DUIMP = :NEW_codigoProduto'
+      'WHERE Codigo = :OLD_prodId;'
+      ''
+      
+        'IF (:NEW_codigoProduto IS NOT NULL AND :NEW_NaoSincPSiscomex = 1' +
+        ')'
+      'BEGIN'
+      #9'DELETE FROM duimp.export_products'
+      #9'WHERE ProductId = :OLD_prodId;'
+      'END;')
+    Left = 184
+    Top = 88
+  end
+  object mtbFPR: TFDMemTable
+    FetchOptions.AssignedValues = [evMode]
+    FetchOptions.Mode = fmAll
+    ResourceOptions.AssignedValues = [rvSilentMode]
+    ResourceOptions.SilentMode = True
+    UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
+    UpdateOptions.CheckRequired = False
+    UpdateOptions.AutoCommitUpdates = True
+    Left = 272
+    Top = 16
+    object mtbFPRCodigoOperadorEstrangeiro: TStringField
+      FieldName = 'codigoOperadorEstrangeiro'
+      Size = 35
+    end
+    object mtbFPRcpfCnpjFabricante: TStringField
+      FieldName = 'cpfCnpjFabricante'
+      Size = 8
+    end
+    object mtbFPRConhecido: TBooleanField
+      FieldName = 'conhecido'
+    end
+    object mtbFPRCodigoProduto: TIntegerField
+      FieldName = 'codigoProduto'
+    end
+    object mtbFPRCodigoPais: TStringField
+      FieldName = 'codigoPais'
+      Size = 2
+    end
+  end
+  object updFAB: TFDUpdateSQL
+    Connection = damConnection.DBCliente
+    ModifySQL.Strings = (
+      'UPDATE Fabricantes'
+      'SET Codigo_DUIMP = :NEW_codigoDuimp'
+      'WHERE Codigo = :OLD_codigoInterno')
+    Left = 184
     Top = 304
   end
 end

@@ -38,10 +38,11 @@ jobs:
   # --------------------------------------------------------------------------------
   Build-Deploy-to-Production:
     if: github.event_name == 'push' && github.ref_name == 'main'
+    timeout-minutes: 60
     runs-on: self-hosted
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
 

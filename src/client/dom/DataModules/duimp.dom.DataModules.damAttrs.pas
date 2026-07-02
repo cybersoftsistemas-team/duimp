@@ -16,6 +16,7 @@ type
     cmdATSIns: TFDCommand;
     cmdDOMIns: TFDCommand;
     cmdNATIns: TFDCommand;
+    cmdNATDel: TFDCommand;
   public
     procedure Import(const ANcm: string); overload;
     procedure Import(const ANcm, ADescricao, AUnidade, ATipoAliquota: string; const ACamex: Boolean;
@@ -57,6 +58,8 @@ begin
     damConnection.DBCliente.StartTransaction;
   end;
   try
+    cmdNATDel.ParamByName('NCM').AsString := ANcm;
+    cmdNATDel.Execute;
     PComex.Attributes.Ncm.Get(ANcm,
       procedure(const AResponse: INcmAttributesResponse)
       begin
