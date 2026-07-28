@@ -94,7 +94,9 @@ uses
   _2026_03_11_00000001_create_duimp_export_products_table in 'inf\Database\Migrations\_2026_03_11_00000001_create_duimp_export_products_table.pas',
   duimp.pre.view.ProdAttDomsDialogForm in 'pre\view\duimp.pre.view.ProdAttDomsDialogForm.pas' {frmProdAttDomsDialog: TdxFluentDesignForm},
   _2026_05_20_00000001_alter_table_duimp_cargas_identificacao_carga_tipo_not_null_column in 'inf\Database\Migrations\_2026_05_20_00000001_alter_table_duimp_cargas_identificacao_carga_tipo_not_null_column.pas',
-  _2026_07_02_00000001_alter_duimp_valor_cotacao_function in 'inf\Database\Migrations\_2026_07_02_00000001_alter_duimp_valor_cotacao_function.pas';
+  _2026_07_02_00000001_alter_duimp_valor_cotacao_function in 'inf\Database\Migrations\_2026_07_02_00000001_alter_duimp_valor_cotacao_function.pas',
+  _2026_07_28_00000001_create_processos_documentos_add_numero_declaracao_index in 'inf\Database\Migrations\_2026_07_28_00000001_create_processos_documentos_add_numero_declaracao_index.pas',
+  _2026_07_28_00000005_create_processos_documentos_add_processo_abertura_index in 'inf\Database\Migrations\_2026_07_28_00000005_create_processos_documentos_add_processo_abertura_index.pas';
 
 {$R *.res}
 

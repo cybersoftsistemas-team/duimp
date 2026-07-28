@@ -311,6 +311,8 @@ $(PostBuildEvent)]]></PostBuildEvent>
         </DCCReference>
         <DCCReference Include="inf\Database\Migrations\_2026_05_20_00000001_alter_table_duimp_cargas_identificacao_carga_tipo_not_null_column.pas"/>
         <DCCReference Include="inf\Database\Migrations\_2026_07_02_00000001_alter_duimp_valor_cotacao_function.pas"/>
+        <DCCReference Include="inf\Database\Migrations\_2026_07_28_00000001_create_processos_documentos_add_numero_declaracao_index.pas"/>
+        <DCCReference Include="inf\Database\Migrations\_2026_07_28_00000005_create_processos_documentos_add_processo_abertura_index.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
@@ -1313,8 +1315,6 @@ $(PostBuildEvent)]]></PostBuildEvent>
                 <ProjectRoot Platform="Win64x" Name="$(PROJECTNAME)"/>
             </Deployment>
             <Platforms>
-                <Platform value="Android">False</Platform>
-                <Platform value="iOSDevice64">False</Platform>
                 <Platform value="Linux64">False</Platform>
                 <Platform value="Win32">True</Platform>
                 <Platform value="Win64">True</Platform>
