@@ -969,21 +969,21 @@ begin
           end
           else if AStep = TStepFindDuimp.CheckingDuimpVersion then
           begin
-            ALoad.labInfo.Caption := 'Verificando a vers o da Duimp...';
+            ALoad.labInfo.Caption := 'Verificando a versão da Duimp...';
           end
           else if AStep = TStepFindDuimp.LocatingDuimp then
           begin
             LVersion := AValue;
-            ALoad.labDUI.Caption := Format('Duimp: %s; Vers o: %d', [edtSearchDuimp.Text, VarToInt(AValue)]);
+            ALoad.labDUI.Caption := Format('Duimp: %s; Versão: %d', [edtSearchDuimp.Text, VarToInt(AValue)]);
           end
           else if AStep = TStepFindDuimp.DuimpLocated then
           begin
             ALoad.Max := AValue;
-            ALoad.labDUI.Caption := Format('Importando Duimp: %s; Vers o: %d', [edtSearchDuimp.Text, LVersion]);
+            ALoad.labDUI.Caption := Format('Importando Duimp: %s; Versão: %d', [edtSearchDuimp.Text, LVersion]);
           end
           else if AStep = TStepFindDuimp.SavingDuimpItem then
           begin
-            ALoad.labInfo.Caption := Format('Salvando item: Adi  o: %3.3d; N  Item: %3.3d; Produto: %10.10d',
+            ALoad.labInfo.Caption := Format('Salvando item: Adição: %3.3d; N  Item: %3.3d; Produto: %10.10d',
             [DataModule.qryDCIAdicao.AsInteger
             ,DataModule.qryDCINumeroItem.AsInteger
             ,DataModule.qryDCIProdutoCodigo.AsInteger]);
@@ -998,7 +998,7 @@ begin
           Application.ProcessMessages;
         end);
       cbxRedoDuimp.Checked := False;
-      tshDuimp.Caption := Format('Duimp (Vers o: %d)', [DataModule.qryDUVVersao.AsInteger]);
+      tshDuimp.Caption := Format('Duimp (Versão: %d)', [DataModule.qryDUVVersao.AsInteger]);
       tshGoods.Caption := Format('Mercadorias (%d)', [DataModule.qryDCI.RecordCount]);
       tshDPG.Caption := Format('Pagamentos (%d)', [DataModule.dsoDPGSel.DataSet.RecordCount]);
       grdDCIDBBandedTableViewCondicaoVendaValorFrete.Caption := Format('Frete %s', [if LFounded and not DataModule.qryDCGFreteMoedaNegociadaSimbolo.AsString.Trim.IsEmpty then Concat('(', DataModule.qryDCGFreteMoedaNegociadaSimbolo.AsString, ')') else '']);
@@ -1067,7 +1067,7 @@ begin
               begin
                 pclDuimp.Properties.ActivePage := tshGoods;
                 pclDCI.Properties.ActivePage := tshDCI;
-                raise Exception.Create('Existe mercadoria que n o tem a sua unidade cadastrada.');
+                raise Exception.Create('Existe mercadoria que não tem a sua unidade cadastrada.');
               end;
             end;
             if AStep = TStepProcessCreate.CreatingProcess then
@@ -1085,7 +1085,7 @@ begin
             end;
             if AStep = TStepProcessCreate.UpdateMerchandiseData then
             begin
-              ALoad.labInfo.Caption := Format('Mercadoria: Adi  o: %3.3d; N  Item: %3.3d; Produto: %10.10d',
+              ALoad.labInfo.Caption := Format('Mercadoria: Adição: %3.3d; N  Item: %3.3d; Produto: %10.10d',
                 [DataModule.qryDPRAdicao.AsInteger
                 ,DataModule.qryDPRNumeroItem.AsInteger
                 ,DataModule.qryDPRProdutoCodigo.AsInteger]);
@@ -1093,11 +1093,11 @@ begin
             end;
             if AStep = TStepProcessCreate.PostingPayments then
             begin
-              ALoad.labInfo.Caption := 'Lan ando os pagamentos...';
+              ALoad.labInfo.Caption := 'Lançando os pagamentos...';
             end;
             if AStep = TStepProcessCreate.PostingImportDifference then
             begin
-              ALoad.labInfo.Caption := 'Lan ando as diferen as de importa  o...';
+              ALoad.labInfo.Caption := 'Lançando as diferenças de importação...';
             end;
             Application.ProcessMessages;
             if AStep = TStepProcessCreate.Completed then
@@ -1109,7 +1109,7 @@ begin
                     procedure
                     begin
                       Application.NormalizeTopMosts;
-                      Application.MessageBox(PChar(Format('O processo %s foi salvo com sucesso!', [AValue])), 'Informa  o', MB_OK or MB_ICONINFORMATION);
+                      Application.MessageBox(PChar(Format('O processo %s foi salvo com sucesso!', [AValue])), 'Informação', MB_OK or MB_ICONINFORMATION);
                       Application.RestoreTopMosts;
                     end
                   );

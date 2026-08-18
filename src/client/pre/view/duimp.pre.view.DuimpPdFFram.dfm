@@ -58,6 +58,10 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
             object tshDuimpCouver: TcxTabSheet
               Caption = 'Capa'
               ImageIndex = 0
+              ExplicitLeft = 0
+              ExplicitTop = 0
+              ExplicitWidth = 0
+              ExplicitHeight = 0
               object lclDuimp: TdxLayoutControl
                 Left = 0
                 Top = 0
@@ -1710,6 +1714,10 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
             object tshGoods: TcxTabSheet
               Caption = 'Mercadorias (0)'
               ImageIndex = 1
+              ExplicitLeft = 0
+              ExplicitTop = 0
+              ExplicitWidth = 0
+              ExplicitHeight = 0
               object lclGoods: TdxLayoutControl
                 Left = 0
                 Top = 0
@@ -1738,6 +1746,10 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                   object tshDCI: TcxTabSheet
                     Caption = 'Mercadoria'
                     ImageIndex = 0
+                    ExplicitLeft = 0
+                    ExplicitTop = 0
+                    ExplicitWidth = 0
+                    ExplicitHeight = 0
                     object dxLayoutControl1: TdxLayoutControl
                       Left = 0
                       Top = 0
@@ -2589,6 +2601,10 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                   object tshTRI: TcxTabSheet
                     Caption = 'Tributos'
                     ImageIndex = 1
+                    ExplicitLeft = 0
+                    ExplicitTop = 0
+                    ExplicitWidth = 0
+                    ExplicitHeight = 0
                     object dxLayoutControl2: TdxLayoutControl
                       Left = 0
                       Top = 0
@@ -3053,6 +3069,10 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                   object tshCamex: TcxTabSheet
                     Caption = 'Camex'
                     ImageIndex = 2
+                    ExplicitLeft = 0
+                    ExplicitTop = 0
+                    ExplicitWidth = 0
+                    ExplicitHeight = 0
                     object lclCamex: TdxLayoutControl
                       Left = 0
                       Top = 0
@@ -3169,6 +3189,10 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                   object tshDUM: TcxTabSheet
                     Caption = 'Dumping'
                     ImageIndex = 3
+                    ExplicitLeft = 0
+                    ExplicitTop = 0
+                    ExplicitWidth = 0
+                    ExplicitHeight = 0
                     object lclDUM: TdxLayoutControl
                       Left = 0
                       Top = 0
@@ -3282,6 +3306,10 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                   object tshEF: TcxTabSheet
                     Caption = 'Exportador / Fabricante'
                     ImageIndex = 4
+                    ExplicitLeft = 0
+                    ExplicitTop = 0
+                    ExplicitWidth = 0
+                    ExplicitHeight = 0
                     object lclEF: TdxLayoutControl
                       Left = 0
                       Top = 0
@@ -4018,6 +4046,10 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
             object tshDPG: TcxTabSheet
               Caption = 'Pagamentos (0)'
               ImageIndex = 3
+              ExplicitLeft = 0
+              ExplicitTop = 0
+              ExplicitWidth = 0
+              ExplicitHeight = 0
               object lclDPG: TdxLayoutControl
                 Left = 0
                 Top = 0
@@ -4165,6 +4197,10 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
             object tshExpFab: TcxTabSheet
               Caption = 'Exportadores / Fabricantes'
               ImageIndex = 4
+              ExplicitLeft = 0
+              ExplicitTop = 0
+              ExplicitWidth = 0
+              ExplicitHeight = 0
               object lclFornFabric: TdxLayoutControl
                 Left = 0
                 Top = 0
@@ -4367,6 +4403,10 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
             object tshInfCompl: TcxTabSheet
               Caption = 'Informa'#231#227'o Complementar'
               ImageIndex = 2
+              ExplicitLeft = 0
+              ExplicitTop = 0
+              ExplicitWidth = 0
+              ExplicitHeight = 0
               object lclIFC: TdxLayoutControl
                 Left = 0
                 Top = 0
@@ -4688,6 +4728,10 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
             object tshProductExportList: TcxTabSheet
               Caption = 'Lista de Produtos para Exportar (0)'
               ImageIndex = 1
+              ExplicitLeft = 0
+              ExplicitTop = 0
+              ExplicitWidth = 0
+              ExplicitHeight = 0
               object dxLayoutControl4: TdxLayoutControl
                 Left = 0
                 Top = 0
@@ -4816,6 +4860,10 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                   object tshAtts: TcxTabSheet
                     Caption = 'Atributos do produto'
                     ImageIndex = 0
+                    ExplicitLeft = 0
+                    ExplicitTop = 0
+                    ExplicitWidth = 0
+                    ExplicitHeight = 0
                     object dxLayoutControl5: TdxLayoutControl
                       Left = 0
                       Top = 0
@@ -4980,6 +5028,10 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                   object tshManufacturerOrProducer: TcxTabSheet
                     Caption = 'Fabricantes/Produtores'
                     ImageIndex = 1
+                    ExplicitLeft = 0
+                    ExplicitTop = 0
+                    ExplicitWidth = 0
+                    ExplicitHeight = 0
                     object lclManufacturerOrProducer: TdxLayoutControl
                       Left = 0
                       Top = 0
@@ -5194,7 +5246,6 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                         AlignHorz = ahClient
                         AlignVert = avTop
                         CaptionOptions.Text = 'Fabricante:'
-                        ItemIndex = 3
                         Index = 0
                       end
                       object loiFabEmail: TdxLayoutItem
@@ -5210,7 +5261,6 @@ inherited fraDuimpPageDef: TfraDuimpPageDef
                       object dxLayoutGroup6: TdxLayoutGroup
                         Parent = dxLayoutGroup5
                         CaptionOptions.Text = 'Endere'#231'o:'
-                        ItemIndex = 1
                         Index = 3
                       end
                       object loiFabLogradouro: TdxLayoutItem
