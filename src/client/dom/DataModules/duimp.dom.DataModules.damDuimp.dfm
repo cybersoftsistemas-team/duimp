@@ -6759,104 +6759,179 @@ inherited damDuimp: TdamDuimp
       ',IncotermCodigo'
       ',-- Aliquotas'
       
-        ' MAX(CASE WHEN Tipo = '#39'II'#39'     THEN ValorAliquota END) AS Aliquo' +
-        'taII'
+        ' MAX(CASE WHEN Tipo = '#39'II'#39'            THEN ValorAliquota END) AS' +
+        ' AliquotaII'
       
-        ',MAX(CASE WHEN Tipo = '#39'IPI'#39'    THEN ValorAliquota END) AS Aliquo' +
-        'taIPI'
+        ',MAX(CASE WHEN Tipo = '#39'IPI'#39'           THEN ValorAliquota END) AS' +
+        ' AliquotaIPI'
       
-        ',MAX(CASE WHEN Tipo = '#39'PIS'#39'    THEN ValorAliquota END) AS Aliquo' +
-        'taPIS'
+        ',MAX(CASE WHEN Tipo = '#39'PIS'#39'           THEN ValorAliquota END) AS' +
+        ' AliquotaPIS'
       
-        ',MAX(CASE WHEN Tipo = '#39'COFINS'#39' THEN ValorAliquota END) AS Aliquo' +
-        'taCOFINS'
+        ',MAX(CASE WHEN Tipo = '#39'COFINS'#39'        THEN ValorAliquota END) AS' +
+        ' AliquotaCOFINS'
       
-        ',MAX(CASE WHEN Tipo = '#39'CIDE'#39'   THEN ValorAliquota END) AS Aliquo' +
-        'taCIDE'
+        ',MAX(CASE WHEN Tipo = '#39'CIDE'#39'          THEN ValorAliquota END) AS' +
+        ' AliquotaCIDE'
+      
+        ',MAX(CASE WHEN Tipo = '#39'CBS'#39'           THEN ValorAliquota END) AS' +
+        ' AliquotaCBS'
+      
+        ',MAX(CASE WHEN Tipo = '#39'IBS_ESTADUAL'#39'  THEN ValorAliquota END) AS' +
+        ' AliquotaIBS_ESTADUAL'
+      
+        ',MAX(CASE WHEN Tipo = '#39'IBS_MUNICIPAL'#39' THEN ValorAliquota END) AS' +
+        ' AliquotaIBS_MUNICIPAL'
       ',-- Aliquotas Reduzidas'
       
-        ' MAX(CASE WHEN Tipo = '#39'II'#39'     THEN ValorAliquotaReduzida END) A' +
-        'S AliquotaReduzidaII'
+        ' MAX(CASE WHEN Tipo = '#39'II'#39'            THEN ValorAliquotaReduzida' +
+        ' END) AS AliquotaReduzidaII'
       
-        ',MAX(CASE WHEN Tipo = '#39'IPI'#39'    THEN ValorAliquotaReduzida END) A' +
-        'S AliquotaReduzidaIPI'
+        ',MAX(CASE WHEN Tipo = '#39'IPI'#39'           THEN ValorAliquotaReduzida' +
+        ' END) AS AliquotaReduzidaIPI'
       
-        ',MAX(CASE WHEN Tipo = '#39'PIS'#39'    THEN ValorAliquotaReduzida END) A' +
-        'S AliquotaReduzidaPIS'
+        ',MAX(CASE WHEN Tipo = '#39'PIS'#39'           THEN ValorAliquotaReduzida' +
+        ' END) AS AliquotaReduzidaPIS'
       
-        ',MAX(CASE WHEN Tipo = '#39'COFINS'#39' THEN ValorAliquotaReduzida END) A' +
-        'S AliquotaReduzidaCOFINS'
+        ',MAX(CASE WHEN Tipo = '#39'COFINS'#39'        THEN ValorAliquotaReduzida' +
+        ' END) AS AliquotaReduzidaCOFINS'
       
-        ',MAX(CASE WHEN Tipo = '#39'CIDE'#39'   THEN ValorAliquotaReduzida END) A' +
-        'S AliquotaReduzidaCIDE'
+        ',MAX(CASE WHEN Tipo = '#39'CIDE'#39'          THEN ValorAliquotaReduzida' +
+        ' END) AS AliquotaReduzidaCIDE'
+      
+        ',MAX(CASE WHEN Tipo = '#39'CBS'#39'           THEN ValorAliquotaReduzida' +
+        ' END) AS AliquotaReduzidaCBS'
+      
+        ',MAX(CASE WHEN Tipo = '#39'IBS_ESTADUAL'#39'  THEN ValorAliquotaReduzida' +
+        ' END) AS AliquotaReduzidaIBS_ESTADUAL'
+      
+        ',MAX(CASE WHEN Tipo = '#39'IBS_MUNICIPAL'#39' THEN ValorAliquotaReduzida' +
+        ' END) AS AliquotaReduzidaIBS_MUNICIPAL'
       ',-- Percentuais Entrada'
       
-        ' MAX(CASE WHEN Tipo = '#39'II'#39'     THEN PercentualEntrada END) AS Al' +
-        'iquotaEntradaII'
+        ' MAX(CASE WHEN Tipo = '#39'II'#39'            THEN PercentualEntrada END' +
+        ') AS AliquotaEntradaII'
       
-        ',MAX(CASE WHEN Tipo = '#39'IPI'#39'    THEN PercentualEntrada END) AS Al' +
-        'iquotaEntradaIPI'
+        ',MAX(CASE WHEN Tipo = '#39'IPI'#39'           THEN PercentualEntrada END' +
+        ') AS AliquotaEntradaIPI'
       
-        ',MAX(CASE WHEN Tipo = '#39'PIS'#39'    THEN PercentualEntrada END) AS Al' +
-        'iquotaEntradaPIS'
+        ',MAX(CASE WHEN Tipo = '#39'PIS'#39'           THEN PercentualEntrada END' +
+        ') AS AliquotaEntradaPIS'
       
-        ',MAX(CASE WHEN Tipo = '#39'COFINS'#39' THEN PercentualEntrada END) AS Al' +
-        'iquotaEntradaCOFINS'
+        ',MAX(CASE WHEN Tipo = '#39'COFINS'#39'        THEN PercentualEntrada END' +
+        ') AS AliquotaEntradaCOFINS'
       
-        ',MAX(CASE WHEN Tipo = '#39'CIDE'#39'   THEN PercentualEntrada END) AS Al' +
-        'iquotaEntradaCIDE'
+        ',MAX(CASE WHEN Tipo = '#39'CIDE'#39'          THEN PercentualEntrada END' +
+        ') AS AliquotaEntradaCIDE'
+      
+        ',MAX(CASE WHEN Tipo = '#39'CBS'#39'           THEN PercentualEntrada END' +
+        ') AS AliquotaEntradaCBS'
+      
+        ',MAX(CASE WHEN Tipo = '#39'IBS_ESTADUAL'#39'  THEN PercentualEntrada END' +
+        ') AS AliquotaEntradaIBS_ESTADUAL'
+      
+        ',MAX(CASE WHEN Tipo = '#39'IBS_MUNICIPAL'#39' THEN PercentualEntrada END' +
+        ') AS AliquotaEntradaIBS_MUNICIPAL'
       ',-- Percentuais Sa'#237'da'
       
-        ' MAX(CASE WHEN Tipo = '#39'II'#39'     THEN PercentualSaida END) AS Aliq' +
-        'uotaSaidaII'
+        ' MAX(CASE WHEN Tipo = '#39'II'#39'            THEN PercentualSaida END) ' +
+        'AS AliquotaSaidaII'
       
-        ',MAX(CASE WHEN Tipo = '#39'IPI'#39'    THEN PercentualSaida END) AS Aliq' +
-        'uotaSaidaIPI'
+        ',MAX(CASE WHEN Tipo = '#39'IPI'#39'           THEN PercentualSaida END) ' +
+        'AS AliquotaSaidaIPI'
       
-        ',MAX(CASE WHEN Tipo = '#39'PIS'#39'    THEN PercentualSaida END) AS Aliq' +
-        'uotaSaidaPIS'
+        ',MAX(CASE WHEN Tipo = '#39'PIS'#39'           THEN PercentualSaida END) ' +
+        'AS AliquotaSaidaPIS'
       
-        ',MAX(CASE WHEN Tipo = '#39'COFINS'#39' THEN PercentualSaida END) AS Aliq' +
-        'uotaSaidaCOFINS'
+        ',MAX(CASE WHEN Tipo = '#39'COFINS'#39'        THEN PercentualSaida END) ' +
+        'AS AliquotaSaidaCOFINS'
       
-        ',MAX(CASE WHEN Tipo = '#39'CIDE'#39'   THEN PercentualSaida END) AS Aliq' +
-        'uotaSaidaCIDE'
+        ',MAX(CASE WHEN Tipo = '#39'CIDE'#39'          THEN PercentualSaida END) ' +
+        'AS AliquotaSaidaCIDE'
+      
+        ',MAX(CASE WHEN Tipo = '#39'CBS'#39'           THEN PercentualSaida END) ' +
+        'AS AliquotaSaidaCBS'
+      
+        ',MAX(CASE WHEN Tipo = '#39'IBS_ESTADUAL'#39'  THEN PercentualSaida END) ' +
+        'AS AliquotaSaidaIBS_ESTADUAL'
+      
+        ',MAX(CASE WHEN Tipo = '#39'IBS_MUNICIPAL'#39' THEN PercentualSaida END) ' +
+        'AS AliquotaSaidaIBS_MUNICIPAL'
       ',-- Valores'
-      ' MAX(CASE WHEN Tipo = '#39'II'#39'     THEN Normal END) AS ValorII'
-      ',MAX(CASE WHEN Tipo = '#39'IPI'#39'    THEN Normal END) AS ValorIPI'
-      ',MAX(CASE WHEN Tipo = '#39'PIS'#39'    THEN Normal END) AS ValorPIS'
-      ',MAX(CASE WHEN Tipo = '#39'COFINS'#39' THEN Normal END) AS ValorCOFINS'
-      ',MAX(CASE WHEN Tipo = '#39'CIDE'#39'   THEN Normal END) AS ValorCIDE'
-      ',-- Devido'
-      ' MAX(CASE WHEN Tipo = '#39'II'#39'     THEN Devido END) AS ValorDevidoII'
       
-        ',MAX(CASE WHEN Tipo = '#39'IPI'#39'    THEN Devido END) AS ValorDevidoIP' +
+        ' MAX(CASE WHEN Tipo = '#39'II'#39'            THEN Normal END) AS ValorI' +
         'I'
       
-        ',MAX(CASE WHEN Tipo = '#39'PIS'#39'    THEN Devido END) AS ValorDevidoPI' +
-        'S'
+        ',MAX(CASE WHEN Tipo = '#39'IPI'#39'           THEN Normal END) AS ValorI' +
+        'PI'
       
-        ',MAX(CASE WHEN Tipo = '#39'COFINS'#39' THEN Devido END) AS ValorDevidoCO' +
-        'FINS'
+        ',MAX(CASE WHEN Tipo = '#39'PIS'#39'           THEN Normal END) AS ValorP' +
+        'IS'
       
-        ',MAX(CASE WHEN Tipo = '#39'CIDE'#39'   THEN Devido END) AS ValorDevidoCI' +
-        'DE'
+        ',MAX(CASE WHEN Tipo = '#39'COFINS'#39'        THEN Normal END) AS ValorC' +
+        'OFINS'
+      
+        ',MAX(CASE WHEN Tipo = '#39'CIDE'#39'          THEN Normal END) AS ValorC' +
+        'IDE'
+      
+        ',MAX(CASE WHEN Tipo = '#39'CBS'#39'           THEN Normal END) AS ValorC' +
+        'BS'
+      
+        ',MAX(CASE WHEN Tipo = '#39'IBS_ESTADUAL'#39'  THEN Normal END) AS ValorI' +
+        'BS_ESTADUAL'
+      
+        ',MAX(CASE WHEN Tipo = '#39'IBS_MUNICIPAL'#39' THEN Normal END) AS ValorI' +
+        'BS_MUNICIPAL'
+      ',-- Devido'
+      
+        ' MAX(CASE WHEN Tipo = '#39'II'#39'            THEN Devido END) AS ValorD' +
+        'evidoII'
+      
+        ',MAX(CASE WHEN Tipo = '#39'IPI'#39'           THEN Devido END) AS ValorD' +
+        'evidoIPI'
+      
+        ',MAX(CASE WHEN Tipo = '#39'PIS'#39'           THEN Devido END) AS ValorD' +
+        'evidoPIS'
+      
+        ',MAX(CASE WHEN Tipo = '#39'COFINS'#39'        THEN Devido END) AS ValorD' +
+        'evidoCOFINS'
+      
+        ',MAX(CASE WHEN Tipo = '#39'CIDE'#39'          THEN Devido END) AS ValorD' +
+        'evidoCIDE'
+      
+        ',MAX(CASE WHEN Tipo = '#39'CBS'#39'           THEN Devido END) AS Devido' +
+        'CBS'
+      
+        ',MAX(CASE WHEN Tipo = '#39'IBS_ESTADUAL'#39'  THEN Devido END) AS Devido' +
+        'IBS_ESTADUAL'
+      
+        ',MAX(CASE WHEN Tipo = '#39'IBS_MUNICIPAL'#39' THEN Devido END) AS Devido' +
+        'IBS_MUNICIPAL'
       ',-- A Recolher'
       
-        ' MAX(CASE WHEN Tipo = '#39'II'#39'     THEN ARecolher END) AS ValorAReco' +
-        'lherII'
+        ' MAX(CASE WHEN Tipo = '#39'II'#39'            THEN ARecolher END) AS Val' +
+        'orARecolherII'
       
-        ',MAX(CASE WHEN Tipo = '#39'IPI'#39'    THEN ARecolher END) AS ValorAReco' +
-        'lherIPI'
+        ',MAX(CASE WHEN Tipo = '#39'IPI'#39'           THEN ARecolher END) AS Val' +
+        'orARecolherIPI'
       
-        ',MAX(CASE WHEN Tipo = '#39'PIS'#39'    THEN ARecolher END) AS ValorAReco' +
-        'lherPIS'
+        ',MAX(CASE WHEN Tipo = '#39'PIS'#39'           THEN ARecolher END) AS Val' +
+        'orARecolherPIS'
       
-        ',MAX(CASE WHEN Tipo = '#39'COFINS'#39' THEN ARecolher END) AS ValorAReco' +
-        'lherCOFINS'
+        ',MAX(CASE WHEN Tipo = '#39'COFINS'#39'        THEN ARecolher END) AS Val' +
+        'orARecolherCOFINS'
       
-        ',MAX(CASE WHEN Tipo = '#39'CIDE'#39'   THEN ARecolher END) AS ValorAReco' +
-        'lherCIDE'
+        ',MAX(CASE WHEN Tipo = '#39'CIDE'#39'          THEN ARecolher END) AS Val' +
+        'orARecolherCIDE'
+      
+        ',MAX(CASE WHEN Tipo = '#39'CBS'#39'           THEN ARecolher END) AS Val' +
+        'orARecolherCBS'
+      
+        ',MAX(CASE WHEN Tipo = '#39'IBS_ESTADUAL'#39'  THEN ARecolher END) AS Val' +
+        'orARecolherIBS_ESTADUAL'
+      
+        ',MAX(CASE WHEN Tipo = '#39'IBS_MUNICIPAL'#39' THEN ARecolher END) AS Val' +
+        'orARecolherIBS_MUNICIPAL'
       'FROM TributosBase'
       'GROUP BY CapaItemId'
       ',Numero_Declaracao'
@@ -7200,6 +7275,111 @@ inherited damDuimp: TdamDuimp
       ReadOnly = True
       Required = True
     end
+    object qryDPRAliquotaCBS: TFloatField
+      FieldName = 'AliquotaCBS'
+      Origin = 'AliquotaCBS'
+      ReadOnly = True
+    end
+    object qryDPRAliquotaIBS_ESTADUAL: TFloatField
+      FieldName = 'AliquotaIBS_ESTADUAL'
+      Origin = 'AliquotaIBS_ESTADUAL'
+      ReadOnly = True
+    end
+    object qryDPRAliquotaIBS_MUNICIPAL: TFloatField
+      FieldName = 'AliquotaIBS_MUNICIPAL'
+      Origin = 'AliquotaIBS_MUNICIPAL'
+      ReadOnly = True
+    end
+    object qryDPRAliquotaReduzidaCBS: TFloatField
+      FieldName = 'AliquotaReduzidaCBS'
+      Origin = 'AliquotaReduzidaCBS'
+      ReadOnly = True
+    end
+    object qryDPRAliquotaReduzidaIBS_ESTADUAL: TFloatField
+      FieldName = 'AliquotaReduzidaIBS_ESTADUAL'
+      Origin = 'AliquotaReduzidaIBS_ESTADUAL'
+      ReadOnly = True
+    end
+    object qryDPRAliquotaReduzidaIBS_MUNICIPAL: TFloatField
+      FieldName = 'AliquotaReduzidaIBS_MUNICIPAL'
+      Origin = 'AliquotaReduzidaIBS_MUNICIPAL'
+      ReadOnly = True
+    end
+    object qryDPRAliquotaEntradaCBS: TFloatField
+      FieldName = 'AliquotaEntradaCBS'
+      Origin = 'AliquotaEntradaCBS'
+      ReadOnly = True
+    end
+    object qryDPRAliquotaEntradaIBS_ESTADUAL: TFloatField
+      FieldName = 'AliquotaEntradaIBS_ESTADUAL'
+      Origin = 'AliquotaEntradaIBS_ESTADUAL'
+      ReadOnly = True
+    end
+    object qryDPRAliquotaEntradaIBS_MUNICIPAL: TFloatField
+      FieldName = 'AliquotaEntradaIBS_MUNICIPAL'
+      Origin = 'AliquotaEntradaIBS_MUNICIPAL'
+      ReadOnly = True
+    end
+    object qryDPRAliquotaSaidaCBS: TFloatField
+      FieldName = 'AliquotaSaidaCBS'
+      Origin = 'AliquotaSaidaCBS'
+      ReadOnly = True
+    end
+    object qryDPRAliquotaSaidaIBS_ESTADUAL: TFloatField
+      FieldName = 'AliquotaSaidaIBS_ESTADUAL'
+      Origin = 'AliquotaSaidaIBS_ESTADUAL'
+      ReadOnly = True
+    end
+    object qryDPRAliquotaSaidaIBS_MUNICIPAL: TFloatField
+      FieldName = 'AliquotaSaidaIBS_MUNICIPAL'
+      Origin = 'AliquotaSaidaIBS_MUNICIPAL'
+      ReadOnly = True
+    end
+    object qryDPRValorCBS: TFloatField
+      FieldName = 'ValorCBS'
+      Origin = 'ValorCBS'
+      ReadOnly = True
+    end
+    object qryDPRValorIBS_ESTADUAL: TFloatField
+      FieldName = 'ValorIBS_ESTADUAL'
+      Origin = 'ValorIBS_ESTADUAL'
+      ReadOnly = True
+    end
+    object qryDPRValorIBS_MUNICIPAL: TFloatField
+      FieldName = 'ValorIBS_MUNICIPAL'
+      Origin = 'ValorIBS_MUNICIPAL'
+      ReadOnly = True
+    end
+    object qryDPRDevidoCBS: TFloatField
+      FieldName = 'DevidoCBS'
+      Origin = 'DevidoCBS'
+      ReadOnly = True
+    end
+    object qryDPRDevidoIBS_ESTADUAL: TFloatField
+      FieldName = 'DevidoIBS_ESTADUAL'
+      Origin = 'DevidoIBS_ESTADUAL'
+      ReadOnly = True
+    end
+    object qryDPRDevidoIBS_MUNICIPAL: TFloatField
+      FieldName = 'DevidoIBS_MUNICIPAL'
+      Origin = 'DevidoIBS_MUNICIPAL'
+      ReadOnly = True
+    end
+    object qryDPRValorARecolherCBS: TFloatField
+      FieldName = 'ValorARecolherCBS'
+      Origin = 'ValorARecolherCBS'
+      ReadOnly = True
+    end
+    object qryDPRValorARecolherIBS_ESTADUAL: TFloatField
+      FieldName = 'ValorARecolherIBS_ESTADUAL'
+      Origin = 'ValorARecolherIBS_ESTADUAL'
+      ReadOnly = True
+    end
+    object qryDPRValorARecolherIBS_MUNICIPAL: TFloatField
+      FieldName = 'ValorARecolherIBS_MUNICIPAL'
+      Origin = 'ValorARecolherIBS_MUNICIPAL'
+      ReadOnly = True
+    end
   end
   object dsoDPR: TDataSource
     DataSet = qryDPR
@@ -7411,6 +7591,9 @@ inherited damDuimp: TdamDuimp
       ',PDO.Banco'
       ',PDO.Incoterms'
       ',PDO.ICMS_DIferido'
+      ',PDO.Valor_CBS'
+      ',PDO.Valor_IBSEstadual'
+      ',PDO.Valor_IBSMunicipal'
       'FROM ProcessosDocumentos AS PDO'
       'WHERE PDO.Processo = :ProcessoNumero;')
     Left = 496
@@ -7678,6 +7861,18 @@ inherited damDuimp: TdamDuimp
     object qryProcICMS_DIferido: TBooleanField
       FieldName = 'ICMS_DIferido'
       Origin = 'ICMS_DIferido'
+    end
+    object qryProcValor_CBS: TCurrencyField
+      FieldName = 'Valor_CBS'
+      Origin = 'Valor_CBS'
+    end
+    object qryProcValor_IBSEstadual: TCurrencyField
+      FieldName = 'Valor_IBSEstadual'
+      Origin = 'Valor_IBSEstadual'
+    end
+    object qryProcValor_IBSMunicipal: TCurrencyField
+      FieldName = 'Valor_IBSMunicipal'
+      Origin = 'Valor_IBSMunicipal'
     end
   end
   object qryIFI: TFDQuery
@@ -9304,7 +9499,10 @@ inherited damDuimp: TdamDuimp
       ',ADI.CIDE_Aliquota'
       ',ADI.CIDE_ValorDevido'
       ',ADI.CIDE_ValorRecolher'
-      ',ADI.Incoterm'
+      ',ADI.Incoterm   '
+      ',ADI.Valor_CBS'
+      ',ADI.Valor_IBSEstadual'
+      ',ADI.Valor_IBSMunicipal'
       'FROM Adicoes AS ADI'
       'LEFT JOIN Fornecedores AS FRN'
       #9'ON ADI.Exportador = FRN.Codigo'
@@ -9428,6 +9626,26 @@ inherited damDuimp: TdamDuimp
       FixedChar = True
       Size = 3
     end
+    object qryADIAliquota_ICMS: TFloatField
+      FieldName = 'Aliquota_ICMS'
+      Origin = 'Aliquota_ICMS'
+    end
+    object qryADILancado_Terceiros: TFloatField
+      FieldName = 'Lancado_Terceiros'
+      Origin = 'Lancado_Terceiros'
+    end
+    object qryADIValor_CBS: TCurrencyField
+      FieldName = 'Valor_CBS'
+      Origin = 'Valor_CBS'
+    end
+    object qryADIValor_IBSEstadual: TCurrencyField
+      FieldName = 'Valor_IBSEstadual'
+      Origin = 'Valor_IBSEstadual'
+    end
+    object qryADIValor_IBSMunicipal: TCurrencyField
+      FieldName = 'Valor_IBSMunicipal'
+      Origin = 'Valor_IBSMunicipal'
+    end
   end
   object dsoADI: TDataSource
     DataSet = qryADI
@@ -9500,6 +9718,9 @@ inherited damDuimp: TdamDuimp
       #9',:NEW_CIDE_ValorDevido AS CIDE_ValorDevido'
       #9',:NEW_CIDE_ValorRecolher AS CIDE_ValorRecolher'
       #9',:NEW_Incoterm AS Incoterm'
+      #9',:NEW_Valor_CBS AS Valor_CBS'
+      #9',:NEW_Valor_IBSEstadual AS Valor_IBSEstadual'
+      #9',:NEW_Valor_IBSMunicipal AS Valor_IBSMunicipal'
       ') AS SOURCE'
       'ON TARGET.Registro = SOURCE.Registro'
       ''
@@ -9526,6 +9747,9 @@ inherited damDuimp: TdamDuimp
       '     ,TARGET.CIDE_ValorDevido = SOURCE.CIDE_ValorDevido'
       '     ,TARGET.CIDE_ValorRecolher = SOURCE.CIDE_ValorRecolher'
       '     ,TARGET.Incoterm = SOURCE.Incoterm'
+      '     ,TARGET.Valor_CBS = SOURCE.Valor_CBS'
+      '     ,TARGET.Valor_IBSEstadual = SOURCE.Valor_IBSEstadual'
+      '     ,TARGET.Valor_IBSMunicipal = SOURCE.Valor_IBSMunicipal'
       ''
       'WHEN NOT MATCHED THEN'
       '  INSERT ('
@@ -9556,6 +9780,9 @@ inherited damDuimp: TdamDuimp
       '     ,CIDE_ValorDevido'
       '     ,CIDE_ValorRecolher'
       '     ,Incoterm'
+      '     ,Valor_CBS'
+      '     ,Valor_IBSEstadual'
+      '     ,Valor_IBSMunicipal'
       '  )'
       '  VALUES ('
       '      SOURCE.Registro'
@@ -9585,6 +9812,9 @@ inherited damDuimp: TdamDuimp
       '     ,SOURCE.CIDE_ValorDevido'
       '     ,SOURCE.CIDE_ValorRecolher'
       '     ,SOURCE.Incoterm'
+      '     ,SOURCE.Valor_CBS'
+      '     ,SOURCE.Valor_IBSEstadual'
+      '     ,SOURCE.Valor_IBSMunicipal'
       '  );'
       ''
       'SELECT ADI.Registro'
@@ -9612,6 +9842,9 @@ inherited damDuimp: TdamDuimp
       ',ADI.CIDE_ValorDevido'
       ',ADI.CIDE_ValorRecolher'
       ',ADI.Incoterm'
+      ',ADI.Valor_CBS'
+      ',ADI.Valor_IBSEstadual'
+      ',ADI.Valor_IBSMunicipal'
       'FROM Adicoes AS ADI'
       'LEFT JOIN Fornecedores AS FRN'
       #9'ON ADI.Exportador = FRN.Codigo'
