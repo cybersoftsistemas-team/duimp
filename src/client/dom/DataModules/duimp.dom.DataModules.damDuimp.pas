@@ -950,6 +950,35 @@ type
     qryCONAliquota_CBS: TFloatField;
     qryPROAliquota_CBS: TFloatField;
     qryDOMCodigo: TStringField;
+    qryProcValor_CBS: TCurrencyField;
+    qryProcValor_IBSEstadual: TCurrencyField;
+    qryProcValor_IBSMunicipal: TCurrencyField;
+    qryADIAliquota_ICMS: TFloatField;
+    qryADILancado_Terceiros: TFloatField;
+    qryADIValor_CBS: TCurrencyField;
+    qryADIValor_IBSEstadual: TCurrencyField;
+    qryADIValor_IBSMunicipal: TCurrencyField;
+    qryDPRAliquotaCBS: TFloatField;
+    qryDPRAliquotaIBS_ESTADUAL: TFloatField;
+    qryDPRAliquotaIBS_MUNICIPAL: TFloatField;
+    qryDPRAliquotaReduzidaCBS: TFloatField;
+    qryDPRAliquotaReduzidaIBS_ESTADUAL: TFloatField;
+    qryDPRAliquotaReduzidaIBS_MUNICIPAL: TFloatField;
+    qryDPRAliquotaEntradaCBS: TFloatField;
+    qryDPRAliquotaEntradaIBS_ESTADUAL: TFloatField;
+    qryDPRAliquotaEntradaIBS_MUNICIPAL: TFloatField;
+    qryDPRAliquotaSaidaCBS: TFloatField;
+    qryDPRAliquotaSaidaIBS_ESTADUAL: TFloatField;
+    qryDPRAliquotaSaidaIBS_MUNICIPAL: TFloatField;
+    qryDPRValorCBS: TFloatField;
+    qryDPRValorIBS_ESTADUAL: TFloatField;
+    qryDPRValorIBS_MUNICIPAL: TFloatField;
+    qryDPRDevidoCBS: TFloatField;
+    qryDPRDevidoIBS_ESTADUAL: TFloatField;
+    qryDPRDevidoIBS_MUNICIPAL: TFloatField;
+    qryDPRValorARecolherCBS: TFloatField;
+    qryDPRValorARecolherIBS_ESTADUAL: TFloatField;
+    qryDPRValorARecolherIBS_MUNICIPAL: TFloatField;
     procedure DataModuleCreate(Sender: TObject);
     procedure MoedaNegociadaValorGetText(Sender: TField; var Text: string; DisplayText: Boolean);
     procedure qryDUINewRecord(DataSet: TDataSet);
@@ -983,7 +1012,8 @@ type
     FCanalConsolidado: TStrings;
     procedure AdditionCreate(const ARegistro, AAdicao: Integer; const ANCM, AExportador, AProdutoDescricao, AIncoterm: string;
       const AQuantidade, AValor_Unitario, AValor_UnitarioReal, APesoLiquidoUnitario, APIS, ACOFINS, ACIDE,
-      AValorUnitarioSemVlc, AValorDevidoCIDE, AValorARecolherCIDE: Double; const ADumping: Boolean);
+      AValorUnitarioSemVlc, AValorDevidoCIDE, AValorARecolherCIDE, AValorCBS, AValorIBS_ESTADUAL,
+      AValorIBS_MUNICIPAL: Double; const ADumping: Boolean);
     procedure ApplyUpdates(const ADataSet: TFDDataSet); overload;
     procedure ApplyUpdates(const ADataSet: TFDDataSet; const ADoUpdateRecord: TDoUpdateRecord); overload;
     procedure CloseDataSets;
@@ -993,7 +1023,7 @@ type
     procedure DoApplyUpdates(const ADataSet: TFDDataSet; const ADoUpdateRecord: TDoUpdateRecord);
     procedure GeneratePaymentAndReceipt(const ASender: TDataSet; const AValue: Double; const APRObservacao: string);
     procedure OpenDataSets;
-    procedure OPERefresh;    
+    procedure OPERefresh;
     procedure PaymentsCreate(const ASender: TDataSet);
     procedure PostDataSet(const ASender: TDataSet);
     procedure AdditionsCreate(const AProcessCreateEvent: TProcessCreateEvent);
@@ -1215,6 +1245,18 @@ begin
   begin
     qryProcTUP.AsFloat := qryTCVARecolher.AsFloat;
   end;
+  if qryTCV.LocateEx('Tipo', 'CBS') then
+  begin
+    qryProcValor_CBS.AsFloat := qryTCVARecolher.AsFloat;
+  end;
+  if qryTCV.LocateEx('Tipo', 'IBS_ESTADUAL') then
+  begin
+    qryProcValor_IBSEstadual.AsFloat := qryTCVARecolher.AsFloat;
+  end;
+  if qryTCV.LocateEx('Tipo', 'IBS_MUNICIPAL') then
+  begin
+    qryProcValor_IBSMunicipal.AsFloat := qryTCVARecolher.AsFloat;
+  end;
   qryProcModalidade_Importacao.AsInteger := qryMDSModalidadeCodigos.AsInteger;
   qryProcLocal_DesembaracoCodigo.AsInteger := qryDCGUnidadeDespachoCodigo.AsInteger;
   qryProcData_RegistroDeclaracao.AsDateTime := DateOf(qryDCRDataRegistro.AsDateTime);
@@ -1346,7 +1388,7 @@ begin
 end;
 
 procedure TdamDuimp.ProductApplyUpdates;
-begin                  
+begin
   ApplyUpdates(qryDUI);
   ApplyUpdates(qryDUV);
   ApplyUpdates(qryDCR);
@@ -1369,8 +1411,9 @@ begin
 end;
 
 procedure TdamDuimp.AdditionCreate(const ARegistro, AAdicao: Integer; const ANCM, AExportador, AProdutoDescricao,
-  AIncoterm: string; const AQuantidade, AValor_Unitario, AValor_UnitarioReal, APesoLiquidoUnitario, APIS, ACOFINS, ACIDE,
-  AValorUnitarioSemVlc, AValorDevidoCIDE, AValorARecolherCIDE: Double; const ADumping: Boolean);
+  AIncoterm: string; const AQuantidade, AValor_Unitario, AValor_UnitarioReal, APesoLiquidoUnitario, APIS, ACOFINS,
+  ACIDE, AValorUnitarioSemVlc, AValorDevidoCIDE, AValorARecolherCIDE, AValorCBS, AValorIBS_ESTADUAL,
+  AValorIBS_MUNICIPAL: Double; const ADumping: Boolean);
 begin
   qryADI.Edit;
   if ARegistro > 0 then
@@ -1402,11 +1445,14 @@ begin
      AProdutoDescricao
     ,qryCONSISCOMEX_MascaraPO.AsString
     ,qryCONSISCOMEX_MascaraPOFech.AsString);
-  end; 
+  end;
   qryADICIDE_Aliquota.AsFloat := ACIDE;
   qryADICIDE_ValorDevido.AsFloat := AValorDevidoCIDE;
   qryADICIDE_ValorRecolher.AsFloat := AValorARecolherCIDE;
   qryADIIncoterm.AsString := AIncoterm;
+  qryADIValor_CBS.AsFloat := AValorCBS;
+  qryADIValor_IBSEstadual.AsFloat := AValorIBS_ESTADUAL;
+  qryADIValor_IBSMunicipal.AsFloat := AValorIBS_MUNICIPAL;
   qryADI.Post;
 end;
 
@@ -1493,6 +1539,9 @@ begin
          ,qryDPRFobValorUnitarioSemVlc.AsFloat
          ,qryDPRValorDevidoCIDE.AsFloat
          ,qryDPRValorARecolherCIDE.AsFloat
+         ,qryDPRValorCBS.AsFloat
+         ,qryDPRValorIBS_ESTADUAL.AsFloat
+         ,qryDPRValorIBS_MUNICIPAL.AsFloat
          ,qryDPRDumping.AsBoolean
         );
         qryDPR.Next;
