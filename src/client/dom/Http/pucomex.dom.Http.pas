@@ -206,6 +206,12 @@ begin
     try
       try
         ARequestEvent(LRequest, LResponseContent);
+
+        FAuthenticator.UpdateSession(
+          LRequest.Response.RawHeaders.Values['Set-Token'],
+          LRequest.Response.RawHeaders.Values['X-CSRF-Token'],
+          LRequest.Response.RawHeaders.Values['X-CSRF-Expiration']);
+
         AResponseContentEvent(LResponseContent, LRequest.ResponseCode);
       except
         on E: EIdHTTPProtocolException do
