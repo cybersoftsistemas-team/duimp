@@ -199,6 +199,7 @@
         <DCCReference Include="dom\Http\Model\Response\pucomex.dom.Http.Model.Response.LoteValidacaoVersaoDTO.pas"/>
         <DCCReference Include="dom\Http\pucomex.dom.Http.Response.LoteValidacaoVersao.pas"/>
         <DCCReference Include="dom\Support\pucomex.dom.Support.Authenticator.pas"/>
+        <DCCReference Include="dom\Support\pucomex.dom.Support.RecordVersion.pas"/>
         <DCCReference Include="dom\Support\pucomex.dom.Support.PUComex.pas"/>
         <DCCReference Include="dom\Contracts\Support\pucomex.dom.Contracts.Support.PUComex.pas"/>
         <DCCReference Include="dom\pucomex.dom.PUComex.pas"/>

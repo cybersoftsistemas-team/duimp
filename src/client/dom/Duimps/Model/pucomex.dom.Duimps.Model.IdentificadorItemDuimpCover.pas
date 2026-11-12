@@ -7,11 +7,11 @@ type
   private
     FNumero: string;
     FNumeroItem: Integer;
-    FVersao: Integer;
+    FVersao: string;
   public
     property Numero: string read FNumero write FNumero;
     property NumeroItem: Integer read FNumeroItem write FNumeroItem;
-    property Versao: Integer read FVersao write FVersao;
+    property Versao: string read FVersao write FVersao;
   end;
 
 implementation
