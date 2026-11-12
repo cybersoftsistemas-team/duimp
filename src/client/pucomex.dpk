@@ -64,6 +64,7 @@ contains
   pucomex.dom.Http.Model.Response.LoteValidacaoVersaoDTO in 'dom\Http\Model\Response\pucomex.dom.Http.Model.Response.LoteValidacaoVersaoDTO.pas',
   pucomex.dom.Http.Response.LoteValidacaoVersao in 'dom\Http\pucomex.dom.Http.Response.LoteValidacaoVersao.pas',
   pucomex.dom.Support.Authenticator in 'dom\Support\pucomex.dom.Support.Authenticator.pas',
+  pucomex.dom.Support.RecordVersion in 'dom\Support\pucomex.dom.Support.RecordVersion.pas',
   pucomex.dom.Support.PUComex in 'dom\Support\pucomex.dom.Support.PUComex.pas',
   pucomex.dom.Contracts.Support.PUComex in 'dom\Contracts\Support\pucomex.dom.Contracts.Support.PUComex.pas',
   pucomex.dom.PUComex in 'dom\pucomex.dom.PUComex.pas',

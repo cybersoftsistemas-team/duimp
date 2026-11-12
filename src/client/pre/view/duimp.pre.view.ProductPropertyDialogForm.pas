@@ -132,7 +132,7 @@ begin
   DataModule.qryADI.Open;
   DataModule.ProductGet(
     DataModule.qryDCIProdutoCodigo.AsInteger
-   ,DataModule.qryDCIProdutoVersao.AsInteger
+   ,DataModule.qryDCIProdutoVersao.AsString
    ,DataModule.qryDCIProdutoCodigoInterno.AsInteger
    ,DataModule.qryDCIModalidadeCodigo.AsInteger
    ,DataModule.qryDCIAdicao.AsInteger

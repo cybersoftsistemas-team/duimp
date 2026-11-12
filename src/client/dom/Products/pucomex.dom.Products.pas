@@ -26,7 +26,7 @@ type
     constructor Create(const AAuthenticator: IAuthenticator);
     destructor Destroy; override;
     procedure GetByID(const ACodigo: Integer; const ACpfCnpjRaiz: string; const AResponseEvent: TProductResponseEvent); overload;
-    procedure GetByID(const ACodigo: Integer; const AVersao: Integer; const ACpfCnpjRaiz: string; const AResponseEvent: TProductResponseEvent); overload;
+    procedure GetByID(const ACodigo: Integer; const AVersao: string; const ACpfCnpjRaiz: string; const AResponseEvent: TProductResponseEvent); overload;
     procedure Post(const ACpfCnpjRaiz: string; const ABody: TStream; const AResponseEvent: TProductResponseEvent);
     property ForeignOperators: IForeignOperators read GetForeignOperators;
     property ManufacturerProducer: IManufacturerProducer read GetManufacturerProducer;
@@ -35,6 +35,7 @@ type
 implementation
 
 uses
+  pucomex.dom.Support.RecordVersion,
 {IDE}
   System.SysUtils,
 {PROJECT}
@@ -79,11 +80,12 @@ begin
     end);
 end;
 
-procedure TProducts.GetByID(const ACodigo: Integer; const AVersao: Integer; const ACpfCnpjRaiz: string; const AResponseEvent: TProductResponseEvent);
+procedure TProducts.GetByID(const ACodigo: Integer; const AVersao: string; const ACpfCnpjRaiz: string; const AResponseEvent: TProductResponseEvent);
 var
   LParams: string;
 begin
-  LParams := Concat(ACpfCnpjRaiz, '/', ACodigo.ToString, '/', AVersao.ToString);
+  ValidateRecordVersion(AVersao);
+  LParams := Concat(ACpfCnpjRaiz, '/', ACodigo.ToString, '/', AVersao);
   DoGet(Concat('catp/api/ext/produto/', LParams),
     procedure(const AResponseContent: TStringStream; const AResponseCode: Integer)
     begin

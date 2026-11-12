@@ -10,11 +10,11 @@ type
   TPagamentoDuimpConsultaCover = class
   private
     FPrincipal: TDadosPagamentoCover;
-    FVersaoOrigem: Integer;
+    FVersaoOrigem: string;
   public
     destructor Destroy; override;
     property Principal: TDadosPagamentoCover read FPrincipal write FPrincipal;
-    property VersaoOrigem: Integer read FVersaoOrigem write FVersaoOrigem;
+    property VersaoOrigem: string read FVersaoOrigem write FVersaoOrigem;
   end;
 
 implementation
