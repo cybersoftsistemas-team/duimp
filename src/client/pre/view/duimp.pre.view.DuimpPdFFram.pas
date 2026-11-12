@@ -998,7 +998,7 @@ begin
           Application.ProcessMessages;
         end);
       cbxRedoDuimp.Checked := False;
-      tshDuimp.Caption := Format('Duimp (Versão: %d)', [DataModule.qryDUVVersao.AsInteger]);
+      tshDuimp.Caption := Format('Duimp (Versão: %s)', [DataModule.qryDUVVersao.AsString]);
       tshGoods.Caption := Format('Mercadorias (%d)', [DataModule.qryDCI.RecordCount]);
       tshDPG.Caption := Format('Pagamentos (%d)', [DataModule.dsoDPGSel.DataSet.RecordCount]);
       grdDCIDBBandedTableViewCondicaoVendaValorFrete.Caption := Format('Frete %s', [if LFounded and not DataModule.qryDCGFreteMoedaNegociadaSimbolo.AsString.Trim.IsEmpty then Concat('(', DataModule.qryDCGFreteMoedaNegociadaSimbolo.AsString, ')') else '']);

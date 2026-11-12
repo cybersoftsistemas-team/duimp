@@ -26,7 +26,7 @@ type
     function GetForeignOperators: IForeignOperators;
     function GetManufacturerProducer: IManufacturerProducer;
     procedure GetByID(const ACodigo: Integer; const ACpfCnpjRaiz: string; const AResponseEvent: TProductResponseEvent); overload;
-    procedure GetByID(const ACodigo: Integer; const AVersao: Integer; const ACpfCnpjRaiz: string; const AResponseEvent: TProductResponseEvent); overload;
+    procedure GetByID(const ACodigo: Integer; const AVersao: string; const ACpfCnpjRaiz: string; const AResponseEvent: TProductResponseEvent); overload;
     procedure Post(const ACpfCnpjRaiz: string; const ABody: TStream; const AResponseEvent: TProductResponseEvent);
     property ForeignOperators: IForeignOperators read GetForeignOperators;
     property ManufacturerProducer: IManufacturerProducer read GetManufacturerProducer;

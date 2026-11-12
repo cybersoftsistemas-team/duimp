@@ -1,4 +1,4 @@
-program duimp;
+﻿program duimp;
 
 uses
   Vcl.Forms,
@@ -96,7 +96,13 @@ uses
   _2026_05_20_00000001_alter_table_duimp_cargas_identificacao_carga_tipo_not_null_column in 'inf\Database\Migrations\_2026_05_20_00000001_alter_table_duimp_cargas_identificacao_carga_tipo_not_null_column.pas',
   _2026_07_02_00000001_alter_duimp_valor_cotacao_function in 'inf\Database\Migrations\_2026_07_02_00000001_alter_duimp_valor_cotacao_function.pas',
   _2026_07_28_00000001_create_processos_documentos_add_numero_declaracao_index in 'inf\Database\Migrations\_2026_07_28_00000001_create_processos_documentos_add_numero_declaracao_index.pas',
-  _2026_07_28_00000005_create_processos_documentos_add_processo_abertura_index in 'inf\Database\Migrations\_2026_07_28_00000005_create_processos_documentos_add_processo_abertura_index.pas';
+  _2026_07_28_00000005_create_processos_documentos_add_processo_abertura_index in 'inf\Database\Migrations\_2026_07_28_00000005_create_processos_documentos_add_processo_abertura_index.pas',
+  _2026_11_12_00000001_create_duimp_comparar_versoes_function in 'inf\Database\Migrations\_2026_11_12_00000001_create_duimp_comparar_versoes_function.pas',
+  _2026_11_12_00000002_alter_duimp_versoes_version_text in 'inf\Database\Migrations\_2026_11_12_00000002_alter_duimp_versoes_version_text.pas',
+  _2026_11_12_00000003_alter_duimp_pagamentos_version_text in 'inf\Database\Migrations\_2026_11_12_00000003_alter_duimp_pagamentos_version_text.pas',
+  _2026_11_12_00000004_alter_duimp_capas_itens_version_text in 'inf\Database\Migrations\_2026_11_12_00000004_alter_duimp_capas_itens_version_text.pas',
+  _2026_11_12_00000005_alter_duimp_itens_fabricantes_version_text in 'inf\Database\Migrations\_2026_11_12_00000005_alter_duimp_itens_fabricantes_version_text.pas',
+  _2026_11_12_00000006_alter_duimp_itens_exportadores_version_text in 'inf\Database\Migrations\_2026_11_12_00000006_alter_duimp_itens_exportadores_version_text.pas';
 
 {$R *.res}
 

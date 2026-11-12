@@ -1,4 +1,4 @@
-inherited damDuimp: TdamDuimp
+﻿inherited damDuimp: TdamDuimp
   OnDestroy = DataModuleDestroy
   Height = 654
   Width = 1011
@@ -381,7 +381,7 @@ inherited damDuimp: TdamDuimp
   object qryDCI: TFDQuery
     OnNewRecord = qryDCINewRecord
     CachedUpdates = True
-    IndexFieldNames = 'VersaoId;Adicao;NumeroItem;ProdutoCodigo;ProdutoVersao'
+    IndexFieldNames = 'VersaoId;Adicao;NumeroItem;ProdutoCodigo'
     MasterSource = dsoDUV
     MasterFields = 'Id'
     DetailFields = 'VersaoId'
@@ -813,7 +813,8 @@ inherited damDuimp: TdamDuimp
       Visible = False
       Size = 11
     end
-    object qryDCIFabricanteVersao: TStringField
+    object qryDCIFabricanteVersao: TWideMemoField
+      OnValidate = VersionValidate
       FieldName = 'FabricanteVersao'
       Origin = 'FabricanteVersao'
       Visible = False
@@ -839,7 +840,8 @@ inherited damDuimp: TdamDuimp
       Visible = False
       Size = 11
     end
-    object qryDCIExportadorVersao: TStringField
+    object qryDCIExportadorVersao: TWideMemoField
+      OnValidate = VersionValidate
       FieldName = 'ExportadorVersao'
       Origin = 'ExportadorVersao'
       Required = True
@@ -1105,7 +1107,8 @@ inherited damDuimp: TdamDuimp
       Origin = 'ProdutoNomeInterno'
       Size = 60
     end
-    object qryDCIProdutoVersao: TIntegerField
+    object qryDCIProdutoVersao: TWideMemoField
+      OnValidate = VersionValidate
       DisplayLabel = 'Vers'#227'o'
       DisplayWidth = 8
       FieldName = 'ProdutoVersao'
@@ -4695,6 +4698,7 @@ inherited damDuimp: TdamDuimp
     MasterFields = 'Id'
     DetailFields = 'DuimpId'
     Connection = damConnection.DBCliente
+    UpdateOptions.RefreshMode = rmManual
     UpdateOptions.UpdateTableName = 'duimp.pagamentos'
     UpdateOptions.KeyFields = 'Id'
     SQL.Strings = (
@@ -4771,7 +4775,8 @@ inherited damDuimp: TdamDuimp
       Origin = 'Valor'
       Required = True
     end
-    object qryDPGVersaoOrigem: TIntegerField
+    object qryDPGVersaoOrigem: TWideMemoField
+      OnValidate = VersionValidate
       FieldName = 'VersaoOrigem'
       Origin = 'VersaoOrigem'
       Required = True
@@ -4963,18 +4968,11 @@ inherited damDuimp: TdamDuimp
       '    ,DPG.DuimpId'
       'INTO #Pagamentos'
       'FROM duimp.pagamentos DPG'
-      'JOIN'
-      '('
-      '    SELECT'
-      '         DuimpId'
-      '        ,VersaoOrigem = MAX(VersaoOrigem)'
-      '    FROM duimp.pagamentos'
-      '    WHERE DuimpId = @DuimpId'
-      '    GROUP BY DuimpId'
-      ') M'
-      '    ON M.DuimpId = DPG.DuimpId'
-      '   AND M.VersaoOrigem = DPG.VersaoOrigem'
-      'WHERE DPG.DuimpId = @DuimpId;'
+      'WHERE DPG.DuimpId = @DuimpId'
+      'AND NOT EXISTS ('
+      '    SELECT 1 FROM duimp.pagamentos NEWER'
+      '    WHERE NEWER.DuimpId = DPG.DuimpId'
+      '      AND duimp.CompararVersoes(NEWER.VersaoOrigem, DPG.VersaoOrigem) > 0);'
       ''
       'IF EXISTS'
       '('
@@ -5179,7 +5177,8 @@ inherited damDuimp: TdamDuimp
       Required = True
       DisplayFormat = ',0.00;-,0.00'
     end
-    object qryDPGSelVersaoOrigem: TIntegerField
+    object qryDPGSelVersaoOrigem: TWideMemoField
+      OnValidate = VersionValidate
       FieldName = 'VersaoOrigem'
       Origin = 'VersaoOrigem'
       Required = True
@@ -5321,7 +5320,8 @@ inherited damDuimp: TdamDuimp
       Origin = 'Rua_Numero'
       Size = 10
     end
-    object qryDIEVersao: TStringField
+    object qryDIEVersao: TWideMemoField
+      OnValidate = VersionValidate
       FieldName = 'Versao'
       Origin = 'Versao'
       Required = True
@@ -5453,7 +5453,8 @@ inherited damDuimp: TdamDuimp
       Origin = 'Rua_Numero'
       Size = 10
     end
-    object qryDIFVersao: TStringField
+    object qryDIFVersao: TWideMemoField
+      OnValidate = VersionValidate
       FieldName = 'Versao'
       Origin = 'Versao'
       Required = True
@@ -5658,7 +5659,8 @@ inherited damDuimp: TdamDuimp
       Origin = 'Rua_Numero'
       Size = 10
     end
-    object qryEXPVersao: TStringField
+    object qryEXPVersao: TWideMemoField
+      OnValidate = VersionValidate
       DisplayLabel = 'Vers'#227'o'
       DisplayWidth = 6
       FieldName = 'Versao'
@@ -5791,7 +5793,8 @@ inherited damDuimp: TdamDuimp
       Origin = 'Rua_Numero'
       Size = 10
     end
-    object qryFABVersao: TStringField
+    object qryFABVersao: TWideMemoField
+      OnValidate = VersionValidate
       DisplayLabel = 'Vers'#227'o'
       DisplayWidth = 6
       FieldName = 'Versao'
@@ -6693,7 +6696,7 @@ inherited damDuimp: TdamDuimp
       #9',DCI.Dumping'
       #9',DMC.TipoAliquota'
       #9',DCI.IncotermCodigo'
-      #9',INF.Tipo'
+      #9',DIC.Tipo'
       #9',INF.PercentualEntrada'
       #9',INF.PercentualSaida'
       #9',DMC.Normal'
@@ -6708,16 +6711,16 @@ inherited damDuimp: TdamDuimp
       '        ON DUV.Id = DCI.VersaoId'
       '    JOIN duimp.duimps DUI'
       '        ON DUI.Id = DUV.DuimpId'
-      '    JOIN duimp.itens_notas_fiscais INF'
-      '        ON INF.CapaItemId = DCI.Id'
-      '    JOIN duimp.itens_tributos DIT'
+      '    LEFT JOIN duimp.itens_tributos DIT'
       '        ON DIT.CapaItemId = DCI.Id'
-      '    JOIN duimp.itens_tributos_calculados DIC'
+      '    LEFT JOIN duimp.itens_tributos_calculados DIC'
       '        ON DIC.ItemTributoId = DIT.Id'
+      '    LEFT JOIN duimp.itens_notas_fiscais INF'
+      '        ON INF.CapaItemId = DCI.Id'
       '       AND INF.Tipo = DIC.Tipo'
-      '    JOIN duimp.itens_tributos_calculados_memorias_calculos DMC'
+      '    LEFT JOIN duimp.itens_tributos_calculados_memorias_calculos DMC'
       '        ON DIC.Id = DMC.ItemTributoCalculadoId'
-      '    JOIN duimp.itens_tributos_calculados_valores_brl VB'
+      '    LEFT JOIN duimp.itens_tributos_calculados_valores_brl VB'
       '        ON DIC.Id = VB.ItemTributoCalculadoId'
       '    JOIN CapasItensValores CIV'
       '        ON CIV.CapaItemId = DCI.Id'
@@ -6997,7 +7000,8 @@ inherited damDuimp: TdamDuimp
       Origin = 'ProdutoCodigo'
       Required = True
     end
-    object qryDPRProdutoVersao: TIntegerField
+    object qryDPRProdutoVersao: TWideMemoField
+      OnValidate = VersionValidate
       FieldName = 'ProdutoVersao'
       Origin = 'ProdutoVersao'
       Required = True
@@ -8001,32 +8005,18 @@ inherited damDuimp: TdamDuimp
     MasterFields = 'Id'
     DetailFields = 'DuimpId'
     Connection = damConnection.DBCliente
+    UpdateOptions.RefreshMode = rmManual
     UpdateOptions.UpdateTableName = 'duimp.versoes'
     UpdateOptions.KeyFields = 'Id'
     SQL.Strings = (
-      'DECLARE @DuimpId uniqueidentifier;'
-      ''
-      'SET @DuimpId = :Id;'
-      ''
-      'WITH DuimpMax AS ('
-      #9'SELECT DuimpId = DUI.Id'
-      #9',DUI.Numero'
-      #9',Versao = MAX(DUV.Versao)'
-      #9'FROM duimp.duimps AS DUI'
-      #9'JOIN duimp.versoes AS DUV'
-      #9#9' ON DUI.Id = DUV.DuimpId'
-      #9'WHERE DUI.Id = @DuimpId'
-      #9'GROUP BY DUI.Id, DUI.Numero'
-      ')'
-      'SELECT DUV.Id'
-      ',DUI.Numero'
-      ',DUV.ProcessoNumero'
-      ',DUV.Versao'
-      ',DUV.DuimpId'
-      'FROM DuimpMax AS DUI'
-      'JOIN duimp.versoes AS DUV'
-      #9' ON DUI.DuimpId = DUV.DuimpId'
-      #9'AND DUI.Versao = DUV.Versao;')
+      'SELECT DUV.Id, DUI.Numero, DUV.ProcessoNumero, DUV.Versao, DUV.DuimpId'
+      'FROM duimp.versoes DUV'
+      'JOIN duimp.duimps DUI ON DUI.Id = DUV.DuimpId'
+      'WHERE DUI.Id = :Id'
+      'AND NOT EXISTS ('
+      '  SELECT 1 FROM duimp.versoes NEWER'
+      '  WHERE NEWER.DuimpId = DUV.DuimpId'
+      '    AND duimp.CompararVersoes(NEWER.Versao, DUV.Versao) > 0);')
     Left = 24
     Top = 80
     ParamData = <
@@ -8053,7 +8043,8 @@ inherited damDuimp: TdamDuimp
       Origin = 'ProcessoNumero'
       Size = 15
     end
-    object qryDUVVersao: TIntegerField
+    object qryDUVVersao: TWideMemoField
+      OnValidate = VersionValidate
       FieldName = 'Versao'
       Origin = 'Versao'
       Required = True
@@ -8388,7 +8379,7 @@ inherited damDuimp: TdamDuimp
       #9',DCI.Dumping'
       #9',DMC.TipoAliquota'
       #9',DCI.IncotermCodigo'
-      #9',INF.Tipo'
+      #9',DIC.Tipo'
       #9',INF.PercentualEntrada'
       #9',INF.PercentualSaida'
       #9',DMC.Normal'
@@ -8403,16 +8394,16 @@ inherited damDuimp: TdamDuimp
       '        ON DUV.Id = DCI.VersaoId'
       '    JOIN duimp.duimps DUI'
       '        ON DUI.Id = DUV.DuimpId'
-      '    JOIN duimp.itens_notas_fiscais INF'
-      '        ON INF.CapaItemId = DCI.Id'
-      '    JOIN duimp.itens_tributos DIT'
+      '    LEFT JOIN duimp.itens_tributos DIT'
       '        ON DIT.CapaItemId = DCI.Id'
-      '    JOIN duimp.itens_tributos_calculados DIC'
+      '    LEFT JOIN duimp.itens_tributos_calculados DIC'
       '        ON DIC.ItemTributoId = DIT.Id'
+      '    LEFT JOIN duimp.itens_notas_fiscais INF'
+      '        ON INF.CapaItemId = DCI.Id'
       '       AND INF.Tipo = DIC.Tipo'
-      '    JOIN duimp.itens_tributos_calculados_memorias_calculos DMC'
+      '    LEFT JOIN duimp.itens_tributos_calculados_memorias_calculos DMC'
       '        ON DIC.Id = DMC.ItemTributoCalculadoId'
-      '    JOIN duimp.itens_tributos_calculados_valores_brl VB'
+      '    LEFT JOIN duimp.itens_tributos_calculados_valores_brl VB'
       '        ON DIC.Id = VB.ItemTributoCalculadoId'
       '    JOIN CapasItensValores CIV'
       '        ON CIV.CapaItemId = DCI.Id'
@@ -8619,7 +8610,8 @@ inherited damDuimp: TdamDuimp
       Origin = 'ProdutoCodigo'
       Required = True
     end
-    object qryITRProdutoVersao: TIntegerField
+    object qryITRProdutoVersao: TWideMemoField
+      OnValidate = VersionValidate
       FieldName = 'ProdutoVersao'
       Origin = 'ProdutoVersao'
       Required = True
@@ -9156,7 +9148,8 @@ inherited damDuimp: TdamDuimp
       Origin = 'Rua_Numero'
       Size = 10
     end
-    object qryFRNVersao: TStringField
+    object qryFRNVersao: TWideMemoField
+      OnValidate = VersionValidate
       FieldName = 'Versao'
       Origin = 'Versao'
       Required = True
@@ -9476,6 +9469,7 @@ inherited damDuimp: TdamDuimp
     UpdateObject = updADI
     SQL.Strings = (
       'SELECT ADI.Registro'
+      ',ADI.Codigo_Mercadoria'
       ',ADI.DI AS Numero_Declaracao'
       ',ADI.Adicao'
       ',ADI.Sequencia AS NumeroItem'
@@ -9524,6 +9518,10 @@ inherited damDuimp: TdamDuimp
         Size = 15
         Value = Null
       end>
+    object qryADICodigo_Mercadoria: TIntegerField
+      FieldName = 'Codigo_Mercadoria'
+      Origin = 'Codigo_Mercadoria'
+    end
     object qryADIRegistro: TLargeintField
       FieldName = 'Registro'
       Origin = 'Registro'
@@ -9670,18 +9668,15 @@ inherited damDuimp: TdamDuimp
       '    ELSE :NEW_Registro'
       'END;'
       ''
-      'SET @Codigo_Mercadoria = ('
-      #9'SELECT TOP 1 PRO.Codigo'
-      #9'FROM duimp.capas_itens AS DCI'
-      #9'JOIN duimp.versoes AS DUV'
-      #9#9'ON DUV.Id = DCI.VersaoId'
-      #9'JOIN duimp.duimps AS DUI'
-      #9#9'ON DUI.Id = DUV.DuimpId'
-      #9'JOIN Produtos AS PRO'
-      #9#9'ON DCI.ProdutoCodigo = PRO.Codigo_DUIMP'
-      #9'WHERE DCI.NumeroItem = :NEW_NumeroItem'
-      #9'AND DUI.Numero = :NEW_Numero_Declaracao'
-      ');'
+      'SET @Codigo_Mercadoria = :NEW_Codigo_Mercadoria;'
+      ''
+      'IF NOT EXISTS (SELECT 1 FROM Produtos WHERE Codigo = @Codigo_Mercadoria)'
+      'BEGIN'
+      '    DECLARE @Erro nvarchar(2048);'
+      '    SET @Erro = CONCAT(N'#39'Produto interno ausente para o item '#39', '
+      '        :NEW_NumeroItem, N'#39' da DUIMP '#39', :NEW_Numero_Declaracao);'
+      '    THROW 50001, @Erro, 1;'
+      'END;'
       ''
       'SET @Fornecedor = ('
       #9'SELECT TOP 1 Codigo'
@@ -9726,7 +9721,8 @@ inherited damDuimp: TdamDuimp
       ''
       'WHEN MATCHED THEN'
       '  UPDATE SET'
-      '      TARGET.Quantidade = SOURCE.Quantidade'
+      '      TARGET.Codigo_Mercadoria = SOURCE.Codigo_Mercadoria'
+      '     ,TARGET.Quantidade = SOURCE.Quantidade'
       '     ,TARGET.Valor_Unitario = SOURCE.Valor_Unitario'
       '     ,TARGET.Valor_UnitarioReal = SOURCE.Valor_UnitarioReal'
       '     ,TARGET.NCM = SOURCE.NCM'
@@ -9818,6 +9814,7 @@ inherited damDuimp: TdamDuimp
       '  );'
       ''
       'SELECT ADI.Registro'
+      ',ADI.Codigo_Mercadoria'
       ',ADI.DI AS Numero_Declaracao'
       ',ADI.Adicao'
       ',ADI.Sequencia AS NumeroItem'
@@ -9851,6 +9848,7 @@ inherited damDuimp: TdamDuimp
       'WHERE ADI.Registro = @Registro;')
     FetchRowSQL.Strings = (
       'SELECT ADI.Registro'
+      ',ADI.Codigo_Mercadoria'
       ',ADI.DI AS Numero_Declaracao'
       ',ADI.Adicao'
       ',ADI.Sequencia AS NumeroItem'

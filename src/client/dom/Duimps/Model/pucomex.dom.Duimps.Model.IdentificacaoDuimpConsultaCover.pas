@@ -15,7 +15,7 @@ type
     FInformacaoComplementar: string;
     FNumero: string;
     FResponsavelRegistroNumero: string;
-    FVersao: Integer;
+    FVersao: string;
   public
     destructor Destroy; override;
     property ChaveAcesso: string read FChaveAcesso write FChaveAcesso;
@@ -24,7 +24,7 @@ type
     property InformacaoComplementar: string read FInformacaoComplementar write FInformacaoComplementar;
     property Numero: string read FNumero write FNumero;
     property ResponsavelRegistroNumero: string read FResponsavelRegistroNumero write FResponsavelRegistroNumero;
-    property Versao: Integer read FVersao write FVersao;
+    property Versao: string read FVersao write FVersao;
   end;
 
 implementation

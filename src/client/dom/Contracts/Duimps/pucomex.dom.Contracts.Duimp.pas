@@ -41,7 +41,7 @@ type
     function GetItemCover(const AItems: TArray<TItemConsultaDuimpCover>; const ANumeroItem: Integer): TItemDuimpCover;
     function GetNI_ESTADO: string;
     function GetNI_IMPORTADOR: string;
-    procedure Get(const ANumber: string; const AVersao: Integer; const AResponseEvent: TDuimpResponseEvent;
+    procedure Get(const ANumber: string; const AVersao: string; const AResponseEvent: TDuimpResponseEvent;
       const AErroResponseEvent: TApiErroResponseEvent = nil);
     procedure GetCurrentVersion(const ANumber: string; const AResponseEvent: TDuimpVersaoResponseEvent);
     procedure SetNI_ESTADO(const AValue: string);

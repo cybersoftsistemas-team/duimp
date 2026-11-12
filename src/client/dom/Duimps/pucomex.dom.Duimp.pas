@@ -30,7 +30,7 @@ type
   public
     constructor Create(const AAuthenticator: IAuthenticator);
     function GetItemCover(const AItems: TArray<TItemConsultaDuimpCover>; const ANumeroItem: Integer): TItemDuimpCover;
-    procedure Get(const ANumber: string; const AVersao: Integer; const AResponseEvent: TDuimpResponseEvent;
+    procedure Get(const ANumber: string; const AVersao: string; const AResponseEvent: TDuimpResponseEvent;
       const AErroResponseEvent: TApiErroResponseEvent = nil);
     procedure GetCurrentVersion(const ANumber: string; const AResponseEvent: TDuimpVersaoResponseEvent);
     property CpfCnpjRaiz: string read GetCpfCnpjRaiz;
@@ -41,6 +41,7 @@ type
 implementation
 
 uses
+  pucomex.dom.Support.RecordVersion,
 {IDE}
   REST.Json,
   System.Classes,
@@ -135,14 +136,15 @@ begin
   AConfig.WriteString(ASectionConfigName, 'NI_IMPORTADOR', FNI_IMPORTADOR);
 end;
 
-procedure TDuimp.Get(const ANumber: string; const AVersao: Integer; const AResponseEvent: TDuimpResponseEvent;
+procedure TDuimp.Get(const ANumber: string; const AVersao: string; const AResponseEvent: TDuimpResponseEvent;
   const AErroResponseEvent: TApiErroResponseEvent);
 begin
   if ANumber.Trim.IsEmpty then
   begin
     raise Exception.Create('É nescessário informar um número de Duimp para realizar a consulta.');
   end;
-  var LParams := Concat(ANumber, '/', AVersao.ToString);
+  ValidateRecordVersion(AVersao);
+  var LParams := Concat(ANumber, '/', AVersao);
   DoGet(Concat('duimp-api/api/ext/duimp/', LParams),
     procedure(const AResponseContent: TStringStream; const AResponseCode: Integer)
     var

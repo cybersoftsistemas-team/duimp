@@ -75,18 +75,18 @@ type
     qryDCIFabricanteCodigo: TStringField;
     qryDCIFabricanteCodigoPais: TStringField;
     qryDCIFabricanteNIOperador: TStringField;
-    qryDCIFabricanteVersao: TStringField;
+    qryDCIFabricanteVersao: TWideMemoField;
     qryDCIExportadorCodigo: TStringField;
     qryDCIExportadorCodigoPais: TStringField;
     qryDCIExportadorNIOperador: TStringField;
-    qryDCIExportadorVersao: TStringField;
+    qryDCIExportadorVersao: TWideMemoField;
     qryDCIIncotermCodigo: TStringField;
     qryDCIMoedaNegociadaSimbolo: TStringField;
     qryDCINumeroItem: TIntegerField;
     qryDCIPesoLiquido: TFloatField;
     qryDCIProdutoCodigo: TIntegerField;
     qryDCIProdutoDescricao: TStringField;
-    qryDCIProdutoVersao: TIntegerField;
+    qryDCIProdutoVersao: TWideMemoField;
     qryDCIProdutoNIResponsavel: TStringField;
     qryDCIQuantidadeComercial: TFloatField;
     qryDCIUnidadeComercial: TStringField;
@@ -325,7 +325,7 @@ type
     qryDCRInformacaoComplementar: TStringField;
     qryDPG: TFDQuery;
     dsoDPG: TDataSource;
-    qryDPGVersaoOrigem: TIntegerField;
+    qryDPGVersaoOrigem: TWideMemoField;
     qryDPGDataPagamento: TSQLTimeStampField;
     qryDPGCodigoReceita: TStringField;
     qryDPGBanco: TStringField;
@@ -353,7 +353,7 @@ type
     qryDPGSelDataPagamento: TSQLTimeStampField;
     qryDPGSelTributo: TStringField;
     qryDPGSelValor: TFloatField;
-    qryDPGSelVersaoOrigem: TIntegerField;
+    qryDPGSelVersaoOrigem: TWideMemoField;
     qryDPGSelDuimpId: TGuidField;
     qryDPGSelModalidadeCodigo: TIntegerField;
     qryDPGSelModalidadeDescricao: TStringField;
@@ -378,7 +378,7 @@ type
     qryDIENome: TStringField;
     qryDIEPaisCodigo: TStringField;
     qryDIERua: TStringField;
-    qryDIEVersao: TStringField;
+    qryDIEVersao: TWideMemoField;
     qryDIFId: TGuidField;
     qryDIFCEP: TStringField;
     qryDIFCodigo: TStringField;
@@ -388,7 +388,7 @@ type
     qryDIFNome: TStringField;
     qryDIFPaisCodigo: TStringField;
     qryDIFRua: TStringField;
-    qryDIFVersao: TStringField;
+    qryDIFVersao: TWideMemoField;
     updDIE: TFDUpdateSQL;
     updDIF: TFDUpdateSQL;
     qryDIECodigoInterno: TIntegerField;
@@ -406,7 +406,7 @@ type
     qryEXPNome: TStringField;
     qryEXPPaisCodigo: TStringField;
     qryEXPRua: TStringField;
-    qryEXPVersao: TStringField;
+    qryEXPVersao: TWideMemoField;
     qryEXPAdicao: TIntegerField;
     qryLFR: TFDQuery;
     qryLFRCodigoInterno: TIntegerField;
@@ -436,7 +436,7 @@ type
     qryFABPaisCodigo: TStringField;
     qryFABRua: TStringField;
     qryFABRua_Numero: TStringField;
-    qryFABVersao: TStringField;
+    qryFABVersao: TWideMemoField;
     qryPRO: TFDQuery;
     dsoPRO: TDataSource;
     updPRO: TFDUpdateSQL;
@@ -567,7 +567,7 @@ type
     qryDUV: TFDQuery;
     qryDUVId: TGuidField;
     qryDUVProcessoNumero: TStringField;
-    qryDUVVersao: TIntegerField;
+    qryDUVVersao: TWideMemoField;
     qryDUVDuimpId: TGuidField;
     qryMOE: TFDQuery;
     qryMOECodigo: TIntegerField;
@@ -612,7 +612,7 @@ type
     qryDPRId: TGuidField;
     qryDPRAdicao: TIntegerField;
     qryDPRProdutoCodigo: TIntegerField;
-    qryDPRProdutoVersao: TIntegerField;
+    qryDPRProdutoVersao: TWideMemoField;
     qryDPRProdutoCodigoInterno: TIntegerField;
     qryDPRModalidadeCodigo: TIntegerField;
     qryDPRUnidadeComercial: TStringField;
@@ -633,7 +633,7 @@ type
     qryITRId: TGuidField;
     qryITRAdicao: TIntegerField;
     qryITRProdutoCodigo: TIntegerField;
-    qryITRProdutoVersao: TIntegerField;
+    qryITRProdutoVersao: TWideMemoField;
     qryITRProdutoCodigoInterno: TIntegerField;
     qryITRModalidadeCodigo: TIntegerField;
     qryITRUnidadeComercial: TStringField;
@@ -719,7 +719,7 @@ type
     qryFRNPaisCodigo: TStringField;
     qryFRNRua: TStringField;
     qryFRNRua_Numero: TStringField;
-    qryFRNVersao: TStringField;
+    qryFRNVersao: TWideMemoField;
     dsoFRN: TDataSource;
     updFRN: TFDUpdateSQL;
     qryFRNPais: TStringField;
@@ -760,6 +760,7 @@ type
     dsoADI: TDataSource;
     updADI: TFDUpdateSQL;
     qryADIRegistro: TLargeintField;
+    qryADICodigo_Mercadoria: TIntegerField;
     qryADIAdicao: TSmallintField;
     qryADIQuantidade: TFloatField;
     qryADIValor_Unitario: TFloatField;
@@ -1008,9 +1009,10 @@ type
     procedure qryDCRUFImportacaoChange(Sender: TField);
     procedure qryDCRUFDesembaracoChange(Sender: TField);
     procedure qryDUIRemoverValoracaoNoValorFobChange(Sender: TField);
+    procedure VersionValidate(Sender: TField);
   private
     FCanalConsolidado: TStrings;
-    procedure AdditionCreate(const ARegistro, AAdicao: Integer; const ANCM, AExportador, AProdutoDescricao, AIncoterm: string;
+    procedure AdditionCreate(const ARegistro, AAdicao, AProdutoCodigoInterno: Integer; const ANCM, AExportador, AProdutoDescricao, AIncoterm: string;
       const AQuantidade, AValor_Unitario, AValor_UnitarioReal, APesoLiquidoUnitario, APIS, ACOFINS, ACIDE,
       AValorUnitarioSemVlc, AValorDevidoCIDE, AValorARecolherCIDE, AValorCBS, AValorIBS_ESTADUAL,
       AValorIBS_MUNICIPAL: Double; const ADumping: Boolean);
@@ -1027,11 +1029,12 @@ type
     procedure PaymentsCreate(const ASender: TDataSet);
     procedure PostDataSet(const ASender: TDataSet);
     procedure AdditionsCreate(const AProcessCreateEvent: TProcessCreateEvent);
+    procedure ValidateAdditions;
     procedure TryCreateDAADataSet(const AAtributos: TArray<TAtributoTributoCover>);
     procedure TryCreateDADDataSet(const AItem: TItemDuimpCover);
     procedure TryCreateDCGDataSet(const ADuimp: TDuimpConsultaCover);
     procedure TryCreateDCIDataSet(const ADuimp: TDuimpConsultaCover; const AFindDuimpEvent: TFindDuimpEvent);
-    procedure TryCreateDCRDataSet(const ANumer: string; const AVersion: Integer; const AFindDuimpEvent: TFindDuimpEvent);
+    procedure TryCreateDCRDataSet(const ANumer: string; const AVersion: string; const AFindDuimpEvent: TFindDuimpEvent);
     procedure TryCreateDIADataSet(const AItem: TItemDuimpCover);
     procedure TryCreateDICDataSet(const AItem: TItemDuimpCover);
     procedure TryCreateDIEDataSet(const AItem: TItemDuimpCover);
@@ -1051,7 +1054,7 @@ type
     procedure ProductApplyUpdates;
     procedure ProductCancelUpdates;
     procedure ProcessCreate(const AProcessCreateEvent: TProcessCreateEvent);
-    procedure ProductGet(const AProdutoCodigo, AProdutoVersao, AProdutoCodigoInterno, AModalidadeCodigo, AAdicao,
+    procedure ProductGet(const AProdutoCodigo: Integer; const AProdutoVersao: string; const AProdutoCodigoInterno, AModalidadeCodigo, AAdicao,
       ATipoItem: Integer; const AUFImportacao, AUnidadeComercial, ATipoAliquota, ADescricaoMercadoria: string;
       const ACamex: Boolean; const APesoLiquidoUnitario, AII, AIPI, APIS, ACOFINS, APIS_ENTRADA, APIS_SAIDA, ACOFINS_ENTRADA, ACOFINS_SAIDA,
       AValorII, AValorIPI, AValorPIS, AValorCOFINS, AReduzidaII, AReduzidaIPI, AReduzidaPIS, AReduzidaCOFINS: Double);
@@ -1080,6 +1083,7 @@ uses
   duimp.dom.System.Application,
   duimp.dom.System.ImportaUtils,
   duimp.dom.System.Utils,
+  pucomex.dom.Support.RecordVersion,
   pucomex.dom.Contracts.Http.Response.OperadorEstrangeiroIntegracao,
   pucomex.dom.Duimps.Model.AcrescimoDeducaoConsultaItemCover,
   pucomex.dom.Duimps.Model.IdentificadorItemDuimpCover,
@@ -1308,6 +1312,13 @@ begin
   qryDUV.CancelUpdates;
 end;
 
+procedure TdamDuimp.VersionValidate(Sender: TField);
+begin
+  if Sender.IsNull and not Sender.Required then
+    Exit;
+  ValidateRecordVersion(Sender.AsString, Sender.DisplayName);
+end;
+
 procedure TdamDuimp.ProcessCreate(const AProcessCreateEvent: TProcessCreateEvent);
 begin
   if Assigned(AProcessCreateEvent) then
@@ -1410,12 +1421,15 @@ begin
   qryDUI.CancelUpdates;
 end;
 
-procedure TdamDuimp.AdditionCreate(const ARegistro, AAdicao: Integer; const ANCM, AExportador, AProdutoDescricao,
+procedure TdamDuimp.AdditionCreate(const ARegistro, AAdicao, AProdutoCodigoInterno: Integer; const ANCM, AExportador, AProdutoDescricao,
   AIncoterm: string; const AQuantidade, AValor_Unitario, AValor_UnitarioReal, APesoLiquidoUnitario, APIS, ACOFINS,
   ACIDE, AValorUnitarioSemVlc, AValorDevidoCIDE, AValorARecolherCIDE, AValorCBS, AValorIBS_ESTADUAL,
   AValorIBS_MUNICIPAL: Double; const ADumping: Boolean);
 begin
+  if AProdutoCodigoInterno <= 0 then
+    raise Exception.Create('Não foi possível identificar o código interno da mercadoria.');
   qryADI.Edit;
+  qryADICodigo_Mercadoria.AsInteger := AProdutoCodigoInterno;
   if ARegistro > 0 then
   begin
     qryADIRegistro.AsInteger := ARegistro;
@@ -1460,9 +1474,10 @@ procedure TdamDuimp.AdditionsCreate(const AProcessCreateEvent: TProcessCreateEve
 begin
   if (qryDUI.ChangeCount > 0) then
   begin
-    qryDUI.ApplyUpdates;
+    ApplyUpdates(qryDUI);
   end;
   qryDPR.Refresh;
+  qryDPR.FetchAll;
   var LDataSource := qryPRO.MasterSource;
   if Assigned(AProcessCreateEvent) then
   begin
@@ -1494,7 +1509,7 @@ begin
         end;
         ProductGet(
           qryDPRProdutoCodigo.AsInteger
-         ,qryDPRProdutoVersao.AsInteger
+         ,qryDPRProdutoVersao.AsString
          ,qryDPRProdutoCodigoInterno.AsInteger
          ,qryDPRModalidadeCodigo.AsInteger
          ,qryDPRAdicao.AsInteger
@@ -1522,9 +1537,23 @@ begin
          ,qryDPRAliquotaReduzidaPIS.AsFloat
          ,qryDPRAliquotaReduzidaCOFINS.AsFloat
         );
+        // Persist this item's dependencies before changing the master record.
+        ApplyUpdates(qryFRN);
+        ApplyUpdates(qryPRO);
+        ApplyUpdates(qryATS);
+        qryPRO.Refresh;
+        if qryPRO.IsEmpty or (qryPROProdutoCodigoInterno.AsInteger <= 0) or
+          (qryPROProdutoCodigo.AsInteger <> qryDPRProdutoCodigo.AsInteger) then
+        begin
+          raise Exception.CreateFmt(
+            'Não foi encontrado o produto interno do item %d da DUIMP %s (produto Siscomex %d).',
+            [qryDPRNumeroItem.AsInteger, qryDPRNumero_Declaracao.AsString,
+             qryDPRProdutoCodigo.AsInteger]);
+        end;
         AdditionCreate(
           qryDPRRegistro.AsInteger
          ,qryDPRAdicao.AsInteger
+         ,qryPROProdutoCodigoInterno.AsInteger
          ,qryPRONCM.AsString
          ,qryPROFornecedor.AsString
          ,qryDPRProdutoDescricao.AsString
@@ -1544,9 +1573,11 @@ begin
          ,qryDPRValorIBS_MUNICIPAL.AsFloat
          ,qryDPRDumping.AsBoolean
         );
+        ApplyUpdates(qryADI);
         qryDPR.Next;
       end;
       ProductApplyUpdates;
+      ValidateAdditions;
       qryDIE.Refresh;
       qryDIF.Refresh;
       qryEXP.Refresh;
@@ -1570,7 +1601,38 @@ begin
   end;
 end;
 
-procedure TdamDuimp.ProductGet(const AProdutoCodigo, AProdutoVersao, AProdutoCodigoInterno, AModalidadeCodigo,
+procedure TdamDuimp.ValidateAdditions;
+var
+  LQuery: TFDQuery;
+begin
+  // Check the base items, independently of the query used to create additions.
+  LQuery := TFDQuery.Create(nil);
+  try
+    LQuery.Connection := damConnection.DBCliente;
+    LQuery.SQL.Text :=
+      'SELECT COUNT(*) AS Faltantes ' +
+      'FROM duimp.capas_itens AS DCI ' +
+      'WHERE DCI.VersaoId = :VersaoId ' +
+      'AND NOT EXISTS (' +
+      '  SELECT 1 FROM Adicoes AS ADI ' +
+      '  WHERE ADI.DI = :Numero_Declaracao ' +
+      '    AND ADI.Sequencia = DCI.NumeroItem)';
+    LQuery.ParamByName('VersaoId').AsGuid := qryDUVId.AsGuid;
+    LQuery.ParamByName('Numero_Declaracao').AsString := qryDUINumero.AsString;
+    LQuery.Open;
+    if LQuery.FieldByName('Faltantes').AsInteger > 0 then
+    begin
+      raise Exception.CreateFmt(
+        'Não foi possível salvar todas as mercadorias da DUIMP %s. ' +
+        'Faltam %d itens em Adicoes. O salvamento não será concluído.',
+        [qryDUINumero.AsString, LQuery.FieldByName('Faltantes').AsInteger]);
+    end;
+  finally
+    FreeAndNil(LQuery);
+  end;
+end;
+
+procedure TdamDuimp.ProductGet(const AProdutoCodigo: Integer; const AProdutoVersao: string; const AProdutoCodigoInterno, AModalidadeCodigo,
   AAdicao, ATipoItem: Integer; const AUFImportacao, AUnidadeComercial, ATipoAliquota, ADescricaoMercadoria: string;
   const ACamex: Boolean; const APesoLiquidoUnitario, AII, AIPI, APIS, ACOFINS, APIS_ENTRADA, APIS_SAIDA, ACOFINS_ENTRADA, ACOFINS_SAIDA,
   AValorII, AValorIPI, AValorPIS, AValorCOFINS, AReduzidaII, AReduzidaIPI, AReduzidaPIS, AReduzidaCOFINS: Double);
@@ -1901,7 +1963,17 @@ begin
   end;
   if ADataSet.ChangeCount > 0 then
   begin
-    ADataSet.ApplyUpdates;
+    if ADataSet.ApplyUpdates(0) > 0 then
+    begin
+      var LErrorMessage := 'O banco de dados rejeitou um ou mais registros.';
+      for var I := 0 to ADataSet.Table.Rows.Count - 1 do
+        if ADataSet.Table.Rows[I].HasErrors then
+        begin
+          LErrorMessage := ADataSet.Table.Rows[I].RowError.Message;
+          Break;
+        end;
+      raise Exception.CreateFmt('Falha ao gravar %s. %s', [ADataSet.Name, LErrorMessage]);
+    end;
   end;
 end;
 
@@ -2037,10 +2109,10 @@ begin
   qryDCG.Post;
 end;
 
-procedure TdamDuimp.TryCreateDCRDataSet(const ANumer: string; const AVersion: Integer;
+procedure TdamDuimp.TryCreateDCRDataSet(const ANumer: string; const AVersion: string;
   const AFindDuimpEvent: TFindDuimpEvent);
 begin
-  if qryDCR.IsEmpty and (AVersion > 0) then
+  if qryDCR.IsEmpty and not AVersion.IsEmpty then
   begin
     try
       if Assigned(AFindDuimpEvent) then
@@ -2081,7 +2153,7 @@ begin
                   LPayment.VersaoOrigem, LPayment.Principal.Tributo.Tipo])) then
                 begin
                   qryDPG.Append;
-                  qryDPGVersaoOrigem.AsInteger := LPayment.VersaoOrigem;
+                  qryDPGVersaoOrigem.AsString := LPayment.VersaoOrigem;
                   qryDPGDataPagamento.AsDateTime := StringTimeStampToDateTime(LPayment.Principal.DataPagamento);
                   qryDPGCodigoReceita.AsString := LPayment.Principal.CodigoReceita;
                   qryDPGBanco.AsString := LPayment.Principal.Banco;
@@ -2290,7 +2362,7 @@ begin
         qryDCIPesoLiquidoUnitario.AsFloat := LItem.Mercadoria.PesoLiquido / LItem.Mercadoria.QuantidadeComercial;
         qryDCIProdutoCodigo.AsInteger := LItem.Produto.Codigo;
         qryDCIProdutoDescricao.AsString := LItem.Mercadoria.Descricao;
-        qryDCIProdutoVersao.AsInteger := LItem.Produto.Versao;
+        qryDCIProdutoVersao.AsString := LItem.Produto.Versao;
         qryDCIProdutoNIResponsavel.AsString := LItem.Produto.NiResponsavel;
         qryDCIQuantidadeComercial.AsFloat := LItem.Mercadoria.QuantidadeComercial;
         qryDCITipoAplicacao.AsString := LItem.Mercadoria.TipoAplicacao.Codigo;
@@ -2346,7 +2418,7 @@ end;
 
 procedure TdamDuimp.TryCreateDUIDataSet(const ANumer: string; const AFindDuimpEvent: TFindDuimpEvent);
 begin
-  var LVersion := qryDUVVersao.AsInteger;
+  var LVersion := qryDUVVersao.AsString;
   if Assigned(AFindDuimpEvent) then
   begin
     AFindDuimpEvent(TStepFindDuimp.CheckingDuimpVersion, Null);
@@ -2356,15 +2428,11 @@ begin
     begin
       if AResponse.ResponseCode = 200 then
       begin
-        TThread.Queue(nil,
-          procedure
-          begin
-            LVersion := AResponse.Content.Versao.ToInteger;
-          end);
+        LVersion := AResponse.Content.Versao;
       end;
     end);
-  if (LVersion > qryDUVVersao.AsInteger) or
-    (qryDUVVersao.AsInteger = 0) then
+  if (LVersion <> qryDUVVersao.AsString) or
+    qryDUVVersao.AsString.IsEmpty then
   begin
     var LInTransaction := qryDUI.Connection.InTransaction;
     if not LInTransaction then
@@ -2386,7 +2454,7 @@ begin
       end;
       qryDUV.Append;
       qryDUVProcessoNumero.Clear;
-      qryDUVVersao.AsInteger := LVersion;
+      qryDUVVersao.AsString := LVersion;
       qryDUV.Post;
       TryCreateDCRDataSet(ANumer, LVersion, AFindDuimpEvent);
       if Assigned(AFindDuimpEvent) then
