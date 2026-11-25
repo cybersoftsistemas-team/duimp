@@ -81,10 +81,10 @@ type
     procedure qryATTvalorGetText(Sender: TField; var Text: string; DisplayText:
         Boolean);
     procedure qryEPRCalcFields(DataSet: TDataSet);
+    procedure qryATTvalorSetText(Sender: TField; const Text: string);
   private
     FProductMsgList: IProductMsgList;
     function DataSetToJSONArray(const AMaster: TDataSet; const ADetails: TDataSet = nil): TJSONArray;
-    function DataSetToJSONObject(const ADataSet: TDataSet): TJSONObject;
     function ForeignOperatorsUpdateRecord(const ANome: string; ACpfCnpjRaiz: string; const ACodigoPais: string; const ACodigoDuimpField: TField; const ADataSet: TDataSet;
       const AProduct: TDataSet): Boolean;
     procedure GetProducts;
@@ -92,6 +92,8 @@ type
       const ACodigoPaisField: TField);
     procedure LinkManufacturerOrProducer(const AProDST: TDataSet);
     procedure ManufacturerProducer(const AProDST: TDataSet);
+  protected
+    function DataSetToJSONObject(const ADataSet: TDataSet): TJSONObject;
   public
     procedure ExportProd;
     procedure GetAllProducts;
@@ -130,6 +132,7 @@ uses
   pucomex.dom.Contracts.Products,
   pucomex.dom.Duimps.Model.OperadorEstrangeiroIntegracaoDTO,
   pucomex.dom.Http.Model.Response.LoteValidacaoVersaoDTO,
+  pucomex.dom.Support.ProductAttributes,
   pucomex.dom.Support.PUComex;
 
 type
@@ -264,6 +267,7 @@ begin
   if Assigned(ADataSet) and not ADataSet.IsEmpty then
   begin
     Result := TJSONObject.Create;
+    try
     for var I := 0 to Pred(ADataSet.FieldCount) do if
       ADataSet.Fields[I].Tag = 0 then
     begin
@@ -294,16 +298,18 @@ begin
           begin
             if not ADataSet.Fields[I].IsNull then
             begin
-              if SameText(ADataSet.Fields[I].AsWideString, 'SIM') then
+              var LValue := ADataSet.Fields[I].AsWideString;
+              var LForm := ADataSet.FindField('formaPreenchimento');
+              if SameText(LKey, 'valor') and Assigned(LForm) and
+                SameText(LForm.AsString, BOOLEANO.ToString) then
               begin
-                Result.AddPair(LKey, TJSONTrue.Create);
-              end
-              else if SameText(ADataSet.Fields[I].AsWideString, 'NÃO') then
-              begin
-                Result.AddPair(LKey, TJSONFalse.Create);
-              end
-              else
-                Result.AddPair(LKey, TJSONString.Create(ADataSet.Fields[I].AsWideString));
+                var LAttribute := ADataSet.FindField('atributo');
+                var LAttributeCode := LKey;
+                if Assigned(LAttribute) then
+                  LAttributeCode := LAttribute.AsString;
+                LValue := NormalizeBooleanAttributeValue(LValue, LAttributeCode);
+              end;
+              Result.AddPair(LKey, TJSONString.Create(LValue));
             end
             else
               Result.AddPair(LKey, TJSONNull.Create);
@@ -370,6 +376,10 @@ begin
       else
         raise EDataSetConverterException.CreateFmt('Cannot find type for field "%s"', [LKey]);
       end;
+    end;
+    except
+      FreeAndNil(Result);
+      raise;
     end;
   end;
 end;
@@ -660,6 +670,14 @@ begin
   begin
     Text := GetYesOrNoItems[LValue.ToInteger];
   end;
+end;
+
+procedure TdamProducts.qryATTvalorSetText(Sender: TField; const Text: string);
+begin
+  if SameText(qryATTformaPreenchimento.AsString, BOOLEANO.ToString) then
+    Sender.AsString := NormalizeBooleanAttributeValue(Text, qryATTAtributo.AsString)
+  else
+    Sender.AsString := Text;
 end;
 
 procedure TdamProducts.qryEPRCalcFields(DataSet: TDataSet);
