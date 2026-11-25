@@ -446,6 +446,7 @@ inherited damProducts: TdamProducts
       FieldName = 'valor'
       Origin = 'valor'
       OnGetText = qryATTvalorGetText
+      OnSetText = qryATTvalorSetText
       Size = 100
     end
     object qryATTmodalidade: TStringField
